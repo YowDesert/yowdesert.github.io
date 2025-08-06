@@ -3,17 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
+title: YowDesert's Blog
+author: YowDesert
+subtitle: '一步一步練習'
 description: ''
 keywords:
-author: John Doe
-language: en
-timezone: ''
+language: chinese
+locale: zh-TW
+timezone: 'UTC+8'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://YowDesert.github.io/YD_Blog
+root: /YD_Blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -101,4 +103,6 @@ theme: butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/YowDesert/YD_Blog.git
+  branch: github-pages
