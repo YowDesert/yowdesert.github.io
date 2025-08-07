@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA) | YowDesert's Blog</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Topic: 對稱式加密 vs 非對稱式加密 一、什麼是 RSA？ RSA 是一種「非對稱加密演算法」，由 Rivest、Shamir、Adleman 發明，透過一對金鑰（公鑰 + 私鑰）來加解密資料。  ✅ 公鑰可以公開給所有人使用來加密資料    ✅ 私鑰只能自己保留，用來解密資料    ✅ 也可以用私鑰進行簽章，讓別人用公鑰驗證    二、金鑰數量差異   加密類型 使用幾把金鑰？ 說明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)">
+<meta property="og:url" content="https://yowdesert.github.io/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86vs%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86/index.html">
+<meta property="og:site_name" content="YowDesert&#39;s Blog">
+<meta property="og:description" content="Topic: 對稱式加密 vs 非對稱式加密 一、什麼是 RSA？ RSA 是一種「非對稱加密演算法」，由 Rivest、Shamir、Adleman 發明，透過一對金鑰（公鑰 + 私鑰）來加解密資料。  ✅ 公鑰可以公開給所有人使用來加密資料    ✅ 私鑰只能自己保留，用來解密資料    ✅ 也可以用私鑰進行簽章，讓別人用公鑰驗證    二、金鑰數量差異   加密類型 使用幾把金鑰？ 說明">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/YD_Blog/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-08-07T08:30:00.000Z">
+<meta property="article:modified_time" content="2025-08-07T10:21:59.697Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="Cryptography">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="資訊安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/YD_Blog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)",
+  "url": "https://yowdesert.github.io/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86vs%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86/",
+  "image": "https://yowdesert.github.io/YD_Blog/img/butterfly-icon.png",
+  "datePublished": "2025-08-07T08:30:00.000Z",
+  "dateModified": "2025-08-07T10:21:59.697Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io/YD_Blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/YD_Blog/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86vs%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/YD_Blog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/YD_Blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/YD_Blog/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/YD_Blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/YD_Blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/YD_Blog/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/YD_Blog/tags/"><div class="headline">標籤</div><div class="length-num">9</div></a><a href="/YD_Blog/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/YD_Blog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><span> 技術筆記</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/YD_Blog/tags/PicoCTF/"><i class="fa-fw fas fa-code"></i><span> PicoCTF</span></a></li><li><a class="site-page child" href="/YD_Blog/tags/C++/"><i class="fa-fw fas fa-terminal"></i><span> C++</span></a></li><li><a class="site-page child" href="/YD_Blog/tags/frontend/"><i class="fa-fw fas fa-laptop-code"></i><span> 前端</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/YD_Blog/movies/"><i class="fa-fw fas fa-film"></i><span> 電影</span></a></div><div class="menus_item"><a class="site-page" href="/YD_Blog/about/"><i class="fa-fw fas fa-user"></i><span> 關於我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/YD_Blog/"><span class="site-name">YowDesert's Blog</span></a><a class="nav-page-title" href="/YD_Blog/"><span class="site-name">[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/YD_Blog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><span> 技術筆記</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/YD_Blog/tags/PicoCTF/"><i class="fa-fw fas fa-code"></i><span> PicoCTF</span></a></li><li><a class="site-page child" href="/YD_Blog/tags/C++/"><i class="fa-fw fas fa-terminal"></i><span> C++</span></a></li><li><a class="site-page child" href="/YD_Blog/tags/frontend/"><i class="fa-fw fas fa-laptop-code"></i><span> 前端</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/YD_Blog/movies/"><i class="fa-fw fas fa-film"></i><span> 電影</span></a></div><div class="menus_item"><a class="site-page" href="/YD_Blog/about/"><i class="fa-fw fas fa-user"></i><span> 關於我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-08-07T08:30:00.000Z" title="發表於 2025-08-07 16:30:00">2025-08-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-08-07T10:21:59.697Z" title="更新於 2025-08-07 18:21:59">2025-08-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/YD_Blog/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/">資訊安全</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/YD_Blog/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/Cryptography/">Cryptography</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">572</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>1分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Topic-對稱式加密-vs-非對稱式加密"><a href="#Topic-對稱式加密-vs-非對稱式加密" class="headerlink" title="Topic: 對稱式加密 vs 非對稱式加密"></a>Topic: 對稱式加密 vs 非對稱式加密</h1><hr>
+<h2 id="一、什麼是-RSA？"><a href="#一、什麼是-RSA？" class="headerlink" title="一、什麼是 RSA？"></a>一、什麼是 RSA？</h2><ul>
+<li><p>RSA 是一種「非對稱加密演算法」，由 Rivest、Shamir、Adleman 發明，透過一對金鑰（公鑰 + 私鑰）來加解密資料。</p>
+</li>
+<li><p>✅ 公鑰可以公開給所有人使用來加密資料  </p>
+</li>
+<li><p>✅ 私鑰只能自己保留，用來解密資料  </p>
+</li>
+<li><p>✅ 也可以用私鑰進行簽章，讓別人用公鑰驗證</p>
+</li>
+</ul>
+<hr>
+<h2 id="二、金鑰數量差異"><a href="#二、金鑰數量差異" class="headerlink" title="二、金鑰數量差異"></a>二、金鑰數量差異</h2><table>
+<thead>
+<tr>
+<th>加密類型</th>
+<th>使用幾把金鑰？</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🔐 對稱加密</td>
+<td>1 把金鑰</td>
+<td>加密與解密都用同一把金鑰</td>
+</tr>
+<tr>
+<td>🔓 非對稱加密 (RSA)</td>
+<td>2 把金鑰（公鑰 + 私鑰）</td>
+<td>加密用公鑰，解密用私鑰（簽章則相反）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、適合用途不同"><a href="#三、適合用途不同" class="headerlink" title="三、適合用途不同"></a>三、適合用途不同</h2><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>對稱加密</th>
+<th>非對稱加密（RSA）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🔒 資料加密</td>
+<td>✅ 適合大量資料加密</td>
+<td>❌ 速度慢，不適合大資料</td>
+</tr>
+<tr>
+<td>🔐 金鑰交換</td>
+<td>❌ 不安全</td>
+<td>✅ 安全，無需事先共享</td>
+</tr>
+<tr>
+<td>📝 數位簽章</td>
+<td>❌ 不支援</td>
+<td>✅ 支援，驗證身份與完整性</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、速度與效能差異"><a href="#四、速度與效能差異" class="headerlink" title="四、速度與效能差異"></a>四、速度與效能差異</h2><ul>
+<li><p>對稱加密（如 <strong>AES</strong>）：<br>✅ <strong>速度快</strong>，適合加密整份檔案或大量資料。</p>
+</li>
+<li><p>非對稱加密（如 <strong>RSA</strong>）：<br>❌ <strong>速度慢</strong>，多用來保護小型資料（如金鑰）。</p>
+</li>
+</ul>
+<p>📌 <strong>實務應用：混合加密（Hybrid Encryption）</strong></p>
+<blockquote>
+<p>使用 RSA 加密一把 AES 金鑰，再使用 AES 加密實際資料。<br>✔️ 兼具效能與安全性。</p>
+</blockquote>
+<hr>
+<h2 id="五、密鑰分發安全性"><a href="#五、密鑰分發安全性" class="headerlink" title="五、密鑰分發安全性"></a>五、密鑰分發安全性</h2><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>對稱加密</th>
+<th>非對稱加密 (RSA)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>密鑰如何傳送？</td>
+<td>需使用安全通道傳送</td>
+<td>公鑰可公開，無需保密</td>
+</tr>
+<tr>
+<td>是否容易被竊聽或搞錯</td>
+<td>✅ 是</td>
+<td>❌ 否</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、安全性來源"><a href="#六、安全性來源" class="headerlink" title="六、安全性來源"></a>六、安全性來源</h2><ul>
+<li><strong>對稱加密：</strong> 安全性來自金鑰不被竊取。</li>
+<li><strong>非對稱加密（RSA）：</strong> 安全性基於：<ul>
+<li>大數質因數分解困難</li>
+<li>尚無有效演算法能從公鑰推出私鑰（傳統電腦）</li>
+</ul>
+</li>
+</ul>
+<p>⚠️ 注意：若未來量子電腦普及，RSA 可能失效。</p>
+<hr>
+<h2 id="✅-七、總結對照表"><a href="#✅-七、總結對照表" class="headerlink" title="✅ 七、總結對照表"></a>✅ 七、總結對照表</h2><table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>對稱加密</th>
+<th>非對稱加密（RSA）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>金鑰數量</td>
+<td>1 把</td>
+<td>2 把（公鑰 + 私鑰）</td>
+</tr>
+<tr>
+<td>加解密速度</td>
+<td>✅ 快</td>
+<td>❌ 慢</td>
+</tr>
+<tr>
+<td>適合大量資料加密</td>
+<td>✅ 是</td>
+<td>❌ 否</td>
+</tr>
+<tr>
+<td>金鑰傳遞安全性</td>
+<td>❌ 不安全</td>
+<td>✅ 安全</td>
+</tr>
+<tr>
+<td>支援數位簽章</td>
+<td>❌ 不支援</td>
+<td>✅ 支援</td>
+</tr>
+<tr>
+<td>常見用途</td>
+<td>檔案加密、VPN</td>
+<td>數位簽章、HTTPS 金鑰交換</td>
+</tr>
+</tbody></table>
+<hr>
+<p>🎉 <strong>到此你已掌握對稱與非對稱加密的核心差異！</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io/YD_Blog">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86vs%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86/">https://yowdesert.github.io/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86vs%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io/YD_Blog" target="_blank">YowDesert's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/YD_Blog/tags/Cryptography/">Cryptography</a><a class="post-meta__tags" href="/YD_Blog/tags/RSA/">RSA</a><a class="post-meta__tags" href="/YD_Blog/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/">資訊安全</a></div><div class="post-share"><div class="social-share" data-image="/YD_Blog/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/WhatIsAES/" title="[資訊安全] AES 是什麼？快速理解筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">[資訊安全] AES 是什麼？快速理解筆記</div></div><div class="info-2"><div class="info-item-1">Topic : AES 是什麼？AES 是一種 對稱加密演算法一、什麼是對稱加密？ 對稱加密只使用「一把金鑰」：   加密與解密 都使用相同金鑰   對稱加密是指「加密與解密使用相同金鑰」的加密方式，也稱為單鑰加密。 常見用途：加密檔案、訊息、VPN 傳輸等   ✅ 優點：速度快，適合大量資料加密❌ 缺點：金鑰分發不安全（需先共享）   二、AES 與非對稱加密比較   比較項目 對稱加密（AES） 非對稱加密（RSA）    金鑰數量 1 把 2 把（公+私）   加解密速度 快 慢   加密大量資料 適合 不適合   金鑰交換難度 高（要先傳） 低（公鑰可公開）   支援簽章驗證 否 是   常見用途 檔案加密、VPN 傳輸金鑰、簽章驗證    三、AES 的運作原理AES（Advanced Encryption Standard）是一種區塊加密演算法，特點：  固定區塊大小：128 bits 每次加密處理 128 位元（16 bytes）資料區塊，區塊大小固定為 128 bits（不隨金鑰長度改變）。 支援金鑰長度：128、192、256 bits 經過多輪（rounds）...</div></div></div></a><a class="pagination-related" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/WhatIsRSA/" title="[資訊安全] RSA 是什麼？快速理解筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">[資訊安全] RSA 是什麼？快速理解筆記</div></div><div class="info-2"><div class="info-item-1">Topic : RSA 是什麼？RSA 是一種 非對稱加密演算法一、什麼是非對稱加密？ 非對稱加密使用「一對金鑰」： 🔓 公開金鑰（Public Key）：可以提供給他人用來加密資料 🔐 私密金鑰（Private Key）：僅自己持有，用於解密資料   相較於對稱加密（只有一把金鑰），非對稱加密像 RSA 可以： ✅ 讓「別人加密給你」，但只有你能解開     二、RSA 與對稱加密比較   比較項目 對稱加密 非對稱加密（RSA）    🔑 金鑰數量 1 把 2 把（公+私）   ⚡ 加解密速度 快 慢   📦 加密大量資料 適合 不適合   🔁 金鑰交換難度 高（要先傳） 低（公鑰可公開）   🔏 支援簽章驗證 否 是   🔧 常見用途 檔案加密、VPN 傳輸金鑰、身份驗證、簽章    三、RSA 的核心數學概念RSA 建立在一個重要的數學困難上： 大數質因數分解很難   選兩個大質數：p 和 q   計算    $N &#x3D; p × q$（模數）   計算歐拉函數：$φ(N) &#x3D; (p-1)(q-1)$   選一個加密指數 e（常見為 6553...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/WhatIsRSA/" title="[資訊安全] RSA 是什麼？快速理解筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-07</div><div class="info-item-2">[資訊安全] RSA 是什麼？快速理解筆記</div></div><div class="info-2"><div class="info-item-1">Topic : RSA 是什麼？RSA 是一種 非對稱加密演算法一、什麼是非對稱加密？ 非對稱加密使用「一對金鑰」： 🔓 公開金鑰（Public Key）：可以提供給他人用來加密資料 🔐 私密金鑰（Private Key）：僅自己持有，用於解密資料   相較於對稱加密（只有一把金鑰），非對稱加密像 RSA 可以： ✅ 讓「別人加密給你」，但只有你能解開     二、RSA 與對稱加密比較   比較項目 對稱加密 非對稱加密（RSA）    🔑 金鑰數量 1 把 2 把（公+私）   ⚡ 加解密速度 快 慢   📦 加密大量資料 適合 不適合   🔁 金鑰交換難度 高（要先傳） 低（公鑰可公開）   🔏 支援簽章驗證 否 是   🔧 常見用途 檔案加密、VPN 傳輸金鑰、身份驗證、簽章    三、RSA 的核心數學概念RSA 建立在一個重要的數學困難上： 大數質因數分解很難   選兩個大質數：p 和 q   計算    $N &#x3D; p × q$（模數）   計算歐拉函數：$φ(N) &#x3D; (p-1)(q-1)$   選一個加密指數 e（常見為 6553...</div></div></div></a><a class="pagination-related" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/WhatIsAES/" title="[資訊安全] AES 是什麼？快速理解筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-07</div><div class="info-item-2">[資訊安全] AES 是什麼？快速理解筆記</div></div><div class="info-2"><div class="info-item-1">Topic : AES 是什麼？AES 是一種 對稱加密演算法一、什麼是對稱加密？ 對稱加密只使用「一把金鑰」：   加密與解密 都使用相同金鑰   對稱加密是指「加密與解密使用相同金鑰」的加密方式，也稱為單鑰加密。 常見用途：加密檔案、訊息、VPN 傳輸等   ✅ 優點：速度快，適合大量資料加密❌ 缺點：金鑰分發不安全（需先共享）   二、AES 與非對稱加密比較   比較項目 對稱加密（AES） 非對稱加密（RSA）    金鑰數量 1 把 2 把（公+私）   加解密速度 快 慢   加密大量資料 適合 不適合   金鑰交換難度 高（要先傳） 低（公鑰可公開）   支援簽章驗證 否 是   常見用途 檔案加密、VPN 傳輸金鑰、簽章驗證    三、AES 的運作原理AES（Advanced Encryption Standard）是一種區塊加密演算法，特點：  固定區塊大小：128 bits 每次加密處理 128 位元（16 bytes）資料區塊，區塊大小固定為 128 bits（不隨金鑰長度改變）。 支援金鑰長度：128、192、256 bits 經過多輪（rounds）...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/YD_Blog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/YD_Blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習過程和心得。</div><div class="site-data"><a href="/YD_Blog/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/YD_Blog/tags/"><div class="headline">標籤</div><div class="length-num">9</div></a><a href="/YD_Blog/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YowDesert"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Topic-%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86-vs-%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86"><span class="toc-number">1.</span> <span class="toc-text">Topic: 對稱式加密 vs 非對稱式加密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E9%BA%BC%E6%98%AF-RSA%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">一、什麼是 RSA？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%87%91%E9%91%B0%E6%95%B8%E9%87%8F%E5%B7%AE%E7%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">二、金鑰數量差異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%81%A9%E5%90%88%E7%94%A8%E9%80%94%E4%B8%8D%E5%90%8C"><span class="toc-number">1.3.</span> <span class="toc-text">三、適合用途不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%80%9F%E5%BA%A6%E8%88%87%E6%95%88%E8%83%BD%E5%B7%AE%E7%95%B0"><span class="toc-number">1.4.</span> <span class="toc-text">四、速度與效能差異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%AF%86%E9%91%B0%E5%88%86%E7%99%BC%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">1.5.</span> <span class="toc-text">五、密鑰分發安全性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%AE%89%E5%85%A8%E6%80%A7%E4%BE%86%E6%BA%90"><span class="toc-number">1.6.</span> <span class="toc-text">六、安全性來源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9C%85-%E4%B8%83%E3%80%81%E7%B8%BD%E7%B5%90%E5%B0%8D%E7%85%A7%E8%A1%A8"><span class="toc-number">1.7.</span> <span class="toc-text">✅ 七、總結對照表</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/WhatIsAES/" title="[資訊安全] AES 是什麼？快速理解筆記">[資訊安全] AES 是什麼？快速理解筆記</a><time datetime="2025-08-07T09:00:00.000Z" title="發表於 2025-08-07 17:00:00">2025-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86vs%E9%9D%9E%E5%B0%8D%E7%A8%B1%E5%BC%8F%E5%8A%A0%E5%AF%86/" title="[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)">[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)</a><time datetime="2025-08-07T08:30:00.000Z" title="發表於 2025-08-07 16:30:00">2025-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/YD_Blog/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/WhatIsRSA/" title="[資訊安全] RSA 是什麼？快速理解筆記">[資訊安全] RSA 是什麼？快速理解筆記</a><time datetime="2025-08-07T08:00:00.000Z" title="發表於 2025-08-07 16:00:00">2025-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/YD_Blog/2025/08/07/PicoCTF_HeadDump/" title="[PicoCTF] head-dump 解題筆記">[PicoCTF] head-dump 解題筆記</a><time datetime="2025-08-07T06:00:00.000Z" title="發表於 2025-08-07 14:00:00">2025-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/YD_Blog/2025/08/06/Blog%E7%B0%A1%E4%BB%8B/" title="Blog簡介">Blog簡介</a><time datetime="2025-08-06T07:30:00.000Z" title="發表於 2025-08-06 15:30:00">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/YD_Blog/js/utils.js"></script><script src="/YD_Blog/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
