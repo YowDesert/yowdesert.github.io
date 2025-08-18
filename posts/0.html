@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
 <meta property="article:published_time" content="2025-08-14T08:40:00.000Z">
-<meta property="article:modified_time" content="2025-08-14T10:49:18.957Z">
+<meta property="article:modified_time" content="2025-08-18T08:19:49.206Z">
 <meta property="article:author" content="YowDesert">
 <meta property="article:tag" content="線性代數">
 <meta property="article:tag" content="矩陣">
@@ -19,7 +19,7 @@
   "url": "https://yowdesert.github.io/posts/0.html",
   "image": "https://yowdesert.github.io/img/butterfly-icon.png",
   "datePublished": "2025-08-14T08:40:00.000Z",
-  "dateModified": "2025-08-14T10:49:18.957Z",
+  "dateModified": "2025-08-18T08:19:49.206Z",
   "author": [
     {
       "@type": "Person",
@@ -164,7 +164,7 @@
   isToc: true,
   pageType: 'post'
 }</script><meta name="msvalidate.01" content="0E1AFCF29585CDD5ECB975B6866CD57D" /><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YowDesert's 資訊學習筆記" type="application/atom+xml">
-</head><body><div id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">19</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><span> 技術筆記</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/PicoCTF/"><i class="fa-fw fas fa-code"></i><span> PicoCTF</span></a></li><li><a class="site-page child" href="/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"><i class="fa-fw fas fa-laptop-code"></i><span> 資訊安全</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/2025/08/06/Blog%E7%B0%A1%E4%BB%8B/"><i class="fa-fw fas fa-user"></i><span> 關於我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/pexels-drew-williams-1285451-2657669.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YowDesert's 資訊學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(線性代數) 矩陣與矩陣運算</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><span> 技術筆記</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/PicoCTF/"><i class="fa-fw fas fa-code"></i><span> PicoCTF</span></a></li><li><a class="site-page child" href="/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"><i class="fa-fw fas fa-laptop-code"></i><span> 資訊安全</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/2025/08/06/Blog%E7%B0%A1%E4%BB%8B/"><i class="fa-fw fas fa-user"></i><span> 關於我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(線性代數) 矩陣與矩陣運算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-08-14T08:40:00.000Z" title="發表於 2025-08-14 16:40:00">2025-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-08-14T10:49:18.957Z" title="更新於 2025-08-14 18:49:18">2025-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80/">研究所</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E7%9F%A9%E9%99%A3%E8%88%87%E7%B7%9A%E6%80%A7%E6%96%B9%E7%A8%8B%E7%B5%84/">矩陣與線性方程組</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">604</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>2分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>矩陣與矩陣運算基礎</h1>
+</head><body><div id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">19</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><span> 技術筆記</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/PicoCTF/"><i class="fa-fw fas fa-code"></i><span> PicoCTF</span></a></li><li><a class="site-page child" href="/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"><i class="fa-fw fas fa-laptop-code"></i><span> 資訊安全</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/2025/08/06/Blog%E7%B0%A1%E4%BB%8B/"><i class="fa-fw fas fa-user"></i><span> 關於我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/pexels-drew-williams-1285451-2657669.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">YowDesert's 資訊學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(線性代數) 矩陣與矩陣運算</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><span> 技術筆記</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/categories/PicoCTF/"><i class="fa-fw fas fa-code"></i><span> PicoCTF</span></a></li><li><a class="site-page child" href="/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"><i class="fa-fw fas fa-laptop-code"></i><span> 資訊安全</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/2025/08/06/Blog%E7%B0%A1%E4%BB%8B/"><i class="fa-fw fas fa-user"></i><span> 關於我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(線性代數) 矩陣與矩陣運算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-08-14T08:40:00.000Z" title="發表於 2025-08-14 16:40:00">2025-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-08-18T08:19:49.206Z" title="更新於 2025-08-18 16:19:49">2025-08-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80/">研究所</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E7%9F%A9%E9%99%A3%E8%88%87%E7%B7%9A%E6%80%A7%E6%96%B9%E7%A8%8B%E7%B5%84/">矩陣與線性方程組</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>9分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>矩陣與矩陣運算基礎</h1>
 <p>在 <strong>線性代數</strong> 中，矩陣（Matrix）是一種用於表示與處理線性變換、線性方程組的重要工具。<br>
 它是由數字（或符號）依 <strong>行（row）</strong> 與 <strong>列（column）</strong> 排列成的長方形陣列。</p>
 <hr>
@@ -194,7 +194,103 @@ $$</p>
 <li>當 $F = \mathbf{C}$時，稱A為複矩陣(complex matrix) ， <strong>C</strong>表所有複數所成集合</li>
 </ul>
 <hr>
-<h2 id="2-常見矩陣類型">2. 常見矩陣類型</h2>
+<h2 id="2-矩陣基本名詞">2. 矩陣基本名詞</h2>
+<p>假設 $\quad a_{ij} \in F^{m\times n}$</p>
+<h3 id="1-n階方陣">(1) n階方陣</h3>
+<ul>
+<li>m = n時, 稱 A 為 <strong>n階方陣</strong>  (square matrix of order n)</li>
+</ul>
+<h3 id="2-對角項元素">(2) 對角項元素</h3>
+<ul>
+<li>A為方陣時 , $a_{ii}$ 為 <strong>A的對角項元素</strong> (diagonal element)</li>
+</ul>
+<h3 id="3-零矩陣">(3) 零矩陣</h3>
+<ul>
+<li>若 A 所有元素為 $0$ , A 稱為<strong>零矩陣</strong> , 計做 $O$<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+0 &amp; 0 &amp; \cdots &amp; 0 \\<br>
+0 &amp; 0 &amp; \cdots &amp; 0 \\<br>
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>
+0 &amp; 0 &amp; \cdots &amp; 0 \<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<h3 id="4-負矩陣">(4) 負矩陣</h3>
+<ul>
+<li>若有一個矩陣 $B$, 所有元素皆為 [$-a_{ij}$] , 稱為 <strong>負矩陣</strong> (negative matrix),計做 $-A$</li>
+</ul>
+<h3 id="5-n階單位矩陣">(5) n階單位矩陣</h3>
+<ul>
+<li>若 A 為方陣 、 對角項元素皆為 $1$ 、 對角項元素以外的元素為 $0$ , 稱為 <strong>n階單位矩陣</strong> , 計做 $I_n$ , 如下圖<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+1 &amp; 0 &amp; \cdots &amp; 0 \\<br>
+0 &amp; 1 &amp; \cdots &amp; 0 \\<br>
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>
+0 &amp; 0 &amp; \cdots &amp; 1 \<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<h3 id="6-上三角與嚴格上三角">(6) 上三角與嚴格上三角</h3>
+<ul>
+<li>若 A 為 n階方陣 , $a_{ij} = 0$ 且 $\forall i &gt; j$ ,稱 A 為<strong>上三角矩陣</strong> (upper triangular matrix)<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+* &amp; * &amp; * \\<br>
+O &amp; * &amp; * \\<br>
+O &amp; O &amp; * \<br>
+\end{bmatrix}<br>
+$<br>
+若 A 為上三角矩陣且對角項元素皆為 $0$ 時, 稱 $A$ 為 <strong>嚴格上三角矩陣</strong>  (strictly upper triangular matrix)<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+0 &amp; * &amp; * \\<br>
+O &amp; 0 &amp; * \\<br>
+O &amp; O &amp; 0 \<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<h3 id="7-下三角與嚴格下三角">(7) 下三角與嚴格下三角</h3>
+<ul>
+<li>A 為 n階方陣 , $a_{ij} = 0$ 且 $\forall i &lt; j$ ,稱 A 為<strong>下三角矩陣</strong>  (lower triangular matrix)<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+* &amp; O &amp; O \\<br>
+* &amp; * &amp; O \\<br>
+* &amp; * &amp; * \<br>
+\end{bmatrix}<br>
+$<br>
+若 A 為下三角矩陣且對角項元素皆為 $0$ 時, 稱 $A$ 為 <strong>嚴格下三角矩陣</strong>(strictly lower triangular matrix)<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+0 &amp; O &amp; O \\<br>
+* &amp; 0 &amp; O \\<br>
+* &amp; * &amp; 0 \<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<h3 id="8-對角矩陣">(8) 對角矩陣</h3>
+<ul>
+<li>若 $A$ 為 上三角 且 下三角,稱 $A$ 為對角矩陣(diagonal matrix)<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+a_{11} &amp; 0 &amp; \cdots &amp; 0 \\<br>
+0 &amp; a_{22} &amp; \cdots &amp; 0 \\<br>
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>
+0 &amp; 0 &amp; \cdots &amp; a_{nn} \<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<hr>
+<h2 id="3-常見矩陣類型表格">3. 常見矩陣類型表格</h2>
 <table>
 <thead>
 <tr>
@@ -226,31 +322,192 @@ $$</p>
 </tbody>
 </table>
 <hr>
-<h2 id="3-矩陣的基本運算">3. 矩陣的基本運算</h2>
-<h3 id="1-矩陣加法">(1) 矩陣加法</h3>
+<h2 id="4-矩陣的基本運算">4. 矩陣的基本運算</h2>
+<h3 id="1-矩陣加法與減法">(1) 矩陣加法與減法</h3>
 <p>若 $ A, B \in M_{m \times n}(F) $：</p>
 <p>$<br>
-A + B = \big[,a_{ij} + b_{ij},\big]<br>
+A + B = \big[a_{ij} + b_{ij}\big]<br>
 $</p>
-<hr>
-<h3 id="2-標量乘法">(2) 標量乘法</h3>
+<p>$<br>
+A - B = \big[a_{ij} - b_{ij}\big]<br>
+$</p>
+<h3 id="2-純量積">(2) 純量積</h3>
 <p>若 $ k \in F $：</p>
 <p>$<br>
-kA = \big[,k,a_{ij},\big]<br>
+kA = \big[ k a_{ij} \big]<br>
 $</p>
-<hr>
 <h3 id="3-矩陣乘法">(3) 矩陣乘法</h3>
-<p>若 $ A \in M_{m \times p}(F) $，$ B \in M_{p \times n}(F) $：</p>
-<p>$<br>
-(AB)<em>{ij} = \sum</em>{k=1}^{p} a_{ik} b_{kj}<br>
-$</p>
+<ul>
+<li>若 $ A \in M_{m \times p}(F) $，$ B \in M_{p \times n}(F) $：<br>
+C = AB , C為 $m\times n$矩陣,<br>
+$<br>
+c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \dots +a_{in}b_{nj} = \sum_{k=1}^p a_{ik}b_{kj}<br>
+$<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+1 &amp; 2 &amp; 3 \\<br>
+4 &amp; 5 &amp; 6 \\<br>
+7 &amp; 8 &amp; 9 \\<br>
+\end{bmatrix}, \quad<br>
+B =<br>
+\begin{bmatrix}<br>
+9 &amp; 8 &amp; 7 \\<br>
+6 &amp; 5 &amp; 4 \\<br>
+3 &amp; 2 &amp; 1 \\<br>
+\end{bmatrix}<br>
+$<br>
+$<br>
+C = AB =<br>
+\begin{bmatrix}<br>
+1\times 9 + 2\times 6 + 3\times 3 &amp; 1\times 8 + 2\times 5 + 3\times 2 &amp; 1\times 7 + 2\times 4 + 3\times 1 \\<br>
+4\times 9 + 5\times 6 + 6\times 3 &amp; 4\times 8 + 5\times 5 + 6\times 2 &amp; 4\times 7 + 5\times 4 + 6\times 1 \\<br>
+7\times 9 + 8\times 6 + 9\times 3 &amp; 7\times 8 + 8\times 5 + 9\times 2 &amp; 7\times 7 + 8\times 4 + 9\times 1 \\<br>
+\end{bmatrix}<br>
+=<br>
+\begin{bmatrix}<br>
+30 &amp; 24 &amp; 18 \\<br>
+84 &amp; 69 &amp; 54 \\<br>
+138 &amp; 114 &amp; 90 \\<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<blockquote>
 <p><strong>注意：</strong></p>
 <ul>
 <li>矩陣乘法一般 <strong>不可交換</strong>：$ AB \neq BA $</li>
-<li>相乘條件：前矩陣的<strong>列數</strong> = 後矩陣的<strong>行數</strong></li>
+<li>相乘條件：前矩陣的<strong>行數</strong> = 後矩陣的<strong>列數</strong></li>
 </ul>
+</blockquote>
+<h3 id="3-矩陣相等">(3) 矩陣相等</h3>
+<p>若 $a_{ij} = b_{ij}$ 對所有 $i,j$ 都成立，則稱 $A = B$。</p>
 <hr>
-<h2 id="4-矩陣的應用">4. 矩陣的應用</h2>
+<h2 id="5-矩陣的基本運算">5. 矩陣的基本運算</h2>
+<p>若 $ A B C \in M_{m \times n}(F)$ , $\alpha , \beta \in F$</p>
+<ol>
+<li>$A + B = B + A$</li>
+<li>$(A + B) + C = A + (B + C)$</li>
+<li>$A + O = A = O + A$</li>
+<li>$A + (-A) = O = (-A) + A$</li>
+<li>$(\alpha + \beta)A = \alpha A + \beta A$</li>
+<li>$\alpha(\beta A) = (\alpha\beta) A$</li>
+<li>$\alpha (A + B) = \alpha A + \alpha B$</li>
+<li>$(-1) A = - A$</li>
+<li>$0\times A = O$</li>
+<li>$\alpha \times O = O$</li>
+<li>$A(BC) = (AB)C$</li>
+<li>$A(B\pm C) = AB \pm AC$</li>
+<li>$(A\pm B)C = AC \pm BC$</li>
+<li>$\alpha(AB) = (\alpha A)B = A (\alpha B)$</li>
+</ol>
+<hr>
+<h2 id="6-補充說明">6.補充說明</h2>
+<h3 id="對角矩陣相乘">對角矩陣相乘</h3>
+<ul>
+<li>對角矩陣相乘 ， 對角線相乘就好<br>
+$<br>
+A =<br>
+\begin{bmatrix}<br>
+2 &amp; 0 &amp; 0 \\<br>
+0 &amp; 3 &amp; 0 \\<br>
+0 &amp; 0 &amp; 4 \\<br>
+\end{bmatrix}, \quad<br>
+B =<br>
+\begin{bmatrix}<br>
+5 &amp; 0 &amp; 0 \\<br>
+0 &amp; 6 &amp; 0 \\<br>
+0 &amp; 0 &amp; 7 \\<br>
+\end{bmatrix}<br>
+$<br>
+$<br>
+C = AB =<br>
+\begin{bmatrix}<br>
+2 \cdot 5 &amp; 0 &amp; 0 \\<br>
+0 &amp; 3 \cdot 6 &amp; 0 \\<br>
+0 &amp; 0 &amp; 4 \cdot 7 \\<br>
+\end{bmatrix}<br>
+=<br>
+\begin{bmatrix}<br>
+10 &amp; 0 &amp; 0 \\<br>
+0 &amp; 18 &amp; 0 \\<br>
+0 &amp; 0 &amp; 28 \\<br>
+\end{bmatrix}<br>
+$</li>
+</ul>
+<h3 id="未必會達成-❌">未必會達成(❌)</h3>
+<ol>
+<li>
+<p>$AB$ = $BA$ (❌)<br>
+$<br>
+A=\begin{bmatrix}0&amp;1\\0&amp;0\end{bmatrix},\quad<br>
+B=\begin{bmatrix}0&amp;0\\1&amp;0\end{bmatrix}.<br>
+$<br>
+$<br>
+AB=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix},\quad<br>
+BA=\begin{bmatrix}0&amp;0\\0&amp;1\end{bmatrix};\Rightarrow;AB\neq BA.<br>
+$</p>
+</li>
+<li>
+<p>$A^n = O$ 未必 $A = 0$<br>
+$<br>
+A=\begin{bmatrix}0&amp;1\\0&amp;0\end{bmatrix}\neq O,\quad<br>
+A^2=O.<br>
+$</p>
+</li>
+<li>
+<p>$A^2 = A$,未必 $A = O$ or $A = I$<br>
+$<br>
+A=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix},\quad<br>
+A^2=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix}=A,;<br>
+A\neq O,;A\neq I.<br>
+$</p>
+</li>
+<li>
+<p>$A != 0$ ,$B!=0$,未必$AB!=0$<br>
+$<br>
+A=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix},\quad<br>
+B=\begin{bmatrix}0&amp;0\\0&amp;1\end{bmatrix}\neq O,<br>
+$<br>
+$<br>
+AB=\begin{bmatrix}0&amp;0\\0&amp;0\end{bmatrix}=O.<br>
+$</p>
+</li>
+<li>
+<p>$AB =AC$,$A != O$ ,未必 $A = 0$<br>
+$<br>
+A=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix},\quad<br>
+B=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix},\quad<br>
+C=\begin{bmatrix}1&amp;5\\0&amp;7\end{bmatrix};(B\neq C).<br>
+$<br>
+$<br>
+AB=\begin{bmatrix}1&amp;0\\0&amp;0\end{bmatrix}=AC.<br>
+$</p>
+</li>
+<li>
+<p>$X^n = A$,未必至多n個解<br>
+令<br>
+$<br>
+;X_t=\begin{bmatrix}1&amp;t\\0&amp;-1\end{bmatrix};(t\in\mathbb{R}).<br>
+\quad\Rightarrow\quad<br>
+X_t^2=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix}=I.<br>
+$<br>
+因此 $X^2=I$ 有無限多解（隨 $t$ 變化）。</p>
+</li>
+<li>
+<p>$(A + B)^2 = A^2 +2AB + B^2$,未必成立<br>
+取第 1 題同樣的 $A,B$：<br>
+$<br>
+\quad A^2=O,;B^2=O,;<br>
+( A+B )^2=AB+BA=\begin{bmatrix}1&amp;0\\0&amp;1\end{bmatrix}=I,<br>
+$<br>
+$<br>
+A^2+2AB+B^2=2AB=<br>
+\begin{bmatrix}2&amp;0\\0&amp;0\end{bmatrix}\neq I.<br>
+$</p>
+</li>
+</ol>
+<hr>
+<h2 id="7-矩陣的應用">7. 矩陣的應用</h2>
 <p>矩陣廣泛應用於：</p>
 <ul>
 <li><strong>線性方程組求解</strong>（高斯消去法）</li>
@@ -262,6 +519,12 @@ $</p>
 <h2 id="小結">小結</h2>
 <p>矩陣與矩陣運算是線性代數的基礎，也是工程、物理、計算機科學的重要工具。<br>
 熟練掌握它們，才能進一步學習行列式、向量空間、特徵值與特徵向量等更高階的內容。</p>
+<hr>
+<h2 id="筆者後記">筆者後記</h2>
+<p>如果我有遺漏或錯誤的地方<br>
+歡迎告知我<br>
+我會立馬修正的!!!<br>
+謝謝你們觀看完我的文章</p>
 </article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/0.html">https://yowdesert.github.io/posts/0.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YowDesert's 資訊學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><a class="post-meta__tags" href="/tags/%E7%9F%A9%E9%99%A3/">矩陣</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
   crossorigin="anonymous"></script>
 <!-- post_Location -->
@@ -274,7 +537,7 @@ $</p>
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-</div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/679game24.html" title="LeetCode 679題 24 Game 解題筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">LeetCode 679題 24 Game 解題筆記</div></div><div class="info-2"><div class="info-item-1">題目描述 給定四個整數卡牌，請判斷是否能透過加 +、減 -、乘 *、除 / 以及括號的任意組合，讓最終結果等於 24。 允許使用浮點數計算，但最終答案誤差需在 $10^{-6}$ 以內。  範例 範例 1： 輸入：cards = [4, 1, 8, 7] 輸出：true 解釋： $(8 - 4) \times (7 - 1) = 24$ 範例 2： 輸入：cards = [1, 2, 1, 2] 輸出：false  Constraints  卡牌數固定為 4 張 每張卡牌的數字範圍：1 &lt;= card[i] &lt;= 9   解題思路  這題是典型的 回溯 (DFS + Backtracking) 題目。 我們需要嘗試所有數字間的 排列組合，並搭配四則運算。 遞迴設計：  當只剩一個數字時，檢查是否接近 24 (fabs(x-24) &lt; 1e-6)。   誤差範圍 1e-6 都可以   否則，從陣列中選兩個數字，對它們進行 六種可能運算：  a + b a - b b - a a * b a / b (若 b != 0) b / a (若 a != 0)     T...</div></div></div></a><a class="pagination-related" href="/posts/leetcode_summary.html" title="LeetCode 題目統整筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">LeetCode 題目統整筆記</div></div><div class="info-2"><div class="info-item-1">前言 這篇文章統整了我練習過的 LeetCode 題目，並按照 難度、題型、演算法分類 來整理，方便快速查找與回顧。 每個題目都會提供：  題目編號與名稱 難度 題型或演算法主題 筆記連結（若有）   目錄  Easy 題目 Medium 題目 Hard 題目 演算法分類    Dynamic Programming Math Memoization  Easy    題號 題目名稱 題型 / 演算法 筆記連結     70 Climbing Stairs Dynamic Programming / Fibonacci 筆記   2264 Largest 3-Same-Digit Number in String String / Simulation 筆記   … … … …     Medium    題號 題目名稱 題型 / 演算法 筆記連結     … … … …     Hard    題號 題目名稱 題型 / 演算法 筆記連結     679 24 Game Array / Math 筆記   … … … …     演算法分類 Dynamic Programming...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">19</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YowDesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=yowdesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://yowdesert.github.io/atom.xml" target="_blank" title=""><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">[object Object]</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">矩陣與矩陣運算基礎</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%9F%A9%E9%99%A3%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">1. 矩陣的表示法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B8%B8%E8%A6%8B%E7%9F%A9%E9%99%A3%E9%A1%9E%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">2. 常見矩陣類型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9F%A9%E9%99%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%81%8B%E7%AE%97"><span class="toc-number">1.3.</span> <span class="toc-text">3. 矩陣的基本運算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9F%A9%E9%99%A3%E5%8A%A0%E6%B3%95"><span class="toc-number">1.3.1.</span> <span class="toc-text">(1) 矩陣加法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A8%99%E9%87%8F%E4%B9%98%E6%B3%95"><span class="toc-number">1.3.2.</span> <span class="toc-text">(2) 標量乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%9F%A9%E9%99%A3%E4%B9%98%E6%B3%95"><span class="toc-number">1.3.3.</span> <span class="toc-text">(3) 矩陣乘法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%9F%A9%E9%99%A3%E7%9A%84%E6%87%89%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">4. 矩陣的應用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-number">1.5.</span> <span class="toc-text">小結</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/679game24.html" title="LeetCode 679題 24 Game 解題筆記">LeetCode 679題 24 Game 解題筆記</a><time datetime="2025-08-18T03:00:00.000Z" title="發表於 2025-08-18 11:00:00">2025-08-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/0.html" title="(線性代數) 矩陣與矩陣運算">(線性代數) 矩陣與矩陣運算</a><time datetime="2025-08-14T08:40:00.000Z" title="發表於 2025-08-14 16:40:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/leetcode_summary.html" title="LeetCode 題目統整筆記">LeetCode 題目統整筆記</a><time datetime="2025-08-14T04:00:00.000Z" title="發表於 2025-08-14 12:00:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/70climb.html" title="LeetCode 70題 Climbing Stairs 解題筆記">LeetCode 70題 Climbing Stairs 解題筆記</a><time datetime="2025-08-14T03:30:00.000Z" title="發表於 2025-08-14 11:30:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/227e4073.html" title="LeetCode 2264題 Largest 3-Same-Digit Number in String 解題筆記">LeetCode 2264題 Largest 3-Same-Digit Number in String 解題筆記</a><time datetime="2025-08-14T03:00:00.000Z" title="發表於 2025-08-14 11:00:00">2025-08-14</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
+</div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/679game24.html" title="LeetCode 679題 24 Game 解題筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">LeetCode 679題 24 Game 解題筆記</div></div><div class="info-2"><div class="info-item-1">題目描述 給定四個整數卡牌，請判斷是否能透過加 +、減 -、乘 *、除 / 以及括號的任意組合，讓最終結果等於 24。 允許使用浮點數計算，但最終答案誤差需在 $10^{-6}$ 以內。  範例 範例 1： 輸入：cards = [4, 1, 8, 7] 輸出：true 解釋： $(8 - 4) \times (7 - 1) = 24$ 範例 2： 輸入：cards = [1, 2, 1, 2] 輸出：false  Constraints  卡牌數固定為 4 張 每張卡牌的數字範圍：1 &lt;= card[i] &lt;= 9   解題思路  這題是典型的 回溯 (DFS + Backtracking) 題目。 我們需要嘗試所有數字間的 排列組合，並搭配四則運算。 遞迴設計：  當只剩一個數字時，檢查是否接近 24 (fabs(x-24) &lt; 1e-6)。   誤差範圍 1e-6 都可以   否則，從陣列中選兩個數字，對它們進行 六種可能運算：  a + b a - b b - a a * b a / b (若 b != 0) b / a (若 a != 0)     T...</div></div></div></a><a class="pagination-related" href="/posts/leetcode_summary.html" title="LeetCode 題目統整筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">LeetCode 題目統整筆記</div></div><div class="info-2"><div class="info-item-1">前言 這篇文章統整了我練習過的 LeetCode 題目，並按照 難度、題型、演算法分類 來整理，方便快速查找與回顧。 每個題目都會提供：  題目編號與名稱 難度 題型或演算法主題 筆記連結（若有）   目錄  Easy 題目 Medium 題目 Hard 題目 演算法分類    Dynamic Programming Math Memoization  Easy    題號 題目名稱 題型 / 演算法 筆記連結     70 Climbing Stairs Dynamic Programming / Fibonacci 筆記   2264 Largest 3-Same-Digit Number in String String / Simulation 筆記   … … … …     Medium    題號 題目名稱 題型 / 演算法 筆記連結     … … … …     Hard    題號 題目名稱 題型 / 演算法 筆記連結     679 24 Game Array / Math 筆記   … … … …     演算法分類 Dynamic Programming...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">19</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YowDesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=yowdesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://yowdesert.github.io/atom.xml" target="_blank" title=""><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">[object Object]</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">矩陣與矩陣運算基礎</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%9F%A9%E9%99%A3%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">1. 矩陣的表示法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9F%A9%E9%99%A3%E5%9F%BA%E6%9C%AC%E5%90%8D%E8%A9%9E"><span class="toc-number">1.2.</span> <span class="toc-text">2. 矩陣基本名詞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-n%E9%9A%8E%E6%96%B9%E9%99%A3"><span class="toc-number">1.2.1.</span> <span class="toc-text">(1) n階方陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%B0%8D%E8%A7%92%E9%A0%85%E5%85%83%E7%B4%A0"><span class="toc-number">1.2.2.</span> <span class="toc-text">(2) 對角項元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%9B%B6%E7%9F%A9%E9%99%A3"><span class="toc-number">1.2.3.</span> <span class="toc-text">(3) 零矩陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%B2%A0%E7%9F%A9%E9%99%A3"><span class="toc-number">1.2.4.</span> <span class="toc-text">(4) 負矩陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-n%E9%9A%8E%E5%96%AE%E4%BD%8D%E7%9F%A9%E9%99%A3"><span class="toc-number">1.2.5.</span> <span class="toc-text">(5) n階單位矩陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E4%B8%8A%E4%B8%89%E8%A7%92%E8%88%87%E5%9A%B4%E6%A0%BC%E4%B8%8A%E4%B8%89%E8%A7%92"><span class="toc-number">1.2.6.</span> <span class="toc-text">(6) 上三角與嚴格上三角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%B8%8B%E4%B8%89%E8%A7%92%E8%88%87%E5%9A%B4%E6%A0%BC%E4%B8%8B%E4%B8%89%E8%A7%92"><span class="toc-number">1.2.7.</span> <span class="toc-text">(7) 下三角與嚴格下三角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E5%B0%8D%E8%A7%92%E7%9F%A9%E9%99%A3"><span class="toc-number">1.2.8.</span> <span class="toc-text">(8) 對角矩陣</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B8%B8%E8%A6%8B%E7%9F%A9%E9%99%A3%E9%A1%9E%E5%9E%8B%E8%A1%A8%E6%A0%BC"><span class="toc-number">1.3.</span> <span class="toc-text">3. 常見矩陣類型表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%9F%A9%E9%99%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%81%8B%E7%AE%97"><span class="toc-number">1.4.</span> <span class="toc-text">4. 矩陣的基本運算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9F%A9%E9%99%A3%E5%8A%A0%E6%B3%95%E8%88%87%E6%B8%9B%E6%B3%95"><span class="toc-number">1.4.1.</span> <span class="toc-text">(1) 矩陣加法與減法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%B4%94%E9%87%8F%E7%A9%8D"><span class="toc-number">1.4.2.</span> <span class="toc-text">(2) 純量積</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%9F%A9%E9%99%A3%E4%B9%98%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">(3) 矩陣乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%9F%A9%E9%99%A3%E7%9B%B8%E7%AD%89"><span class="toc-number">1.4.4.</span> <span class="toc-text">(3) 矩陣相等</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%9F%A9%E9%99%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%81%8B%E7%AE%97"><span class="toc-number">1.5.</span> <span class="toc-text">5. 矩陣的基本運算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%A3%9C%E5%85%85%E8%AA%AA%E6%98%8E"><span class="toc-number">1.6.</span> <span class="toc-text">6.補充說明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8D%E8%A7%92%E7%9F%A9%E9%99%A3%E7%9B%B8%E4%B9%98"><span class="toc-number">1.6.1.</span> <span class="toc-text">對角矩陣相乘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E5%BF%85%E6%9C%83%E9%81%94%E6%88%90-%E2%9D%8C"><span class="toc-number">1.6.2.</span> <span class="toc-text">未必會達成(❌)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%9F%A9%E9%99%A3%E7%9A%84%E6%87%89%E7%94%A8"><span class="toc-number">1.7.</span> <span class="toc-text">7. 矩陣的應用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%B5%90"><span class="toc-number">1.8.</span> <span class="toc-text">小結</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%86%E8%80%85%E5%BE%8C%E8%A8%98"><span class="toc-number">1.9.</span> <span class="toc-text">筆者後記</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/679game24.html" title="LeetCode 679題 24 Game 解題筆記">LeetCode 679題 24 Game 解題筆記</a><time datetime="2025-08-18T03:00:00.000Z" title="發表於 2025-08-18 11:00:00">2025-08-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/0.html" title="(線性代數) 矩陣與矩陣運算">(線性代數) 矩陣與矩陣運算</a><time datetime="2025-08-14T08:40:00.000Z" title="發表於 2025-08-14 16:40:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/leetcode_summary.html" title="LeetCode 題目統整筆記">LeetCode 題目統整筆記</a><time datetime="2025-08-14T04:00:00.000Z" title="發表於 2025-08-14 12:00:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/70climb.html" title="LeetCode 70題 Climbing Stairs 解題筆記">LeetCode 70題 Climbing Stairs 解題筆記</a><time datetime="2025-08-14T03:30:00.000Z" title="發表於 2025-08-14 11:30:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/227e4073.html" title="LeetCode 2264題 Largest 3-Same-Digit Number in String 解題筆記">LeetCode 2264題 Largest 3-Same-Digit Number in String 解題筆記</a><time datetime="2025-08-14T03:00:00.000Z" title="發表於 2025-08-14 11:00:00">2025-08-14</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
   crossorigin="anonymous"></script>
 <!-- Aside_Position -->
 <ins class="adsbygoogle"
