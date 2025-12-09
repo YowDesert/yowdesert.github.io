@@ -3,20 +3,20 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: YowDesert's Blog
+title: YowDesert's 資訊學習筆記
 author: YowDesert
-subtitle: '一步一步練習'
-description: ''
-keywords:
-language: chinese
+subtitle : 一起從零開始踏進資訊世界
+description: '這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。'
+keywords: LeetCode解題,leetcode解題說明,資訊學習筆記,LeetCode解題策略,筆記,學習,學習筆記,程式設計,演算法
+language: zh-TW
 locale: zh-TW
-timezone: 'UTC+8'
+timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://YowDesert.github.io/YD_Blog
-root: /YD_Blog/
-permalink: :year/:month/:day/:title/
+url: https://YowDesert.github.io
+root: /
+permalink: posts/:abbrlink.html
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -106,3 +106,33 @@ deploy:
   type: git
   repo: https://github.com/YowDesert/YD_Blog.git
   branch: github-pages
+
+# abbrlink config
+abbrlink:
+  alg: crc32      # support crc16(default) and crc32
+  rep: hex        # support dec(default) and hex
+# 不用添加其它代码
+
+# 站点地图
+sitemap:
+  path: sitemap.xml
+
+feed:
+  enable: true #是否启用插件
+  type: atom #有atom和rss2两个选项，使用默认atom就好了
+  path: atom.xml #也用默认配置atom.xml就行
+  limit: 20 #展示文章的数量,使用 0 或 false 代表展示全部
+  hub: #这个我没用上，根据官网，空着就行
+  content: #默认是false，true的话会在rss文件中包含整个文章内容
+  content_limit: 140 #摘要长度
+  content_limit_delim: ' ' #没看明白官方的意思，就跟着默认不填了
+  order_by: -date #采用日期进行排序
+  icon: icon.png #给rss链接配置icon
+  autodiscovery: true #自动发现提要
+  template: #给rss文章配置模板
+
+math:
+  enable: true
+  engine: mathjax
+
+
