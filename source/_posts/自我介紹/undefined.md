@@ -1,11 +1,12 @@
 ---
-title: "Blog 短介"
-date: 2025-08-06T07:30:00.000Z
+title: Blog 短介
 categories:
   - 介紹
 tags:
   - 自我介紹
   - Blog 開張
+abbrlink: 8c9724f3
+date: 2025-08-06 07:30:00
 ---
 
 # 👋 Hi，我是 YowDesert
