@@ -93,8 +93,12 @@
       
         
         
-    <summary type="html">&lt;h1 id=&quot;簡短說明：&quot;&gt;&lt;a href=&quot;#簡短說明：&quot; class=&quot;headerlink&quot; title=&quot;簡短說明：&quot;&gt;&lt;/a&gt;簡短說明：&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;主題：Synchronization</summary>
+    <summary type="html">&lt;h1&gt;簡短說明：&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;主題：Synchronization Concepts&lt;/li&gt;
+&lt;li&gt;本章重點：
+&lt;ul&gt;
+&lt;li&gt;什麼情況下會發生 Race</summary>
         
       
     
