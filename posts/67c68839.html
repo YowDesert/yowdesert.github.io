@@ -1,0 +1,1039 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(作業系統) Deadlock Definition, Avoidance and Resolution | YD's 資訊學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Deadlock基本概念 1. Deadlock 是什麼？ Deadlock 指的是：  一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。  Deadlock 的特徵  每個 process：  已持有至少一個資源 同時等待另一個 process 持有的資源   結果：大家互等，系統停住   2. Deadlock 範例 Example 1：兩個 pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(作業系統) Deadlock Definition, Avoidance and Resolution">
+<meta property="og:url" content="https://yowdesert.github.io/posts/67c68839.html">
+<meta property="og:site_name" content="YD&#39;s 資訊學習筆記">
+<meta property="og:description" content="Deadlock基本概念 1. Deadlock 是什麼？ Deadlock 指的是：  一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。  Deadlock 的特徵  每個 process：  已持有至少一個資源 同時等待另一個 process 持有的資源   結果：大家互等，系統停住   2. Deadlock 範例 Example 1：兩個 pr">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-12-13T08:12:16.201Z">
+<meta property="article:modified_time" content="2025-12-13T09:39:49.133Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="作業系統">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "(作業系統) Deadlock Definition, Avoidance and Resolution",
+  "url": "https://yowdesert.github.io/posts/67c68839.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2025-12-13T08:12:16.201Z",
+  "dateModified": "2025-12-13T09:39:49.133Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/67c68839.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '(作業系統) Deadlock Definition, Avoidance and Resolution',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 資訊學習筆記" type="application/atom+xml">
+</head><body><div id="web_bg" style="background-image: url(/img/background.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 資訊學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(作業系統) Deadlock Definition, Avoidance and Resolution</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(作業系統) Deadlock Definition, Avoidance and Resolution</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-12-13T08:12:16.201Z" title="發表於 2025-12-13 16:12:16">2025-12-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-12-13T09:39:49.133Z" title="更新於 2025-12-13 17:39:49">2025-12-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/Process-and-Concurrency/">Process and Concurrency</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>Deadlock基本概念</h1>
+<h2 id="1-Deadlock-是什麼？">1. Deadlock 是什麼？</h2>
+<p><strong>Deadlock</strong> 指的是：</p>
+<blockquote>
+<p>一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。</p>
+</blockquote>
+<h3 id="Deadlock-的特徵">Deadlock 的特徵</h3>
+<ul>
+<li>每個 process：
+<ul>
+<li>已持有至少一個資源</li>
+<li>同時等待另一個 process 持有的資源</li>
+</ul>
+</li>
+<li>結果：大家互等，系統停住</li>
+</ul>
+<hr>
+<h2 id="2-Deadlock-範例">2. Deadlock 範例</h2>
+<h3 id="Example-1：兩個-processes、兩個資源">Example 1：兩個 processes、兩個資源</h3>
+<ul>
+<li>P1 持有 R1，等待 R2</li>
+<li>P2 持有 R2，等待 R1<br>
+→ <strong>互相等待，發生 deadlock</strong></li>
+</ul>
+<h3 id="Example-2：Semaphore-A-與-B">Example 2：Semaphore A 與 B</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P1: wait(A); wait(B); ...; signal(B); signal(A);</span><br><span class="line">P2: wait(B); wait(A); ...; signal(A); signal(B);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>若 P1 先拿到 A、P2 先拿到 B</li>
+<li>下一步彼此都在等對方 → <strong>deadlock</strong></li>
+</ul>
+<hr>
+<h1>Deadlock 的四個必要條件</h1>
+<p>Deadlock 當且僅當下列四個條件同時成立：</p>
+<ol>
+<li><strong>Mutual Exclusion（互斥）</strong></li>
+<li><strong>Hold and Wait（占有且等待）</strong></li>
+<li><strong>No Preemption（不可搶占）</strong></li>
+<li><strong>Circular Wait（循環等待）</strong></li>
+</ol>
+<p>📌 破壞其中一個條件即可避免 deadlock。</p>
+<hr>
+<h1>System Model（系統資源模型）</h1>
+<h2 id="Resource-Types-與-Instances">Resource Types 與 Instances</h2>
+<ul>
+<li>資源種類：R1, R2, …</li>
+<li>每種資源有多個 instances（例：2 CPUs）</li>
+</ul>
+<h2 id="Resource-Usage-Pattern">Resource Usage Pattern</h2>
+<ol>
+<li>Request</li>
+<li>Use</li>
+<li>Release</li>
+</ol>
+<hr>
+<h1>Resource-Allocation Graph（RAG）</h1>
+<h2 id="圖的元素">圖的元素</h2>
+<ul>
+<li>Process：圓形</li>
+<li>Resource Type：矩形</li>
+<li>Instance：矩形內的點</li>
+</ul>
+<h2 id="邊的種類">邊的種類</h2>
+<ul>
+<li>Request edge：P → R</li>
+<li>Assignment edge：R → P</li>
+</ul>
+<p><img src="/img/RAG.png" alt="alt text"></p>
+<hr>
+<h1>Cycle 與 Deadlock 關係</h1>
+<ul>
+<li>單一 instance：Cycle ⇒ Deadlock</li>
+<li>多 instances：Cycle 為必要但非充分</li>
+</ul>
+<hr>
+<h1>Deadlock Detection</h1>
+<ul>
+<li>無 cycle：無 deadlock</li>
+<li>有 cycle：
+<ul>
+<li>單一 instance ⇒ deadlock</li>
+<li>多 instances ⇒ 需進一步分析</li>
+</ul>
+</li>
+<li>P2、P4不在Cycle，不會DeadLock</li>
+</ul>
+<p><img src="/img/NotHaveDeadlock.png" alt="alt text"></p>
+<ul>
+<li>會DeadLock</li>
+</ul>
+<p><img src="/img/HaveDeadLock.png" alt="alt text"></p>
+<hr>
+<h1>Deadlock 處理策略</h1>
+<ol>
+<li><strong>Prevention / Avoidance</strong></li>
+<li><strong>Detection &amp; Recovery</strong></li>
+<li><strong>Ignore（Ostrich Algorithm）</strong></li>
+</ol>
+<hr>
+<h1>Deadlock Prevention</h1>
+<p>Deadlock Prevention 的核心概念是：<br>
+👉 <strong>確保四個必要條件中，至少有一個「不成立」</strong>，使 deadlock 不可能發生。</p>
+<hr>
+<h2 id="1-Preventing-Mutual-Exclusion（破壞互斥）-做不到">1. Preventing Mutual Exclusion（破壞互斥）(做不到)</h2>
+<h3 id="方法">方法</h3>
+<ul>
+<li>允許資源共享（只要可行）</li>
+<li>對「可共享資源」不強制 mutual exclusion</li>
+</ul>
+<h3 id="範例">範例</h3>
+<ul>
+<li>Read-only files 可被多個 processes 同時存取</li>
+</ul>
+<h3 id="限制">限制</h3>
+<ul>
+<li>許多資源本質上不可共享：
+<ul>
+<li>Printers</li>
+<li>Tape drives</li>
+<li>File write access</li>
+</ul>
+</li>
+</ul>
+<h3 id="結論">結論</h3>
+<ul>
+<li>適用範圍有限</li>
+<li><strong>不是通用解法</strong></li>
+</ul>
+<h2 id="2-Preventing-Hold-and-Wait（破壞占有且等待）-有效率但沒效能">2. Preventing Hold and Wait（破壞占有且等待）(有效率但沒效能)</h2>
+<h3 id="核心想法">核心想法</h3>
+<ul>
+<li>不允許 process 在「持有資源」時再等待其他資源</li>
+</ul>
+<h3 id="Protocol-1：Request-all-at-once-全拿or全不拿">Protocol 1：Request all at once (全拿or全不拿)</h3>
+<ul>
+<li>Process 必須在開始前一次請求所有所需資源</li>
+<li>未取得全部資源前，不得持有任何資源</li>
+</ul>
+<h3 id="Protocol-2：Release-before-request-用前先Release">Protocol 2：Release before request (用前先Release)</h3>
+<ul>
+<li>Process 只有在「未持有任何資源」時才能請求新資源</li>
+<li>若需新資源，必須先釋放目前全部資源</li>
+</ul>
+<h3 id="優點">優點</h3>
+<ul>
+<li>能有效防止 deadlock</li>
+</ul>
+<h3 id="缺點">缺點</h3>
+<ul>
+<li>低資源使用率</li>
+<li>可能產生 starvation (要很多Process 要 等待所有的Process)</li>
+<li>程式不一定事先知道所需資源</li>
+</ul>
+<h2 id="3-Preventing-No-Preemption（破壞不可搶占）-可以使用-實作有限-效能損失">3. Preventing No Preemption（破壞不可搶占）(可以使用,實作有限,效能損失)</h2>
+<h3 id="核心想法-2">核心想法</h3>
+<ul>
+<li>允許系統強制回收（preempt）資源</li>
+</ul>
+<h3 id="Protocol-1：Preempt-waiting-process">Protocol 1：Preempt waiting process</h3>
+<ul>
+<li>若 process 持有資源且請求新資源失敗：
+<ul>
+<li>回收該 process 所有資源</li>
+<li>該 process 重新等待舊資源與新資源</li>
+</ul>
+</li>
+<li>你既然要等，那你先把你手上的資源通通吐出來</li>
+</ul>
+<h3 id="Protocol-2：Preempt-holder-of-requested-resource">Protocol 2：Preempt holder of requested resource</h3>
+<ul>
+<li>若 P1 請求的資源 R 被 P2 持有：
+<ul>
+<li>若 P2 正在等待其他資源 → preempt R
+<ul>
+<li>表示 P2 自己也卡住了 → 可以把 R 從 P2 手上搶走給 P1</li>
+</ul>
+</li>
+<li>否則 P1 等待
+<ul>
+<li>表示 P2 很可能快做完、快釋放 ， 讓 P1 等，不要搶</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="適用資源">適用資源</h3>
+<ul>
+<li>
+<p>whose state can be easily saved and restored<br>
+✅ CPU registers<br>
+✅ Memory（swap）<br>
+✅ Database locks（rollback）</p>
+</li>
+<li>
+<p>whose state cannot be easily saved and restored<br>
+❌ Printers  (cannot undo)<br>
+❌ Tape drives<br>
+❌ CD/DVD burners</p>
+</li>
+</ul>
+<h2 id="4-Preventing-Circular-Wait（破壞循環等待）">4. Preventing Circular Wait（破壞循環等待）</h2>
+<h3 id="方法：資源排序（Total-Ordering）">方法：資源排序（Total Ordering）</h3>
+<ul>
+<li>為每種資源指定唯一編號 F(Ri)</li>
+<li>Process 必須依照編號遞增順序請求資源</li>
+</ul>
+<h3 id="Resource-Request-Rule">Resource Request Rule</h3>
+<ul>
+<li>若 process 已持有 Ri</li>
+<li>只能請求滿足 F(Rj) &gt; F(Ri) 的資源</li>
+<li>要 2,4 ，需要先拿2再拿4</li>
+</ul>
+<h3 id="Alternative-Protocol">Alternative Protocol</h3>
+<ul>
+<li>請求 Rk 前，先釋放所有 F(Ri) ≥ F(Rk) 的資源</li>
+</ul>
+<blockquote>
+<p>F(R0) 不可能 &lt; F(R0)</p>
+</blockquote>
+<h3 id="優點-2">優點</h3>
+<ul>
+<li>有效防止 circular wait</li>
+<li>Runtime overhead 低</li>
+</ul>
+<h3 id="缺點-2">缺點</h3>
+<ul>
+<li>小的號碼很搶手</li>
+<li>排序設計困難</li>
+<li>可能限制資源請求彈性</li>
+</ul>
+<hr>
+<h1>Deadlock Avoidance（死結避免）</h1>
+<h2 id="核心概念">核心概念</h2>
+<ul>
+<li>系統在分配資源前進行檢查</li>
+<li><strong>確保永遠不進入 unsafe state</strong></li>
+</ul>
+<h2 id="Algorithm-Selection">Algorithm Selection</h2>
+<h3 id="Case-1：Single-Instance-per-Resource-Type">Case 1：Single Instance per Resource Type</h3>
+<ul>
+<li>使用 Resource-Allocation Graph（RAG）</li>
+<li>檢查是否產生 cycle</li>
+</ul>
+<h3 id="Case-2：Multiple-Instances-per-Resource-Type">Case 2：Multiple Instances per Resource Type</h3>
+<ul>
+<li>使用 Banker’s Algorithm</li>
+<li>檢查是否存在 safe sequence</li>
+</ul>
+<h2 id="Safe-State（安全狀態）">Safe State（安全狀態）</h2>
+<ul>
+<li><strong>Safe state</strong>：存在某種資源配置順序，使所有 process 可完成</li>
+<li>Safe ⇒ 一定不會 deadlock</li>
+<li>Unsafe ⇒ deadlock 可能發生（但不一定）</li>
+</ul>
+<h3 id="Avoidance-的目標">Avoidance 的目標</h3>
+<p>👉 <strong>系統永遠不進入 unsafe state</strong></p>
+<hr>
+<h1>Resource-Allocation Graph (RAG) Algorithm</h1>
+<h2 id="一、RAG-Algorithm-在做什麼？">一、RAG Algorithm 在做什麼？</h2>
+<p>RAG Algorithm 是 <strong>Deadlock Avoidance</strong> 的方法之一，<br>
+適用於 <strong>每種資源只有一個 instance（single instance per resource type）</strong> 的系統。</p>
+<p>👉 核心想法：</p>
+<blockquote>
+<p><strong>在資源真正分配前，先檢查是否會形成 cycle，避免系統進入 deadlock。</strong></p>
+</blockquote>
+<hr>
+<h2 id="二、Graph-Components（圖的邊種類）">二、Graph Components（圖的邊種類）</h2>
+<h3 id="1-Request-Edge（實線）">1. Request Edge（實線）</h3>
+<p><code>Pi → Rj</code></p>
+<ul>
+<li>Process Pi 正在請求資源 Rj</li>
+<li>表示目前尚未被滿足的請求</li>
+</ul>
+<h3 id="2-Assignment-Edge（實線）">2. Assignment Edge（實線）</h3>
+<p><code>Rj → Pi</code></p>
+<ul>
+<li>資源 Rj 已分配給 Process Pi</li>
+<li>表示 Pi 正在持有並使用該資源</li>
+</ul>
+<h3 id="3-Claim-Edge（虛線）">3. Claim Edge（虛線）</h3>
+<p><code>Pi ⇢ Rj</code></p>
+<ul>
+<li>Process Pi <strong>未來可能會請求</strong> 資源 Rj</li>
+<li>表示潛在的最大需求</li>
+</ul>
+<p>📌 重要規定：</p>
+<ul>
+<li>Claim edge <strong>必須在 process 執行前就宣告</strong></li>
+<li>系統必須事先知道 process 的最大資源需求</li>
+</ul>
+<hr>
+<h2 id="三、Edge-Transitions（邊的轉換）">三、Edge Transitions（邊的轉換）</h2>
+<h3 id="Transition-1：Claim-→-Request">Transition 1：Claim → Request</h3>
+<ul>
+<li>當 Pi 實際開始請求 Rj</li>
+<li>虛線 claim edge 轉為實線 request edge</li>
+</ul>
+<h3 id="Transition-2：Request-→-Assignment">Transition 2：Request → Assignment</h3>
+<ul>
+<li>當系統核准請求並分配資源</li>
+<li>request edge 轉為 assignment edge</li>
+</ul>
+<h3 id="Transition-3：Assignment-→-Claim">Transition 3：Assignment → Claim</h3>
+<ul>
+<li>當 Pi 釋放資源 Rj</li>
+<li>assignment edge 轉回 claim edge</li>
+</ul>
+<p><img src="/img/RAGAlgo.png" alt="alt text"></p>
+<hr>
+<h2 id="四、Deadlock-Avoidance-Protocol（RAG-演算法流程）">四、Deadlock Avoidance Protocol（RAG 演算法流程）</h2>
+<h3 id="前提條件">前提條件</h3>
+<ul>
+<li>所有 claim edges 必須在 process 開始前建立</li>
+</ul>
+<h3 id="當-Process-Pi-請求資源-Rj-時：">當 Process Pi 請求資源 Rj 時：</h3>
+<ol>
+<li>
+<p><strong>假設分配</strong></p>
+<ul>
+<li>將 claim → request → assignment（假想）</li>
+</ul>
+</li>
+<li>
+<p><strong>Cycle 檢查</strong></p>
+<ul>
+<li>使用 cycle-detection algorithm（時間複雜度 O(n²)）</li>
+</ul>
+</li>
+<li>
+<p><strong>判斷結果</strong></p>
+<ul>
+<li>✅ 若 <strong>不產生 cycle</strong>：允許分配（safe）</li>
+<li>❌ 若 <strong>會產生 cycle</strong>：拒絕請求，process 等待（unsafe）</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="五、Key-Insight（關鍵觀念）">五、Key Insight（關鍵觀念）</h2>
+<p>在 <strong>single instance per resource type</strong> 的系統中：</p>
+<blockquote>
+<p><strong>Cycle ⇔ Deadlock</strong></p>
+</blockquote>
+<p>因此：</p>
+<ul>
+<li>防止 cycle</li>
+<li>就能保證系統不會發生 deadlock</li>
+</ul>
+<hr>
+<h2 id="六、為什麼資源「現在空著」也不能給？">六、為什麼資源「現在空著」也不能給？</h2>
+<p>即使某資源目前未被使用：</p>
+<ul>
+<li>若分配後會形成 cycle</li>
+<li>在單一 instance 系統中就等同於 deadlock</li>
+</ul>
+<p>👉 <strong>RAG Algorithm 是預防未來死結，而不是只看當下。</strong></p>
+<hr>
+<h1>Deadlock Avoidance：Safe State Concept</h1>
+<h2 id="一、核心概念：Safe-vs-Unsafe">一、核心概念：Safe vs. Unsafe</h2>
+<p>Deadlock Avoidance 的根本思想在於區分 <strong>Safe state</strong> 與 <strong>Unsafe state</strong>。</p>
+<h3 id="Safe-State（安全狀態）-2">Safe State（安全狀態）</h3>
+<p>系統若存在一個 process 執行順序：<br>
+&lt;P1, P2, …, Pn&gt;，使得對每個 Pi：</p>
+<ul>
+<li>Pi 尚需的資源 ≤（目前可用資源 + 所有 Pj（j &lt; i）完成後釋放的資源）</li>
+<li>若 Pi 無法立即取得資源，則等待前面的 Pj 完成</li>
+<li>Pi 完成後會釋放其資源，供後續 process 使用</li>
+</ul>
+<p>👉 此順序稱為 <strong>Safe Sequence</strong></p>
+<h3 id="Safe-Unsafe-Deadlock-關係（必考）">Safe / Unsafe / Deadlock 關係（必考）</h3>
+<ul>
+<li><strong>Safe state ⇒ 一定不會 deadlock</strong></li>
+<li><strong>Unsafe state ⇒ 可能 deadlock（但不一定）</strong></li>
+<li><strong>Deadlock ⇒ 一定是 unsafe state</strong></li>
+</ul>
+<p>📌 Deadlock Avoidance 的策略：<br>
+👉 <strong>確保系統隨時維持在 safe state</strong></p>
+<hr>
+<h1>Safe State with Safe Sequence（範例解析）</h1>
+<h2 id="系統設定">系統設定</h2>
+<ul>
+<li>總共有 <strong>12 台 tape drives</strong></li>
+<li>Process 與需求如下：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Process</th>
+<th>Max Needs</th>
+<th>Current Holding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0</td>
+<td>10</td>
+<td>5</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>9</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>目前 Available = 12 − (5 + 2 + 2) = <strong>3</strong></p>
+<hr>
+<h2 id="判斷-Safe-Sequence：⟨P1-P0-P2⟩">判斷 Safe Sequence：⟨P1, P0, P2⟩</h2>
+<h3 id="Step-1：P1">Step 1：P1</h3>
+<ul>
+<li>Need(P1) = 4 − 2 = 2</li>
+<li>Available = 3 ≥ 2 ✅</li>
+<li>P1 完成後釋放 2<br>
+→ Available = 3 + 2 = <strong>5</strong></li>
+</ul>
+<h3 id="Step-2：P0">Step 2：P0</h3>
+<ul>
+<li>Need(P0) = 10 − 5 = 5</li>
+<li>Available = 5 ≥ 5 ✅</li>
+<li>P0 完成後釋放 5<br>
+→ Available = 5 + 5 = <strong>10</strong></li>
+</ul>
+<h3 id="Step-3：P2">Step 3：P2</h3>
+<ul>
+<li>Need(P2) = 9 − 2 = 7</li>
+<li>Available = 10 ≥ 7 ✅</li>
+<li>P2 完成後釋放 2<br>
+→ Available = <strong>12</strong></li>
+</ul>
+<h3 id="結論-2">結論</h3>
+<ul>
+<li>存在 Safe Sequence：⟨P1, P0, P2⟩</li>
+<li>👉 <strong>系統處於 Safe State</strong></li>
+</ul>
+<hr>
+<h1>Unsafe State（沒有 Safe Sequence）</h1>
+<h2 id="系統狀態（t1）">系統狀態（t1）</h2>
+<table>
+<thead>
+<tr>
+<th>Process</th>
+<th>Max Needs</th>
+<th>Current Holding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0</td>
+<td>10</td>
+<td>5</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>9</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Available = 12 − (5 + 2 + 3) = <strong>2</strong></p>
+<hr>
+<h2 id="分析">分析</h2>
+<ul>
+<li>Need(P0) = 5 &gt; 2 ❌</li>
+<li>Need(P1) = 2 ≤ 2（但釋放後仍不足以滿足其他 process）</li>
+<li>Need(P2) = 6 &gt; 2 ❌</li>
+</ul>
+<p>👉 <strong>不存在任何 Safe Sequence</strong></p>
+<h3 id="結論-3">結論</h3>
+<ul>
+<li>系統進入 <strong>Unsafe State</strong></li>
+<li>Deadlock <strong>可能發生（但尚未發生）</strong></li>
+</ul>
+<p>📌 Deadlock Avoidance 原則：<br>
+👉 <strong>只有在資源分配後仍為 Safe State，請求才會被允許</strong></p>
+<hr>
+<h1>Banker’s Algorithm</h1>
+<h2 id="一、用途與適用情境">一、用途與適用情境</h2>
+<ul>
+<li><strong>Deadlock Avoidance（死結避免）</strong> 演算法</li>
+<li><strong>適用於：每種資源有「多個 instances」的系統</strong></li>
+<li>核心原則：
+<blockquote>
+<p><strong>只有在分配後仍然存在 Safe Sequence，才允許資源分配</strong></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="二、資料結構（一定要會）">二、資料結構（一定要會）</h2>
+<p>對每個 process Pi 與每種資源型別（A, B, C…）：</p>
+<ul>
+<li><strong>Max[i]</strong>：Pi 宣告的最大需求量</li>
+<li><strong>Allocation[i]</strong>：目前已分配給 Pi 的資源量</li>
+<li><strong>Need[i] = Max[i] − Allocation[i]</strong></li>
+<li><strong>Available</strong>：系統目前可用的資源量</li>
+</ul>
+<h2 id="三、Safety-Algorithm（安全性檢查）">三、Safety Algorithm（安全性檢查）</h2>
+<h3 id="目標">目標</h3>
+<p>判斷「目前狀態是否為 Safe State」，並找出 <strong>Safe Sequence（若存在）</strong>。</p>
+<h3 id="步驟">步驟</h3>
+<ol>
+<li>
+<p><strong>初始化</strong></p>
+<ul>
+<li><code>Work = Available</code></li>
+<li><code>Finish[i] = false</code>（對所有 i）</li>
+</ul>
+</li>
+<li>
+<p><strong>尋找可完成的 process</strong></p>
+<ul>
+<li>找一個 <code>Finish[i] == false</code> 且 <code>Need[i] ≤ Work</code> 的 Pi</li>
+<li>若找不到 → 跳到步驟 4</li>
+</ul>
+</li>
+<li>
+<p><strong>模擬完成</strong></p>
+<ul>
+<li><code>Work = Work + Allocation[i]</code></li>
+<li><code>Finish[i] = true</code></li>
+<li>記錄 Pi 到 Safe Sequence</li>
+<li>回到步驟 2</li>
+</ul>
+</li>
+<li>
+<p><strong>判斷</strong></p>
+<ul>
+<li>若所有 <code>Finish[i] == true</code> → <strong>Safe</strong></li>
+<li>否則 → <strong>Unsafe</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="四、Safety-Algorithm-範例（逐步跑表）">四、Safety Algorithm 範例（逐步跑表）</h2>
+<h3 id="系統資源">系統資源</h3>
+<ul>
+<li>Total instances：A=10, B=5, C=7</li>
+<li>Initial Available：A=3, B=3, C=2</li>
+</ul>
+<h3 id="初始表格">初始表格</h3>
+<table>
+<thead>
+<tr>
+<th>Process</th>
+<th>Max (A B C)</th>
+<th>Allocation (A B C)</th>
+<th>Need (A B C)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0</td>
+<td>7 5 3</td>
+<td>0 1 0</td>
+<td>7 4 3</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>3 2 2</td>
+<td>2 0 0</td>
+<td>1 2 2</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>9 0 2</td>
+<td>3 0 2</td>
+<td>6 0 0</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>2 2 2</td>
+<td>2 1 1</td>
+<td>0 1 1</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>4 3 3</td>
+<td>0 0 2</td>
+<td>4 3 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Step-by-step-Safe-Sequence">Step-by-step Safe Sequence</h3>
+<ol>
+<li>
+<p><strong>P1</strong>：Need(1,2,2) ≤ Available(3,3,2) ✔</p>
+<ul>
+<li>Work = (3,3,2) + (2,0,0) = <strong>(5,3,2)</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>P3</strong>：Need(0,1,1) ≤ (5,3,2) ✔</p>
+<ul>
+<li>Work = (5,3,2) + (2,1,1) = <strong>(7,4,3)</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>P4</strong>：Need(4,3,1) ≤ (7,4,3) ✔</p>
+<ul>
+<li>Work = (7,4,3) + (0,0,2) = <strong>(7,4,5)</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>P2</strong>：Need(6,0,0) ≤ (7,4,5) ✔</p>
+<ul>
+<li>Work = (7,4,5) + (3,0,2) = <strong>(10,4,7)</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>P0</strong>：Need(7,4,3) ≤ (10,4,7) ✔</p>
+</li>
+</ol>
+<h3 id="結論-4">結論</h3>
+<ul>
+<li><strong>Safe Sequence</strong>：⟨P1, P3, P4, P2, P0⟩</li>
+<li>系統處於 <strong>Safe State</strong></li>
+</ul>
+<h2 id="五、Resource-Request-Algorithm（請求檢查）">五、Resource-Request Algorithm（請求檢查）</h2>
+<p>當 Process Pi 提出請求 <code>Request[i]</code> 時：</p>
+<h3 id="檢查順序">檢查順序</h3>
+<ol>
+<li><code>Request[i] ≤ Need[i]</code>（不可超過最大需求）</li>
+<li><code>Request[i] ≤ Available</code>（系統必須有資源）</li>
+<li><strong>假設分配後，執行 Safety Algorithm</strong>
+<ul>
+<li>若 Safe → <strong>允許分配</strong></li>
+<li>若 Unsafe → <strong>拒絕請求（等待）</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="六、請求範例（Safe）">六、請求範例（Safe）</h2>
+<ul>
+<li>Available：A=2, B=3, C=0</li>
+<li>Request(P1) = (1,0,2)</li>
+</ul>
+<p>檢查：</p>
+<ul>
+<li>Request ≤ Need ✔</li>
+<li>Request ≤ Available ✔</li>
+<li>Safety check 後仍有 Safe Sequence</li>
+</ul>
+<p>👉 <strong>允許請求，系統仍為 Safe State</strong></p>
+<h2 id="七、請求範例（Unsafe）">七、請求範例（Unsafe）</h2>
+<ul>
+<li>Available：A=0, B=0, C=2</li>
+<li>Request(P4) = (3,3,0)</li>
+</ul>
+<p>檢查：</p>
+<ul>
+<li>Request ≤ Need ✔</li>
+<li>Request ≤ Available ❌ 或 Safety check 失敗</li>
+</ul>
+<p>👉 <strong>拒絕請求（會進入 Unsafe State，無 Safe Sequence）</strong></p>
+<hr>
+<h1>Deadlock Detection（死結偵測）</h1>
+<h2 id="一、Deadlock-Detection-的核心概念">一、Deadlock Detection 的核心概念</h2>
+<p>與 <strong>Prevention / Avoidance</strong> 不同，Deadlock Detection 的策略是：</p>
+<blockquote>
+<p><strong>允許 deadlock 發生，再定期偵測並處理。</strong></p>
+</blockquote>
+<p>適合用在：</p>
+<ul>
+<li>Deadlock 發生頻率低</li>
+<li>預防與避免成本太高的系統</li>
+</ul>
+<h2 id="二、Algorithm-1：Wait-For-Graph（單一-instance）">二、Algorithm 1：Wait-For Graph（單一 instance）</h2>
+<h3 id="適用情境">適用情境</h3>
+<ul>
+<li><strong>每種資源只有一個 instance</strong></li>
+<li>可將 Resource-Allocation Graph（RAG）簡化</li>
+</ul>
+<p><img src="/img/RAGWFG.png" alt="alt text"></p>
+<h3 id="Wait-For-Graph（WFG）">Wait-For Graph（WFG）</h3>
+<ul>
+<li>節點：Processes（P1, P2, …）</li>
+<li>邊：<code>Pi → Pj</code>
+<ul>
+<li>表示 <strong>Pi 正在等待 Pj 釋放資源</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/WFG.png" alt="alt text"></p>
+<h3 id="建立方式">建立方式</h3>
+<ul>
+<li>從 RAG 中：
+<ul>
+<li>移除 resource nodes</li>
+<li>若 <code>Pi → R → Pj</code>，則建立 <code>Pi → Pj</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="偵測方式">偵測方式</h3>
+<ul>
+<li><strong>定期對 WFG 進行 cycle detection</strong></li>
+<li>判斷規則：
+<ul>
+<li>無 cycle → 無 deadlock</li>
+<li>有 cycle → <strong>deadlock 存在</strong></li>
+</ul>
+</li>
+</ul>
+<p>📌 在單一 instance 系統中：</p>
+<blockquote>
+<p><strong>Cycle ⇔ Deadlock</strong></p>
+</blockquote>
+<h2 id="三、Algorithm-2：Detection-with-Banker’s-Algorithm（多個-instances）">三、Algorithm 2：Detection with Banker’s Algorithm（多個 instances）</h2>
+<h3 id="適用情境-2">適用情境</h3>
+<ul>
+<li><strong>每種資源有多個 instances</strong></li>
+<li>與 Banker’s Algorithm 類似，但用途不同</li>
+</ul>
+<h3 id="資料結構">資料結構</h3>
+<ul>
+<li><strong>Allocation</strong>：目前配置資源</li>
+<li><strong>Request</strong>：尚未滿足的請求</li>
+<li><strong>Available</strong>：系統可用資源</li>
+</ul>
+<h3 id="概念">概念</h3>
+<ul>
+<li>嘗試找出一個 sequence，使所有 process 都能完成</li>
+<li>若找不到 → 系統發生 deadlock</li>
+</ul>
+<h3 id="範例說明">範例說明</h3>
+<ul>
+<li>Total instances：A=7, B=2, C=6</li>
+<li>Available：A=0, B=0, C=0</li>
+</ul>
+<p>若存在 safe-like sequence：<br>
+&lt;P0, P2, P3, P1, P4&gt;<br>
+→ <strong>系統沒有 deadlock</strong></p>
+<p>若某 process（如 P2）提出額外請求而：</p>
+<ul>
+<li><strong>無法找到任何 sequence</strong><br>
+→ <strong>Deadlock detected</strong></li>
+</ul>
+<hr>
+<h1>Deadlock Recovery（死結復原）</h1>
+<h2 id="一、Recovery-的基本原則">一、Recovery 的基本原則</h2>
+<p>一旦 deadlock 被偵測到：</p>
+<blockquote>
+<p><strong>必須破壞 deadlock cycle，使系統能繼續運作。</strong></p>
+</blockquote>
+<h2 id="二、Method-1：Process-Termination（終止行程）">二、Method 1：Process Termination（終止行程）</h2>
+<h3 id="作法">作法</h3>
+<ol>
+<li><strong>Abort all deadlocked processes</strong>
+<ul>
+<li>快速但代價大</li>
+</ul>
+</li>
+<li><strong>Abort one process at a time</strong>
+<ul>
+<li>每終止一個就重新檢查是否仍有 deadlock</li>
+</ul>
+</li>
+</ol>
+<h3 id="Victim-Selection（考試重點）">Victim Selection（考試重點）</h3>
+<p>選擇哪個 process 終止？常見考量：</p>
+<ul>
+<li>Process 優先權</li>
+<li>已執行時間</li>
+<li>尚需多少資源</li>
+<li>佔用資源數量</li>
+<li>是否為互動式或背景程式</li>
+</ul>
+<h2 id="三、Method-2：Resource-Preemption（資源搶占）">三、Method 2：Resource Preemption（資源搶占）</h2>
+<h3 id="步驟-2">步驟</h3>
+<ol>
+<li><strong>Select a victim</strong>
+<ul>
+<li>決定從哪個 process 搶資源</li>
+</ul>
+</li>
+<li><strong>Rollback</strong>
+<ul>
+<li>將 process 回復到安全狀態</li>
+</ul>
+</li>
+<li><strong>Starvation prevention</strong>
+<ul>
+<li>避免同一個 process 一直被犧牲</li>
+</ul>
+</li>
+</ol>
+<h3 id="Resource-Preemption-的問題">Resource Preemption 的問題</h3>
+<ul>
+<li>哪些資源適合搶占？</li>
+<li>Rollback 成本高</li>
+<li>必須防止 starvation</li>
+</ul>
+<hr>
+<blockquote>
+<p>Deadlock 的本質是「資源分配順序錯誤」；作業系統不是預防它、避免它，就是在發生後偵測並打破它。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/67c68839.html">https://yowdesert.github.io/posts/67c68839.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 資訊學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/4f5b5fb4.html" title="(資料庫系統) Basic SQL (Structured Query Language)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">(資料庫系統) Basic SQL (Structured Query Language)</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Basic SQL 本章重點：  SQL 的由來與「關聯模型」差異 SQL 三種語言：DDL / DML / DCL Schema / Catalog / CREATE TABLE 資料型態 &amp; Domain 各種 Constraints（PK / FK / UNIQUE / NOT NULL / CHECK / DEFAULT） 基本查詢：SELECT-FROM-WHERE、DISTINCT、集合運算 INSERT / DELETE / UPDATE 修改資料     1. Basic SQL &amp; 關聯模型差異 1-1 SQL的由來   起源：從 tuple calculus（關聯謂詞演算）發展出語言 SQUARE → SEQUEL → SQL   SQL 原本是 SEQUEL to SQUARE 的縮寫，後來因版權改成 SQL（Structured Query Language） → 目前都習慣叫「Structured Query Language」。   1-2 名詞對照（數學 vs 實作） 理論的關聯模型使用比較「數學」的名稱：    ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Deadlock基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Deadlock-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">1. Deadlock 是什麼？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Deadlock-%E7%9A%84%E7%89%B9%E5%BE%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">Deadlock 的特徵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Deadlock-%E7%AF%84%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">2. Deadlock 範例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-1%EF%BC%9A%E5%85%A9%E5%80%8B-processes%E3%80%81%E5%85%A9%E5%80%8B%E8%B3%87%E6%BA%90"><span class="toc-number">1.2.1.</span> <span class="toc-text">Example 1：兩個 processes、兩個資源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-2%EF%BC%9ASemaphore-A-%E8%88%87-B"><span class="toc-number">1.2.2.</span> <span class="toc-text">Example 2：Semaphore A 與 B</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Deadlock 的四個必要條件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">System Model（系統資源模型）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Resource-Types-%E8%88%87-Instances"><span class="toc-number">3.1.</span> <span class="toc-text">Resource Types 與 Instances</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resource-Usage-Pattern"><span class="toc-number">3.2.</span> <span class="toc-text">Resource Usage Pattern</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">Resource-Allocation Graph（RAG）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%96%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-number">4.1.</span> <span class="toc-text">圖的元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%82%8A%E7%9A%84%E7%A8%AE%E9%A1%9E"><span class="toc-number">4.2.</span> <span class="toc-text">邊的種類</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">Cycle 與 Deadlock 關係</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Deadlock Detection</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">Deadlock 處理策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">Deadlock Prevention</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Preventing-Mutual-Exclusion%EF%BC%88%E7%A0%B4%E5%A3%9E%E4%BA%92%E6%96%A5%EF%BC%89-%E5%81%9A%E4%B8%8D%E5%88%B0"><span class="toc-number">8.1.</span> <span class="toc-text">1. Preventing Mutual Exclusion（破壞互斥）(做不到)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">8.1.1.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AF%84%E4%BE%8B"><span class="toc-number">8.1.2.</span> <span class="toc-text">範例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E5%88%B6"><span class="toc-number">8.1.3.</span> <span class="toc-text">限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E8%AB%96"><span class="toc-number">8.1.4.</span> <span class="toc-text">結論</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Preventing-Hold-and-Wait%EF%BC%88%E7%A0%B4%E5%A3%9E%E5%8D%A0%E6%9C%89%E4%B8%94%E7%AD%89%E5%BE%85%EF%BC%89-%E6%9C%89%E6%95%88%E7%8E%87%E4%BD%86%E6%B2%92%E6%95%88%E8%83%BD"><span class="toc-number">8.2.</span> <span class="toc-text">2. Preventing Hold and Wait（破壞占有且等待）(有效率但沒效能)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%83%B3%E6%B3%95"><span class="toc-number">8.2.1.</span> <span class="toc-text">核心想法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Protocol-1%EF%BC%9ARequest-all-at-once-%E5%85%A8%E6%8B%BFor%E5%85%A8%E4%B8%8D%E6%8B%BF"><span class="toc-number">8.2.2.</span> <span class="toc-text">Protocol 1：Request all at once (全拿or全不拿)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Protocol-2%EF%BC%9ARelease-before-request-%E7%94%A8%E5%89%8D%E5%85%88Release"><span class="toc-number">8.2.3.</span> <span class="toc-text">Protocol 2：Release before request (用前先Release)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%84%AA%E9%BB%9E"><span class="toc-number">8.2.4.</span> <span class="toc-text">優點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E9%BB%9E"><span class="toc-number">8.2.5.</span> <span class="toc-text">缺點</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Preventing-No-Preemption%EF%BC%88%E7%A0%B4%E5%A3%9E%E4%B8%8D%E5%8F%AF%E6%90%B6%E5%8D%A0%EF%BC%89-%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8-%E5%AF%A6%E4%BD%9C%E6%9C%89%E9%99%90-%E6%95%88%E8%83%BD%E6%90%8D%E5%A4%B1"><span class="toc-number">8.3.</span> <span class="toc-text">3. Preventing No Preemption（破壞不可搶占）(可以使用,實作有限,效能損失)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%83%B3%E6%B3%95-2"><span class="toc-number">8.3.1.</span> <span class="toc-text">核心想法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Protocol-1%EF%BC%9APreempt-waiting-process"><span class="toc-number">8.3.2.</span> <span class="toc-text">Protocol 1：Preempt waiting process</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Protocol-2%EF%BC%9APreempt-holder-of-requested-resource"><span class="toc-number">8.3.3.</span> <span class="toc-text">Protocol 2：Preempt holder of requested resource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%A9%E7%94%A8%E8%B3%87%E6%BA%90"><span class="toc-number">8.3.4.</span> <span class="toc-text">適用資源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Preventing-Circular-Wait%EF%BC%88%E7%A0%B4%E5%A3%9E%E5%BE%AA%E7%92%B0%E7%AD%89%E5%BE%85%EF%BC%89"><span class="toc-number">8.4.</span> <span class="toc-text">4. Preventing Circular Wait（破壞循環等待）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%EF%BC%9A%E8%B3%87%E6%BA%90%E6%8E%92%E5%BA%8F%EF%BC%88Total-Ordering%EF%BC%89"><span class="toc-number">8.4.1.</span> <span class="toc-text">方法：資源排序（Total Ordering）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Request-Rule"><span class="toc-number">8.4.2.</span> <span class="toc-text">Resource Request Rule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alternative-Protocol"><span class="toc-number">8.4.3.</span> <span class="toc-text">Alternative Protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%84%AA%E9%BB%9E-2"><span class="toc-number">8.4.4.</span> <span class="toc-text">優點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E9%BB%9E-2"><span class="toc-number">8.4.5.</span> <span class="toc-text">缺點</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">Deadlock Avoidance（死結避免）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">9.1.</span> <span class="toc-text">核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Algorithm-Selection"><span class="toc-number">9.2.</span> <span class="toc-text">Algorithm Selection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Case-1%EF%BC%9ASingle-Instance-per-Resource-Type"><span class="toc-number">9.2.1.</span> <span class="toc-text">Case 1：Single Instance per Resource Type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Case-2%EF%BC%9AMultiple-Instances-per-Resource-Type"><span class="toc-number">9.2.2.</span> <span class="toc-text">Case 2：Multiple Instances per Resource Type</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Safe-State%EF%BC%88%E5%AE%89%E5%85%A8%E7%8B%80%E6%85%8B%EF%BC%89"><span class="toc-number">9.3.</span> <span class="toc-text">Safe State（安全狀態）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Avoidance-%E7%9A%84%E7%9B%AE%E6%A8%99"><span class="toc-number">9.3.1.</span> <span class="toc-text">Avoidance 的目標</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">Resource-Allocation Graph (RAG) Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81RAG-Algorithm-%E5%9C%A8%E5%81%9A%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="toc-number">10.1.</span> <span class="toc-text">一、RAG Algorithm 在做什麼？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Graph-Components%EF%BC%88%E5%9C%96%E7%9A%84%E9%82%8A%E7%A8%AE%E9%A1%9E%EF%BC%89"><span class="toc-number">10.2.</span> <span class="toc-text">二、Graph Components（圖的邊種類）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Request-Edge%EF%BC%88%E5%AF%A6%E7%B7%9A%EF%BC%89"><span class="toc-number">10.2.1.</span> <span class="toc-text">1. Request Edge（實線）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Assignment-Edge%EF%BC%88%E5%AF%A6%E7%B7%9A%EF%BC%89"><span class="toc-number">10.2.2.</span> <span class="toc-text">2. Assignment Edge（實線）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Claim-Edge%EF%BC%88%E8%99%9B%E7%B7%9A%EF%BC%89"><span class="toc-number">10.2.3.</span> <span class="toc-text">3. Claim Edge（虛線）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Edge-Transitions%EF%BC%88%E9%82%8A%E7%9A%84%E8%BD%89%E6%8F%9B%EF%BC%89"><span class="toc-number">10.3.</span> <span class="toc-text">三、Edge Transitions（邊的轉換）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transition-1%EF%BC%9AClaim-%E2%86%92-Request"><span class="toc-number">10.3.1.</span> <span class="toc-text">Transition 1：Claim → Request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transition-2%EF%BC%9ARequest-%E2%86%92-Assignment"><span class="toc-number">10.3.2.</span> <span class="toc-text">Transition 2：Request → Assignment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transition-3%EF%BC%9AAssignment-%E2%86%92-Claim"><span class="toc-number">10.3.3.</span> <span class="toc-text">Transition 3：Assignment → Claim</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Deadlock-Avoidance-Protocol%EF%BC%88RAG-%E6%BC%94%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B%EF%BC%89"><span class="toc-number">10.4.</span> <span class="toc-text">四、Deadlock Avoidance Protocol（RAG 演算法流程）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90%E6%A2%9D%E4%BB%B6"><span class="toc-number">10.4.1.</span> <span class="toc-text">前提條件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%B6-Process-Pi-%E8%AB%8B%E6%B1%82%E8%B3%87%E6%BA%90-Rj-%E6%99%82%EF%BC%9A"><span class="toc-number">10.4.2.</span> <span class="toc-text">當 Process Pi 請求資源 Rj 時：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Key-Insight%EF%BC%88%E9%97%9C%E9%8D%B5%E8%A7%80%E5%BF%B5%EF%BC%89"><span class="toc-number">10.5.</span> <span class="toc-text">五、Key Insight（關鍵觀念）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%82%BA%E4%BB%80%E9%BA%BC%E8%B3%87%E6%BA%90%E3%80%8C%E7%8F%BE%E5%9C%A8%E7%A9%BA%E8%91%97%E3%80%8D%E4%B9%9F%E4%B8%8D%E8%83%BD%E7%B5%A6%EF%BC%9F"><span class="toc-number">10.6.</span> <span class="toc-text">六、為什麼資源「現在空著」也不能給？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">Deadlock Avoidance：Safe State Concept</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9ASafe-vs-Unsafe"><span class="toc-number">11.1.</span> <span class="toc-text">一、核心概念：Safe vs. Unsafe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Safe-State%EF%BC%88%E5%AE%89%E5%85%A8%E7%8B%80%E6%85%8B%EF%BC%89-2"><span class="toc-number">11.1.1.</span> <span class="toc-text">Safe State（安全狀態）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Safe-Unsafe-Deadlock-%E9%97%9C%E4%BF%82%EF%BC%88%E5%BF%85%E8%80%83%EF%BC%89"><span class="toc-number">11.1.2.</span> <span class="toc-text">Safe &#x2F; Unsafe &#x2F; Deadlock 關係（必考）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">Safe State with Safe Sequence（範例解析）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%B5%B1%E8%A8%AD%E5%AE%9A"><span class="toc-number">12.1.</span> <span class="toc-text">系統設定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%B7-Safe-Sequence%EF%BC%9A%E2%9F%A8P1-P0-P2%E2%9F%A9"><span class="toc-number">12.2.</span> <span class="toc-text">判斷 Safe Sequence：⟨P1, P0, P2⟩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1%EF%BC%9AP1"><span class="toc-number">12.2.1.</span> <span class="toc-text">Step 1：P1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2%EF%BC%9AP0"><span class="toc-number">12.2.2.</span> <span class="toc-text">Step 2：P0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3%EF%BC%9AP2"><span class="toc-number">12.2.3.</span> <span class="toc-text">Step 3：P2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E8%AB%96-2"><span class="toc-number">12.2.4.</span> <span class="toc-text">結論</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">Unsafe State（沒有 Safe Sequence）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%B5%B1%E7%8B%80%E6%85%8B%EF%BC%88t1%EF%BC%89"><span class="toc-number">13.1.</span> <span class="toc-text">系統狀態（t1）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">13.2.</span> <span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E8%AB%96-3"><span class="toc-number">13.2.1.</span> <span class="toc-text">結論</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text">Banker’s Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%94%A8%E9%80%94%E8%88%87%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83"><span class="toc-number">14.1.</span> <span class="toc-text">一、用途與適用情境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B%EF%BC%88%E4%B8%80%E5%AE%9A%E8%A6%81%E6%9C%83%EF%BC%89"><span class="toc-number">14.2.</span> <span class="toc-text">二、資料結構（一定要會）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Safety-Algorithm%EF%BC%88%E5%AE%89%E5%85%A8%E6%80%A7%E6%AA%A2%E6%9F%A5%EF%BC%89"><span class="toc-number">14.3.</span> <span class="toc-text">三、Safety Algorithm（安全性檢查）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A8%99"><span class="toc-number">14.3.1.</span> <span class="toc-text">目標</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%A9%9F"><span class="toc-number">14.3.2.</span> <span class="toc-text">步驟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Safety-Algorithm-%E7%AF%84%E4%BE%8B%EF%BC%88%E9%80%90%E6%AD%A5%E8%B7%91%E8%A1%A8%EF%BC%89"><span class="toc-number">14.4.</span> <span class="toc-text">四、Safety Algorithm 範例（逐步跑表）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%B5%B1%E8%B3%87%E6%BA%90"><span class="toc-number">14.4.1.</span> <span class="toc-text">系統資源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E8%A1%A8%E6%A0%BC"><span class="toc-number">14.4.2.</span> <span class="toc-text">初始表格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-by-step-Safe-Sequence"><span class="toc-number">14.4.3.</span> <span class="toc-text">Step-by-step Safe Sequence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E8%AB%96-4"><span class="toc-number">14.4.4.</span> <span class="toc-text">結論</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Resource-Request-Algorithm%EF%BC%88%E8%AB%8B%E6%B1%82%E6%AA%A2%E6%9F%A5%EF%BC%89"><span class="toc-number">14.5.</span> <span class="toc-text">五、Resource-Request Algorithm（請求檢查）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AA%A2%E6%9F%A5%E9%A0%86%E5%BA%8F"><span class="toc-number">14.5.1.</span> <span class="toc-text">檢查順序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E8%AB%8B%E6%B1%82%E7%AF%84%E4%BE%8B%EF%BC%88Safe%EF%BC%89"><span class="toc-number">14.6.</span> <span class="toc-text">六、請求範例（Safe）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E8%AB%8B%E6%B1%82%E7%AF%84%E4%BE%8B%EF%BC%88Unsafe%EF%BC%89"><span class="toc-number">14.7.</span> <span class="toc-text">七、請求範例（Unsafe）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">Deadlock Detection（死結偵測）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Deadlock-Detection-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">15.1.</span> <span class="toc-text">一、Deadlock Detection 的核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Algorithm-1%EF%BC%9AWait-For-Graph%EF%BC%88%E5%96%AE%E4%B8%80-instance%EF%BC%89"><span class="toc-number">15.2.</span> <span class="toc-text">二、Algorithm 1：Wait-For Graph（單一 instance）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83"><span class="toc-number">15.2.1.</span> <span class="toc-text">適用情境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Wait-For-Graph%EF%BC%88WFG%EF%BC%89"><span class="toc-number">15.2.2.</span> <span class="toc-text">Wait-For Graph（WFG）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E6%96%B9%E5%BC%8F"><span class="toc-number">15.2.3.</span> <span class="toc-text">建立方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%B5%E6%B8%AC%E6%96%B9%E5%BC%8F"><span class="toc-number">15.2.4.</span> <span class="toc-text">偵測方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Algorithm-2%EF%BC%9ADetection-with-Banker%E2%80%99s-Algorithm%EF%BC%88%E5%A4%9A%E5%80%8B-instances%EF%BC%89"><span class="toc-number">15.3.</span> <span class="toc-text">三、Algorithm 2：Detection with Banker’s Algorithm（多個 instances）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%A9%E7%94%A8%E6%83%85%E5%A2%83-2"><span class="toc-number">15.3.1.</span> <span class="toc-text">適用情境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B"><span class="toc-number">15.3.2.</span> <span class="toc-text">資料結構</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">15.3.3.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AF%84%E4%BE%8B%E8%AA%AA%E6%98%8E"><span class="toc-number">15.3.4.</span> <span class="toc-text">範例說明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">16.</span> <span class="toc-text">Deadlock Recovery（死結復原）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Recovery-%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%89%87"><span class="toc-number">16.1.</span> <span class="toc-text">一、Recovery 的基本原則</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Method-1%EF%BC%9AProcess-Termination%EF%BC%88%E7%B5%82%E6%AD%A2%E8%A1%8C%E7%A8%8B%EF%BC%89"><span class="toc-number">16.2.</span> <span class="toc-text">二、Method 1：Process Termination（終止行程）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E6%B3%95"><span class="toc-number">16.2.1.</span> <span class="toc-text">作法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Victim-Selection%EF%BC%88%E8%80%83%E8%A9%A6%E9%87%8D%E9%BB%9E%EF%BC%89"><span class="toc-number">16.2.2.</span> <span class="toc-text">Victim Selection（考試重點）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Method-2%EF%BC%9AResource-Preemption%EF%BC%88%E8%B3%87%E6%BA%90%E6%90%B6%E5%8D%A0%EF%BC%89"><span class="toc-number">16.3.</span> <span class="toc-text">三、Method 2：Resource Preemption（資源搶占）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%A9%9F-2"><span class="toc-number">16.3.1.</span> <span class="toc-text">步驟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Preemption-%E7%9A%84%E5%95%8F%E9%A1%8C"><span class="toc-number">16.3.2.</span> <span class="toc-text">Resource Preemption 的問題</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/67c68839.html" title="(作業系統) Deadlock Definition, Avoidance and Resolution">(作業系統) Deadlock Definition, Avoidance and Resolution</a><time datetime="2025-12-13T08:12:16.201Z" title="發表於 2025-12-13 16:12:16">2025-12-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4f5b5fb4.html" title="(資料庫系統) Basic SQL (Structured Query Language)">(資料庫系統) Basic SQL (Structured Query Language)</a><time datetime="2025-12-09T13:16:17.006Z" title="發表於 2025-12-09 21:16:17">2025-12-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/52554cd4.html" title="(線性代數) 矩陣與矩陣運算">(線性代數) 矩陣與矩陣運算</a><time datetime="2025-08-14T00:40:00.000Z" title="發表於 2025-08-14 08:40:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts">(作業系統) Process and Concurrency - Synchronization Concepts</a><time datetime="2025-08-14T00:40:00.000Z" title="發表於 2025-08-14 08:40:00">2025-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5cf5d8d8.html" title="[離散數學] 基本符號與概念速查表">[離散數學] 基本符號與概念速查表</a><time datetime="2025-08-11T23:00:00.000Z" title="發表於 2025-08-12 07:00:00">2025-08-12</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="/"></script></div></body></html>
