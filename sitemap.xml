@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yowdesert.github.io/posts/31704117.html</loc>
+    
+    <lastmod>2025-12-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yowdesert.github.io/posts/4f5b5fb4.html</loc>
+    
+    <lastmod>2025-12-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yowdesert.github.io/posts/67c68839.html</loc>
     
     <lastmod>2025-12-13</lastmod>
@@ -30,15 +48,6 @@
   
   <url>
     <loc>https://yowdesert.github.io/posts/5cf5d8d8.html</loc>
-    
-    <lastmod>2025-12-11</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://yowdesert.github.io/posts/4f5b5fb4.html</loc>
     
     <lastmod>2025-12-11</lastmod>
     
@@ -273,6 +282,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://yowdesert.github.io/tags/SQL/</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -325,14 +341,14 @@
   </url>
   
   <url>
-    <loc>https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E5%BA%AB%E7%B3%BB%E7%B5%B1/Basic-SQL/</loc>
+    <loc>https://yowdesert.github.io/categories/%E9%9B%A2%E6%95%A3%E6%95%B8%E5%AD%B8/%E7%A0%94%E7%A9%B6%E6%89%80/</loc>
     <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://yowdesert.github.io/categories/%E9%9B%A2%E6%95%A3%E6%95%B8%E5%AD%B8/%E7%A0%94%E7%A9%B6%E6%89%80/</loc>
+    <loc>https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E5%BA%AB%E7%B3%BB%E7%B5%B1/SQL/</loc>
     <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
