@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Diffie–Hellman (DH) Key Exchange (金鑰交換) | YD's 資訊學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Diffie–Hellman 是一個金鑰交換的演算法   DH 在解決什麼問題？  在不安全通道上，Alice 與 Bob 協議出共同秘密金鑰 $K$，用於對稱加密（如 AES）。  公開參數  質數 $p$ 生成元 $g$ 所有運算皆在 $\bmod p$ 下進行。  協議流程 Alice 選私鑰 $a$，公開 $A&#x3D;g^a \bmod p$。 Bob 選私鑰 $b$，公開 $B&#x3D;g^b \b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Diffie–Hellman (DH) Key Exchange (金鑰交換)">
+<meta property="og:url" content="https://yowdesert.github.io/posts/862ca019.html">
+<meta property="og:site_name" content="YD&#39;s 資訊學習筆記">
+<meta property="og:description" content="Diffie–Hellman 是一個金鑰交換的演算法   DH 在解決什麼問題？  在不安全通道上，Alice 與 Bob 協議出共同秘密金鑰 $K$，用於對稱加密（如 AES）。  公開參數  質數 $p$ 生成元 $g$ 所有運算皆在 $\bmod p$ 下進行。  協議流程 Alice 選私鑰 $a$，公開 $A&#x3D;g^a \bmod p$。 Bob 選私鑰 $b$，公開 $B&#x3D;g^b \b">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-12-18T12:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-18T16:10:43.050Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="Cryptography">
+<meta property="article:tag" content="資訊安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Diffie–Hellman (DH) Key Exchange (金鑰交換)",
+  "url": "https://yowdesert.github.io/posts/862ca019.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2025-12-18T12:00:00.000Z",
+  "dateModified": "2025-12-18T16:10:43.050Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/862ca019.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Diffie–Hellman (DH) Key Exchange (金鑰交換)',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 資訊學習筆記" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">14</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 資訊學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">Diffie–Hellman (DH) Key Exchange (金鑰交換)</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Diffie–Hellman (DH) Key Exchange (金鑰交換)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-12-18T12:00:00.000Z" title="發表於 2025-12-18 20:00:00">2025-12-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-12-18T16:10:43.050Z" title="更新於 2025-12-19 00:10:43">2025-12-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/">資訊安全</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/Cryptography/">Cryptography</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">333</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>1分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>Diffie–Hellman 是一個金鑰交換的演算法</p>
+</blockquote>
+<hr>
+<h1>DH 在解決什麼問題？</h1>
+<ul>
+<li>在不安全通道上，Alice 與 Bob 協議出共同秘密金鑰 $K$，用於對稱加密（如 AES）。</li>
+</ul>
+<h1>公開參數</h1>
+<ul>
+<li>質數 $p$</li>
+<li>生成元 $g$<br>
+所有運算皆在 $\bmod p$ 下進行。</li>
+</ul>
+<h1>協議流程</h1>
+<p>Alice 選私鑰 $a$，公開 $A=g^a \bmod p$。<br>
+Bob 選私鑰 $b$，公開 $B=g^b \bmod p$。<br>
+共享秘密：</p>
+<ul>
+<li>Alice：$K=B^a \bmod p$</li>
+<li>Bob：$K=A^b \bmod p$<br>
+正確性：$(g^b)^a \equiv (g^a)^b \equiv g^{ab}\pmod p$。</li>
+</ul>
+<blockquote>
+<p>注意 : 不是 $(g^a) \times cross (g^b) = g^{a+b}$</p>
+</blockquote>
+<h1>手算例</h1>
+<p>選 $p=23, g=5$。<br>
+Alice：$a=6 \Rightarrow A=5^6 \bmod 23=8$。<br>
+Bob：$b=15 \Rightarrow B=5^{15} \bmod 23=19$。<br>
+共享：</p>
+<ul>
+<li>$K=19^6 \bmod 23=2$</li>
+<li>$K=8^{15} \bmod 23=2$</li>
+</ul>
+<h1>安全性直覺</h1>
+<p>Eve 看到 $p,g,A,B$，想求 $K=g^{ab}$ 通常需先解離散對數 $a=\log_g(A)$ 或 $b=\log_g(B)$，在參數夠大時很困難。</p>
+<h1>重要弱點：MITM(Man-in-the-middle)</h1>
+<p>DH 本身不做身分認證，若被中間人改寫公開值，Alice/Bob 會各自與 Eve 建立不同的 key。<br>
+解法：用簽章、憑證、PSK 等方式對 DH 公開值做認證。</p>
+<h1>延伸</h1>
+<ul>
+<li>DHE/ECDHE：每次連線使用臨時私鑰，提供 Forward Secrecy</li>
+<li>ECDH：用橢圓曲線點乘取代指數運算</li>
+<li>實務會用 KDF 將共享秘密導出 session key</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/862ca019.html">https://yowdesert.github.io/posts/862ca019.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 資訊學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Cryptography/">Cryptography</a><a class="post-meta__tags" href="/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/">資訊安全</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">(作業系統) Main Memory Management</div></div><div class="info-2"><div class="info-item-1"> 本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直接存取的很少，只有Main Memory和 Registers而已 Disk 上的程式，只是「檔案」而已，要被Loader載入memory才會變成Process 把多個程式放進 RAM → 多程式（multiprogramming）: 改善CPU使用率以及加快反應時間 process 會移動在Disk和memory之間  Memory Management Issues  How to refer to memory in a program? → Address binding How to load a program into memory? → static/dynamic lo...</div></div></div></a><a class="pagination-related" href="/posts/af1af203.html" title="Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）</div></div><div class="info-2"><div class="info-item-1">Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼） 本章介紹經典的 Merkle–Hellman Knapsack Cryptosystem，利用「超遞增序列」讓解密容易，但透過模運算與乘法偽裝，使攻擊者面對困難的 subset-sum 問題。    前提: SIK : superincreasing knapsack GK : general knapsack     1. Knapsack（背包）問題直覺給定一組數字(weight)：  b_1, b_2, \dots, b_n以及一個二進位訊息向量(是否選取?)：  \mathbf{x} = (x_1, \dots, x_n), \quad x_i \in \{0,1\}加密方式為：  C = \sum_{i=1}^{n} x_i b_i這稱為 subset sum problem（子集合和問題），General knapsack is NPC(NP-complete)。  2. 超遞增序列（Superincreasing Sequence）定義一個序列：  a_1, a_2, \dot...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/e587cb6a.html" title="[資訊安全] RSA 是什麼？快速理解筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-07</div><div class="info-item-2">[資訊安全] RSA 是什麼？快速理解筆記</div></div><div class="info-2"><div class="info-item-1">Topic：RSA 是什麼？RSA 是一種 非對稱加密演算法（Asymmetric Encryption Algorithm）。  一、什麼是非對稱加密？非對稱加密使用「一對金鑰」：  🔓 公開金鑰（Public Key）可以提供給他人，用來加密資料  🔐 私密金鑰（Private Key）僅自己持有，用來解密資料   👉 與對稱加密（只有一把金鑰）相比，非對稱加密（如 RSA）可以做到：  ✅ 別人可以加密給你 ✅ 只有你能解密   二、RSA 與對稱加密比較    比較項目 對稱加密 非對稱加密（RSA）     🔑 金鑰數量 1 把 2 把（公鑰 + 私鑰）   ⚡ 加解密速度 快 慢   📦 加密大量資料 適合 不適合   🔁 金鑰交換難度 高（需安全傳送） 低（公鑰可公開）   🔏 支援數位簽章 否 是   🔧 常見用途 檔案加密、VPN 金鑰交換、身份驗證、簽章      三、RSA 的核心數學概念RSA 的安全性建立在一個關鍵事實上：  大數質因數分解非常困難  金鑰產生流程（Key Generation） 選擇兩個大質數    p,\; q 計算模...</div></div></div></a><a class="pagination-related" href="/posts/e7cf23f7.html" title="[資訊安全] AES 是什麼？快速理解筆記"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-07</div><div class="info-item-2">[資訊安全] AES 是什麼？快速理解筆記</div></div><div class="info-2"><div class="info-item-1">Topic：AES 是什麼？AES（Advanced Encryption Standard） 是一種 對稱式加密演算法，被廣泛應用於現代資訊安全系統中。  一、什麼是對稱加密？對稱加密（Symmetric Encryption） 只使用 一把金鑰：  加密與解密   都使用 相同的金鑰  又稱為 單鑰加密（Single-key Encryption） 常見用途 檔案加密 即時通訊 VPN 傳輸  優缺點 ✅ 優點：速度快，適合大量資料加密   ❌ 缺點：金鑰分發不安全（需事先安全共享）   二、AES 與非對稱加密比較    比較項目 對稱加密（AES） 非對稱加密（RSA）     金鑰數量 1 把 2 把（公鑰 + 私鑰）   加解密速度 快 慢   加密大量資料 適合 不適合   金鑰交換難度 高（需先共享） 低（公鑰可公開）   支援簽章驗證 否 是   常見用途 檔案加密、VPN 金鑰交換、數位簽章      三、AES 的運作原理AES 是一種 區塊加密（Block Cipher），其特點如下： 區塊大小 固定為 128 bits（16 bytes） 與金鑰長度無關...</div></div></div></a><a class="pagination-related" href="/posts/a393bce2.html" title="[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-07</div><div class="info-item-2">[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)</div></div><div class="info-2"><div class="info-item-1">Topic：對稱式加密 vs 非對稱式加密 一、什麼是 RSA？是一種「非對稱式加密演算法」，由 Rivest、Shamir、Adleman 發明，透過 一對金鑰（公鑰 + 私鑰） 來完成加密與解密。 RSA 的核心特性 ✅ 公鑰（Public Key）可公開給任何人，用來加密資料 ✅ 私鑰（Private Key）僅能由自己保留，用來解密資料 ✅ 數位簽章可用私鑰簽章，讓他人用公鑰驗證身份與完整性   二、金鑰數量差異    加密類型 使用幾把金鑰？ 說明     🔐 對稱式加密 1 把 加密與解密都使用同一把金鑰   🔓 非對稱式加密（RSA） 2 把 公鑰加密、私鑰解密（簽章相反）      三、適合用途不同    項目 對稱式加密 非對稱式加密（RSA）     🔒 資料加密 ✅ 適合大量資料 ❌ 速度慢，不適合   🔐 金鑰交換 ❌ 不安全 ✅ 安全，無需事先共享   📝 數位簽章 ❌ 不支援 ✅ 支援      四、速度與效能差異🔐 對稱式加密AES) ✅ 速度快 ✅ 適合加密整份檔案或大量資料  🔓 非對稱式加密（如 RSA） ❌ 速度慢 ❌ 多用來保...</div></div></div></a><a class="pagination-related" href="/posts/af1af203.html" title="Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-18</div><div class="info-item-2">Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）</div></div><div class="info-2"><div class="info-item-1">Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼） 本章介紹經典的 Merkle–Hellman Knapsack Cryptosystem，利用「超遞增序列」讓解密容易，但透過模運算與乘法偽裝，使攻擊者面對困難的 subset-sum 問題。    前提: SIK : superincreasing knapsack GK : general knapsack     1. Knapsack（背包）問題直覺給定一組數字(weight)：  b_1, b_2, \dots, b_n以及一個二進位訊息向量(是否選取?)：  \mathbf{x} = (x_1, \dots, x_n), \quad x_i \in \{0,1\}加密方式為：  C = \sum_{i=1}^{n} x_i b_i這稱為 subset sum problem（子集合和問題），General knapsack is NPC(NP-complete)。  2. 超遞增序列（Superincreasing Sequence）定義一個序列：  a_1, a_2, \dot...</div></div></div></a><a class="pagination-related" href="/posts/e02a37e5.html" title="[資訊安全] 常見編碼方式一覽"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-08</div><div class="info-item-2">[資訊安全] 常見編碼方式一覽</div></div><div class="info-2"><div class="info-item-1">本篇整理了我在練習 picoCTF 或資訊安全題目中常見的編碼方式與判斷技巧，搭配 GPT 一起整理的重點。 如果有遺漏或錯誤，歡迎在下方留言討論 🙌  📋 編碼類型總覽    類型 範例 特徵 常見用途     Base64 cGljb0NURntzZWNyZXR9 僅包含 A–Z a–z 0–9 + /，結尾可能有 = 傳輸二進位資料、Email 附件、JWT   URL Encoding picoCTF%7Burl_3nc0ded%7D %xx 表示特殊字元，如 %20 空格、%3D 等號 網址參數、表單資料   Hexadecimal 7069636f4354467b7d 僅含 0–9 a–f，每 2 位 = 1 byte Shellcode、封包分析   HTML Entity &amp;lt;script&amp;gt; &amp;xxx; 或 &amp;#xNN; HTML 轉義、防 XSS   Binary 01110000 01101001 僅由 0 與 1 組成，8 位一組 位元操作、底層教學   Octal \123\145\143 \ 開頭接 3 位八...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">DH 在解決什麼問題？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">公開參數</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">協議流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">手算例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">安全性直覺</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">重要弱點：MITM(Man-in-the-middle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">延伸</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation">(作業系統) Virtual Memory Operation</a><time datetime="2025-12-20T13:15:00.000Z" title="發表於 2025-12-20 21:15:00">2025-12-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management">(作業系統) Main Memory Management</a><time datetime="2025-12-19T06:15:00.000Z" title="發表於 2025-12-19 14:15:00">2025-12-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/af1af203.html" title="Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）">Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）</a><time datetime="2025-12-18T12:00:00.000Z" title="發表於 2025-12-18 20:00:00">2025-12-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/862ca019.html" title="Diffie–Hellman (DH) Key Exchange (金鑰交換)">Diffie–Hellman (DH) Key Exchange (金鑰交換)</a><time datetime="2025-12-18T12:00:00.000Z" title="發表於 2025-12-18 20:00:00">2025-12-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/b4af80a7.html" title="(資料庫系統) Normal Forms (NF)">(資料庫系統) Normal Forms (NF)</a><time datetime="2025-12-15T12:47:21.025Z" title="發表於 2025-12-15 20:47:21">2025-12-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="/"></script></div></body></html>
