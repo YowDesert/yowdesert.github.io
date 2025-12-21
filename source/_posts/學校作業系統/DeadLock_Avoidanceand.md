@@ -7,7 +7,7 @@ tags:
   - 作業系統
 abbrlink: 67c68839
 mathjax: true
-date: '2025-12-113 16:15:00'
+date: '2025-12-13 16:15:00'
 ---
 
 # Deadlock基本概念
