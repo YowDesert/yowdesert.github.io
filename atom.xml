@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2025-12-20T17:41:15.270Z</updated>
+  <updated>2025-12-21T08:46:28.315Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(作業系統) File System</title>
+    <link href="https://yowdesert.github.io/posts/cf6482ff.html"/>
+    <id>https://yowdesert.github.io/posts/cf6482ff.html</id>
+    <published>2025-12-21T05:15:00.000Z</published>
+    <updated>2025-12-21T08:46:28.315Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;快速摘要&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;檔案與目錄是什麼抽象？OS 提供哪些操作？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;檔案本質上是「一串位元組（bytes）」的邏輯視圖&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;目錄的工作是把 name → 檔案的</summary>
+        
+      
+    
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+    <category term="Storage &amp; I/O Systems" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/Storage-I-O-Systems/"/>
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+  </entry>
   
   <entry>
     <title>(作業系統) Virtual Memory Operation</title>

@@ -1,0 +1,1907 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(作業系統) File System | YD's 資訊學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode&#x2F;FCB） 對起來   常見操作：create&#x2F;open&#x2F;read&#x2F;write&#x2F;seek&#x2F;close&#x2F;delete&#x2F;truncate，以及目錄的 search&#x2F;rename&#x2F;traverse 等     檔案系統內部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(作業系統) File System">
+<meta property="og:url" content="https://yowdesert.github.io/posts/cf6482ff.html">
+<meta property="og:site_name" content="YD&#39;s 資訊學習筆記">
+<meta property="og:description" content="快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode&#x2F;FCB） 對起來   常見操作：create&#x2F;open&#x2F;read&#x2F;write&#x2F;seek&#x2F;close&#x2F;delete&#x2F;truncate，以及目錄的 search&#x2F;rename&#x2F;traverse 等     檔案系統內部">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-12-21T05:15:00.000Z">
+<meta property="article:modified_time" content="2025-12-21T08:46:28.315Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="作業系統">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "(作業系統) File System",
+  "url": "https://yowdesert.github.io/posts/cf6482ff.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2025-12-21T05:15:00.000Z",
+  "dateModified": "2025-12-21T08:46:28.315Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/cf6482ff.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '(作業系統) File System',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 資訊學習筆記" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">15</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 資訊學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(作業系統) File System</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(作業系統) File System</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-12-21T05:15:00.000Z" title="發表於 2025-12-21 13:15:00">2025-12-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-12-21T08:46:28.315Z" title="更新於 2025-12-21 16:46:28">2025-12-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/Storage-I-O-Systems/">Storage &amp; I/O Systems</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>27分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>快速摘要</h1>
+<ol>
+<li>
+<p>檔案與目錄是什麼抽象？OS 提供哪些操作？</p>
+<ul>
+<li>
+<p>檔案本質上是「一串位元組（bytes）」的邏輯視圖</p>
+</li>
+<li>
+<p>目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來</p>
+</li>
+<li>
+<p>常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等</p>
+</li>
+</ul>
+</li>
+<li>
+<p>檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）</p>
+<ul>
+<li>
+<p>磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容</p>
+</li>
+<li>
+<p>記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table</p>
+</li>
+<li>
+<p>目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性</p>
+</li>
+</ul>
+</li>
+<li>
+<p>檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）</p>
+<ul>
+<li>
+<p>配置方法重點比較：</p>
+<ul>
+<li>
+<p>Contiguous（快但外部碎裂、成長不易）</p>
+</li>
+<li>
+<p>Linked / FAT（好成長但 random access 差）</p>
+</li>
+<li>
+<p>Indexed / inode（random access 好但有 index overhead）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>空閒空間管理：bitmap、linked list、grouping、counting（看誰適合找連續空間、誰 overhead 小）</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1>File System 介紹</h1>
+<blockquote>
+<p>File 作業系統幫你做的一層抽象（abstraction）</p>
+</blockquote>
+<p>Why is a File ?</p>
+<ul>
+<li>File 是 OS 建立與管理的 logical storage unit（邏輯儲存單位）</li>
+</ul>
+<p>邏輯視角 vs 物理現實 :</p>
+<ul>
+<li>Logical View :
+<ul>
+<li>抽象 for Users : 像是 有名字的一段<strong>連續</strong> bytes</li>
+<li>這個“連續”其實是一種錯覺：OS 提供這種 illusion</li>
+</ul>
+</li>
+<li>Physical View :
+<ul>
+<li>一格一格的 sectors / blocks</li>
+<li>資料可能 **散落（scattered）**在磁碟各處</li>
+</ul>
+</li>
+</ul>
+<p>File Attributes(MetaData) :</p>
+<ul>
+<li>Identifier（唯一 ID）：系統內部用</li>
+<li>Name（檔名）：人類看得懂的識別</li>
+<li>Type（型態）：內容/格式提示</li>
+<li>Location（位置）：檔案資料放在哪些 blocks</li>
+<li>Size（大小）</li>
+<li>Protection（權限）：誰可以讀/寫/執行</li>
+<li>Time stamps：最後存取、最後修改、建立時間…（時間戳很常用在備份/同步/排序）</li>
+</ul>
+<h2 id="Basic-File-Operations（基本檔案操作）">Basic File Operations（基本檔案操作）</h2>
+<p>OS 提供的 system calls（系統呼叫）</p>
+<ul>
+<li>Create / Open：建立/開檔</li>
+<li>Read / Write：讀/寫</li>
+<li>Repositioning（seek）：移動檔案指標（跳到某位置）</li>
+<li>Close：關檔</li>
+<li>Delete：刪除（移除目錄項目、回收空間）</li>
+<li>Truncate：截斷（清空內容或縮短成某長度，但檔案還在）</li>
+<li>Concatenating：串接（把兩個檔案內容接在一起）</li>
+</ul>
+<h2 id="Open-File-Table">Open-File Table</h2>
+<blockquote>
+<p>Open File Table 是 <strong>Two-Level Tabel</strong> 由 OS 維護</p>
+</blockquote>
+<p>原因 :</p>
+<ul>
+<li>System-Wide : <strong>共享</strong>共同資訊</li>
+<li>Per-Process : 每個 process 保有自己<strong>獨立狀態</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>面向</th>
+<th><strong>Per-Process Open-File Table</strong>（每個行程自己的表）</th>
+<th><strong>System-Wide Open-File Tabl</strong>e（全系統共享表）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>範圍 (Scope)</td>
+<td><strong>單一 process 私有</strong></td>
+<td><strong>整個 OS 共享</strong></td>
+</tr>
+<tr>
+<td>「一筆 entry」代表什麼</td>
+<td>這個 process 的「一個 open()」→ 通常對應一個 <strong>file descriptor</strong></td>
+<td>系統層級「某個被打開的檔案物件(open file object)」→ 被多個 process/FD 共同指到</td>
+</tr>
+<tr>
+<td>主要存什麼</td>
+<td><strong>跟 process 相關的狀態</strong>（每個人各自不同）</td>
+<td><strong>跟檔案本體/開啟實體相關的共享狀態</strong>（大家共用）</td>
+</tr>
+<tr>
+<td>常見欄位</td>
+<td>- <strong>current file pointer / offset</strong>（讀到哪）<br>- <strong>access rights / open mode</strong>（R / RW / append…）<br>- <strong>accounting</strong> / flags（統計、一些開啟旗標）</td>
+<td>- <strong>disk location</strong>（檔案在磁碟哪些 blocks / inode 指向）<br>- <strong>file size / access dates</strong>（檔案屬性）<br>- <strong>open count / reference count</strong>（被幾個 FD 指到）</td>
+</tr>
+<tr>
+<td>「同一檔案被多人打開」時會怎樣</td>
+<td>每個 process 都有自己的 entry，所以 <strong>file pointer 可以不一樣</strong></td>
+<td>會有共享的 system-wide entry，大家的 per-process entry <strong>都指向它</strong></td>
+</tr>
+<tr>
+<td>關係</td>
+<td><strong>entry 會 pointer 到 system-wide entry</strong></td>
+<td>被多個 per-process entry 反向引用（靠 open count 計數）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Open-File-Attributes-MetaData">Open-File Attributes (MetaData)</h2>
+<ol>
+<li>
+<p>File Pointer（Per-Process） : 這個 fd 對應的檔案 目前位置（byte offset）</p>
+<ul>
+<li>存在 <strong>per-process</strong> open-file table</li>
+</ul>
+</li>
+<li>
+<p>File Open Count（System-Wide）: 這個檔案目前「被開啟」的次數</p>
+<ul>
+<li>有多少個 file descriptors 正在 reference 它</li>
+<li>存在system-wide open-file table</li>
+</ul>
+</li>
+<li>
+<p>Disk Location（System-Wide）: 檔案資料實際放在磁碟哪裡</p>
+<ul>
+<li>存在 system-wide open-file table</li>
+</ul>
+<blockquote>
+<p>這是 OS 把 logical file 轉成 physical disk I/O 的關鍵。</p>
+</blockquote>
+</li>
+<li>
+<p>Access Rights（Per-Process）: 這個 fd 是用什麼方式開的</p>
+<ul>
+<li>存在 per-process open-file table</li>
+</ul>
+</li>
+<li>
+<p>File Types</p>
+<ul>
+<li>這些是 給 OS<strong>一個提示</strong>： 用哪個方法打開</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1>Access Method</h1>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>你看到的檔案模型</th>
+<th>常用操作</th>
+<th>優點</th>
+<th>缺點</th>
+<th>適用情境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sequential</strong></td>
+<td>從頭到尾線性</td>
+<td><code>read_next</code>, <code>write_next</code>,<code>reset</code>,<code>skip(n)</code>,<code>rewind(n)</code></td>
+<td>實作簡單、整檔掃描快</td>
+<td>不能常跳讀、否則無效率</td>
+<td>串流、log 全檔掃描</td>
+</tr>
+<tr>
+<td><strong>Direct Acces</strong>s/Relative Access(Random)</td>
+<td>編號 records，可定位</td>
+<td><code>read(n)</code>, <code>write(n,data)</code>, <code>seek(n)</code></td>
+<td>可跳讀、也能做順序讀</td>
+<td>需要能定位（offset 計算）</td>
+<td>資料庫、查詢、更新特定筆</td>
+</tr>
+<tr>
+<td><strong>Index</strong></td>
+<td>先查索引再跳資料(看在哪個block/record)</td>
+<td>index file = <code>(key,pointer)</code></td>
+<td>用 key <strong>快速查找</strong></td>
+<td>索引本身要空間/維護、檔案越大 → 索引也越大 → 記憶體/效能壓力</td>
+<td>大型資料、需要 key 查詢</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Sequential 指令 :</p>
+<ul>
+<li><code>reset</code> : Set Position = 0 , <code>skip(n)</code> = Position += n , <code>rewind(n)</code> = Position -= n</li>
+</ul>
+</blockquote>
+<hr>
+<h1>Directory Structure</h1>
+<h2 id="Partition-volume-Directory">Partition , volume , Directory</h2>
+<p>Partition : 把一顆實體磁碟（physical storage device）做邏輯切割後得到的區塊</p>
+<ul>
+<li>
+<p>Raw partition（裸分割區）:</p>
+<ul>
+<li>沒有 file system 結構</li>
+<li>可以「直接用 block/sector 存取」</li>
+</ul>
+</li>
+<li>
+<p>Formatted partition（格式化分割區）</p>
+<ul>
+<li>你在上面建立 file system</li>
+</ul>
+</li>
+</ul>
+<p>Volume : 一個「可被 OS 掛載（mount）」並且有活躍 file system 的單位</p>
+<ul>
+<li>包含 file system 的 metadata</li>
+<li>可以對應 <strong>單一 partition</strong></li>
+<li>可以跨 <strong>多顆磁碟</strong></li>
+<li>可以是一顆磁碟的<strong>一部分</strong></li>
+</ul>
+<p>Special cases :</p>
+<ul>
+<li>
+<p>Legacy devices：像 floppy 有些不能分割</p>
+</li>
+<li>
+<p>Modern abstraction：logical volumes 可以把多個 physical partitions 聚合起來</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>是什麼</th>
+<th>有沒有 file system</th>
+<th>能不能 mount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Partition</td>
+<td>磁碟的邏輯切割區</td>
+<td>不一定（raw/ formatted）</td>
+<td>formatted 才行</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td>可 mount 的 file-system 單位</td>
+<td>有</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Directory-Structure">Directory Structure</h2>
+<p>在一個 volume 內 組織檔案、並存放檔案 metadata 的映射資訊</p>
+<p>Relationships :</p>
+<ul>
+<li>
+<p>情境 A：一般檔案系統<br>
+Disk → Partition → Format → Volume → Mount → Directory/Files</p>
+</li>
+<li>
+<p>情境 B：raw partition（不經 FS）<br>
+Disk → Partition → Raw (swap/DB)</p>
+</li>
+</ul>
+<p><strong>Directory vs. File</strong> :</p>
+<p>File（檔案） : 包含實際資料內容（actual content）<br>
+Directory（目錄）: 是「包含檔案資訊的 nodes 集合」：也就是 mappings<br>
+- 也是檔案的一種（special file）</p>
+<blockquote>
+<p>兩個都實際存在Disk上</p>
+</blockquote>
+<h2 id="Directory-結構演進">Directory 結構演進</h2>
+<table>
+<thead>
+<tr>
+<th>結構</th>
+<th>解決了什麼</th>
+<th>主要缺點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single-level</td>
+<td>最簡單</td>
+<td>撞名、難找、不能分類、沒隱私</td>
+</tr>
+<tr>
+<td>Two-level</td>
+<td>多使用者隔離</td>
+<td>不能共享、層級淺</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td>任意深度、好組織</td>
+<td>共享不方便</td>
+</tr>
+<tr>
+<td>Acyclic-graph</td>
+<td><strong>共享</strong>（links）</td>
+<td>要避免 cycles</td>
+</tr>
+<tr>
+<td>General graph</td>
+<td>更自由</td>
+<td>cycles → reference count 失效</td>
+</tr>
+</tbody>
+</table>
+<p>Directory Structures 比較 :</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>結構</th>
+<th>解決了什麼</th>
+<th>優點</th>
+<th>缺點</th>
+<th>關鍵字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single-Level Directory</strong>（單層）</td>
+<td>全系統只有 <strong>一個 directory</strong>，所有檔案都在同一層</td>
+<td>—</td>
+<td>最簡單；目錄小時操作快</td>
+<td><strong>4大缺點</strong>：1) <strong>命名衝突</strong>（全域唯一）2) <strong>線性搜尋慢</strong> 3) <strong>不能分類</strong> 4) <strong>沒隱私/存取控制</strong></td>
+<td>Unique filename requirement, linear search</td>
+</tr>
+<tr>
+<td><strong>Two-Level Directory</strong>（雙層）</td>
+<td><strong>MFD → UFD</strong>：每個 user 一個 UFD</td>
+<td>修正單層的「多使用者撞名/隱私」</td>
+<td>User isolation；不同 user 可同名；隱私/基本組織↑</td>
+<td>1) <strong>UFD 內仍像單層</strong>（user 內檔名仍唯一、仍可能線性搜尋）2) <strong>使用者間難共享</strong> 3) 系統檔不好組 4) <strong>層級只有兩層</strong></td>
+<td><strong>MFD</strong>(管人), <strong>UFD</strong>(管檔)</td>
+</tr>
+<tr>
+<td><strong>Tree-Structured Directory</strong>（樹狀）</td>
+<td>任意深度階層；directory 可含 file + subdir</td>
+<td>提供更強組織能力</td>
+<td>分類清楚、可擴充層級（現代最常用基本型）</td>
+<td>樹狀下「共享同一份檔案」不方便（通常得 copy）</td>
+<td><strong>Absolute path</strong>, <strong>Relative path</strong></td>
+</tr>
+<tr>
+<td><strong>Acyclic-Graph Directory</strong>（無環圖）</td>
+<td>允許 <strong>多個 parent</strong>（用 links 共享），但<strong>禁止 cycle</strong></td>
+<td>解決 tree 的共享痛點</td>
+<td>共享同一份檔案/目錄，不必複製、省空間</td>
+<td>管理更複雜；要避免 cycle（否則回收/遍歷會炸）</td>
+<td>links, shared file, no cycles</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>補充 : Two Level Directory</p>
+<ul>
+<li>MFD (Master File Directory) 、 UFD (User File Directory)</li>
+<li>Path Name = user Name + File name</li>
+</ul>
+</blockquote>
+<p>Path、Links、刪除規則</p>
+<ul>
+<li>
+<p>Path 類型(Tree Structure)</p>
+<table>
+<thead>
+<tr>
+<th>Path 類型</th>
+<th>定義</th>
+<th>長相（Unix）</th>
+<th>直覺</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Absolute path</strong></td>
+<td>從 <strong>root</strong> 開始的完整路徑</td>
+<td><strong>以 <code>/</code> 開頭</strong></td>
+<td>GPS 完整地址</td>
+</tr>
+<tr>
+<td><strong>Relative path</strong></td>
+<td>從<strong>目前工作目錄</strong>開始</td>
+<td><strong>不以 <code>/</code> 開頭</strong></td>
+<td>從你現在位置怎麼走</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Hard link vs Symbolic link (Acyclic-Graph Directory)</p>
+<table>
+<thead>
+<tr>
+<th>Link 類型</th>
+<th>指向什麼</th>
+<th>本體是什麼</th>
+<th>刪除目標會怎樣</th>
+<th>必背關鍵字</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hard link</strong></td>
+<td><strong>同一個 inode</strong>（同一份檔案）</td>
+<td>只是多一個 directory entry</td>
+<td>只要 <strong>link count &gt; 0</strong>，檔案內容不會消失</td>
+<td>link count / reference count</td>
+</tr>
+<tr>
+<td><strong>Symbolic link (soft Link)</strong></td>
+<td><strong>路徑字串</strong>（path）(Like : 指向其他資料夾)</td>
+<td>一個特殊檔案，內容存 path</td>
+<td>目標刪掉 → <strong>dangling/broken symlink</strong></td>
+<td>dangling link / broken link</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Multiple Absolute Paths &amp; Deletion (Acyclic-Graph Directory)</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>你做了什麼</th>
+<th>結果</th>
+<th>關鍵判斷</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>刪掉其中一個 <strong>hard link</strong>（仍有其他 link）</td>
+<td>只刪 directory entry，資料仍在</td>
+<td><strong>link count 仍 &gt; 0</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>刪掉最後一個 <strong>hard link</strong></td>
+<td>檔案內容才真正回收</td>
+<td><strong>link count → 0 才刪資料</strong></td>
+</tr>
+<tr>
+<td>3 (<strong>Dangling Pointer</strong>)</td>
+<td>刪掉 <strong>symlink</strong> 指向的目標檔</td>
+<td>symlink 還在，但變 <strong>broken/dangling</strong></td>
+<td>symlink 存的是「路徑」不是 inode</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Dangling : 只剩pointer 沒有資料了</p>
+<ul>
+<li>就像是 /bob/reports.txt 指向 /Alice/reports.txt</li>
+<li>/Alice/reports.txt 被刪除</li>
+<li>/bob/reports.txt 指向 /Alice/reports.txt (<strong>dangling</strong>!)</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>允許 Cycles 的問題與解法</p>
+<ul>
+<li>
+<p>General Graph Directory (with cycles)</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>重點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>為何會出現 cycle</td>
+<td>尤其「對 directory 的 symbolic link」很容易形成環</td>
+</tr>
+<tr>
+<td>最大考點：Cycle problem</td>
+<td><strong>Reference counting 會失敗</strong>：cycle 內互相指著，count 不會降到 0</td>
+</tr>
+<tr>
+<td>後果</td>
+<td>外部已不可達（unreachable）但不會回收 → <strong>storage leak</strong>（類似 GC 的典型陷阱）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Solution</p>
+<table>
+<thead>
+<tr>
+<th>解法</th>
+<th>怎麼做</th>
+<th>優點</th>
+<th>缺點</th>
+<th>一句背法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Garbage Collection (Mark &amp; Sweep)</strong></td>
+<td>Mark：從 root 走訪標記可達；Sweep：回收未標記 inode</td>
+<td><strong>能處理 cycles</strong></td>
+<td>檔案多時很慢、很耗資源</td>
+<td>「定期大掃除」</td>
+</tr>
+<tr>
+<td><strong>Cycle detection on link creation</strong></td>
+<td>建 link 前先檢查是否形成 cycle</td>
+<td><strong>預防 cycle</strong>，不用事後大掃</td>
+<td>每次建立 link 成本↑</td>
+<td>「建立時先驗」</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<hr>
+<h1>File system Mounting and File Sharing</h1>
+<h2 id="File-System-Mounting（掛載）">File System Mounting（掛載）</h2>
+<p>Mounting 是什麼？</p>
+<ul>
+<li><strong>Mounting</strong>：把一個 file system <strong>接到（attach）目錄樹的某個位置</strong>。</li>
+<li><strong>一定要 mount 才能存取</strong>：因為 OS 需要把不同裝置/分割區的 FS 整合成「同一棵」目錄樹。</li>
+</ul>
+<p>為什麼需要掛載？</p>
+<ul>
+<li>系統可能同時有多個 storage devices</li>
+<li><strong>每個裝置都有自己的 file system</strong></li>
+<li>OS 必須把它們<strong>整合到統一的 directory tree</strong>，才能用一致路徑存取檔案。</li>
+</ul>
+<p>Mount point（掛載點）</p>
+<ul>
+<li><strong>Mount point</strong>：一個 directory，file system 被 attach 到這個 directory 上（attachment point）。</li>
+</ul>
+<p>Mount timing（何時掛載）:</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>何時發生</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boot Time Mounting</td>
+<td>開機時掛好</td>
+<td>系統分割區：<code>/</code>, <code>/home</code>, <code>/usr</code></td>
+</tr>
+<tr>
+<td>Automatic Runtime Mounting</td>
+<td>插入後自動掛載</td>
+<td>USB、外接硬碟</td>
+</tr>
+<tr>
+<td>Manual Runtime Mounting</td>
+<td>需要手動 mount</td>
+<td>網路 FS：NFS、CIFS/Samba</td>
+</tr>
+</tbody>
+</table>
+<h2 id="File-Sharing-on-Multiple-Users（多使用者共享與權限）">File Sharing on Multiple Users（多使用者共享與權限）</h2>
+<p>User identity：每個 user 的兩個 ID</p>
+<ul>
+<li><strong>UID (User ID)</strong>：使用者唯一識別（例：alice = 1001）</li>
+<li><strong>GID (Group ID)</strong>：主要群組識別</li>
+<li><code>id alice</code> 可看到 uid/gid 與所屬群組列表（groups）</li>
+</ul>
+<p>ID association:</p>
+<ul>
+<li><strong>每個 process 都帶著 user 的 UID/GID 在跑</strong></li>
+<li>所有檔案操作都會用這些 ID 做權限檢查（OS check permissions）</li>
+</ul>
+<p>每個檔案的權限三類 :</p>
+<ul>
+<li><strong>Owner</strong>（檔案擁有者）</li>
+<li><strong>Group</strong>（檔案群組內成員）</li>
+<li><strong>Others</strong>（其他所有人）</li>
+<li>常見 <code>ls -l</code> 會看到 <code>-rwxr-xr--</code>（分成 owner/group/others 三段）</li>
+</ul>
+<p>Key rules of privileges（權限規則）:</p>
+<ul>
+<li><strong>Owner controls all permissions</strong>（擁有者可設定權限）</li>
+<li><strong>Group members have access, not control</strong>（群組通常是存取者，不一定能管理）</li>
+<li><strong>Only root can change ownership</strong>（只有 root 可改擁有者）</li>
+</ul>
+<h2 id="Access-Control-List-ACL-—-Per-User-ACL（理想但不實際）">Access-Control List (ACL) — Per-User ACL（理想但不實際）</h2>
+<p><strong>ACL</strong>：列出哪些 users/groups 能存取檔案，以及如何存取（r/w/x）。</p>
+<p>Approach 1：Per-User ACL（每檔列出每個 user）</p>
+<ul>
+<li>
+<p>每個檔案維護一串 <code>(user, permissions)</code> 條目<br>
+例：<code>project.txt</code></p>
+<ul>
+<li><code>alice: rwx (7)</code></li>
+<li><code>bob: rw- (6)</code></li>
+<li>…</li>
+</ul>
+</li>
+<li>
+<p>Advantages（優點）</p>
+<ul>
+<li><strong>Extremely flexible</strong>：可對每位 user 指定精確權限</li>
+<li><strong>Fine-grained control</strong>：細粒度控制</li>
+</ul>
+</li>
+<li>
+<p>Problems（問題）</p>
+<ul>
+<li>使用者數量大 → ACL 可能<strong>無限長</strong></li>
+<li><strong>Storage overhead</strong>：大量檔案 × 大量使用者 → 不實際</li>
+<li><strong>Management nightmare</strong>：新增 user 可能要更新很多檔案 ACL</li>
+<li><strong>Performance</strong>：檢查權限要掃長 list</li>
+</ul>
+</li>
+</ul>
+<h2 id="ACL-—-Three-Class-System（Unix-標準：三類固定）">ACL — Three-Class System（Unix 標準：三類固定）</h2>
+<p>Approach 2：Three-Class System（把 ACL 縮成固定三類）<br>
+把權限縮成三個固定類別（每檔固定大小）：</p>
+<ol>
+<li><strong>Owner</strong>：一個特定 user</li>
+<li><strong>Group</strong>：一個特定 group</li>
+<li><strong>Others</strong>：其他所有人</li>
+</ol>
+<p>➡️ 每個檔案固定只有 <strong>3 條 ACL entries</strong>（fixed size）</p>
+<p>RWX permissions：9 bits（超常考）</p>
+<ul>
+<li>3 classes × 3 permissions（r/w/x）= <strong>9 bits</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>類別</th>
+<th>權限例</th>
+<th style="text-align:right">十進位</th>
+<th style="text-align:right">二進位</th>
+<th>解釋</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Owner</td>
+<td><code>rwx</code></td>
+<td style="text-align:right">7</td>
+<td style="text-align:right">111</td>
+<td>讀/寫/執行</td>
+</tr>
+<tr>
+<td>Group</td>
+<td><code>rw-</code></td>
+<td style="text-align:right">6</td>
+<td style="text-align:right">110</td>
+<td>讀/寫</td>
+</tr>
+<tr>
+<td>Others</td>
+<td><code>r--</code></td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">100</td>
+<td>只讀</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Advantages（優點）
+<ul>
+<li><strong>Fixed size</strong>：每檔固定 9 bits</li>
+<li><strong>Efficient</strong>：權限檢查 <strong>O(1)</strong>（不隨 user 數量成長）</li>
+<li><strong>Manageable</strong>：新增 user 主要靠加入 group，不必改遍所有檔案</li>
+<li><strong>Sharing through groups</strong>：要分享給特定人 → 建 group、加人、設 group 權限</li>
+</ul>
+</li>
+</ul>
+<h2 id="File-Protection（檔案保護：安全-可靠性）">File Protection（檔案保護：安全 + 可靠性）</h2>
+<p>File protection</p>
+<ol>
+<li><strong>Unauthorized access（Security / protection）</strong>：不該存取的人來存取</li>
+<li><strong>Physical damage/loss（Reliability）</strong>：硬體壞掉導致資料遺失</li>
+</ol>
+<p>Protection from Improper Access（Security）:</p>
+<ul>
+<li>防未授權存取：定義 <strong>WHO can access</strong> 與 <strong>HOW</strong></li>
+<li>常見方法：
+<ol>
+<li><strong>ACL</strong>：定義誰能做什麼</li>
+<li><strong>Password protection</strong>：需密碼才能存取</li>
+<li><strong>Encryption</strong>：加密，無 key 讀不懂內容</li>
+</ol>
+</li>
+</ul>
+<p>Protection from Physical Damage（Reliability）</p>
+<ul>
+<li>防資料遺失（hardware failure）</li>
+<li>常見方法：
+<ol>
+<li><strong>RAID</strong>：多磁碟冗餘（redundancy）</li>
+<li><strong>Backups</strong>：備份到別處</li>
+<li><strong>Versioning / Snapshots</strong>：保留多個時間點版本</li>
+</ol>
+</li>
+</ul>
+<p>Security vs Reliability（快速分辨）</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>解決問題</th>
+<th>常見手段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Security</td>
+<td>防未授權存取</td>
+<td>ACL / 密碼 / 加密</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>防硬體故障與資料遺失</td>
+<td>RAID / Backup / Snapshot</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>File-System Structure</h1>
+<h2 id="File-System-Structure（Sector-→-Block-→-File-ops）">File-System Structure（Sector → Block → File ops）</h2>
+<p>I/O Transfer Hierarchy</p>
+<ul>
+<li><strong>Sector（硬體最小單位）</strong>：常見 512B（新磁碟可能 4KB）</li>
+<li><strong>Block（OS/FS 傳輸與配置單位）</strong>：常見 4KB（≈ 8×512B sectors），可含 1+ sectors</li>
+<li><strong>File system operations（邏輯抽象）</strong>：open/read/write… 由 OS 轉成 block I/O</li>
+</ul>
+<p>Storage Units</p>
+<table>
+<thead>
+<tr>
+<th>名詞</th>
+<th>是什麼</th>
+<th style="text-align:right">典型大小</th>
+<th>重點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sector</td>
+<td>最小物理單位</td>
+<td style="text-align:right">512B / 4KB</td>
+<td>hardware 規格</td>
+</tr>
+<tr>
+<td>Block</td>
+<td>FS 配置/讀寫單位</td>
+<td style="text-align:right">常見 4KB</td>
+<td>OS 以 block 管理空間與 I/O</td>
+</tr>
+<tr>
+<td>Clustering</td>
+<td>多 blocks 合併</td>
+<td style="text-align:right">依 FS</td>
+<td>對大檔降低指標/管理開銷</td>
+</tr>
+</tbody>
+</table>
+<p>Multiple File System Support &amp; VFS</p>
+<ul>
+<li>OS 同時支援多種 FS（Windows：NTFS/FAT32/exFAT/ReFS；Linux：ext4/Btrfs/XFS…）</li>
+<li><strong>VFS(Virtual File System)</strong>：抽象層，讓上層 API 不依賴 FS 類型</li>
+</ul>
+<p>Two-layer design problem</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>目標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User Interface Layer</td>
+<td>給 user/app 一致 API</td>
+</tr>
+<tr>
+<td>Physical Storage Layer</td>
+<td>高效率磁碟 block 管理</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Layered-FS-Architecture">Layered FS Architecture</h2>
+<ol>
+<li>Application Programs</li>
+</ol>
+<ul>
+<li>例：<code>read(&quot;file.txt&quot;, buffer, 100)</code>，透過 <strong>system calls</strong> 要求檔案操作</li>
+</ul>
+<ol start="2">
+<li>Logical File System（Locate FCB, check permissions）</li>
+</ol>
+<ul>
+<li>管 <strong>metadata、directory structure、file naming</strong></li>
+<li>提供 API：open/close/read/write</li>
+<li>維護 <strong>FCB</strong>（inode/MFT entry 概念）、security/permissions</li>
+<li>關鍵：directory management（路徑解析）</li>
+</ul>
+<ol start="3">
+<li>File-Organization Module（Translate logical→physical blocks）</li>
+</ol>
+<ul>
+<li><strong>Logical blocks → Physical blocks</strong></li>
+<li>管 free space、disk allocation</li>
+<li>實作 allocation methods（contiguous/linked/indexed）</li>
+<li>key structure：<strong>FAT 或 inodes</strong></li>
+</ul>
+<ol start="4">
+<li>Basic File System（Request blocks from cache/disk）</li>
+</ol>
+<ul>
+<li>發出通用 block I/O 請求給 driver</li>
+<li>管 <strong>buffers/caches</strong></li>
+<li>處理 <strong>block I/O scheduling</strong></li>
+</ul>
+<ol start="5">
+<li>I/O Control（Device Drivers）</li>
+</ol>
+<ul>
+<li>硬體特定 driver code</li>
+<li>高階命令 → 硬體指令</li>
+<li>管 interrupts、DMA transfers</li>
+</ul>
+<ol start="6">
+<li>Physical Devices</li>
+</ol>
+<ul>
+<li>真硬體（HDD/SSD/optical…）</li>
+</ul>
+<hr>
+<h1>File System Implementation</h1>
+<h2 id="On-Disk-File-System-Structures（磁碟上的四大結構）">On-Disk File System Structures（磁碟上的四大結構）</h2>
+<ol>
+<li><strong>Boot Control Block（per partition）</strong></li>
+</ol>
+<ul>
+<li>partition 第 1 個 block（block 0），放 boot code；空的＝不可開機</li>
+</ul>
+<ol start="2">
+<li><strong>Partition Control Block（per partition）</strong></li>
+</ol>
+<ul>
+<li>管整個 partition/volume：total blocks、block size、free block/FCB counts、root dir location…</li>
+<li>例：UFS/ext4 superblock；NTFS MFT header（概念）</li>
+</ul>
+<ol start="3">
+<li><strong>File Control Block FCB（per file）</strong></li>
+</ol>
+<ul>
+<li>每檔 metadata：permissions/owner、size、timestamps、<strong>pointers to data blocks</strong></li>
+<li>例：inode（ext4/UFS）、MFT entry（NTFS）</li>
+</ul>
+<ol start="4">
+<li><strong>Directory structure（per FS）</strong></li>
+</ol>
+<ul>
+<li>階層組織：通常是 name → inode 的對應（或 B+tree 等）</li>
+</ul>
+<p>FCB 內容（常見欄位）</p>
+<ul>
+<li>permissions、dates（create/access/write）、owner/group/ACL、size、data blocks/pointers</li>
+</ul>
+<p>Partition 內部概念布局</p>
+<ul>
+<li>Boot block（optional）→ Partition control block → Directory/FCB lists → Data blocks</li>
+</ul>
+<blockquote>
+<p>FCB 是「檔案身分證 + 指到資料」<br>
+partition 由控制資訊區（metadata）+ 大量 data blocks 組成</p>
+</blockquote>
+<h2 id="In-Memory-File-System-Structures（RAM-內的結構）">In-Memory File System Structures（RAM 內的結構）</h2>
+<p>In-memory <strong>Partition Table</strong>（<strong>追蹤所有已掛載 volumes</strong>）</p>
+<ul>
+<li>mount point、FS type、superblock copy pointer、device id、mount flags（ro/noexec…）</li>
+<li>mount/unmount 時更新</li>
+</ul>
+<p>In-memory Directory Cache（加速路徑解析）</p>
+<ul>
+<li><strong>cache 最近用的 directory entries</strong></li>
+<li>避免重複 disk read；常用 <strong>LRU</strong> 替換</li>
+</ul>
+<p>System-wide Open-File Table（全系統共享）</p>
+<ul>
+<li><strong>FCB copy</strong>、current offset、open count、disk location、access mode flags</li>
+<li>第一次 open 建；open count=0 刪</li>
+</ul>
+<p>Per-process Open-File Table（每行程一份）</p>
+<ul>
+<li>fd/handle（整數索引）→ 指到 system-wide entry</li>
+<li>per-process offset、此 process 的 access permissions</li>
+<li><strong>多個 fd 可以指向同一個 system-wide entry</strong></li>
+</ul>
+<h2 id="File-Creation-Procedure（建立檔案流程）">File Creation Procedure（建立檔案流程）</h2>
+<ol>
+<li><strong>Allocate FCB</strong></li>
+</ol>
+<ul>
+<li>找 free inode/MFT entry，初始化 metadata（timestamp、permissions、owner/group、size=0、data pointers=null）</li>
+</ul>
+<ol start="2">
+<li><strong>Load Parent Directory</strong></li>
+</ol>
+<ul>
+<li>讀父目錄到 RAM；檢查寫權限與檔名重複</li>
+</ul>
+<ol start="3">
+<li><strong>Update Directory Structure</strong></li>
+</ol>
+<ul>
+<li>加 entry：filename → FCB pointer</li>
+<li>更新父目錄 metadata（mod time、entry count）</li>
+</ul>
+<ol start="4">
+<li><strong>Synchronization options（何時寫回磁碟）</strong></li>
+</ol>
+<ul>
+<li>immediate / deferred（close/sync）/ journaled（先 log 再 commit）</li>
+</ul>
+<ol start="5">
+<li><strong>File visibility</strong></li>
+</ol>
+<ul>
+<li>立刻出現在 listing、可在 close 前操作；但實際 disk write 可能延後</li>
+</ul>
+<blockquote>
+<p>建檔：<strong>配 FCB → 更新父目錄（name→FCB）→ 同步策略</strong></p>
+</blockquote>
+<hr>
+<h1>VFS（抽象層 + 四大物件）</h1>
+<p>VFS 的角色</p>
+<ul>
+<li>介於 applications（system calls）與各 FS 之間的抽象層</li>
+<li>提供不同 FS 的統一介面（unified interface）</li>
+</ul>
+<p>四大物件（OOP 設計）</p>
+<table>
+<thead>
+<tr>
+<th>物件</th>
+<th>代表</th>
+<th>記法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Superblock</td>
+<td><strong>filesystem</strong> instance</td>
+<td>這個掛載的 FS</td>
+</tr>
+<tr>
+<td>Inode</td>
+<td>file/dir <strong>metadata</strong></td>
+<td>檔案/目錄身分證</td>
+</tr>
+<tr>
+<td>Dentry</td>
+<td><strong>Directory</strong> entry (name → inode)</td>
+<td>目錄中的一筆</td>
+</tr>
+<tr>
+<td>File</td>
+<td><strong>open file</strong> instance</td>
+<td>一次 open 的實體</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>物件通常有 operations table（function pointers）→ 不同 FS 可掛不同實作</p>
+</li>
+<li>
+<p>VFS 讓 syscall 介面一致</p>
+</li>
+<li>
+<p>四物件：<strong>superblock / inode / dentry / file</strong>（搭 operations table）</p>
+</li>
+</ul>
+<h2 id="VFS（好處-流程-多型）">VFS（好處 + 流程 + 多型）</h2>
+<p>好處</p>
+<ul>
+<li>同一套 syscall 介面對所有 FS</li>
+<li>App 不必知道 FS type</li>
+<li>易加入新 FS；同機可混用多 FS</li>
+</ul>
+<p>運作流程（open）</p>
+<ol>
+<li>App：open(“/path/file”)</li>
+<li>VFS：parse path、找 mount point</li>
+<li>VFS：決定 FS type</li>
+<li>VFS：呼叫 FS-specific routine（ext4_open/ntfs_open/nfs_open…）</li>
+<li>回傳結果</li>
+</ol>
+<p>關鍵洞察：Polymorphism（多型）</p>
+<ul>
+<li>
+<p><strong>同介面</strong>（open/read/write）</p>
+</li>
+<li>
+<p><strong>不同實作</strong>（ext4/ntfs/nfs 各自實作）</p>
+</li>
+<li>
+<p>VFS 的精髓：<strong>同介面，不同實作（polymorphism）</strong></p>
+</li>
+<li>
+<p>open 時先找 mount point，再 dispatch 到對應 FS</p>
+</li>
+</ul>
+<h2 id="Directory-Implementation（線性表-vs-雜湊）">Directory Implementation（線性表 vs 雜湊）</h2>
+<p>目錄要有效率支援的操作:</p>
+<ul>
+<li>Search / Insert / Delete / List / Rename / Traverse<br>
+（取捨：Simplicity vs Performance）</li>
+</ul>
+<p>Implementation 1：<strong>Linear List</strong></p>
+<ul>
+<li>array 或 linked list，entry 順序排列</li>
+<li>entry：filename（可變長）+ inode/file ID 指標</li>
+<li>優：簡單</li>
+<li>缺：search O(n)，大目錄效能差</li>
+</ul>
+<p>Implementation 2：<strong>Hash Table</strong></p>
+<ul>
+<li>hash(filename) → index</li>
+<li>bucket 指向同 hash 的 entries（linked list）</li>
+<li>平均 search/insert/delete O(1)</li>
+<li>缺：table size 固定（碰撞與空間取捨）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>作法</th>
+<th style="text-align:right">Search</th>
+<th style="text-align:right">Insert/Delete</th>
+<th>優點</th>
+<th>缺點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear list</td>
+<td style="text-align:right">O(n)</td>
+<td style="text-align:right">偏慢</td>
+<td>最簡單</td>
+<td>大目錄很慢</td>
+</tr>
+<tr>
+<td>Hash table</td>
+<td style="text-align:right">avg O(1)</td>
+<td style="text-align:right">avg O(1)</td>
+<td>查找快</td>
+<td>fixed size、<strong>碰撞處理</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>File Allocation Methods</h1>
+<h2 id="File-Allocation-Methods（總覽）">File Allocation Methods（總覽）</h2>
+<p><strong>磁碟上的 blocks 要怎麼分配給檔案？</strong><br>
+檔案系統必須把「檔案（連續的 bytes）」映射到「磁碟 blocks（離散位置）」。</p>
+<p>三種主流策略：</p>
+<ol>
+<li><strong>Contiguous allocation（連續配置）</strong>：同一個檔案放在連續 blocks</li>
+<li><strong>Linked allocation（鏈結配置）</strong>：檔案 blocks 散在各處，用指標串起來</li>
+<li><strong>Indexed allocation（索引配置）</strong>：用一個 index block 收集「所有 data block 指標」</li>
+</ol>
+<h2 id="Contiguous-Allocation（連續配置）">Contiguous Allocation（連續配置）</h2>
+<p>做法</p>
+<ul>
+<li>每個檔案佔用 <strong>一段連續 blocks</strong>（consecutive blocks）</li>
+<li>目錄/metadata 只要存：
+<ul>
+<li><code>start_block</code>（起始 block）</li>
+<li><code>length</code>（連續長度，或檔案大小）</li>
+</ul>
+</li>
+</ul>
+<p>優點</p>
+<ul>
+<li><strong>最少 seek</strong>（磁頭移動少）→ 效能很好</li>
+<li>同時對 <strong>sequential / random access</strong> 都快
+<ul>
+<li>random：<code>start + offset</code> 直接算出來</li>
+</ul>
+</li>
+</ul>
+<p>問題</p>
+<ol>
+<li><strong>External fragmentation（外部碎裂）</strong></li>
+</ol>
+<ul>
+<li>空洞散落在磁碟上，雖然總空間夠，但找不到足夠大的「連續洞」</li>
+</ul>
+<p>→ 解法：<strong>Compaction（磁碟整理/搬移）</strong></p>
+<ul>
+<li>把檔案搬來搬去，把空洞集中成大洞（但成本高、很麻煩）</li>
+</ul>
+<ol start="2">
+<li><strong>File growth（檔案成長）</strong></li>
+</ol>
+<ul>
+<li>檔案變大時，後面不一定還有連續空間可擴</li>
+</ul>
+<p>→ 解法：<strong>Extent-based allocation（用多段連續區塊）</strong></p>
+<h2 id="Extent-Based-File-System（Extent：多段連續）">Extent-Based File System（Extent：多段連續）</h2>
+<blockquote>
+<p>「檔案不是一定要 1 段連續，而是允許多段連續的片段」。</p>
+</blockquote>
+<p>Extent 是什麼？</p>
+<ul>
+<li><strong>Extent = 一段連續 blocks 的區間（contiguous chunk）</strong></li>
+<li>一個檔案由 <strong>一個或多個 extents</strong> 組成</li>
+<li>典型格式：<code>(start_block, length, next_extent_ptr)</code></li>
+</ul>
+<p>這是「改良版 contiguous」</p>
+<ul>
+<li>每個 extent 內部仍是連續的 → seek 少、順序讀取快</li>
+<li>但檔案成長時 <strong>可以再掛一段新的 extent</strong>，不用整個搬家</li>
+</ul>
+<p>優點（相對純 contiguous）</p>
+<ul>
+<li>檔案更容易成長（append 友善）</li>
+<li>減少 compaction 的需求</li>
+<li>大部分檔案仍維持不錯的連續性 → <strong>常見情境效能好</strong></li>
+<li>空間利用更彈性</li>
+</ul>
+<p>缺點</p>
+<ul>
+<li><strong>仍可能有 internal + external fragmentation</strong>
+<ul>
+<li>internal：最後一段 extent/cluster 可能沒填滿 (ex. block size = 4 , data size =10 ,浪費2)</li>
+<li>external：extent 之間仍可能被切成碎片</li>
+</ul>
+</li>
+<li>若 extents 變很多，<strong>random access 成本上升</strong>（要先定位在哪個 extent）</li>
+</ul>
+<h2 id="Linked-Allocation（鏈結配置）">Linked Allocation（鏈結配置）</h2>
+<p>做法</p>
+<ul>
+<li>一個檔案是「磁碟 blocks 的 linked list」</li>
+<li>每個 data block 末端放 <strong>next pointer</strong> 指向下一個 block</li>
+<li>Directory 只需存：<code>first_block</code>、<code>last_block</code>（或 start/end）</li>
+</ul>
+<p>優點</p>
+<ul>
+<li><strong>No external fragmentation（沒有外部碎裂）</strong>
+<ul>
+<li>因為不要求連續，有空就能放</li>
+</ul>
+</li>
+<li>檔案成長容易（直接把新 block 掛到尾巴）</li>
+<li>配置邏輯簡單</li>
+<li>append 效率不錯（有 last pointer 的話）</li>
+</ul>
+<p>缺點</p>
+<ul>
+<li><strong>Sequential access 可能變慢</strong>：blocks 散在各處 → seek 多</li>
+<li><strong>Random access 很糟</strong>：第 n 個 block 必須從頭走 n 步</li>
+<li><strong>Pointer overhead</strong>：每個 block 都要留 pointer，data 可用空間變少</li>
+<li><strong>Reliability</strong>：指標壞掉 → 後面整段檔案可能找不到</li>
+</ul>
+<blockquote>
+<p>Linked allocation：<strong>不怕外碎裂、好成長</strong><br>
+但 blocks 分散 → seek 多；random access 幾乎悲劇；還有 pointer/可靠度問題</p>
+</blockquote>
+<h2 id="Optimization-for-Linked-Allocation：Clustering（把-N-個-blocks-當一個節點）">Optimization for Linked Allocation：Clustering（把 N 個 blocks 當一個節點）</h2>
+<p>核心想法</p>
+<ul>
+<li>不是「1 block = 1 node」</li>
+<li>而是「<strong>N blocks = 1 node（cluster）</strong>」，cluster 裡面連續</li>
+<li>指標只放在 cluster → 指到下一個 cluster</li>
+</ul>
+<p>例：cluster size = 4 blocks</p>
+<ul>
+<li>cluster = blocks 1,2,3,4（連續）→ 指標指向下一個 cluster</li>
+</ul>
+<p>好處</p>
+<ul>
+<li><strong>Fewer seeks</strong>：1 次 seek 讀一整個 cluster（而非每個 block）</li>
+<li><strong>順序讀更快</strong>（cluster 內連續）</li>
+<li><strong>Less pointer overhead</strong>：每 N blocks 才需要 1 個指標</li>
+</ul>
+<p>缺點</p>
+<ul>
+<li><strong>Internal fragmentation</strong>：最後一個 cluster 可能沒填滿 → 浪費</li>
+<li>配置/回收更複雜（一次要處理 N blocks）</li>
+</ul>
+<h2 id="FAT（File-Allocation-Table）File-System">FAT（File Allocation Table）File System</h2>
+<p>FAT 是什麼？</p>
+<ul>
+<li>
+<p>FAT 可以視為「<strong>把 linked allocation 的指標從 data block 內，搬到一張集中表</strong>」。</p>
+</li>
+<li>
+<p>傳統 linked：指標 <strong>在 data block 裡</strong></p>
+</li>
+<li>
+<p>FAT：指標 <strong>在 FAT 表裡</strong></p>
+</li>
+</ul>
+<p>目錄 entry 只要存 start block。<br>
+接下來要找下一塊，就查 FAT：<code>next = FAT[current]</code></p>
+<p>重要特性：FAT 可以快取在記憶體</p>
+<ul>
+<li>若 FAT 表（或其熱區）被 cache 在 RAM：
+<ul>
+<li>走鏈結就不必一直讀磁碟上的指標</li>
+<li>找下一塊更快、更穩定</li>
+</ul>
+</li>
+</ul>
+<h2 id="Indexed-Allocation（索引配置）">Indexed Allocation（索引配置）</h2>
+<p>做法</p>
+<ul>
+<li>把「所有 data block 指標」集中放到 <strong>一個 index block</strong></li>
+<li>檔案 = <strong>Index block + Data blocks</strong></li>
+<li>Directory 存：這個檔案的 <strong>index block 位置</strong></li>
+</ul>
+<p>優點</p>
+<ul>
+<li><strong>Efficient direct / random access</strong>
+<ul>
+<li>要第 i 塊：直接看 index[i]</li>
+</ul>
+</li>
+<li><strong>No external fragmentation</strong>
+<ul>
+<li>不要求 data blocks 連續</li>
+</ul>
+</li>
+<li>建檔容易（先配 index block，再慢慢補資料）</li>
+</ul>
+<p>缺點</p>
+<ol>
+<li><strong>Index block 的空間成本</strong></li>
+</ol>
+<ul>
+<li>每個檔案都要一個 index block（小檔案也要）→ overhead</li>
+</ul>
+<ol start="2">
+<li><strong>Index block 大小問題</strong></li>
+</ol>
+<ul>
+<li>index block 要能放多少 pointers？</li>
+<li>檔案太大時，一個 index block 不夠放</li>
+</ul>
+<h2 id="Indexed-v-s-FAT">Indexed v.s FAT</h2>
+<blockquote>
+<p>Indexed：每檔一張索引表 → 隨機快<br>
+FAT：全碟一張 next 表 → 走鏈，隨機慢但實作簡單</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>面向</th>
+<th>Indexed Allocation（索引配置）</th>
+<th>FAT（File Allocation Table）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指標存放位置</td>
+<td><strong>每個檔案</strong>一個 index block（或 inode 的 pointer 區）</td>
+<td><strong>整個系統</strong>一張 FAT（全域表）</td>
+</tr>
+<tr>
+<td>“第 i 個 block” 怎麼找</td>
+<td>讀 index block，直接用 <code>index[i]</code> 指到 block → <strong>接近 O(1)</strong></td>
+<td>從起點一路 follow “next” 指標走 i 次 → <strong>O(i)</strong>（鏈式）</td>
+</tr>
+<tr>
+<td>讀取效能</td>
+<td>隨機存取很強（尤其大檔案）</td>
+<td>順序讀還行；隨機跳很慢（要走鏈）</td>
+</tr>
+<tr>
+<td>空間開銷</td>
+<td>每個檔案要多一個 index block / 指標區（小檔案也要負擔）</td>
+<td>FAT 佔用磁碟一大塊（全域），通常還要快取到 RAM</td>
+</tr>
+<tr>
+<td>可靠性/損壞影響</td>
+<td>壞一個檔案的 index → <strong>影響那個檔案</strong></td>
+<td>FAT 壞/被破壞 → <strong>可能影響整個檔案系統的鏈結資訊</strong></td>
+</tr>
+<tr>
+<td>最大檔案大小限制</td>
+<td>受 index block 可放的指標數限制（可用 multi-level index 擴充）</td>
+<td>受 FAT entry 數量與設計限制（以及 cluster size 等）</td>
+</tr>
+<tr>
+<td>本質上像什麼</td>
+<td>「目錄（array）一次列出所有 blocks」</td>
+<td>「linked list，但把 next 指標集中放在表裡」</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Index-Block-Size：index-不夠大怎麼辦？-碩士會考歐">Index Block Size：index 不夠大怎麼辦？ (碩士會考歐)</h2>
+<p>三種解法：</p>
+<ol>
+<li><strong>Linked scheme</strong></li>
+</ol>
+<ul>
+<li>把多個 index blocks 串成 linked list</li>
+<li>優：概念簡單</li>
+<li>缺：random access 還是要走鏈結（第 k 個 index block 要走 k 次）</li>
+</ul>
+<ol start="2">
+<li><strong>Multilevel index</strong></li>
+</ol>
+<ul>
+<li>index 的 index（階層化）</li>
+<li>例：第一層指向第二層 index blocks，再指到 data blocks</li>
+<li>優：可支援超大檔案</li>
+<li>缺：多幾次間接存取（多一次讀 index）</li>
+</ul>
+<ol start="3">
+<li><strong>Combined scheme（Unix inode）</strong></li>
+</ol>
+<ul>
+<li><strong>Hybrid：Direct + Indirect pointers</strong></li>
+<li>小檔案：直接指標就夠（快）</li>
+<li>大檔案：再用 single/double/triple indirect 擴展（可很大）</li>
+</ul>
+<hr>
+<h2 id="Combined-Scheme（Unix-inode）詳細計算">Combined Scheme（Unix inode）詳細計算</h2>
+<p>已知：</p>
+<ul>
+<li>block size = <strong>4KB</strong></li>
+<li>pointer size = <strong>4 bytes</strong></li>
+<li>pointers per block = 4KB / 4B = <strong>1024 pointers</strong></li>
+</ul>
+<p>inode（或類似結構）包含：</p>
+<ul>
+<li><strong>Direct blocks：12 個</strong></li>
+<li><strong>Single indirect：1 層</strong></li>
+<li><strong>Double indirect：2 層</strong></li>
+<li><strong>Triple indirect：3 層</strong></li>
+</ul>
+<p>可支援容量計算</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th style="text-align:right">可指到的 data blocks 數</th>
+<th style="text-align:right">可支援資料量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct (12)</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12 × 4KB = <strong>48KB</strong></td>
+</tr>
+<tr>
+<td>Single indirect</td>
+<td style="text-align:right">1024</td>
+<td style="text-align:right">1024 × 4KB = <strong>4MB</strong></td>
+</tr>
+<tr>
+<td>Double indirect</td>
+<td style="text-align:right">1024² = 1,048,576</td>
+<td style="text-align:right">1,048,576 × 4KB = <strong>4GB</strong></td>
+</tr>
+<tr>
+<td>Triple indirect</td>
+<td style="text-align:right">1024³ = 1,073,741,824</td>
+<td style="text-align:right">1,073,741,824 × 4KB = <strong>4TB</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Total max file size：</p>
+<ul>
+<li><strong>48KB + 4MB + 4GB + 4TB ≈ 4TB</strong>（因為 4TB 遠大於其他）</li>
+</ul>
+<h2 id="總比較表">總比較表</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>Metadata/指標放哪</th>
+<th>Sequential</th>
+<th>Random</th>
+<th>碎裂</th>
+<th>成長性</th>
+<th>典型問題</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contiguous</td>
+<td>(start, length)</td>
+<td>✅ 很快</td>
+<td>✅ 很快</td>
+<td>❌ 外碎裂</td>
+<td>❌ 難</td>
+<td>需要 compaction、成長麻煩</td>
+</tr>
+<tr>
+<td>Extent-based</td>
+<td>多段 (start, length)</td>
+<td>✅ 快</td>
+<td>◑ 看 extent 數</td>
+<td>◑ 仍可能有內/外碎裂</td>
+<td>✅ 好</td>
+<td>extents 太多時 random 變貴</td>
+</tr>
+<tr>
+<td>Linked</td>
+<td>指標在 data block</td>
+<td>◑ blocks 分散會 seek 多</td>
+<td>❌ 很糟</td>
+<td>✅ 無外碎裂</td>
+<td>✅ 很好</td>
+<td>pointer overhead、可靠度</td>
+</tr>
+<tr>
+<td>Clustered linked</td>
+<td>指標每 N blocks 一個</td>
+<td>✅ 比 linked 好</td>
+<td>❌ 仍差</td>
+<td>✅ 無外碎裂</td>
+<td>✅ 好</td>
+<td>內碎裂（最後 cluster）</td>
+</tr>
+<tr>
+<td>FAT</td>
+<td>指標集中在 FAT 表</td>
+<td>✅ 不錯（可 cache）</td>
+<td>◑ 比 linked 好</td>
+<td>✅ 無外碎裂</td>
+<td>✅ 好</td>
+<td>FAT 表可能很大</td>
+</tr>
+<tr>
+<td>Indexed</td>
+<td>指標集中在 index block</td>
+<td>✅ 不錯</td>
+<td>✅ 很好</td>
+<td>✅ 無外碎裂</td>
+<td>✅ 好</td>
+<td>每檔案 index block 成本、index 擴展</td>
+</tr>
+<tr>
+<td>inode（combined）</td>
+<td>direct + 多層 indirect</td>
+<td>✅ 小檔超快</td>
+<td>✅ 大檔也可</td>
+<td>✅ 無外碎裂</td>
+<td>✅ 很好</td>
+<td>多層間接會增加存取次數</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>Free-Space Management</h1>
+<h2 id="Free-Space-Management">Free Space Management</h2>
+<p>核心問題：OS 必須追蹤哪些 disk blocks 是 free<br>
+當你 <code>create/write</code> 檔案時，檔案系統要去「挑」可用 blocks；<br>
+當你 <code>delete/truncate</code> 檔案時，要把 blocks 釋放回 free pool。</p>
+<p>Free-Space List（空間表）不一定真的是 list<br>
+追蹤 free blocks 的資料結構很多種，常見 4 類：</p>
+<ul>
+<li><strong>Bit vector (Bitmap)</strong>：每個 block 用 1 bit 表示 free/used</li>
+<li><strong>Linked list</strong>：把所有 free blocks 串起來（像 linked allocation）</li>
+<li><strong>Grouping</strong>：一個 free block 內存一批 free block 位址（像 linked-index）</li>
+<li><strong>Counting</strong>：用 <code>(start_block, count)</code> 表示一段連續 free blocks（像 contiguous/extent）</li>
+</ul>
+<p>free space 管理和檔案配置很像</p>
+<ul>
+<li>你用什麼方式配置檔案 blocks（linked / indexed / contiguous）<br>
+常常就會用相似方式去管理 free blocks（linked list / grouping / counting）。</li>
+</ul>
+<h2 id="Method-1-Bit-Vector-Bitmap">Method 1: Bit Vector (Bitmap)</h2>
+<p>做法</p>
+<ul>
+<li><strong>1 個 disk block 對應 1 個 bit</strong>
+<ul>
+<li><code>bit[i] = 1</code> 表示 block[i] <strong>free</strong></li>
+<li><code>bit[i] = 0</code> 表示 block[i] <strong>occupied</strong></li>
+</ul>
+</li>
+</ul>
+<p>優點</p>
+<ul>
+<li><strong>空間非常省</strong>：1 bit / block（overhead 最小）</li>
+<li><strong>實作簡單</strong>：用 bit 操作（AND/OR/shift）就能標記/<br>
+缺點</li>
+<li><strong>找 free block 需要掃描（linear scan）</strong>
+<ul>
+<li>即使 bitmap 在 cache/記憶體中，仍可能要找很久才遇到 1</li>
+</ul>
+</li>
+<li><strong>超大磁碟不適合整張常駐記憶體</strong><br>
+bitmap 太大放不下 RAM → 必須分段載入/快取&gt; 小補充（幫你背考點）：</li>
+</ul>
+<blockquote>
+<p>Bitmap 的強項是「<strong>省空間、好做 bit 操作</strong>」，弱點是「<strong>找洞要掃</strong><br>
+✅ <strong>本頁重點</strong></p>
+</blockquote>
+<ul>
+<li><em>1 bit / block</em>*（省空間、易實作）  不保證連續</li>
+</ul>
+<h1>Method 3: Grouping &amp; Method 4: Counting</h1>
+<p>Method 3：Grouping（把一批 free block 位址塞進一個 free block）</p>
+<ul>
+<li>概念：不要每個 free block 都只存 1 個 next 指標<br>
+而是「<strong>一個 free block 裡存 N 個 free blocks 的位址</strong>」</li>
+<li>每個 group block 內容通常是：
+<ul>
+<li><code>N</code> 個 free block addresses（例如 100 個）</li>
+<li><code>1</code> 個 pointer 指向下一個 group block</li>
+</ul>
+</li>
+</ul>
+<p><strong>優點</strong></p>
+<ul>
+<li>一次拿到一大批 free blocks → 比 linked list 少走很多步（I/O/指標追蹤少）</li>
+<li>適合大量配置（一次 allocate 多個 blocks）</li>
+</ul>
+<p><strong>缺點</strong></p>
+<ul>
+<li>group block 本身也要管理、格式較複雜</li>
+<li>還是不好「直接保證連續洞」（只比較容易拿到很多空的）</li>
+</ul>
+<p>Method 4：Counting（記錄連續 free 區段）</p>
+<ul>
+<li>概念：很多 free blocks 通常是「連續的一段」<br>
+所以用 <code>(first_block, count)</code> 表示一段連續 free blocks</li>
+<li>例如：<code>(200, 50)</code> 表示 blocks 200~249 都是 free</li>
+</ul>
+<p><strong>優點</strong></p>
+<ul>
+<li>非常適合 <strong>contiguous / extent-based</strong> 配置<br>
+因為你本來就想找「連續的一段」</li>
+<li>記錄很省（用區段描述取代列舉每個 block）</li>
+</ul>
+<p><strong>缺點</strong></p>
+<ul>
+<li>若 free space 很零碎（嚴重碎裂），就會有很多小段要記<br>
+metadata 會變大、管理也更麻煩</li>
+</ul>
+<h2 id="總比較表-2">總比較表</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>怎麼表示 free space</th>
+<th>優點</th>
+<th>缺點</th>
+<th>特別適合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bitmap</td>
+<td>1 bit / block（1=free, 0=used）</td>
+<td>超省空間、bit 操作快</td>
+<td>找洞常要掃描；超大盤不易全放 RAM</td>
+<td>想快速判斷某 block 是否空</td>
+</tr>
+<tr>
+<td>Linked list</td>
+<td>free blocks 串成鏈</td>
+<td>幾乎零額外空間、好實作</td>
+<td>難找連續洞；挑洞效率差</td>
+<td>只求「拿得到某個空 block」</td>
+</tr>
+<tr>
+<td>Grouping</td>
+<td>一個 free block 存 N 個 free block 位址 + next</td>
+<td>一次取得一批空 blocks，少走很多步</td>
+<td>結構較複雜；不保證連續</td>
+<td>一次配置很多 blocks</td>
+</tr>
+<tr>
+<td>Counting</td>
+<td>(start, count) 表示連續 free 區段</td>
+<td>很省、連續洞好找</td>
+<td>碎裂嚴重時段數多、管理難</td>
+<td>contiguous / extent-based 配置</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<blockquote>
+<p>作者我要期末考了 要完蛋啦!!!<br>
+之後有空研究所我才會細分 現在就先大概就好了歐!!!</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/cf6482ff.html">https://yowdesert.github.io/posts/cf6482ff.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 資訊學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/67c68839.html" title="(作業系統) Deadlock Definition, Avoidance and Resolution"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-13</div><div class="info-item-2">(作業系統) Deadlock Definition, Avoidance and Resolution</div></div><div class="info-2"><div class="info-item-1">Deadlock基本概念 1. Deadlock 是什麼？ Deadlock 指的是：  一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。  Deadlock 的特徵  每個 process：  已持有至少一個資源 同時等待另一個 process 持有的資源   結果：大家互等，系統停住   2. Deadlock 範例 Example 1：兩個 processes、兩個資源  P1 持有 R1，等待 R2 P2 持有 R2，等待 R1 → 互相等待，發生 deadlock  Example 2：Semaphore A 與 B 12P1: wait(A); wait(B); ...; signal(B); signal(A);P2: wait(B); wait(A); ...; signal(A); signal(B);  若 P1 先拿到 A、P2 先拿到 B 下一步彼此都在等對方 → deadlock   Deadlock 的四個必要條件 Deadlock 當且僅當下列四個條件同時成立：  Mutual Exclusion（互斥）...</div></div></div></a><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-20</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-19</div><div class="info-item-2">(作業系統) Main Memory Management</div></div><div class="info-2"><div class="info-item-1"> 本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直接存取的很少，只有Main Memory和 Registers而已 Disk 上的程式，只是「檔案」而已，要被Loader載入memory才會變成Process 把多個程式放進 RAM → 多程式（multiprogramming）: 改善CPU使用率以及加快反應時間 process 會移動在Disk和memory之間  Memory Management Issues  How to refer to memory in a program? → Address binding How to load a program into memory? → static/dynamic lo...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">快速摘要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">File System 介紹</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-File-Operations%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%AA%94%E6%A1%88%E6%93%8D%E4%BD%9C%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">Basic File Operations（基本檔案操作）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Open-File-Table"><span class="toc-number">2.2.</span> <span class="toc-text">Open-File Table</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Open-File-Attributes-MetaData"><span class="toc-number">2.3.</span> <span class="toc-text">Open-File Attributes (MetaData)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">Access Method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">Directory Structure</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Partition-volume-Directory"><span class="toc-number">4.1.</span> <span class="toc-text">Partition , volume , Directory</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Directory-Structure"><span class="toc-number">4.2.</span> <span class="toc-text">Directory Structure</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Directory-%E7%B5%90%E6%A7%8B%E6%BC%94%E9%80%B2"><span class="toc-number">4.3.</span> <span class="toc-text">Directory 結構演進</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">File system Mounting and File Sharing</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#File-System-Mounting%EF%BC%88%E6%8E%9B%E8%BC%89%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">File System Mounting（掛載）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Sharing-on-Multiple-Users%EF%BC%88%E5%A4%9A%E4%BD%BF%E7%94%A8%E8%80%85%E5%85%B1%E4%BA%AB%E8%88%87%E6%AC%8A%E9%99%90%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">File Sharing on Multiple Users（多使用者共享與權限）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Access-Control-List-ACL-%E2%80%94-Per-User-ACL%EF%BC%88%E7%90%86%E6%83%B3%E4%BD%86%E4%B8%8D%E5%AF%A6%E9%9A%9B%EF%BC%89"><span class="toc-number">5.3.</span> <span class="toc-text">Access-Control List (ACL) — Per-User ACL（理想但不實際）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ACL-%E2%80%94-Three-Class-System%EF%BC%88Unix-%E6%A8%99%E6%BA%96%EF%BC%9A%E4%B8%89%E9%A1%9E%E5%9B%BA%E5%AE%9A%EF%BC%89"><span class="toc-number">5.4.</span> <span class="toc-text">ACL — Three-Class System（Unix 標準：三類固定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Protection%EF%BC%88%E6%AA%94%E6%A1%88%E4%BF%9D%E8%AD%B7%EF%BC%9A%E5%AE%89%E5%85%A8-%E5%8F%AF%E9%9D%A0%E6%80%A7%EF%BC%89"><span class="toc-number">5.5.</span> <span class="toc-text">File Protection（檔案保護：安全 + 可靠性）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">File-System Structure</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#File-System-Structure%EF%BC%88Sector-%E2%86%92-Block-%E2%86%92-File-ops%EF%BC%89"><span class="toc-number">6.1.</span> <span class="toc-text">File-System Structure（Sector → Block → File ops）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Layered-FS-Architecture"><span class="toc-number">6.2.</span> <span class="toc-text">Layered FS Architecture</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">File System Implementation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#On-Disk-File-System-Structures%EF%BC%88%E7%A3%81%E7%A2%9F%E4%B8%8A%E7%9A%84%E5%9B%9B%E5%A4%A7%E7%B5%90%E6%A7%8B%EF%BC%89"><span class="toc-number">7.1.</span> <span class="toc-text">On-Disk File System Structures（磁碟上的四大結構）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#In-Memory-File-System-Structures%EF%BC%88RAM-%E5%85%A7%E7%9A%84%E7%B5%90%E6%A7%8B%EF%BC%89"><span class="toc-number">7.2.</span> <span class="toc-text">In-Memory File System Structures（RAM 內的結構）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Creation-Procedure%EF%BC%88%E5%BB%BA%E7%AB%8B%E6%AA%94%E6%A1%88%E6%B5%81%E7%A8%8B%EF%BC%89"><span class="toc-number">7.3.</span> <span class="toc-text">File Creation Procedure（建立檔案流程）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">VFS（抽象層 + 四大物件）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#VFS%EF%BC%88%E5%A5%BD%E8%99%95-%E6%B5%81%E7%A8%8B-%E5%A4%9A%E5%9E%8B%EF%BC%89"><span class="toc-number">8.1.</span> <span class="toc-text">VFS（好處 + 流程 + 多型）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Directory-Implementation%EF%BC%88%E7%B7%9A%E6%80%A7%E8%A1%A8-vs-%E9%9B%9C%E6%B9%8A%EF%BC%89"><span class="toc-number">8.2.</span> <span class="toc-text">Directory Implementation（線性表 vs 雜湊）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">File Allocation Methods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#File-Allocation-Methods%EF%BC%88%E7%B8%BD%E8%A6%BD%EF%BC%89"><span class="toc-number">9.1.</span> <span class="toc-text">File Allocation Methods（總覽）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contiguous-Allocation%EF%BC%88%E9%80%A3%E7%BA%8C%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">9.2.</span> <span class="toc-text">Contiguous Allocation（連續配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Extent-Based-File-System%EF%BC%88Extent%EF%BC%9A%E5%A4%9A%E6%AE%B5%E9%80%A3%E7%BA%8C%EF%BC%89"><span class="toc-number">9.3.</span> <span class="toc-text">Extent-Based File System（Extent：多段連續）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linked-Allocation%EF%BC%88%E9%8F%88%E7%B5%90%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">9.4.</span> <span class="toc-text">Linked Allocation（鏈結配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Optimization-for-Linked-Allocation%EF%BC%9AClustering%EF%BC%88%E6%8A%8A-N-%E5%80%8B-blocks-%E7%95%B6%E4%B8%80%E5%80%8B%E7%AF%80%E9%BB%9E%EF%BC%89"><span class="toc-number">9.5.</span> <span class="toc-text">Optimization for Linked Allocation：Clustering（把 N 個 blocks 當一個節點）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FAT%EF%BC%88File-Allocation-Table%EF%BC%89File-System"><span class="toc-number">9.6.</span> <span class="toc-text">FAT（File Allocation Table）File System</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Indexed-Allocation%EF%BC%88%E7%B4%A2%E5%BC%95%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="toc-number">9.7.</span> <span class="toc-text">Indexed Allocation（索引配置）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Indexed-v-s-FAT"><span class="toc-number">9.8.</span> <span class="toc-text">Indexed v.s FAT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Index-Block-Size%EF%BC%9Aindex-%E4%B8%8D%E5%A4%A0%E5%A4%A7%E6%80%8E%E9%BA%BC%E8%BE%A6%EF%BC%9F-%E7%A2%A9%E5%A3%AB%E6%9C%83%E8%80%83%E6%AD%90"><span class="toc-number">9.9.</span> <span class="toc-text">Index Block Size：index 不夠大怎麼辦？ (碩士會考歐)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Combined-Scheme%EF%BC%88Unix-inode%EF%BC%89%E8%A9%B3%E7%B4%B0%E8%A8%88%E7%AE%97"><span class="toc-number">9.10.</span> <span class="toc-text">Combined Scheme（Unix inode）詳細計算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B8%BD%E6%AF%94%E8%BC%83%E8%A1%A8"><span class="toc-number">9.11.</span> <span class="toc-text">總比較表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">Free-Space Management</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Free-Space-Management"><span class="toc-number">10.1.</span> <span class="toc-text">Free Space Management</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method-1-Bit-Vector-Bitmap"><span class="toc-number">10.2.</span> <span class="toc-text">Method 1: Bit Vector (Bitmap)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">Method 3: Grouping &amp; Method 4: Counting</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B8%BD%E6%AF%94%E8%BC%83%E8%A1%A8-2"><span class="toc-number">11.1.</span> <span class="toc-text">總比較表</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/cf6482ff.html" title="(作業系統) File System">(作業系統) File System</a><time datetime="2025-12-21T05:15:00.000Z" title="發表於 2025-12-21 13:15:00">2025-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation">(作業系統) Virtual Memory Operation</a><time datetime="2025-12-20T13:15:00.000Z" title="發表於 2025-12-20 21:15:00">2025-12-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management">(作業系統) Main Memory Management</a><time datetime="2025-12-19T06:15:00.000Z" title="發表於 2025-12-19 14:15:00">2025-12-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/af1af203.html" title="Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）">Knapsack Cryptosystem（Merkle–Hellman 背包公鑰密碼）</a><time datetime="2025-12-18T12:00:00.000Z" title="發表於 2025-12-18 20:00:00">2025-12-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/862ca019.html" title="Diffie–Hellman (DH) Key Exchange (金鑰交換)">Diffie–Hellman (DH) Key Exchange (金鑰交換)</a><time datetime="2025-12-18T12:00:00.000Z" title="發表於 2025-12-18 20:00:00">2025-12-18</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script async data-pjax src="/"></script></div></body></html>
