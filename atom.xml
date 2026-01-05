@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>YD&#39;s 資訊學習筆記</title>
+  <title>YD&#39;s 學習筆記</title>
   <icon>https://yowdesert.github.io/icon.png</icon>
-  <subtitle>一起從零開始踏進資訊世界</subtitle>
+  <subtitle>一起從零開始踏進這個世界</subtitle>
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-01-05T04:05:23.331Z</updated>
+  <updated>2026-01-05T08:30:27.650Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -15,6 +15,63 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[日文] 日文學習-初級3-文法</title>
+    <link href="https://yowdesert.github.io/posts/68d97251.html"/>
+    <id>https://yowdesert.github.io/posts/68d97251.html</id>
+    <published>2026-01-05T07:00:00.000Z</published>
+    <updated>2026-01-05T08:30:27.650Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;初級日文｜第1課-日本語がわかりますか&quot;&gt;&lt;a href=&quot;#初級日文｜第1課-日本語がわかりますか&quot; class=&quot;headerlink&quot; title=&quot;初級日文｜第1課　日本語がわかりますか&quot;&gt;&lt;/a&gt;初級日文｜第1課　日本語がわかりますか&lt;/h1&gt;&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
+    
+    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[日文] 日文學習-初級3-單字</title>
+    <link href="https://yowdesert.github.io/posts/b7e00e1.html"/>
+    <id>https://yowdesert.github.io/posts/b7e00e1.html</id>
+    <published>2026-01-05T07:00:00.000Z</published>
+    <updated>2026-01-05T06:49:44.439Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;初級1｜單字筆記（五課｜每兩頁一課）&quot;&gt;&lt;a href=&quot;#初級1｜單字筆記（五課｜每兩頁一課）&quot; class=&quot;headerlink&quot; title=&quot;初級1｜單字筆記（五課｜每兩頁一課）&quot;&gt;&lt;/a&gt;初級1｜單字筆記（五課｜每兩頁一課）&lt;/h1&gt;&lt;hr&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
+    
+    <category term="單字" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E5%96%AE%E5%AD%97/"/>
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
+    
+    <category term="單字" scheme="https://yowdesert.github.io/tags/%E5%96%AE%E5%AD%97/"/>
+    
+  </entry>
   
   <entry>
     <title>[日文] 日文學習-初級1-文法</title>
@@ -87,7 +144,7 @@
     <link href="https://yowdesert.github.io/posts/918b2cda.html"/>
     <id>https://yowdesert.github.io/posts/918b2cda.html</id>
     <published>2025-12-31T08:45:00.000Z</published>
-    <updated>2026-01-05T03:43:47.926Z</updated>
+    <updated>2026-01-05T04:42:28.710Z</updated>
     
     
       
@@ -108,8 +165,6 @@
     <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
     
     <category term="單字" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E5%96%AE%E5%AD%97/"/>
-    
-    <category term="N5" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E5%96%AE%E5%AD%97/N5/"/>
     
     
     <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
@@ -596,68 +651,6 @@
     <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
     
     <category term="AES" scheme="https://yowdesert.github.io/tags/AES/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[資訊安全] 對稱式加密 vs 非對稱式加密 (RSA)</title>
-    <link href="https://yowdesert.github.io/posts/a393bce2.html"/>
-    <id>https://yowdesert.github.io/posts/a393bce2.html</id>
-    <published>2025-08-07T00:30:00.000Z</published>
-    <updated>2025-12-18T11:58:37.509Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;Topic：對稱式加密-vs-非對稱式加密&quot;&gt;&lt;a href=&quot;#Topic：對稱式加密-vs-非對稱式加密&quot; class=&quot;headerlink&quot; title=&quot;Topic：對稱式加密 vs 非對稱式加密&quot;&gt;&lt;/a&gt;Topic：對稱式加密 vs</summary>
-        
-      
-    
-    
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/Cryptography/"/>
-    
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/tags/Cryptography/"/>
-    
-    <category term="RSA" scheme="https://yowdesert.github.io/tags/RSA/"/>
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[資訊安全] RSA 是什麼？快速理解筆記</title>
-    <link href="https://yowdesert.github.io/posts/e587cb6a.html"/>
-    <id>https://yowdesert.github.io/posts/e587cb6a.html</id>
-    <published>2025-08-07T00:00:00.000Z</published>
-    <updated>2025-12-18T15:13:15.575Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;Topic：RSA-是什麼？&quot;&gt;&lt;a href=&quot;#Topic：RSA-是什麼？&quot; class=&quot;headerlink&quot; title=&quot;Topic：RSA 是什麼？&quot;&gt;&lt;/a&gt;Topic：RSA 是什麼？&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;RSA&lt;/strong&gt;</summary>
-        
-      
-    
-    
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/Cryptography/"/>
-    
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/tags/Cryptography/"/>
-    
-    <category term="RSA" scheme="https://yowdesert.github.io/tags/RSA/"/>
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
