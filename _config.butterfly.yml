@@ -748,30 +748,30 @@ ad:
   index:
   # Insert ads in aside
   aside:
-    # <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
-    #   crossorigin="anonymous"></script>
-    # <ins class="adsbygoogle"
-    #     style="display:block"
-    #     data-ad-client="ca-pub-5975504062599634"
-    #     data-ad-slot="9206833147"
-    #     data-ad-format="auto"
-    #     data-full-width-responsive="true"></ins>
-    # <script>
-    #     (adsbygoogle = window.adsbygoogle || []).push({});
-    # </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
+      crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-5975504062599634"
+        data-ad-slot="9206833147"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
   # Insert ads in the post (before pagination)
   post:
-    # <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
-    #  crossorigin="anonymous"></script>
-    # <ins class="adsbygoogle"
-    #     style="display:block"
-    #     data-ad-client="ca-pub-5975504062599634"
-    #     data-ad-slot="7226702911"
-    #     data-ad-format="auto"
-    #     data-full-width-responsive="true"></ins>
-    # <script>
-    #     (adsbygoogle = window.adsbygoogle || []).push({});
-    # </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-5975504062599634"
+        data-ad-slot="7226702911"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
 # --------------------------------------
 # Verification
