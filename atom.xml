@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-01-05T08:30:27.650Z</updated>
+  <updated>2026-01-06T05:41:59.449Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -17,11 +17,66 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>[日文] 日文動詞各種活用型完整整理</title>
+    <link href="https://yowdesert.github.io/posts/9cae78e1.html"/>
+    <id>https://yowdesert.github.io/posts/9cae78e1.html</id>
+    <published>2026-01-06T06:00:00.000Z</published>
+    <updated>2026-01-06T05:41:59.449Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;日文筆記｜日文的各種「型」（活用）完整整理&quot;&gt;&lt;a href=&quot;#日文筆記｜日文的各種「型」（活用）完整整理&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
+    
+    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[日文] 日文學習-初級4-文法</title>
+    <link href="https://yowdesert.github.io/posts/68d97251.html"/>
+    <id>https://yowdesert.github.io/posts/68d97251.html</id>
+    <published>2026-01-06T05:00:00.000Z</published>
+    <updated>2026-01-06T05:30:09.483Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;第一課-文法筆記（句型一～四）&quot;&gt;&lt;a href=&quot;#第一課-文法筆記（句型一～四）&quot; class=&quot;headerlink&quot; title=&quot;第一課 文法筆記（句型一～四）&quot;&gt;&lt;/a&gt;第一課 文法筆記（句型一～四）&lt;/h1&gt;&lt;hr&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
+    
+    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[日文] 日文學習-初級3-文法</title>
     <link href="https://yowdesert.github.io/posts/68d97251.html"/>
     <id>https://yowdesert.github.io/posts/68d97251.html</id>
     <published>2026-01-05T07:00:00.000Z</published>
-    <updated>2026-01-05T08:30:27.650Z</updated>
+    <updated>2026-01-06T04:55:39.491Z</updated>
     
     
       
@@ -588,69 +643,6 @@
     <category term="離散數學" scheme="https://yowdesert.github.io/tags/%E9%9B%A2%E6%95%A3%E6%95%B8%E5%AD%B8/"/>
     
     <category term="數學" scheme="https://yowdesert.github.io/tags/%E6%95%B8%E5%AD%B8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[資訊安全] 常見編碼方式一覽</title>
-    <link href="https://yowdesert.github.io/posts/e02a37e5.html"/>
-    <id>https://yowdesert.github.io/posts/e02a37e5.html</id>
-    <published>2025-08-08T05:00:00.000Z</published>
-    <updated>2025-12-18T11:56:55.434Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;本篇整理了我在練習 &lt;strong&gt;picoCTF&lt;/strong&gt; 或資訊安全題目中常見的編碼方式與判斷技巧，&lt;br&gt;搭配 GPT 一起整理的重點。&lt;/p&gt;
-&lt;p&gt;如果有遺漏或錯誤，歡迎在下方留言討論 🙌&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;📋-編碼類型總覽&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="編碼" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/%E7%B7%A8%E7%A2%BC/"/>
-    
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="編碼" scheme="https://yowdesert.github.io/tags/%E7%B7%A8%E7%A2%BC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[資訊安全] AES 是什麼？快速理解筆記</title>
-    <link href="https://yowdesert.github.io/posts/e7cf23f7.html"/>
-    <id>https://yowdesert.github.io/posts/e7cf23f7.html</id>
-    <published>2025-08-07T01:00:00.000Z</published>
-    <updated>2025-12-18T11:58:32.981Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;Topic：AES-是什麼？&quot;&gt;&lt;a href=&quot;#Topic：AES-是什麼？&quot; class=&quot;headerlink&quot; title=&quot;Topic：AES 是什麼？&quot;&gt;&lt;/a&gt;Topic：AES 是什麼？&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;AES（Advanced</summary>
-        
-      
-    
-    
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/Cryptography/"/>
-    
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/tags/Cryptography/"/>
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="AES" scheme="https://yowdesert.github.io/tags/AES/"/>
     
   </entry>
   
