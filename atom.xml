@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-01-09T03:52:02.074Z</updated>
+  <updated>2026-01-13T08:59:32.116Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -17,11 +17,44 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>[日文] 日文學習-進階2-文法</title>
+    <link href="https://yowdesert.github.io/posts/4cee7f1e.html"/>
+    <id>https://yowdesert.github.io/posts/4cee7f1e.html</id>
+    <published>2026-01-13T08:00:00.000Z</published>
+    <updated>2026-01-13T08:59:32.116Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;日文文法｜進階2｜第 1 課：～たら（條件／提議）&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本課重點：&lt;strong&gt;～たら&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;假定條件「如果…就…」&lt;/li&gt;
+&lt;li&gt;確定條件「…之後就…」&lt;/li&gt;
+&lt;li&gt;建議句「～たら</summary>
+        
+      
+    
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
+    
+    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
+    
+    
+    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[日文] 日文學習-進階1-文法</title>
     <link href="https://yowdesert.github.io/posts/c26178fd.html"/>
     <id>https://yowdesert.github.io/posts/c26178fd.html</id>
     <published>2026-01-09T03:00:00.000Z</published>
-    <updated>2026-01-09T03:52:02.074Z</updated>
+    <updated>2026-01-09T03:52:34.406Z</updated>
     
     
       
@@ -616,38 +649,6 @@
     <category term="線性代數" scheme="https://yowdesert.github.io/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
     
     <category term="矩陣" scheme="https://yowdesert.github.io/tags/%E7%9F%A9%E9%99%A3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(作業系統) Process and Concurrency - Synchronization Concepts</title>
-    <link href="https://yowdesert.github.io/posts/90aa57da.html"/>
-    <id>https://yowdesert.github.io/posts/90aa57da.html</id>
-    <published>2025-08-14T00:40:00.000Z</published>
-    <updated>2025-12-13T09:35:17.970Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;簡短說明：&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;主題：Synchronization Concepts&lt;/li&gt;
-&lt;li&gt;本章重點：
-&lt;ul&gt;
-&lt;li&gt;什麼情況下會發生 Race</summary>
-        
-      
-    
-    
-    
-    <category term="作業系統" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
-    
-    <category term="Process and Concurrency" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/Process-and-Concurrency/"/>
-    
-    
-    <category term="作業系統" scheme="https://yowdesert.github.io/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
     
   </entry>
   
