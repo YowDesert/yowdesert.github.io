@@ -5,10 +5,10 @@ categories:
   - 文法
 tags:
   - 日文
-abbrlink: 
+abbrlink: 80447f80
 mathjax: true
 date: '2026-01-29 16:00:00'
---- 
+---
 
 
 ## 1) ～か、～（疑問詞＋か：間接疑問／名詞化）

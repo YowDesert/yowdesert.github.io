@@ -5,13 +5,11 @@ categories:
   - 文法
 tags:
   - 日文
-abbrlink: 
+abbrlink: 8a817699
 mathjax: true
 date: '2026-01-30 16:00:00'
---- 
-
-
 ---
+
 
 ## 1) ～やすいです（容易～／好～）
 
