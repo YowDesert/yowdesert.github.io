@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-01-13T08:59:32.116Z</updated>
+  <updated>2026-01-27T16:18:38.709Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(計算機組織) 計算機組織摘要</title>
+    <link href="https://yowdesert.github.io/posts/869672ee.html"/>
+    <id>https://yowdesert.github.io/posts/869672ee.html</id>
+    <published>2026-01-26T09:15:00.000Z</published>
+    <updated>2026-01-27T16:18:38.709Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;Chapter-1：計算機組織與指令集架構（ISA）&quot;&gt;&lt;a href=&quot;#Chapter-1：計算機組織與指令集架構（ISA）&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="計算機組織" scheme="https://yowdesert.github.io/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/"/>
+    
+    <category term="第一章" scheme="https://yowdesert.github.io/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/%E7%AC%AC%E4%B8%80%E7%AB%A0/"/>
+    
+    
+    <category term="計算機組織" scheme="https://yowdesert.github.io/tags/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/"/>
+    
+  </entry>
   
   <entry>
     <title>[日文] 日文學習-進階2-文法</title>
@@ -618,37 +648,6 @@
     
     
     <category term="資料庫系統" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E5%BA%AB%E7%B3%BB%E7%B5%B1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(線性代數) 矩陣與矩陣運算</title>
-    <link href="https://yowdesert.github.io/posts/52554cd4.html"/>
-    <id>https://yowdesert.github.io/posts/52554cd4.html</id>
-    <published>2025-08-14T00:40:00.000Z</published>
-    <updated>2025-12-11T14:22:17.836Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;矩陣與矩陣運算基礎&lt;/h1&gt;
-&lt;p&gt;在&lt;strong&gt;線性代數&lt;/strong&gt;中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。&lt;br&gt;
-矩陣由數字依照**列（row）&lt;strong&gt;與&lt;/strong&gt;行（column）**排列成長方形陣列。&lt;/</summary>
-        
-      
-    
-    
-    
-    <category term="線性代數" scheme="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
-    
-    <category term="矩陣與線性方程組" scheme="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E7%9F%A9%E9%99%A3%E8%88%87%E7%B7%9A%E6%80%A7%E6%96%B9%E7%A8%8B%E7%B5%84/"/>
-    
-    
-    <category term="線性代數" scheme="https://yowdesert.github.io/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
-    
-    <category term="矩陣" scheme="https://yowdesert.github.io/tags/%E7%9F%A9%E9%99%A3/"/>
     
   </entry>
   
