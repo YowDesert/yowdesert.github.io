@@ -1,0 +1,782 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(計算機組織) 計算機組織摘要-Memory | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!  Chapter 1：計算機組織與指令集架構（ISA） 一、Computer Organization 在學什麼？ 計算機組織（Computer Organization）探討的是程式如何在硬體上被執行，也就是從高階程式碼一路到 CPU、記憶體、電路層級的整體運作方式，是軟體與硬體的橋樑。   圖中元件簡介（由上到下）  軟體層">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(計算機組織) 計算機組織摘要-Memory">
+<meta property="og:url" content="https://yowdesert.github.io/posts/5b29cb9e.html">
+<meta property="og:site_name" content="YD&#39;s 學習筆記">
+<meta property="og:description" content="我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!  Chapter 1：計算機組織與指令集架構（ISA） 一、Computer Organization 在學什麼？ 計算機組織（Computer Organization）探討的是程式如何在硬體上被執行，也就是從高階程式碼一路到 CPU、記憶體、電路層級的整體運作方式，是軟體與硬體的橋樑。   圖中元件簡介（由上到下）  軟體層">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-01-29T09:20:00.000Z">
+<meta property="article:modified_time" content="2026-01-29T09:20:55.708Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="計算機組織">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "(計算機組織) 計算機組織摘要-Memory",
+  "url": "https://yowdesert.github.io/posts/5b29cb9e.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2026-01-29T09:20:00.000Z",
+  "dateModified": "2026-01-29T09:20:55.708Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/5b29cb9e.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '(計算機組織) 計算機組織摘要-Memory',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 學習筆記" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">20</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(計算機組織) 計算機組織摘要-Memory</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(計算機組織) 計算機組織摘要-Memory</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-01-29T09:20:55.708Z" title="更新於 2026-01-29 17:20:55">2026-01-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/">計算機組織</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/%E7%AC%AC%E4%B8%80%E7%AB%A0/">第一章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>9分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!</p>
+</blockquote>
+<h1>Chapter 1：計算機組織與指令集架構（ISA）</h1>
+<h2 id="一、Computer-Organization-在學什麼？">一、Computer Organization 在學什麼？</h2>
+<p>計算機組織（Computer Organization）探討的是<strong>程式如何在硬體上被執行</strong>，也就是從高階程式碼一路到 CPU、記憶體、電路層級的整體運作方式，是<strong>軟體與硬體的橋樑</strong>。</p>
+<p><img src="/img/CSch1_1.png" alt="alt text"></p>
+<blockquote>
+<p>圖中元件簡介（由上到下）</p>
+</blockquote>
+<h3 id="軟體層">軟體層</h3>
+<ul>
+<li>
+<p>Word / Media player / Edge（應用程式 App）<br>
+使用者直接操作的軟體，例如文書、播放器、瀏覽器。<br>
+通常用<strong>高階語言</strong>寫成，CPU 不能直接執行。</p>
+</li>
+<li>
+<p>Operating System (OS)（作業系統）<br>
+系統軟體核心，負責管理資源並提供服務，例如：</p>
+<ul>
+<li>行程/排程（Process &amp; Scheduling）</li>
+<li>記憶體管理（Memory Management）</li>
+<li>檔案系統（File System）</li>
+<li>I/O 裝置管理（Device / I-O）</li>
+</ul>
+</li>
+<li>
+<p>Compiler（編譯器）<br>
+把<strong>高階語言（如 C/C++）<strong>轉換成</strong>組合語言（Assembly）</strong>，產生較接近硬體的指令表示。</p>
+</li>
+<li>
+<p>Assembly language（組合語言）<br>
+用符號表示的低階語言（人可讀、CPU 仍不能直接跑）。<br>
+例：<code>add</code>、<code>lw</code>、<code>sw</code>、<code>beq</code></p>
+</li>
+<li>
+<p>Assembler（組譯器）<br>
+把<strong>組合語言</strong>轉成<strong>機器語言（二進位機器碼）</strong>，完成 CPU 可執行的指令編碼。</p>
+</li>
+<li>
+<p>Machine language（機器語言）<br>
+CPU 可直接執行的二進位指令（0/1）。<br>
+每條指令的 bit pattern 由 ISA 規定。</p>
+</li>
+</ul>
+<h3 id="軟硬體交界-ISA">軟硬體交界 ISA</h3>
+<ul>
+<li>Instruction Set Architecture (ISA)<br>
+<strong>軟體與硬體的「契約/介面」</strong>，規定：
+<ul>
+<li>CPU 有哪些指令（instruction set）</li>
+<li>暫存器有哪些、怎麼用</li>
+<li>指令格式與編碼方式</li>
+<li>記憶體存取規則等</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>同一個 ISA 可以有不同硬體實作（例如 pipeline / non-pipeline），但都能跑同一套程式。</p>
+</blockquote>
+<h3 id="硬體層（ISA-以下）">硬體層（ISA 以下）</h3>
+<ul>
+<li>
+<p>Datapath（資料路徑）<br>
+負責「做運算與搬資料」的硬體部分：<br>
+例如 ALU、register file、mux、加法器等。</p>
+</li>
+<li>
+<p>Controller（控制單元）<br>
+負責「發控制訊號」，決定每個 clock 週期 datapath 要做什麼（選路徑、寫暫存器、讀寫記憶體）。</p>
+</li>
+<li>
+<p>Memory（記憶體）<br>
+存放指令與資料的地方（主記憶體/快取等）。<br>
+CPU 透過 load/store 讀寫資料。</p>
+</li>
+<li>
+<p>Input/Output（I/O）<br>
+與外部裝置溝通的介面，例如鍵盤、螢幕、磁碟、網路等。</p>
+</li>
+<li>
+<p>Logic Circuit（邏輯電路）<br>
+用邏輯閘（AND/OR/NOT…）組成，實作各種運算與控制。</p>
+</li>
+<li>
+<p>Switching Circuit（開關電路）<br>
+用電晶體（transistor）當開關，實現 0/1 的切換與邏輯行為。</p>
+</li>
+<li>
+<p>VLSI Technology（VLSI 製程）<br>
+把大量電晶體做在晶片上的製程技術（Very Large Scale Integration），是能把 CPU 做出來的基礎。</p>
+</li>
+</ul>
+<hr>
+<h2 id="二、Stored-Program-Concept（儲存程式概念）">二、Stored-Program Concept（儲存程式概念）</h2>
+<h3 id="定義">定義</h3>
+<p>Stored-program concept 指的是：</p>
+<ul>
+<li><strong>指令（instruction）與資料（data）都以數字形式存放在記憶體中</strong></li>
+<li>程式必須先載入記憶體，CPU 才能取指並執行</li>
+</ul>
+<p>此概念源自 <strong>John von Neumann</strong>。</p>
+<ul>
+<li>題目 : 在計算機結構的脈絡下，簡要描述 <em>stored-program concept</em><br>
+Stored-program concept（儲存程式概念）指的是：</li>
+</ul>
+<blockquote>
+<p><strong>各種形式的指令（instructions）與資料（data）都能以「數字（numbers）」的形式存放在記憶體（memory）中</strong>，<br>
+因此電腦可以像存取資料一樣存取與執行程式，形成「儲存程式電腦（stored-program computer）」。</p>
+</blockquote>
+<hr>
+<h2 id="三、Von-Neumann-Architecture">三、Von Neumann Architecture</h2>
+<h3 id="五大經典組成元件">五大經典組成元件</h3>
+<ol>
+<li><strong>Input</strong></li>
+<li><strong>Output</strong></li>
+<li><strong>Memory</strong></li>
+<li><strong>Datapath</strong></li>
+<li><strong>Control</strong></li>
+</ol>
+<p>其中：</p>
+<ul>
+<li>Datapath + Control 又可以叫做 <strong>Processor</strong> (CPU)</li>
+</ul>
+<h3 id="各元件功能">各元件功能</h3>
+<ul>
+<li><strong>CPU</strong>：執行指令的核心，負責運算與控制</li>
+<li><strong>Datapath</strong>：實際進行算術與邏輯運算（ALU、Registers）</li>
+<li><strong>Control Unit</strong>：控制資料流向與操作時序</li>
+<li><strong>Memory</strong>：存放指令與資料</li>
+<li><strong>I/O</strong>：與外部世界互動</li>
+</ul>
+<p><img src="/img/FiveComputer.png" alt="alt text"></p>
+<h3 id="Von-Neumann-Bottleneck（重點）">Von Neumann Bottleneck（重點）</h3>
+<ul>
+<li>指令存取與資料存取<strong>共用同一條匯流排</strong></li>
+<li>無法同時進行，造成效能瓶頸</li>
+<li><strong>取指令（instruction fetch）</strong> 和 <strong>存取資料（data operation）</strong><br>
+<strong>無法同時進行</strong></li>
+<li>稱為 <strong>Von Neumann bottleneck</strong></li>
+</ul>
+<h3 id="Harvard-Architecture（對比）">Harvard Architecture（對比）</h3>
+<ul>
+<li>
+<p>Von Neumann Architecture （指令/資料共用記憶體）</p>
+<p><img src="/img/VonNeumann.png" alt="alt text"></p>
+</li>
+<li>
+<p>Harvard Architecture（指令/資料分開記憶體）</p>
+<p><img src="/img/Harvard.png" alt="alt text"></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Von Neumann（儲存程式 / 馮紐曼）</th>
+<th>Harvard（哈佛）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>記憶體配置</td>
+<td><strong>指令與資料共用同一個 Memory</strong></td>
+<td><strong>指令 Memory 與資料 Memory 分離</strong></td>
+</tr>
+<tr>
+<td>Bus（匯流排）</td>
+<td><strong>共用一條 bus</strong>（instruction fetch &amp; data access 競爭）</td>
+<td><strong>兩條 bus</strong>（取指與存取資料可同時）</td>
+</tr>
+<tr>
+<td>主要瓶頸</td>
+<td><strong>Von Neumann bottleneck</strong>（常見考點）</td>
+<td>較不易出現同類瓶頸（但仍可能受限於其他資源）</td>
+</tr>
+<tr>
+<td>並行能力</td>
+<td>取指與資料存取<strong>難以同時</strong></td>
+<td>取指與資料存取<strong>可並行</strong></td>
+</tr>
+<tr>
+<td>設計複雜度</td>
+<td>較簡單、成本較低</td>
+<td>較複雜（兩套 memory/bus 管理）</td>
+</tr>
+<tr>
+<td>程式/資料彈性</td>
+<td>記憶體空間可彈性分配（同一空間）</td>
+<td>空間分離，配置較固定（需設計規劃）</td>
+</tr>
+<tr>
+<td>安全性/隔離</td>
+<td>指令與資料同空間（理論上較容易互相影響）</td>
+<td>指令與資料天然隔離（設計上較清楚）</td>
+</tr>
+<tr>
+<td>常見應用</td>
+<td>通用電腦概念模型、許多系統抽象</td>
+<td>微控制器、DSP、嵌入式；或 CPU 內部採類 Harvard</td>
+</tr>
+<tr>
+<td>現代 CPU 實務</td>
+<td>多為「概念上 Von Neumann」</td>
+<td>多為「<strong>Modified Harvard</strong>」（內部分開 cache）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="四、Instruction-Set-Architecture（ISA）">四、Instruction Set Architecture（ISA）</h2>
+<h3 id="什麼是-Instruction？">什麼是 Instruction？</h3>
+<ul>
+<li><strong>Instruction</strong>：CPU 可以直接執行的「最原始/最基本」操作</li>
+<li><strong>Instruction Set</strong>：CPU 能執行的所有指令集合</li>
+</ul>
+<h3 id="Statement-vs-Instruction">Statement vs Instruction</h3>
+<ul>
+<li>在<strong>高階語言</strong>（High-level language）中，電腦命令通常叫 <strong>statement</strong><br>
+例：<code>p = x + y;</code></li>
+<li>在<strong>低階語言</strong>（Low-level language，如組語/機器碼）中，命令叫 <strong>instruction</strong><br>
+例（MIPS）：<code>add $s1, $t0, $t1</code></li>
+</ul>
+<h3 id="ISA-定義（必背）">ISA 定義（必背）</h3>
+<blockquote>
+<p><strong>ISA = Instruction Set + Hardware Information</strong></p>
+</blockquote>
+<p>ISA 是：</p>
+<ul>
+<li>最低階軟體 <strong>(Machine Instructions)</strong> 與硬體之間的<strong>抽象介面</strong></li>
+<li>不同硬體實作（single-cycle / pipeline）只要 ISA 相同，就能執行相同程式</li>
+</ul>
+<h3 id="ISA-包含的資訊">ISA 包含的資訊</h3>
+<ol>
+<li>Instruction set</li>
+<li>Hardware Information</li>
+<li>Memory</li>
+<li>Registers</li>
+<li>Instruction format</li>
+<li>Addressing modes</li>
+</ol>
+<h3 id="同一-ISA，不同-CPU-結構設計">同一 ISA，不同 CPU 結構設計</h3>
+<ul>
+<li>
+<p><strong>Single Cycle Machine（單週期）</strong></p>
+<ul>
+<li>一條指令在 <strong>1 個 clock</strong> 完成</li>
+<li>控制簡單，但 clock 週期通常要設得很長（最慢指令決定）</li>
+</ul>
+</li>
+<li>
+<p><strong>Multiple Cycle Machine（多週期）</strong></p>
+<ul>
+<li>一條指令拆成多個步驟（多個 clock）</li>
+<li>每個 clock 做一小步，週期可變短，硬體資源可重複利用</li>
+</ul>
+</li>
+<li>
+<p><strong>Pipeline（管線化）</strong></p>
+<ul>
+<li>指令分成多個 stage（如 IF/ID/EX/MEM/WB）</li>
+<li>多條指令「重疊」執行，提高吞吐量（throughput）</li>
+<li>但會遇到 hazard（資料/控制/結構冒險）需要處理</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="ISA-的兩大類型：CISC-vs-RISC（1980s-之後常被拿來比較）">ISA 的兩大類型：CISC vs RISC（1980s 之後常被拿來比較）</h2>
+<h3 id="CISC（Complex-Instruction-Set-Computer）">CISC（Complex Instruction Set Computer）</h3>
+<p><strong>核心想法：功能強、指令複雜，讓寫程式更方便</strong></p>
+<ul>
+<li>指令集除了基本指令外，也包含「更複雜、功能更強」的指令<br>
+（一條指令可能做很多事）</li>
+<li>設計重點偏向：
+<ul>
+<li>提供更好的程式開發環境</li>
+<li>減輕程式設計師負擔（少寫一些指令）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>白話：用「更厲害的單條指令」來縮短程式碼、讓人比較好寫。</p>
+</blockquote>
+<h3 id="RISC（Reduced-Instruction-Set-Computer）">RISC（Reduced Instruction Set Computer）</h3>
+<p><strong>核心想法：指令簡單、規則一致，提高 CPU 執行效率</strong></p>
+<ul>
+<li>以「CPU 執行效率」為主要考量</li>
+<li>指令數量較精簡，通常只保留基本且常用的操作</li>
+<li>目的：用簡單指令搭配硬體設計（如 pipeline）<br>
+來達到更快的指令執行速度（更高吞吐量）</li>
+</ul>
+<blockquote>
+<p>白話：不要做很複雜的指令，改成很多「簡單、快、好切 pipeline」的小指令。</p>
+</blockquote>
+<h3 id="常考補充">常考補充</h3>
+<h3 id="為什麼-1980s-開始強調-RISC？">為什麼 1980s 開始強調 RISC？</h3>
+<ul>
+<li>指令越複雜，硬體控制越難做、時脈可能被拖慢</li>
+<li>RISC 指令固定且簡單 → <strong>更適合 pipeline</strong> → 整體效能常更好</li>
+</ul>
+<h3 id="一句話記憶">一句話記憶</h3>
+<ul>
+<li><strong>CISC：指令多而強 → 程式碼短、硬體較複雜</strong></li>
+<li><strong>RISC：指令少而簡 → 程式碼可能較長、硬體更好加速（pipeline）</strong></li>
+</ul>
+<hr>
+<h2 id="MIPS-與-Word（資料大小）重點整理">MIPS 與 Word（資料大小）重點整理</h2>
+<h3 id="有很多種ISA">有很多種ISA</h3>
+<ul>
+<li>Intel’s IA-32,MIPS,ARM,還有MIPS ISA</li>
+</ul>
+<blockquote>
+<p>ARM 是 3C家電用的<br>
+x86貴 MIPS 便宜<br>
+2/3用MIPS 1/3用RISC-V(ex.台大)</p>
+</blockquote>
+<h3 id="1-MIPS-是什麼？">1) MIPS 是什麼？</h3>
+<ul>
+<li><strong>MIPS</strong> 全名：<strong>Microprocessor without Interlocked Pipe Stages</strong></li>
+<li>起源：Stanford University 的研究計畫</li>
+<li>計畫主持/代表人物：<strong>John L. Hennessy</strong>
+<ul>
+<li>也是經典教科書 <em>Computer Organization and Design: The Hardware/Software Interface</em> 的作者之一 (白算盤)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-MIPS-家族與本課使用版本">2) MIPS 家族與本課使用版本</h3>
+<p>MIPS 是一個處理器/指令集家族，常見成員包含：</p>
+<ul>
+<li><strong>R2000 / R3000</strong>：32-bit</li>
+<li><strong>R4000 / R4400</strong>：64-bit</li>
+<li><strong>R8000 / R10000</strong>：較偏科學計算 / 圖形應用</li>
+</ul>
+<p>本課主要介紹：<strong>MIPS R2000 instruction set</strong>。</p>
+<hr>
+<h3 id="3-MIPS-屬於哪一類-ISA？">3) MIPS 屬於哪一類 ISA？</h3>
+<ul>
+<li>MIPS 屬於 <strong>RISC（Reduced Instruction Set Computer）</strong></li>
+<li>特性：指令較精簡、規則一致，適合做 pipeline、提升執行效率</li>
+</ul>
+<hr>
+<h2 id="Word-與-32-bit-CPU">Word 與 32-bit CPU</h2>
+<h3 id="4-什麼是-Word？">4) 什麼是 Word？</h3>
+<ul>
+<li><strong>Word</strong>：CPU 一次能處理的資料（operand）大小</li>
+<li>Word 可能是：16 bits / 32 bits / 64 bits …（依 CPU 設計而定）</li>
+<li>若 CPU 的 word size = <strong>32 bits</strong><br>
+→ 稱為 <strong>32-bit CPU</strong></li>
+</ul>
+<blockquote>
+<p>直覺：CPU「一次能算多大」就叫它的 word size。</p>
+</blockquote>
+<hr>
+<h3 id="5-MIPS-R2000-是-32-bit-CPU">5) MIPS R2000 是 32-bit CPU</h3>
+<ul>
+<li>以 <strong>MIPS R2000</strong> 指令集為基礎建的 CPU，屬於 <strong>32-bit CPU</strong>
+<ul>
+<li>因為它的 word size 為 32 bits</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="6-Bit-Byte-Word-基本單位">6) Bit / Byte / Word 基本單位</h3>
+<ul>
+<li><strong>Bit</strong>：最小單位，0 或 1</li>
+<li><strong>Byte</strong>：<strong>8 bits</strong></li>
+<li><strong>Word</strong>：<strong>N bytes</strong>（由 CPU 決定）
+<ul>
+<li>例如 32-bit CPU：1 word = 32 bits = 4 bytes</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="7-從硬體規格看-CPU-是幾-bit">7) 從硬體規格看 CPU 是幾 bit</h3>
+<p>CPU 能一次處理的資料大小，也可以從硬體規格推得：</p>
+<ul>
+<li><strong>32-bit CPU</strong> 通常具有：
+<ul>
+<li><strong>32-bit ALU（Arithmetic Logic Unit）</strong></li>
+<li><strong>32-bit General Purpose Registers（一般用途暫存器）</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>簡單判斷：ALU 幾 bit、暫存器幾 bit，通常就對應 CPU 幾 bit。</p>
+</blockquote>
+<hr>
+<h2 id="七、Translation-Hierarchy（程式轉換流程）">七、Translation Hierarchy（程式轉換流程）</h2>
+<h3 id="完整流程">完整流程</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">High-level Language (C)</span><br><span class="line">        ↓ Compiler</span><br><span class="line">Assembly Language</span><br><span class="line">        ↓ Assembler</span><br><span class="line">Machine Language</span><br><span class="line">        ↓ Linker</span><br><span class="line">Executable File</span><br><span class="line">        ↓ Loader</span><br><span class="line">Memory → CPU 執行</span><br></pre></td></tr></table></figure>
+<h3 id="各工具功能">各工具功能</h3>
+<ul>
+<li><strong>Compiler</strong>：高階語言 → 組合語言</li>
+<li><strong>Assembler</strong>：組合語言 → 機器語言</li>
+<li><strong>Linker</strong>：整合多個 object 檔，解決符號參考</li>
+<li><strong>Loader</strong>：
+<ul>
+<li>建立記憶體空間</li>
+<li>複製程式碼與資料</li>
+<li>初始化暫存器</li>
+<li>設定 PC</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="八、Compiler-vs-Interpreter">八、Compiler vs Interpreter</h2>
+<h3 id="Compiler（如-C）">Compiler（如 C）</h3>
+<ul>
+<li>先翻譯成機器碼再執行</li>
+<li>效能高</li>
+<li>可攜性較低</li>
+</ul>
+<h3 id="Interpreter（如-Java、Python）">Interpreter（如 Java、Python）</h3>
+<ul>
+<li>執行時逐行解譯</li>
+<li>效能較低</li>
+<li><strong>高度可攜</strong></li>
+</ul>
+<p>Java：</p>
+<ul>
+<li>先編譯成 bytecode</li>
+<li>由 JVM 解譯</li>
+<li>JIT 將 hot code 即時編譯提升效能</li>
+</ul>
+<hr>
+<h2 id="九、Instruction-Types（指令分類）">九、Instruction Types（指令分類）</h2>
+<h3 id="Data-Movement">Data Movement</h3>
+<ul>
+<li>load / store</li>
+<li>register ↔ register</li>
+<li>memory ↔ memory</li>
+<li>input / output</li>
+<li>push / pop</li>
+</ul>
+<h3 id="Arithmetic-Logic">Arithmetic / Logic</h3>
+<ul>
+<li>add, sub, mul, div</li>
+<li>and, or, not</li>
+<li>shift, rotate</li>
+</ul>
+<h3 id="Flow-Control">Flow Control</h3>
+<ul>
+<li>branch（條件 / 無條件）</li>
+<li>jump</li>
+<li>procedure call / return</li>
+<li>system call（trap）</li>
+</ul>
+<hr>
+<h2 id="十、重點總整理（考前速記）">十、重點總整理（考前速記）</h2>
+<ul>
+<li>Stored-program：指令與資料都在 memory</li>
+<li>ISA 是軟硬體的抽象介面</li>
+<li>Von Neumann bottleneck：共用 bus</li>
+<li>RISC：指令少、快、適合 pipeline</li>
+<li>MIPS：32-bit、RISC</li>
+<li>Compiler ≠ Assembler ≠ Linker ≠ Loader</li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/5b29cb9e.html">https://yowdesert.github.io/posts/5b29cb9e.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/">計算機組織</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">[日文] 日文學習-進階4-文法</div></div><div class="info-2"><div class="info-item-1">1) ～やすいです（容易～／好～） 用法與意思  前面若是意志動詞：表示「做這個動作很容易、順手」 前面若是無意志動詞：表示「某狀態／現象很容易發生（頻率高）」 複合語也常用：わかりやすい＝容易理解  接續  動詞ます形去ます＋やすい（＝い形容詞） 例：使います → 使いやすい／住みます → 住みやすい  例句  去年イタリアで買ったかばんは、大きくて使いやすいです。 　（去年在義大利買的包包很大，很好用。） この国は、天気が暖かくて住みやすい。 　（這個國家天氣溫暖，很適合居住。） 最近の天気は、風邪を引きやすいです。 　（最近的天氣很容易感冒。）   2) ～にくいです（不容易～／難～） 用法與意思  前面若是意志動詞：表示「做起來費力、困難（心理上也覺得難）」 前面若是無意志動詞：表示「不容易發生／不容易變成某狀態」 複合語：わかりにくい＝難理解  接續  動詞ます形去ます＋にくい（＝い形容詞）  例句  あの会社の製品は、作りが雑で使いにくいです。 　（那家公司產品做工粗糙，不好用。） この車は古くて運転しにくい。 　（這台車很舊，很難開。） この家は燃えにくい素材で建て...</div></div></div></a><a class="pagination-related" href="/posts/80447f80.html" title="[日文] 日文學習-進階3-文法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">[日文] 日文學習-進階3-文法</div></div><div class="info-2"><div class="info-item-1">1) ～か、～（疑問詞＋か：間接疑問／名詞化） 用法與意思 把「含疑問詞的疑問句（開放式疑問句）」當成名詞句使用，相當於「…是誰／在哪裡／什麼時候…」這件事。 接續  疑問詞（だれ／どこ／いつ／なに／いくら／どう…）＋ か 放在句子中當名詞：常接 を／が／は／に 等（助詞有時可省略）  常搭配動詞  知っています／知っている わかります／わからない 調べます 教えてください  例句  時刻表を調べます。 　→ 時刻表を 調べます。（「查時刻表」） 新幹線が 何時に着くか 調べます。 　（我查新幹線幾點到。） 忘年会は どこでやるか 知ってる？ 　（你知道忘年會在哪裡辦嗎？） あの人は 誰か わかりません。 　（我不知道那個人是誰。）  小提醒  這裡的 か 不是「或者」的意思，而是把疑問句名詞化的標記。   2) ～かどうか、～（普通形＋かどうか：是非疑問的名詞化） 用法與意思 把「不含疑問詞的封閉式疑問句（Yes/No 問句）」名詞化，相當於「…是否…」。 接續  普通形 ＋ かどうか  動詞：行く かどうか い形容詞：高い かどうか な形容詞／名詞：便利 かどうか／本当 かど...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/869672ee.html" title="(計算機組織) 計算機組織摘要"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-26</div><div class="info-item-2">(計算機組織) 計算機組織摘要</div></div><div class="info-2"><div class="info-item-1"> 我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!  Chapter 1：計算機組織與指令集架構（ISA） 一、Computer Organization 在學什麼？ 計算機組織（Computer Organization）探討的是程式如何在硬體上被執行，也就是從高階程式碼一路到 CPU、記憶體、電路層級的整體運作方式，是軟體與硬體的橋樑。   圖中元件簡介（由上到下）  軟體層   Word / Media player / Edge（應用程式 App） 使用者直接操作的軟體，例如文書、播放器、瀏覽器。 通常用高階語言寫成，CPU 不能直接執行。   Operating System (OS)（作業系統） 系統軟體核心，負責管理資源並提供服務，例如：  行程/排程（Process &amp; Scheduling） 記憶體管理（Memory Management） 檔案系統（File System） I/O 裝置管理（Device / I-O）    Compiler（編譯器） 把高階語言（如 C/C++）轉換成組合語言（Assembly），產生較接近硬體的指令表...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">20</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Chapter 1：計算機組織與指令集架構（ISA）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Computer-Organization-%E5%9C%A8%E5%AD%B8%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">一、Computer Organization 在學什麼？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BB%9F%E9%AB%94%E5%B1%A4"><span class="toc-number">1.1.1.</span> <span class="toc-text">軟體層</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BB%9F%E7%A1%AC%E9%AB%94%E4%BA%A4%E7%95%8C-ISA"><span class="toc-number">1.1.2.</span> <span class="toc-text">軟硬體交界 ISA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E9%AB%94%E5%B1%A4%EF%BC%88ISA-%E4%BB%A5%E4%B8%8B%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">硬體層（ISA 以下）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Stored-Program-Concept%EF%BC%88%E5%84%B2%E5%AD%98%E7%A8%8B%E5%BC%8F%E6%A6%82%E5%BF%B5%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">二、Stored-Program Concept（儲存程式概念）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9"><span class="toc-number">1.2.1.</span> <span class="toc-text">定義</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Von-Neumann-Architecture"><span class="toc-number">1.3.</span> <span class="toc-text">三、Von Neumann Architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E5%A4%A7%E7%B6%93%E5%85%B8%E7%B5%84%E6%88%90%E5%85%83%E4%BB%B6"><span class="toc-number">1.3.1.</span> <span class="toc-text">五大經典組成元件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E5%85%83%E4%BB%B6%E5%8A%9F%E8%83%BD"><span class="toc-number">1.3.2.</span> <span class="toc-text">各元件功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Von-Neumann-Bottleneck%EF%BC%88%E9%87%8D%E9%BB%9E%EF%BC%89"><span class="toc-number">1.3.3.</span> <span class="toc-text">Von Neumann Bottleneck（重點）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Harvard-Architecture%EF%BC%88%E5%B0%8D%E6%AF%94%EF%BC%89"><span class="toc-number">1.3.4.</span> <span class="toc-text">Harvard Architecture（對比）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Instruction-Set-Architecture%EF%BC%88ISA%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、Instruction Set Architecture（ISA）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Instruction%EF%BC%9F"><span class="toc-number">1.4.1.</span> <span class="toc-text">什麼是 Instruction？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Statement-vs-Instruction"><span class="toc-number">1.4.2.</span> <span class="toc-text">Statement vs Instruction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISA-%E5%AE%9A%E7%BE%A9%EF%BC%88%E5%BF%85%E8%83%8C%EF%BC%89"><span class="toc-number">1.4.3.</span> <span class="toc-text">ISA 定義（必背）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISA-%E5%8C%85%E5%90%AB%E7%9A%84%E8%B3%87%E8%A8%8A"><span class="toc-number">1.4.4.</span> <span class="toc-text">ISA 包含的資訊</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E4%B8%80-ISA%EF%BC%8C%E4%B8%8D%E5%90%8C-CPU-%E7%B5%90%E6%A7%8B%E8%A8%AD%E8%A8%88"><span class="toc-number">1.4.5.</span> <span class="toc-text">同一 ISA，不同 CPU 結構設計</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ISA-%E7%9A%84%E5%85%A9%E5%A4%A7%E9%A1%9E%E5%9E%8B%EF%BC%9ACISC-vs-RISC%EF%BC%881980s-%E4%B9%8B%E5%BE%8C%E5%B8%B8%E8%A2%AB%E6%8B%BF%E4%BE%86%E6%AF%94%E8%BC%83%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">ISA 的兩大類型：CISC vs RISC（1980s 之後常被拿來比較）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CISC%EF%BC%88Complex-Instruction-Set-Computer%EF%BC%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">CISC（Complex Instruction Set Computer）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RISC%EF%BC%88Reduced-Instruction-Set-Computer%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">RISC（Reduced Instruction Set Computer）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%80%83%E8%A3%9C%E5%85%85"><span class="toc-number">1.5.3.</span> <span class="toc-text">常考補充</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC-1980s-%E9%96%8B%E5%A7%8B%E5%BC%B7%E8%AA%BF-RISC%EF%BC%9F"><span class="toc-number">1.5.4.</span> <span class="toc-text">為什麼 1980s 開始強調 RISC？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%A9%B1%E8%A8%98%E6%86%B6"><span class="toc-number">1.5.5.</span> <span class="toc-text">一句話記憶</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MIPS-%E8%88%87-Word%EF%BC%88%E8%B3%87%E6%96%99%E5%A4%A7%E5%B0%8F%EF%BC%89%E9%87%8D%E9%BB%9E%E6%95%B4%E7%90%86"><span class="toc-number">1.6.</span> <span class="toc-text">MIPS 與 Word（資料大小）重點整理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BE%88%E5%A4%9A%E7%A8%AEISA"><span class="toc-number">1.6.1.</span> <span class="toc-text">有很多種ISA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-MIPS-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="toc-number">1.6.2.</span> <span class="toc-text">1) MIPS 是什麼？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MIPS-%E5%AE%B6%E6%97%8F%E8%88%87%E6%9C%AC%E8%AA%B2%E4%BD%BF%E7%94%A8%E7%89%88%E6%9C%AC"><span class="toc-number">1.6.3.</span> <span class="toc-text">2) MIPS 家族與本課使用版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-MIPS-%E5%B1%AC%E6%96%BC%E5%93%AA%E4%B8%80%E9%A1%9E-ISA%EF%BC%9F"><span class="toc-number">1.6.4.</span> <span class="toc-text">3) MIPS 屬於哪一類 ISA？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Word-%E8%88%87-32-bit-CPU"><span class="toc-number">1.7.</span> <span class="toc-text">Word 與 32-bit CPU</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BB%80%E9%BA%BC%E6%98%AF-Word%EF%BC%9F"><span class="toc-number">1.7.1.</span> <span class="toc-text">4) 什麼是 Word？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-MIPS-R2000-%E6%98%AF-32-bit-CPU"><span class="toc-number">1.7.2.</span> <span class="toc-text">5) MIPS R2000 是 32-bit CPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Bit-Byte-Word-%E5%9F%BA%E6%9C%AC%E5%96%AE%E4%BD%8D"><span class="toc-number">1.7.3.</span> <span class="toc-text">6) Bit &#x2F; Byte &#x2F; Word 基本單位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%BE%9E%E7%A1%AC%E9%AB%94%E8%A6%8F%E6%A0%BC%E7%9C%8B-CPU-%E6%98%AF%E5%B9%BE-bit"><span class="toc-number">1.7.4.</span> <span class="toc-text">7) 從硬體規格看 CPU 是幾 bit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81Translation-Hierarchy%EF%BC%88%E7%A8%8B%E5%BC%8F%E8%BD%89%E6%8F%9B%E6%B5%81%E7%A8%8B%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">七、Translation Hierarchy（程式轉換流程）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="toc-number">1.8.1.</span> <span class="toc-text">完整流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E5%B7%A5%E5%85%B7%E5%8A%9F%E8%83%BD"><span class="toc-number">1.8.2.</span> <span class="toc-text">各工具功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81Compiler-vs-Interpreter"><span class="toc-number">1.9.</span> <span class="toc-text">八、Compiler vs Interpreter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Compiler%EF%BC%88%E5%A6%82-C%EF%BC%89"><span class="toc-number">1.9.1.</span> <span class="toc-text">Compiler（如 C）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Interpreter%EF%BC%88%E5%A6%82-Java%E3%80%81Python%EF%BC%89"><span class="toc-number">1.9.2.</span> <span class="toc-text">Interpreter（如 Java、Python）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81Instruction-Types%EF%BC%88%E6%8C%87%E4%BB%A4%E5%88%86%E9%A1%9E%EF%BC%89"><span class="toc-number">1.10.</span> <span class="toc-text">九、Instruction Types（指令分類）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Movement"><span class="toc-number">1.10.1.</span> <span class="toc-text">Data Movement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Arithmetic-Logic"><span class="toc-number">1.10.2.</span> <span class="toc-text">Arithmetic &#x2F; Logic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flow-Control"><span class="toc-number">1.10.3.</span> <span class="toc-text">Flow Control</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E9%87%8D%E9%BB%9E%E7%B8%BD%E6%95%B4%E7%90%86%EF%BC%88%E8%80%83%E5%89%8D%E9%80%9F%E8%A8%98%EF%BC%89"><span class="toc-number">1.11.</span> <span class="toc-text">十、重點總整理（考前速記）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法">[日文] 日文學習-進階4-文法</a><time datetime="2026-01-30T08:00:00.000Z" title="發表於 2026-01-30 16:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5b29cb9e.html" title="(計算機組織) 計算機組織摘要-Memory">(計算機組織) 計算機組織摘要-Memory</a><time datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/80447f80.html" title="[日文] 日文學習-進階3-文法">[日文] 日文學習-進階3-文法</a><time datetime="2026-01-29T08:00:00.000Z" title="發表於 2026-01-29 16:00:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/869672ee.html" title="(計算機組織) 計算機組織摘要">(計算機組織) 計算機組織摘要</a><time datetime="2026-01-26T09:15:00.000Z" title="發表於 2026-01-26 17:15:00">2026-01-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4cee7f1e.html" title="[日文] 日文學習-進階2-文法">[日文] 日文學習-進階2-文法</a><time datetime="2026-01-13T08:00:00.000Z" title="發表於 2026-01-13 16:00:00">2026-01-13</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="/"></script></div></body></html>
