@@ -5,7 +5,7 @@ categories:
   - 文法
 tags:
   - 日文
-abbrlink: 
+abbrlink: c26178fd
 mathjax: true
 date: '2026-01-09 11:00:00'
 ---
