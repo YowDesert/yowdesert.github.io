@@ -1,25 +1,25 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(線性代數) 矩陣與矩陣運算 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="矩陣與矩陣運算基礎 在線性代數中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。 矩陣由數字依照**列（row）與行（column）**排列成長方形陣列。  1. 矩陣的表示法 令 $F$ 為一個域（Field），一個 $m \times n$ 的矩陣 $A$ 為： $$ A &#x3D; \begin{bmatrix} a_{11} &amp; a_{12} &amp; \cdots">
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(線性代數) EigenValue and EigenVector計算 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="求EigenValue 方法一般法 Av &#x3D; λv (v !&#x3D; 0) &#x3D;&gt; (A - λI) v &#x3D; 0 &#x3D;&gt; det(A-λI) &#x3D; 0又叫做 characteristic equation 技巧對角矩陣 : 直接看對角線如果  A&#x3D; \begin{pmatrix} a_1&amp;0&amp;0\\\\ 0&amp;a_2&amp;0\\\\ 0&amp;0&amp;a_3 \end{pmatrix}那 eigenvalue 直接就是對角線">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(線性代數) 矩陣與矩陣運算">
+<meta property="og:title" content="(線性代數) EigenValue and EigenVector計算">
 <meta property="og:url" content="https://yowdesert.github.io/posts/52554cd4.html">
 <meta property="og:site_name" content="YD&#39;s 學習筆記">
-<meta property="og:description" content="矩陣與矩陣運算基礎 在線性代數中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。 矩陣由數字依照**列（row）與行（column）**排列成長方形陣列。  1. 矩陣的表示法 令 $F$ 為一個域（Field），一個 $m \times n$ 的矩陣 $A$ 為： $$ A &#x3D; \begin{bmatrix} a_{11} &amp; a_{12} &amp; \cdots">
+<meta property="og:description" content="求EigenValue 方法一般法 Av &#x3D; λv (v !&#x3D; 0) &#x3D;&gt; (A - λI) v &#x3D; 0 &#x3D;&gt; det(A-λI) &#x3D; 0又叫做 characteristic equation 技巧對角矩陣 : 直接看對角線如果  A&#x3D; \begin{pmatrix} a_1&amp;0&amp;0\\\\ 0&amp;a_2&amp;0\\\\ 0&amp;0&amp;a_3 \end{pmatrix}那 eigenvalue 直接就是對角線">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
-<meta property="article:published_time" content="2025-08-14T00:40:00.000Z">
-<meta property="article:modified_time" content="2025-12-11T14:22:17.836Z">
+<meta property="article:published_time" content="2026-03-11T12:08:00.000Z">
+<meta property="article:modified_time" content="2026-03-11T15:04:54.863Z">
 <meta property="article:author" content="YowDesert">
 <meta property="article:tag" content="線性代數">
-<meta property="article:tag" content="矩陣">
+<meta property="article:tag" content="對角化及其應用">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "(線性代數) 矩陣與矩陣運算",
+  "headline": "(線性代數) EigenValue and EigenVector計算",
   "url": "https://yowdesert.github.io/posts/52554cd4.html",
   "image": "https://yowdesert.github.io/img/butterfly-icon.png",
-  "datePublished": "2025-08-14T00:40:00.000Z",
-  "dateModified": "2025-12-11T14:22:17.836Z",
+  "datePublished": "2026-03-11T12:08:00.000Z",
+  "dateModified": "2026-03-11T15:04:54.863Z",
   "author": [
     {
       "@type": "Person",
@@ -159,7 +159,7 @@
   },
   autoDarkmode: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '(線性代數) 矩陣與矩陣運算',
+  title: '(線性代數) EigenValue and EigenVector計算',
   isHighlightShrink: false,
   isToc: true,
   pageType: 'post'
@@ -194,242 +194,228 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">20</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(線性代數) 矩陣與矩陣運算</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(線性代數) 矩陣與矩陣運算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-08-14T00:40:00.000Z" title="發表於 2025-08-14 08:40:00">2025-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2025-12-11T14:22:17.836Z" title="更新於 2025-12-11 22:22:17">2025-12-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E7%9F%A9%E9%99%A3%E8%88%87%E7%B7%9A%E6%80%A7%E6%96%B9%E7%A8%8B%E7%B5%84/">矩陣與線性方程組</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>5分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>矩陣與矩陣運算基礎</h1>
-<p>在<strong>線性代數</strong>中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。<br>
-矩陣由數字依照**列（row）<strong>與</strong>行（column）**排列成長方形陣列。</p>
-<hr>
-<h1>1. 矩陣的表示法</h1>
-<p>令 $F$ 為一個域（Field），一個 $m \times n$ 的矩陣 $A$ 為：</p>
-<p>$$<br>
-A =<br>
-\begin{bmatrix}<br>
-a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\<br>
-a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\<br>
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>
-a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}<br>
-\end{bmatrix},<br>
-\quad a_{ij} \in F<br>
-$$</p>
-<p>其中：</p>
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">21</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(線性代數) EigenValue and EigenVector計算</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(線性代數) EigenValue and EigenVector計算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-03-11T12:08:00.000Z" title="發表於 2026-03-11 20:08:00">2026-03-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-03-11T15:04:54.863Z" title="更新於 2026-03-11 23:04:54">2026-03-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E5%B0%8D%E8%A7%92%E5%8C%96%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8/">對角化及其應用</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">918</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>4分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="求EigenValue-方法"><a href="#求EigenValue-方法" class="headerlink" title="求EigenValue 方法"></a>求EigenValue 方法</h1><h2 id="一般法"><a href="#一般法" class="headerlink" title="一般法"></a>一般法</h2><script type="math/tex; mode=display">
+Av = λv (v != 0)
+=> (A - λI) v = 0
+=> det(A-λI) = 0</script><p>又叫做 <strong>characteristic equation</strong></p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h3 id="對角矩陣-直接看對角線"><a href="#對角矩陣-直接看對角線" class="headerlink" title="對角矩陣 : 直接看對角線"></a>對角矩陣 : 直接看對角線</h3><p>如果</p>
+<script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+a_1&0&0\\\\
+0&a_2&0\\\\
+0&0&a_3
+\end{pmatrix}</script><p>那 eigenvalue 直接就是對角線：</p>
+<script type="math/tex; mode=display">
+a_1,a_2,a_3</script><h3 id="三角矩陣"><a href="#三角矩陣" class="headerlink" title="三角矩陣"></a>三角矩陣</h3><p>如果 <code>A</code> 是上三角或下三角矩陣，eigenvalue 也是直接看對角線。</p>
+<h3 id="3-2-times-2-矩陣公式"><a href="#3-2-times-2-矩陣公式" class="headerlink" title="3. $2\times 2$ 矩陣公式"></a>3. $2\times 2$ 矩陣公式</h3><p>若</p>
+<script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+a&b\\\\
+c&d
+\end{pmatrix}</script><p>則 characteristic polynomial 是</p>
+<script type="math/tex; mode=display">
+\lambda^2-\operatorname{tr}(A)\lambda+\det(A)=0</script><p>其中</p>
+<script type="math/tex; mode=display">
+\operatorname{tr}(A)=a+d</script><script type="math/tex; mode=display">
+\det(A)=ad-bc</script><p>所以：</p>
 <ul>
-<li>$A$ 為 <strong>$m$ 列 $n$ 行矩陣</strong></li>
-<li>$a_{ij}$：第 $i$ 列、第 $j$ 行元素</li>
-<li><strong>行（row）</strong>：橫向排列</li>
-<li><strong>列（column）</strong>：縱向排列</li>
-<li>$F^{m \times n}$：所有 $m \times n$ 矩陣所形成的集合</li>
+<li>eigenvalue 的和 = $ \operatorname{tr}(A) $</li>
+<li>eigenvalue 的積 = $ \det(A) $</li>
 </ul>
-<p>特別類型：</p>
-<ul>
-<li>$n \times 1$：<strong>行向量（column vector）</strong></li>
-<li>$1 \times n$：<strong>列向量（row vector）</strong></li>
-<li>$F = \mathbb{R}$：實矩陣（real matrix）</li>
-<li>$F = \mathbb{C}$：複矩陣（complex matrix）</li>
-</ul>
-<hr>
-<h1>2. 矩陣基本名詞</h1>
-<p>假設 $A \in F^{m \times n}$</p>
-<h2 id="1-n-階方陣">(1) n 階方陣</h2>
-<p>若 $m = n$，則 $A$ 為 <strong>n 階方陣</strong></p>
-<h2 id="2-對角項元素">(2) 對角項元素</h2>
-<p>若 $A$ 為方陣，$a_{ii}$ 稱為 <strong>對角項（diagonal element）</strong></p>
-<h2 id="3-零矩陣">(3) 零矩陣</h2>
-<p>所有元素皆為 0：</p>
-<p>$$<br>
-O =<br>
-\begin{bmatrix}<br>
-0 &amp; 0 &amp; \cdots &amp; 0 \\<br>
-0 &amp; 0 &amp; \cdots &amp; 0 \\<br>
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>
-0 &amp; 0 &amp; \cdots &amp; 0<br>
-\end{bmatrix}<br>
-$$</p>
-<h2 id="4-負矩陣">(4) 負矩陣</h2>
-<p>若 $B$ 的所有元素皆為 $-a_{ij}$，則 $B = -A$</p>
-<h2 id="5-n-階單位矩陣-I-n">(5) n 階單位矩陣 $I_n$</h2>
-<p>對角線為 1、其他為 0：</p>
-<p>$$<br>
-I_n =<br>
-\begin{bmatrix}<br>
-1 &amp; 0 &amp; \cdots &amp; 0 \\<br>
-0 &amp; 1 &amp; \cdots &amp; 0 \\<br>
-\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br>
-0 &amp; 0 &amp; \cdots &amp; 1<br>
-\end{bmatrix}<br>
-$$</p>
-<h2 id="6-上三角與嚴格上三角矩陣">(6) 上三角與嚴格上三角矩陣</h2>
-<p>上三角矩陣（$i &gt; j$ 時 $a_{ij} = 0$）：</p>
-<p>$$<br>
-A =<br>
-\begin{bmatrix}<br>
-* &amp; * &amp; * \\<br>
-0 &amp; * &amp; * \\<br>
-0 &amp; 0 &amp; *<br>
-\end{bmatrix}<br>
-$$</p>
-<p>嚴格上三角（對角全 0）：</p>
-<p>$$<br>
-A =<br>
-\begin{bmatrix}<br>
-0 &amp; * &amp; * \\<br>
-0 &amp; 0 &amp; * \\<br>
-0 &amp; 0 &amp; 0<br>
-\end{bmatrix}<br>
-$$</p>
-<h2 id="7-下三角與嚴格下三角矩陣">(7) 下三角與嚴格下三角矩陣</h2>
-<p>下三角矩陣（$i &lt; j$ 時 $a_{ij} = 0$）：</p>
-<p>$$<br>
-A =<br>
-\begin{bmatrix}<br>
-* &amp; 0 &amp; 0 \\<br>
-* &amp; * &amp; 0 \\<br>
-* &amp; * &amp; *<br>
-\end{bmatrix}<br>
-$$</p>
-<p>嚴格下三角：</p>
-<p>$$<br>
-A =<br>
-\begin{bmatrix}<br>
-0 &amp; 0 &amp; 0 \\<br>
-* &amp; 0 &amp; 0 \\<br>
-* &amp; * &amp; 0<br>
-\end{bmatrix}<br>
-$$</p>
-<h2 id="8-對角矩陣">(8) 對角矩陣</h2>
-<p>上三角 + 下三角 ⇒ 只有對角線可能非零</p>
-<hr>
-<h1>3. 常見矩陣類型表（整理版）</h1>
-<table>
-<thead>
-<tr>
-<th>類型</th>
-<th>符號</th>
-<th>特徵</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>零矩陣</td>
-<td>$O$</td>
-<td>所有元素皆 0</td>
-</tr>
-<tr>
-<td>單位矩陣</td>
-<td>$I_n$</td>
-<td>對角線為 1</td>
-</tr>
-<tr>
-<td>對角矩陣</td>
-<td>—</td>
-<td>僅對角線可能非零</td>
-</tr>
-<tr>
-<td>方陣</td>
-<td>$m=n$</td>
-<td>行列相同</td>
-</tr>
-<tr>
-<td>轉置矩陣</td>
-<td>$A^T$</td>
-<td>行列互換</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h1>4. 矩陣的基本運算</h1>
-<h2 id="1-矩陣加減法">(1) 矩陣加減法</h2>
-<p>若 $A,B \in M_{m \times n}(F)$：</p>
-<p>$$<br>
-A + B = [a_{ij} + b_{ij}],\quad<br>
-A - B = [a_{ij} - b_{ij}]<br>
-$$</p>
-<h2 id="2-純量乘法">(2) 純量乘法</h2>
-<p>$$<br>
-kA = [k a_{ij}],\quad k \in F<br>
-$$</p>
-<h2 id="3-矩陣乘法">(3) 矩陣乘法</h2>
-<p>若 $A \in M_{m \times p}(F)$、$B \in M_{p \times n}(F)$：</p>
-<p>$$<br>
-c_{ij} = \sum_{k=1}^{p} a_{ik} b_{kj}<br>
-$$</p>
-<p>範例：</p>
-<p>$$<br>
-A =<br>
-\begin{bmatrix}<br>
-1 &amp; 2 &amp; 3 \\<br>
-4 &amp; 5 &amp; 6 \\<br>
-7 &amp; 8 &amp; 9<br>
-\end{bmatrix},<br>
-\quad<br>
-B =<br>
-\begin{bmatrix}<br>
-9 &amp; 8 &amp; 7 \\<br>
-6 &amp; 5 &amp; 4 \\<br>
-3 &amp; 2 &amp; 1<br>
-\end{bmatrix}<br>
-$$</p>
-<p>$$<br>
-C = AB =<br>
-\begin{bmatrix}<br>
-30 &amp; 24 &amp; 18 \\<br>
-84 &amp; 69 &amp; 54 \\<br>
-138 &amp; 114 &amp; 90<br>
-\end{bmatrix}<br>
-$$</p>
-<p>⚠ <strong>矩陣乘法不可交換</strong>：<br>
-$$AB \neq BA$$<br>
-⚠ 相乘條件：<strong>前矩陣列數 = 後矩陣行數</strong></p>
-<hr>
-<h1>5. 矩陣的常用性質</h1>
-<p>以下皆為任意矩陣 $A,B,C$ 與純量 $\alpha,\beta$：</p>
-<ul>
-<li>$A + B = B + A$</li>
-<li>$(A + B) + C = A + (B + C)$</li>
-<li>$A + O = A$</li>
-<li>$A + (-A) = O$</li>
-<li>$(\alpha + \beta)A = \alpha A + \beta A$</li>
-<li>$\alpha(A+B) = \alpha A + \alpha B$</li>
-<li>$A(BC) = (AB)C$</li>
-<li>$A(B \pm C) = AB \pm AC$</li>
-</ul>
-<hr>
-<h1>6. 補充例子（概念陷阱）</h1>
-<h2 id="對角矩陣相乘">對角矩陣相乘</h2>
-<p>$$<br>
-A = \begin{bmatrix}2&amp;0&amp;0\\0&amp;3&amp;0\\0&amp;0&amp;4\end{bmatrix},\quad<br>
-B = \begin{bmatrix}5&amp;0&amp;0\\0&amp;6&amp;0\\0&amp;0&amp;7\end{bmatrix}<br>
-$$</p>
-<p>對角線直接相乘：</p>
-<p>$$<br>
-AB = \begin{bmatrix}10&amp;0&amp;0\\0&amp;18&amp;0\\0&amp;0&amp;28\end{bmatrix}<br>
-$$</p>
-<hr>
-<h2 id="多個常見錯誤觀念（務必注意！）"><strong>多個常見錯誤觀念（務必注意！）</strong></h2>
-<p>(1) 乘法不交換<br>
-$$AB \neq BA$$</p>
-<p>(2) $A^n = O$ 不代表 $A=0$</p>
-<p>(3) $A^2 = A$ 不代表 $A=0$ 或 $A=I$</p>
-<p>(4) $A \neq 0, B \neq 0$ 不代表 $AB \neq 0$</p>
-<p>(5) $AB = AC$ 不代表 $B=C$</p>
-<p>(6) $X^n = A$ 可能有<strong>無限多解</strong></p>
-<p>(7) $(A+B)^2 = A^2 + 2AB + B^2$ <strong>通常不成立</strong></p>
-<hr>
-<h1>7. 矩陣的應用</h1>
-<p>矩陣廣泛應用於：</p>
-<ul>
-<li>線性方程組（高斯消去法）</li>
-<li>電腦圖學（旋轉、縮放、平移）</li>
-<li>統計學（協方差矩陣、PCA）</li>
-<li>機器學習（權重矩陣、batch 運算）</li>
-</ul>
-<hr>
-<h1>小結</h1>
-<p>矩陣是線代核心工具，理解矩陣結構與運算性質，<br>
-能為後續的特徵值、向量空間、SVD、QR 分解等奠定基礎。</p>
-<hr>
-<h1>筆者後記</h1>
-<p>若內容有誤或需補充部分，歡迎留言告訴我！<br>
-我會即時修正～ 🙌</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/52554cd4.html">https://yowdesert.github.io/posts/52554cd4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><a class="post-meta__tags" href="/tags/%E7%9F%A9%E9%99%A3/">矩陣</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/5cf5d8d8.html" title="[離散數學] 基本符號與概念速查表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">[離散數學] 基本符號與概念速查表</div></div><div class="info-2"><div class="info-item-1">📚 這篇文章是離散數學符號速查表！ 適用考前快速查詢，不含艱澀推導。  1. 邏輯運算符號    符號 名稱 意義（白話） KaTeX     $\lnot p$ 否定 把 $p$ 的真假顛倒 \lnot p   $p \land q$ 且 AND 兩者都要為真 p \land q   $p \lor q$ 或 OR 任一為真即可 p \lor q   $p \oplus q$ 互斥或 XOR 只能一個為真 p \oplus q   $p \to q$ 蘊涵 $p$ 真 → $q$ 必須真 p \to q   $p \leftrightarrow q$ 等價 兩者同進退 p \leftrightarrow q   $\top$ 永真 永遠為真 \top   $\bot$ 永假 永遠為假 \bot   $\forall x$ 全稱量詞 對所有 $x$ 成立 \forall x   $\exists x$ 存在量詞 至少存在一個 $x$ \exists x   $\nexists x$ 不存在量詞 無任何 $x$ 成立 \nexists x     2. 集合運算符號    符號 ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">20</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">矩陣與矩陣運算基礎</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">1. 矩陣的表示法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">2. 矩陣基本名詞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-n-%E9%9A%8E%E6%96%B9%E9%99%A3"><span class="toc-number">3.1.</span> <span class="toc-text">(1) n 階方陣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B0%8D%E8%A7%92%E9%A0%85%E5%85%83%E7%B4%A0"><span class="toc-number">3.2.</span> <span class="toc-text">(2) 對角項元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%9B%B6%E7%9F%A9%E9%99%A3"><span class="toc-number">3.3.</span> <span class="toc-text">(3) 零矩陣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E8%B2%A0%E7%9F%A9%E9%99%A3"><span class="toc-number">3.4.</span> <span class="toc-text">(4) 負矩陣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-n-%E9%9A%8E%E5%96%AE%E4%BD%8D%E7%9F%A9%E9%99%A3-I-n"><span class="toc-number">3.5.</span> <span class="toc-text">(5) n 階單位矩陣 $I_n$</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%8A%E4%B8%89%E8%A7%92%E8%88%87%E5%9A%B4%E6%A0%BC%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%99%A3"><span class="toc-number">3.6.</span> <span class="toc-text">(6) 上三角與嚴格上三角矩陣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E4%B8%8B%E4%B8%89%E8%A7%92%E8%88%87%E5%9A%B4%E6%A0%BC%E4%B8%8B%E4%B8%89%E8%A7%92%E7%9F%A9%E9%99%A3"><span class="toc-number">3.7.</span> <span class="toc-text">(7) 下三角與嚴格下三角矩陣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%B0%8D%E8%A7%92%E7%9F%A9%E9%99%A3"><span class="toc-number">3.8.</span> <span class="toc-text">(8) 對角矩陣</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">3. 常見矩陣類型表（整理版）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">4. 矩陣的基本運算</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%9F%A9%E9%99%A3%E5%8A%A0%E6%B8%9B%E6%B3%95"><span class="toc-number">5.1.</span> <span class="toc-text">(1) 矩陣加減法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%B4%94%E9%87%8F%E4%B9%98%E6%B3%95"><span class="toc-number">5.2.</span> <span class="toc-text">(2) 純量乘法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9F%A9%E9%99%A3%E4%B9%98%E6%B3%95"><span class="toc-number">5.3.</span> <span class="toc-text">(3) 矩陣乘法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">5. 矩陣的常用性質</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">6. 補充例子（概念陷阱）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8D%E8%A7%92%E7%9F%A9%E9%99%A3%E7%9B%B8%E4%B9%98"><span class="toc-number">7.1.</span> <span class="toc-text">對角矩陣相乘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E5%80%8B%E5%B8%B8%E8%A6%8B%E9%8C%AF%E8%AA%A4%E8%A7%80%E5%BF%B5%EF%BC%88%E5%8B%99%E5%BF%85%E6%B3%A8%E6%84%8F%EF%BC%81%EF%BC%89"><span class="toc-number">7.2.</span> <span class="toc-text">多個常見錯誤觀念（務必注意！）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">7. 矩陣的應用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">小結</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">筆者後記</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法">[日文] 日文學習-進階4-文法</a><time datetime="2026-01-30T08:00:00.000Z" title="發表於 2026-01-30 16:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5b29cb9e.html" title="(計算機組織) 計算機組織摘要-Memory">(計算機組織) 計算機組織摘要-Memory</a><time datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/80447f80.html" title="[日文] 日文學習-進階3-文法">[日文] 日文學習-進階3-文法</a><time datetime="2026-01-29T08:00:00.000Z" title="發表於 2026-01-29 16:00:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/869672ee.html" title="(計算機組織) 計算機組織摘要">(計算機組織) 計算機組織摘要</a><time datetime="2026-01-26T09:15:00.000Z" title="發表於 2026-01-26 17:15:00">2026-01-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/4cee7f1e.html" title="[日文] 日文學習-進階2-文法">[日文] 日文學習-進階2-文法</a><time datetime="2026-01-13T08:00:00.000Z" title="發表於 2026-01-13 16:00:00">2026-01-13</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+<h2 id="特殊矩陣的技巧"><a href="#特殊矩陣的技巧" class="headerlink" title="特殊矩陣的技巧"></a>特殊矩陣的技巧</h2><h3 id="冪等矩陣"><a href="#冪等矩陣" class="headerlink" title="冪等矩陣"></a>冪等矩陣</h3><p>若</p>
+<script type="math/tex; mode=display">
+A^2=A</script><p>則 eigenvalue 只能是</p>
+<script type="math/tex; mode=display">
+0 \text{ 或 } 1</script><p>因為若 $ Av=\lambda v $，則</p>
+<script type="math/tex; mode=display">
+A^2v=\lambda^2v</script><p>又因為 $ A^2=A $，所以</p>
+<script type="math/tex; mode=display">
+\lambda^2=\lambda</script><script type="math/tex; mode=display">
+\lambda(\lambda-1)=0</script><p>因此</p>
+<script type="math/tex; mode=display">
+\lambda=0 \quad \text{或} \quad \lambda=1</script><h3 id="對合矩陣"><a href="#對合矩陣" class="headerlink" title="對合矩陣"></a>對合矩陣</h3><p>若</p>
+<script type="math/tex; mode=display">
+A^2=I</script><p>則 eigenvalue 只能是</p>
+<script type="math/tex; mode=display">
+1 \text{ 或 } -1</script><p>因為</p>
+<script type="math/tex; mode=display">
+\lambda^2=1</script><h3 id="Nilpotent-矩陣"><a href="#Nilpotent-矩陣" class="headerlink" title="Nilpotent 矩陣"></a>Nilpotent 矩陣</h3><p>若</p>
+<script type="math/tex; mode=display">
+A^k=0</script><p>則 eigenvalue 只能是</p>
+<script type="math/tex; mode=display">
+0</script><h2 id="冪等矩陣的重要空間"><a href="#冪等矩陣的重要空間" class="headerlink" title="冪等矩陣的重要空間"></a>冪等矩陣的重要空間</h2><p>對冪等矩陣 $ A $：</p>
+<h3 id="V-0"><a href="#V-0" class="headerlink" title="$V(0)$"></a>$V(0)$</h3><script type="math/tex; mode=display">
+V(0)=\ker(A)</script><p>因為特徵值 $0$ 的 eigenspace 定義為</p>
+<script type="math/tex; mode=display">
+V(0)=\ker(A-0I)=\ker(A)</script><h3 id="V-1"><a href="#V-1" class="headerlink" title="$V(1)$"></a>$V(1)$</h3><script type="math/tex; mode=display">
+V(1)=\ker(A-I)</script><p>而且對冪等矩陣還有</p>
+<script type="math/tex; mode=display">
+V(1)=CS(A)</script><p>其中 $CS(A)$ 是 column space。</p>
+<h2 id="為什麼-V-1-CS-A"><a href="#為什麼-V-1-CS-A" class="headerlink" title="為什麼 $V(1)=CS(A)$"></a>為什麼 $V(1)=CS(A)$</h2><p>因為</p>
+<script type="math/tex; mode=display">
+V(1)=\ker(A-I)</script><p>只要證明</p>
+<script type="math/tex; mode=display">
+\ker(A-I)=CS(A)</script><h3 id="證-CS-A-subseteq-ker-A-I"><a href="#證-CS-A-subseteq-ker-A-I" class="headerlink" title="證 $CS(A)\subseteq \ker(A-I)$"></a>證 $CS(A)\subseteq \ker(A-I)$</h3><p>若 $ y\in CS(A) $，則 $ y=Ax $ 某個 $x$。</p>
+<p>所以</p>
+<script type="math/tex; mode=display">
+(A-I)y=(A-I)Ax=A^2x-Ax=Ax-Ax=0</script><p>因此</p>
+<script type="math/tex; mode=display">
+y\in \ker(A-I)</script><h3 id="證-ker-A-I-subseteq-CS-A"><a href="#證-ker-A-I-subseteq-CS-A" class="headerlink" title="證 $\ker(A-I)\subseteq CS(A)$"></a>證 $\ker(A-I)\subseteq CS(A)$</h3><p>若 $ y\in \ker(A-I) $，則</p>
+<script type="math/tex; mode=display">
+(A-I)y=0</script><p>所以</p>
+<script type="math/tex; mode=display">
+Ay=y</script><p>因此</p>
+<script type="math/tex; mode=display">
+y=Ay</script><p>這表示 $ y $ 是 $A$ 的某個像，所以 $ y\in CS(A) $。</p>
+<h1 id="求EigenVector-方法"><a href="#求EigenVector-方法" class="headerlink" title="求EigenVector 方法"></a>求EigenVector 方法</h1><p>已知 eigenvalue $\lambda$ 之後，要找對應的 eigenvector，就是解</p>
+<script type="math/tex; mode=display">
+(A-\lambda I)v=0</script><p>只要找 <strong>非零解</strong> 即可。</p>
+<h2 id="一般步驟"><a href="#一般步驟" class="headerlink" title="一般步驟"></a>一般步驟</h2><h3 id="第一步：先求-eigenvalue"><a href="#第一步：先求-eigenvalue" class="headerlink" title="第一步：先求 eigenvalue"></a>第一步：先求 eigenvalue</h3><p>先解</p>
+<script type="math/tex; mode=display">
+\det(A-\lambda I)=0</script><p>得到所有 eigenvalue。</p>
+<h3 id="第二步：代回去求-eigenvector"><a href="#第二步：代回去求-eigenvector" class="headerlink" title="第二步：代回去求 eigenvector"></a>第二步：代回去求 eigenvector</h3><p>對每一個 eigenvalue $\lambda$，去解</p>
+<script type="math/tex; mode=display">
+(A-\lambda I)v=0</script><p>解出來的所有非零向量，就是對應的 eigenvector。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>設</p>
+<script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+2&1\\\\
+1&2
+\end{pmatrix}</script><h3 id="先求-eigenvalue"><a href="#先求-eigenvalue" class="headerlink" title="先求 eigenvalue"></a>先求 eigenvalue</h3><script type="math/tex; mode=display">
+A-\lambda I=
+\begin{pmatrix}
+2-\lambda&1\\\\
+1&2-\lambda
+\end{pmatrix}</script><p>所以</p>
+<script type="math/tex; mode=display">
+\det(A-\lambda I)=(2-\lambda)^2-1</script><script type="math/tex; mode=display">
+=4-4\lambda+\lambda^2-1</script><script type="math/tex; mode=display">
+=\lambda^2-4\lambda+3</script><p>令它等於 $0$</p>
+<script type="math/tex; mode=display">
+\lambda^2-4\lambda+3=0</script><script type="math/tex; mode=display">
+(\lambda-1)(\lambda-3)=0</script><p>所以 eigenvalue 為</p>
+<script type="math/tex; mode=display">
+\lambda=1,3</script><h3 id="當-lambda-3-時"><a href="#當-lambda-3-時" class="headerlink" title="當 $\lambda=3$ 時"></a>當 $\lambda=3$ 時</h3><script type="math/tex; mode=display">
+A-3I=
+\begin{pmatrix}
+-1&1\\\\
+1&-1
+\end{pmatrix}</script><p>解</p>
+<script type="math/tex; mode=display">
+(A-3I)v=0</script><p>也就是</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+-1&1\\\\
+1&-1
+\end{pmatrix}\begin{pmatrix}
+x\\\\
+y
+\end{pmatrix}=\begin{pmatrix}
+0\\\\
+0
+\end{pmatrix}</script><p>得到</p>
+<script type="math/tex; mode=display">
+-x+y=0</script><p>所以</p>
+<script type="math/tex; mode=display">
+y=x</script><p>因此 eigenvector 為</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+x\\\\
+x
+\end{pmatrix}
+=x
+\begin{pmatrix}
+1\\\\
+1
+\end{pmatrix}
+\quad (x\neq 0)</script><p>所以對應 $\lambda=3$ 的 eigenvector 可寫成</p>
+<script type="math/tex; mode=display">
+c
+\begin{pmatrix}
+1\\\\
+1
+\end{pmatrix}
+\quad (c\neq 0)</script><h3 id="當-lambda-1-時"><a href="#當-lambda-1-時" class="headerlink" title="當 $\lambda=1$ 時"></a>當 $\lambda=1$ 時</h3><script type="math/tex; mode=display">
+A-I=
+\begin{pmatrix}
+1&1\\\\
+1&1
+\end{pmatrix}</script><p>解</p>
+<script type="math/tex; mode=display">
+(A-I)v=0</script><p>也就是</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+1&1\\\\
+1&1
+\end{pmatrix}\begin{pmatrix}
+x\\\\
+y
+\end{pmatrix}=\begin{pmatrix}
+0\\\\
+0
+\end{pmatrix}</script><p>得到</p>
+<script type="math/tex; mode=display">
+x+y=0</script><p>所以</p>
+<script type="math/tex; mode=display">
+y=-x</script><p>因此 eigenvector 為</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+x\\\\
+-x
+\end{pmatrix}
+=x
+\begin{pmatrix}
+1\\\\
+-1
+\end{pmatrix}
+\quad (x\neq 0)</script><p>所以對應 $\lambda=1$ 的 eigenvector 可寫成</p>
+<script type="math/tex; mode=display">
+c
+\begin{pmatrix}
+1\\\\
+-1
+\end{pmatrix}
+\quad (c\neq 0)</script><h2 id="Eigenspace"><a href="#Eigenspace" class="headerlink" title="Eigenspace"></a>Eigenspace</h2><p>對應 eigenvalue $\lambda$ 的 eigenspace 定義為</p>
+<script type="math/tex; mode=display">
+V(\lambda)=\ker(A-\lambda I)</script><p>也就是所有 eigenvector 再加上零向量形成的空間。</p>
+<p>例如上面的例子：</p>
+<h3 id="對-lambda-3"><a href="#對-lambda-3" class="headerlink" title="對 $\lambda=3$"></a>對 $\lambda=3$</h3><script type="math/tex; mode=display">
+V(3)=\operatorname{span}
+\left\\{
+\begin{pmatrix}
+1\\\\
+1
+\end{pmatrix}
+\right\\}</script><h3 id="對-lambda-1"><a href="#對-lambda-1" class="headerlink" title="對 $\lambda=1$"></a>對 $\lambda=1$</h3><script type="math/tex; mode=display">
+V(1)=\operatorname{span}
+\left\\{
+\begin{pmatrix}
+1\\\\
+-1
+\end{pmatrix}
+\right\\}</script><h2 id="冪等矩陣的-EigenVector"><a href="#冪等矩陣的-EigenVector" class="headerlink" title="冪等矩陣的 EigenVector"></a>冪等矩陣的 EigenVector</h2><p>若</p>
+<script type="math/tex; mode=display">
+A^2=A</script><p>則 eigenvalue 只能是 $0$ 或 $1$。</p>
+<h3 id="當-lambda-0"><a href="#當-lambda-0" class="headerlink" title="當 $\lambda=0$"></a>當 $\lambda=0$</h3><p>解</p>
+<script type="math/tex; mode=display">
+Av=0</script><p>所以</p>
+<script type="math/tex; mode=display">
+V(0)=\ker(A)</script><h3 id="當-lambda-1"><a href="#當-lambda-1" class="headerlink" title="當 $\lambda=1$"></a>當 $\lambda=1$</h3><p>解</p>
+<script type="math/tex; mode=display">
+(A-I)v=0</script><p>所以</p>
+<script type="math/tex; mode=display">
+V(1)=\ker(A-I)</script><p>而且對冪等矩陣還有</p>
+<script type="math/tex; mode=display">
+V(1)=CS(A)</script><hr>
+<h1 id="整理"><a href="#整理" class="headerlink" title="整理"></a>整理</h1><h2 id="求-EigenValue"><a href="#求-EigenValue" class="headerlink" title="求 EigenValue"></a>求 EigenValue</h2><p>解</p>
+<script type="math/tex; mode=display">
+\det(A-\lambda I)=0</script><h2 id="求-EigenVector"><a href="#求-EigenVector" class="headerlink" title="求 EigenVector"></a>求 EigenVector</h2><p>對每個 $\lambda$ 解</p>
+<script type="math/tex; mode=display">
+(A-\lambda I)v=0</script><h2 id="求-Eigenspace"><a href="#求-Eigenspace" class="headerlink" title="求 Eigenspace"></a>求 Eigenspace</h2><script type="math/tex; mode=display">
+V(\lambda)=\ker(A-\lambda I)</script></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/52554cd4.html">https://yowdesert.github.io/posts/52554cd4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><a class="post-meta__tags" href="/tags/%E5%B0%8D%E8%A7%92%E5%8C%96%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8/">對角化及其應用</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">[日文] 日文學習-進階4-文法</div></div><div class="info-2"><div class="info-item-1">1) ～やすいです（容易～／好～） 用法與意思  前面若是意志動詞：表示「做這個動作很容易、順手」 前面若是無意志動詞：表示「某狀態／現象很容易發生（頻率高）」 複合語也常用：わかりやすい＝容易理解  接續  動詞ます形去ます＋やすい（＝い形容詞） 例：使います → 使いやすい／住みます → 住みやすい  例句  去年イタリアで買ったかばんは、大きくて使いやすいです。 　（去年在義大利買的包包很大，很好用。） この国は、天気が暖かくて住みやすい。 　（這個國家天氣溫暖，很適合居住。） 最近の天気は、風邪を引きやすいです。 　（最近的天氣很容易感冒。）   2) ～にくいです（不容易～／難～） 用法與意思  前面若是意志動詞：表示「做起來費力、困難（心理上也覺得難）」 前面若是無意志動詞：表示「不容易發生／不容易變成某狀態」 複合語：わかりにくい＝難理解  接續  動詞ます形去ます＋にくい（＝い形容詞）  例句  あの会社の製品は、作りが雑で使いにくいです。 　（那家公司產品做工粗糙，不好用。） この車は古くて運転しにくい。 　（這台車很舊，很難開。） この家は燃えにくい素材で建て...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%82EigenValue-%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">求EigenValue 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">一般法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E5%B7%A7"><span class="toc-number">1.2.</span> <span class="toc-text">技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8D%E8%A7%92%E7%9F%A9%E9%99%A3-%E7%9B%B4%E6%8E%A5%E7%9C%8B%E5%B0%8D%E8%A7%92%E7%B7%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">對角矩陣 : 直接看對角線</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E7%9F%A9%E9%99%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">三角矩陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-times-2-%E7%9F%A9%E9%99%A3%E5%85%AC%E5%BC%8F"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. $2\times 2$ 矩陣公式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9F%A9%E9%99%A3%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.</span> <span class="toc-text">特殊矩陣的技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%AA%E7%AD%89%E7%9F%A9%E9%99%A3"><span class="toc-number">1.3.1.</span> <span class="toc-text">冪等矩陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8D%E5%90%88%E7%9F%A9%E9%99%A3"><span class="toc-number">1.3.2.</span> <span class="toc-text">對合矩陣</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nilpotent-%E7%9F%A9%E9%99%A3"><span class="toc-number">1.3.3.</span> <span class="toc-text">Nilpotent 矩陣</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%AA%E7%AD%89%E7%9F%A9%E9%99%A3%E7%9A%84%E9%87%8D%E8%A6%81%E7%A9%BA%E9%96%93"><span class="toc-number">1.4.</span> <span class="toc-text">冪等矩陣的重要空間</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#V-0"><span class="toc-number">1.4.1.</span> <span class="toc-text">$V(0)$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V-1"><span class="toc-number">1.4.2.</span> <span class="toc-text">$V(1)$</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC-V-1-CS-A"><span class="toc-number">1.5.</span> <span class="toc-text">為什麼 $V(1)&#x3D;CS(A)$</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AD%89-CS-A-subseteq-ker-A-I"><span class="toc-number">1.5.1.</span> <span class="toc-text">證 $CS(A)\subseteq \ker(A-I)$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AD%89-ker-A-I-subseteq-CS-A"><span class="toc-number">1.5.2.</span> <span class="toc-text">證 $\ker(A-I)\subseteq CS(A)$</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%82EigenVector-%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">求EigenVector 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%AD%A5%E9%A9%9F"><span class="toc-number">2.1.</span> <span class="toc-text">一般步驟</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%85%88%E6%B1%82-eigenvalue"><span class="toc-number">2.1.1.</span> <span class="toc-text">第一步：先求 eigenvalue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BB%A3%E5%9B%9E%E5%8E%BB%E6%B1%82-eigenvector"><span class="toc-number">2.1.2.</span> <span class="toc-text">第二步：代回去求 eigenvector</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">2.2.</span> <span class="toc-text">例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E6%B1%82-eigenvalue"><span class="toc-number">2.2.1.</span> <span class="toc-text">先求 eigenvalue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%B6-lambda-3-%E6%99%82"><span class="toc-number">2.2.2.</span> <span class="toc-text">當 $\lambda&#x3D;3$ 時</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%B6-lambda-1-%E6%99%82"><span class="toc-number">2.2.3.</span> <span class="toc-text">當 $\lambda&#x3D;1$ 時</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Eigenspace"><span class="toc-number">2.3.</span> <span class="toc-text">Eigenspace</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8D-lambda-3"><span class="toc-number">2.3.1.</span> <span class="toc-text">對 $\lambda&#x3D;3$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8D-lambda-1"><span class="toc-number">2.3.2.</span> <span class="toc-text">對 $\lambda&#x3D;1$</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%AA%E7%AD%89%E7%9F%A9%E9%99%A3%E7%9A%84-EigenVector"><span class="toc-number">2.4.</span> <span class="toc-text">冪等矩陣的 EigenVector</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%B6-lambda-0"><span class="toc-number">2.4.1.</span> <span class="toc-text">當 $\lambda&#x3D;0$</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%B6-lambda-1"><span class="toc-number">2.4.2.</span> <span class="toc-text">當 $\lambda&#x3D;1$</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B4%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">整理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%82-EigenValue"><span class="toc-number">3.1.</span> <span class="toc-text">求 EigenValue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%82-EigenVector"><span class="toc-number">3.2.</span> <span class="toc-text">求 EigenVector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%82-Eigenspace"><span class="toc-number">3.3.</span> <span class="toc-text">求 Eigenspace</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/52554cd4.html" title="(線性代數) EigenValue and EigenVector計算">(線性代數) EigenValue and EigenVector計算</a><time datetime="2026-03-11T12:08:00.000Z" title="發表於 2026-03-11 20:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法">[日文] 日文學習-進階4-文法</a><time datetime="2026-01-30T08:00:00.000Z" title="發表於 2026-01-30 16:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5b29cb9e.html" title="(計算機組織) 計算機組織摘要-Memory">(計算機組織) 計算機組織摘要-Memory</a><time datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/80447f80.html" title="[日文] 日文學習-進階3-文法">[日文] 日文學習-進階3-文法</a><time datetime="2026-01-29T08:00:00.000Z" title="發表於 2026-01-29 16:00:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/869672ee.html" title="(計算機組織) 計算機組織摘要">(計算機組織) 計算機組織摘要</a><time datetime="2026-01-26T09:15:00.000Z" title="發表於 2026-01-26 17:15:00">2026-01-26</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {

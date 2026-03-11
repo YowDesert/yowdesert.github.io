@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-01-30T09:47:26.672Z</updated>
+  <updated>2026-03-11T15:04:54.863Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(線性代數) EigenValue and EigenVector計算</title>
+    <link href="https://yowdesert.github.io/posts/52554cd4.html"/>
+    <id>https://yowdesert.github.io/posts/52554cd4.html</id>
+    <published>2026-03-11T12:08:00.000Z</published>
+    <updated>2026-03-11T15:04:54.863Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;求EigenValue-方法&quot;&gt;&lt;a href=&quot;#求EigenValue-方法&quot; class=&quot;headerlink&quot; title=&quot;求EigenValue 方法&quot;&gt;&lt;/a&gt;求EigenValue 方法&lt;/h1&gt;&lt;h2 id=&quot;一般法&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="線性代數" scheme="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
+    
+    <category term="對角化及其應用" scheme="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E5%B0%8D%E8%A7%92%E5%8C%96%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8/"/>
+    
+    
+    <category term="線性代數" scheme="https://yowdesert.github.io/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
+    
+    <category term="對角化及其應用" scheme="https://yowdesert.github.io/tags/%E5%B0%8D%E8%A7%92%E5%8C%96%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>[日文] 日文學習-進階4-文法</title>
@@ -610,35 +639,6 @@
     <category term="Cryptography" scheme="https://yowdesert.github.io/tags/Cryptography/"/>
     
     <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(資料庫系統) Normal Forms (NF)</title>
-    <link href="https://yowdesert.github.io/posts/b4af80a7.html"/>
-    <id>https://yowdesert.github.io/posts/b4af80a7.html</id>
-    <published>2025-12-15T12:47:21.025Z</published>
-    <updated>2025-12-15T14:28:29.966Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;本章我要統整一下 Normal Forms 究竟是甚麼東西&lt;br&gt;
-核心目的 :　消除資料重複，避免更新異常，同時不產生假值組（spurious</summary>
-        
-      
-    
-    
-    
-    <category term="資料庫系統" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E5%BA%AB%E7%B3%BB%E7%B5%B1/"/>
-    
-    <category term="Normal Forms" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E5%BA%AB%E7%B3%BB%E7%B5%B1/Normal-Forms/"/>
-    
-    
-    <category term="資料庫系統" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E5%BA%AB%E7%B3%BB%E7%B5%B1/"/>
     
   </entry>
   
