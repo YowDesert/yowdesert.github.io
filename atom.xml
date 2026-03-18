@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-03-11T15:04:54.863Z</updated>
+  <updated>2026-03-12T12:09:19.358Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -17,18 +17,55 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>(線性代數) 線代小技巧</title>
+    <link href="https://yowdesert.github.io/posts/590f0522.html"/>
+    <id>https://yowdesert.github.io/posts/590f0522.html</id>
+    <published>2026-03-11T15:08:00.000Z</published>
+    <updated>2026-03-12T12:09:19.358Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;甚麼時候沒有反矩陣？&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;方陣有反矩陣 ⇔ det 不為 0 ⇔ rank = n ⇔ 行列線性獨立 ⇔ 𝐴𝑥=0 ， Ax=0 只有零解 ⇔ 0</summary>
+        
+      
+    
+    
+    
+    <category term="線性代數" scheme="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
+    
+    <category term="其他" scheme="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E5%85%B6%E4%BB%96/"/>
+    
+    
+    <category term="線性代數" scheme="https://yowdesert.github.io/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>(線性代數) EigenValue and EigenVector計算</title>
     <link href="https://yowdesert.github.io/posts/52554cd4.html"/>
     <id>https://yowdesert.github.io/posts/52554cd4.html</id>
     <published>2026-03-11T12:08:00.000Z</published>
-    <updated>2026-03-11T15:04:54.863Z</updated>
+    <updated>2026-03-18T16:23:14.169Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;求EigenValue-方法&quot;&gt;&lt;a href=&quot;#求EigenValue-方法&quot; class=&quot;headerlink&quot; title=&quot;求EigenValue 方法&quot;&gt;&lt;/a&gt;求EigenValue 方法&lt;/h1&gt;&lt;h2 id=&quot;一般法&quot;&gt;&lt;a</summary>
+    <summary type="html">&lt;h1&gt;求EigenValue 方法&lt;/h1&gt;
+&lt;h2 id=&quot;一般法&quot;&gt;一般法&lt;/h2&gt;
+&lt;p&gt;$$&lt;br&gt;
+Av = λv (v != 0)&lt;br&gt;
+=&amp;gt; (A - λI) v = 0&lt;br&gt;
+=&amp;gt; det(A-λI) = 0&lt;br&gt;
+$$&lt;br&gt;
+又叫做</summary>
         
       
     
@@ -591,41 +628,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;Knapsack-Cryptosystem（Merkle–Hellman-背包公鑰密碼）&quot;&gt;&lt;a href=&quot;#Knapsack-Cryptosystem（Merkle–Hellman-背包公鑰密碼）&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/Cryptography/"/>
-    
-    
-    <category term="Cryptography" scheme="https://yowdesert.github.io/tags/Cryptography/"/>
-    
-    <category term="資訊安全" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E8%A8%8A%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Diffie–Hellman (DH) Key Exchange (金鑰交換)</title>
-    <link href="https://yowdesert.github.io/posts/862ca019.html"/>
-    <id>https://yowdesert.github.io/posts/862ca019.html</id>
-    <published>2025-12-18T12:00:00.000Z</published>
-    <updated>2025-12-18T16:10:43.050Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;Diffie–Hellman 是一個金鑰交換的演算法&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
-&lt;h1&gt;DH 在解決什麼問題？&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;在不安全通道上，Alice 與 Bob 協議出共同秘密金鑰 $K$，用於對稱加密（如</summary>
         
       
     

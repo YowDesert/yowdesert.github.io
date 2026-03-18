@@ -1,19 +1,15 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>[PicoCTF] head-dump 解題筆記 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Challenge: head-dump Category: Web Exploitation Difficulty: Easy Description: Welcome to the challenge! In this challenge, you will explore a web application and find an endpoint that exposes a file c">
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>分類: 其他 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="[PicoCTF] head-dump 解題筆記">
-<meta property="og:url" content="https://yowdesert.github.io/Hidden/da80d575.html">
+<meta property="og:title" content="YD&#39;s 學習筆記">
+<meta property="og:url" content="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E5%85%B6%E4%BB%96/index.html">
 <meta property="og:site_name" content="YD&#39;s 學習筆記">
-<meta property="og:description" content="Challenge: head-dump Category: Web Exploitation Difficulty: Easy Description: Welcome to the challenge! In this challenge, you will explore a web application and find an endpoint that exposes a file c">
+<meta property="og:description" content="這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
-<meta property="article:published_time" content="2025-08-06T22:00:00.000Z">
-<meta property="article:modified_time" content="2025-12-09T12:16:44.708Z">
 <meta property="article:author" content="YowDesert">
-<meta property="article:tag" content="Web Exploitation">
-<meta property="article:tag" content="PicoCTF_Easy">
-<meta property="article:tag" content="PicoCTF">
+<meta property="article:tag" content="筆記,學習,學習筆記,程式設計,演算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/Hidden/da80d575.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E5%85%B6%E4%BB%96/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
     (() => {
       
     const saveToLocal = {
@@ -145,10 +141,10 @@
   },
   autoDarkmode: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '[PicoCTF] head-dump 解題筆記',
+  title: '分類: 其他',
   isHighlightShrink: false,
   isToc: false,
-  pageType: 'page'
+  pageType: 'category'
 }</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 學習筆記" type="application/atom+xml">
 </head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
   const $loadingBox = document.getElementById('loading-box')
@@ -180,72 +176,7 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">[PicoCTF] head-dump 解題筆記</h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><p>Challenge: head-dump<br>
-Category:<br>
-Web Exploitation<br>
-Difficulty:<br>
-Easy<br>
-Description:<br>
-Welcome to the challenge! In this challenge, you will explore a web application and find an endpoint that exposes a file containing a hidden flag.<br>
-The application is a simple blog website where you can read articles about various topics, including an article about API Documentation. Your goal is to explore the application and find the endpoint that generates files holding the server’s memory, where a secret flag is hidden.<br>
-解題思路整理<br>
-Step 1: 分析題目內容<br>
-從描述中提到：<br>
-The application is a simple blog website…   Your goal is to find the endpoint that generates files holding the server’s memory, where a secret flag is hidden.<br>
-endpoint<br>
-：API 的端點，代表可能存在可互動的資料輸出功能。<br>
-generates files holding the server’s memory<br>
-：表示可能會有記憶體快照（heap dump）這類的檔案產生。<br>
-flag is hidden<br>
-：flag 會藏在這些檔案內，不會直接在頁面上顯示。<br>
-結論：<br>
-我們應該找尋網站中與<br>
-API 文件<br>
-或<br>
-系統診斷 / 偵錯工具<br>
-相關的頁面或功能。<br>
-Step 2: 探索網站<br>
-進入提供的網站後，會發現是一個部落格介面。在其中一篇文章中發現了「API Documentation」的連結，我們點擊進去。<br>
-點擊進去的畫面會是這樣<br>
-Step 3: 使用診斷工具產生記憶體快照<br>
-在 API 文件頁中，我們找到一個名為<br>
-Diagnosing the memory allocation<br>
-的功能。<br>
-點擊<br>
-「執行」<br>
-後，網站會生成一個檔案供下載。<br>
-📸 範例畫面：<br>
-下載後會得到一個名為：<br>
-heapdump-1753261619373.heapsnapshot<br>
-的檔案。<br>
-Step 4: 解析 heap dump 檔案找 flag<br>
-方法一：使用 Linux<br>
-strings<br>
-+<br>
-grep<br>
-指令<br>
-這類<br>
-.heapsnapshot<br>
-檔案為二進位格式，但裡面可能含有可讀文字，我們可以用<br>
-strings<br>
-指令提取可見字串，再搭配<br>
-grep<br>
-過濾出含有<br>
-picoCTF<br>
-的行：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></figure>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings heapdump-1753261619373.heapsnapshot | grep picoCTF</span><br></pre></td></tr></table></figure>
-<p>方法二：使用文字編輯器直接搜尋<br>
-在圖形化介面下，也可以使用文字編輯器打開檔案（例如 VS Code / Sublime / Notepad++），然後按下：<br>
-Ctrl + F<br>
-搜尋關鍵字 picoCTF，即可快速找到 flag！<br>
-🎯 Flag<br>
-🟢<br>
-成功取得 Flag！<br>
-picoCTF{Pat!3nt_15_Th3_K3y_f1179e46}<br>
-🎉<br>
-恭喜你完成這題！繼續加油解鎖更多挑戰吧 💪</p>
-</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/590f0522.html" title="(線性代數) 線代小技巧">(線性代數) 線代小技巧</a><time datetime="2026-03-11T15:08:00.000Z" title="發表於 2026-03-11 23:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/52554cd4.html" title="(線性代數) EigenValue and EigenVector計算">(線性代數) EigenValue and EigenVector計算</a><time datetime="2026-03-11T12:08:00.000Z" title="發表於 2026-03-11 20:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法">[日文] 日文學習-進階4-文法</a><time datetime="2026-01-30T08:00:00.000Z" title="發表於 2026-01-30 16:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5b29cb9e.html" title="(計算機組織) 計算機組織摘要-Memory">(計算機組織) 計算機組織摘要-Memory</a><time datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/80447f80.html" title="[日文] 日文學習-進階3-文法">[日文] 日文學習-進階3-文法</a><time datetime="2026-01-29T08:00:00.000Z" title="發表於 2026-01-29 16:00:00">2026-01-29</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><div class="card-widget card-categories"><div class="item-headline">
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">其他</h1></div></header><main class="layout" id="content-inner"><div id="category"><div class="article-sort-title">分類 - 其他</div><div class="article-sort"><div class="article-sort-item year">2026</div><div class="article-sort-item no-article-cover"><div class="article-sort-item-info"><div class="article-sort-item-time"><i class="far fa-calendar-alt"></i><time class="post-meta-date-created" datetime="2026-03-11T15:08:00.000Z" title="發表於 2026-03-11 23:08:00">2026-03-11</time></div><a class="article-sort-item-title" href="/posts/590f0522.html" title="(線性代數) 線代小技巧">(線性代數) 線代小技巧</a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/590f0522.html" title="(線性代數) 線代小技巧">(線性代數) 線代小技巧</a><time datetime="2026-03-11T15:08:00.000Z" title="發表於 2026-03-11 23:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/52554cd4.html" title="(線性代數) EigenValue and EigenVector計算">(線性代數) EigenValue and EigenVector計算</a><time datetime="2026-03-11T12:08:00.000Z" title="發表於 2026-03-11 20:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法">[日文] 日文學習-進階4-文法</a><time datetime="2026-01-30T08:00:00.000Z" title="發表於 2026-01-30 16:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5b29cb9e.html" title="(計算機組織) 計算機組織摘要-Memory">(計算機組織) 計算機組織摘要-Memory</a><time datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/80447f80.html" title="[日文] 日文學習-進階3-文法">[日文] 日文學習-進階3-文法</a><time datetime="2026-01-29T08:00:00.000Z" title="發表於 2026-01-29 16:00:00">2026-01-29</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分類</span>
             <a class="card-more-btn" href="/categories/" title="檢視更多">
@@ -300,80 +231,6 @@ picoCTF{Pat!3nt_15_Th3_K3y_f1179e46}<br>
       
     </ul>
   </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>網站資訊</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章數量 :</div><div class="item-count">33</div></div><div class="webinfo-item"><div class="item-name">總字數 :</div><div class="item-count">91.1k</div></div><div class="webinfo-item"><div class="item-name">訪客數 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">總瀏覽量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最後更新時間 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-18T16:23:22.872Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
-  const loadMathjax = () => {
-    if (!window.MathJax) {
-      window.MathJax = {
-        loader: {
-          load: [
-            // Four font extension packages (optional)
-            //- '[tex]/bbm',
-            //- '[tex]/bboldx',
-            //- '[tex]/dsfont',
-            '[tex]/mhchem'
-          ],
-          paths: {
-            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
-
-            //- // Four font extension packages (optional)
-            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
-            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
-            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
-            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
-          }
-        },
-        output: {
-          font: 'mathjax-newcm',
-        },
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          tags: 'none',
-          packages: {
-            '[+]': [
-              'mhchem'
-            ]
-          }
-        },
-        chtml: {
-          scale: 1.1
-        },
-        options: {
-          enableMenu: true,
-          menuOptions: {
-            settings: {
-              enrich: false  // Turn off Braille and voice narration text automatic generation
-            }
-          },
-          renderActions: {
-            findScript: [10, doc => {
-              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
-                const display = !!node.type.match(/; *mode=display/)
-                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
-                const text = document.createTextNode('')
-                node.parentNode.replaceChild(text, node)
-                math.start = {node: text, delim: '', n: 0}
-                math.end = {node: text, delim: '', n: 0}
-                doc.math.push(math)
-              }
-            }, '']
-          }
-        }
-      }
-
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
-      script.id = 'MathJax-script'
-      script.async = true
-      document.head.appendChild(script)
-    } else {
-      MathJax.startup.document.state(0)
-      MathJax.texReset()
-      MathJax.typesetPromise()
-    }
-  }
-
-  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
-  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
-})()</script><script>(() => {
   const runMermaid = ele => {
     window.loadMermaid = true
     const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
