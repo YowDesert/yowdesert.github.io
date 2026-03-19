@@ -1,0 +1,427 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(線性代數) 判斷是否可以對角化 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="矩陣是否可以對角化的判斷對 (n \times n) 矩陣 (A) 來說，  A \text{ 可對角化 } \iff A \text{ 有 } n \text{ 個線性獨立的特徵向量}也就是說，若可以找到可逆矩陣 (P) 與對角矩陣 (D)，使得  A &#x3D; PDP^{-1}則 (A) 可對角化。  常用判斷方法方法 1：有 (n) 個互異特徵值如果 (A) 有 (n) 個互不相同的特徵值，那麼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(線性代數) 判斷是否可以對角化">
+<meta property="og:url" content="https://yowdesert.github.io/posts/1460649e.html">
+<meta property="og:site_name" content="YD&#39;s 學習筆記">
+<meta property="og:description" content="矩陣是否可以對角化的判斷對 (n \times n) 矩陣 (A) 來說，  A \text{ 可對角化 } \iff A \text{ 有 } n \text{ 個線性獨立的特徵向量}也就是說，若可以找到可逆矩陣 (P) 與對角矩陣 (D)，使得  A &#x3D; PDP^{-1}則 (A) 可對角化。  常用判斷方法方法 1：有 (n) 個互異特徵值如果 (A) 有 (n) 個互不相同的特徵值，那麼">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-03-19T15:08:00.000Z">
+<meta property="article:modified_time" content="2026-03-19T15:46:46.580Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="線性代數">
+<meta property="article:tag" content="對角化及其應用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "(線性代數) 判斷是否可以對角化",
+  "url": "https://yowdesert.github.io/posts/1460649e.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2026-03-19T15:08:00.000Z",
+  "dateModified": "2026-03-19T15:46:46.580Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/1460649e.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '(線性代數) 判斷是否可以對角化',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 學習筆記" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">22</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(線性代數) 判斷是否可以對角化</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(線性代數) 判斷是否可以對角化</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-03-19T15:08:00.000Z" title="發表於 2026-03-19 23:08:00">2026-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-03-19T15:46:46.580Z" title="更新於 2026-03-19 23:46:46">2026-03-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/%E5%B0%8D%E8%A7%92%E5%8C%96%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8/">對角化及其應用</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">350</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>1分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="矩陣是否可以對角化的判斷"><a href="#矩陣是否可以對角化的判斷" class="headerlink" title="矩陣是否可以對角化的判斷"></a>矩陣是否可以對角化的判斷</h1><p>對 (n \times n) 矩陣 (A) 來說，</p>
+<script type="math/tex; mode=display">
+A \text{ 可對角化 } \iff A \text{ 有 } n \text{ 個線性獨立的特徵向量}</script><p>也就是說，若可以找到可逆矩陣 (P) 與對角矩陣 (D)，使得</p>
+<script type="math/tex; mode=display">
+A = PDP^{-1}</script><p>則 (A) 可對角化。</p>
+<hr>
+<h2 id="常用判斷方法"><a href="#常用判斷方法" class="headerlink" title="常用判斷方法"></a>常用判斷方法</h2><h3 id="方法-1：有-n-個互異特徵值"><a href="#方法-1：有-n-個互異特徵值" class="headerlink" title="方法 1：有 (n) 個互異特徵值"></a>方法 1：有 (n) 個互異特徵值</h3><p>如果 (A) 有 (n) 個互不相同的特徵值，<br>那麼 (A) 一定可對角化。</p>
+<hr>
+<h3 id="方法-2：比較代數重數與幾何重數"><a href="#方法-2：比較代數重數與幾何重數" class="headerlink" title="方法 2：比較代數重數與幾何重數"></a>方法 2：比較代數重數與幾何重數</h3><p>對每個特徵值 (\lambda)：</p>
+<ul>
+<li><p><strong>代數重數 (algebraic multiplicity)</strong>：<br>(\lambda) 在 characteristic polynomial 中出現的次數</p>
+</li>
+<li><p><strong>幾何重數 (geometric multiplicity)</strong>：<br>對應 eigenspace 的維度</p>
+<script type="math/tex; mode=display">
+\dim \ker(A-\lambda I)</script></li>
+</ul>
+<p>判斷條件為：</p>
+<script type="math/tex; mode=display">
+A \text{ 可對角化 } \iff \text{對每個特徵值 } \lambda,\ 
+\text{幾何重數}=\text{代數重數}</script><p>而且所有 eigenspace 維度加總必須等於 (n)。</p>
+<hr>
+<h2 id="標準解題流程"><a href="#標準解題流程" class="headerlink" title="標準解題流程"></a>標準解題流程</h2><h3 id="Step-1：求特徵值"><a href="#Step-1：求特徵值" class="headerlink" title="Step 1：求特徵值"></a>Step 1：求特徵值</h3><p>解 characteristic equation：</p>
+<script type="math/tex; mode=display">
+\det(A-\lambda I)=0</script><p>得到所有特徵值。</p>
+<hr>
+<h3 id="Step-2：看每個特徵值的代數重數"><a href="#Step-2：看每個特徵值的代數重數" class="headerlink" title="Step 2：看每個特徵值的代數重數"></a>Step 2：看每個特徵值的代數重數</h3><p>由 characteristic polynomial 判斷每個特徵值重複幾次。</p>
+<hr>
+<h3 id="Step-3：求每個特徵值的幾何重數"><a href="#Step-3：求每個特徵值的幾何重數" class="headerlink" title="Step 3：求每個特徵值的幾何重數"></a>Step 3：求每個特徵值的幾何重數</h3><p>對每個特徵值 (\lambda)，解</p>
+<script type="math/tex; mode=display">
+(A-\lambda I)x=0</script><p>求出 eigenspace 的維度，也就是</p>
+<script type="math/tex; mode=display">
+\dim \ker(A-\lambda I)</script><hr>
+<h3 id="Step-4：比較"><a href="#Step-4：比較" class="headerlink" title="Step 4：比較"></a>Step 4：比較</h3><ul>
+<li><p>若對每個特徵值都有  </p>
+<script type="math/tex; mode=display">
+\text{幾何重數}=\text{代數重數}</script><p>則 (A) 可對角化。</p>
+</li>
+<li><p>只要有某個特徵值滿足  </p>
+<script type="math/tex; mode=display">
+\text{幾何重數}<\text{代數重數}</script><p>則 (A) 不可對角化。</p>
+</li>
+</ul>
+<hr>
+<h2 id="常見結論"><a href="#常見結論" class="headerlink" title="常見結論"></a>常見結論</h2><h3 id="一定可對角化"><a href="#一定可對角化" class="headerlink" title="一定可對角化"></a>一定可對角化</h3><ul>
+<li>有 (n) 個不同特徵值</li>
+<li>每個特徵值的幾何重數都等於代數重數</li>
+</ul>
+<h3 id="不一定可對角化"><a href="#不一定可對角化" class="headerlink" title="不一定可對角化"></a>不一定可對角化</h3><ul>
+<li>有重複特徵值時，不一定可對角化</li>
+<li>必須再算 eigenspace 維度才能判斷</li>
+</ul>
+<h3 id="一定不可對角化"><a href="#一定不可對角化" class="headerlink" title="一定不可對角化"></a>一定不可對角化</h3><ul>
+<li>某個特徵值的幾何重數小於代數重數</li>
+</ul>
+<hr>
+<h2 id="例子-1：可對角化"><a href="#例子-1：可對角化" class="headerlink" title="例子 1：可對角化"></a>例子 1：可對角化</h2><script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+1 & 1 \\
+0 & 2
+\end{pmatrix}</script><p>特徵值為 (1,2)，兩個不同，<br>所以 (A) 一定可對角化。</p>
+<hr>
+<h2 id="例子-2：不可對角化"><a href="#例子-2：不可對角化" class="headerlink" title="例子 2：不可對角化"></a>例子 2：不可對角化</h2><script type="math/tex; mode=display">
+A=
+\begin{pmatrix}
+2 & 1 \\
+0 & 2
+\end{pmatrix}</script><p>特徵值只有 (2)，代數重數為 2。</p>
+<p>計算：</p>
+<script type="math/tex; mode=display">
+A-2I=
+\begin{pmatrix}
+0 & 1 \\
+0 & 0
+\end{pmatrix}</script><p>解</p>
+<script type="math/tex; mode=display">
+(A-2I)x=0</script><p>可得只有一個自由變數，所以</p>
+<script type="math/tex; mode=display">
+\dim \ker(A-2I)=1</script><p>因此：</p>
+<ul>
+<li>代數重數 = 2</li>
+<li>幾何重數 = 1</li>
+</ul>
+<p>所以 (A) <strong>不可對角化</strong>。</p>
+<hr>
+<h2 id="三角矩陣的判斷技巧"><a href="#三角矩陣的判斷技巧" class="headerlink" title="三角矩陣的判斷技巧"></a>三角矩陣的判斷技巧</h2><p>若 (A) 是三角矩陣，<br>則它的特徵值就是對角線元素。</p>
+<p>所以可以先看對角線：</p>
+<ul>
+<li>若對角線元素全部不同<br>(\Rightarrow) 一定可對角化</li>
+<li>若有重複<br>(\Rightarrow) 還要再算 eigenspace 維度</li>
+</ul>
+<hr>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><script type="math/tex; mode=display">
+A \text{ 可對角化 } \iff A \text{ 有 } n \text{ 個線性獨立特徵向量}</script><p>實際做題時，最重要的是：</p>
+<ol>
+<li>求特徵值</li>
+<li>看代數重數</li>
+<li>算幾何重數</li>
+<li>比較兩者是否相等</li>
+</ol>
+<p>只要對每個特徵值都有</p>
+<script type="math/tex; mode=display">
+\text{幾何重數}=\text{代數重數}</script><p>就可以判斷 (A) 可對角化。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/1460649e.html">https://yowdesert.github.io/posts/1460649e.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%B7%9A%E6%80%A7%E4%BB%A3%E6%95%B8/">線性代數</a><a class="post-meta__tags" href="/tags/%E5%B0%8D%E8%A7%92%E5%8C%96%E5%8F%8A%E5%85%B6%E6%87%89%E7%94%A8/">對角化及其應用</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/590f0522.html" title="(線性代數) 線代小技巧"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">(線性代數) 線代小技巧</div></div><div class="info-2"><div class="info-item-1">甚麼時候沒有反矩陣？   方陣有反矩陣 ⇔ det 不為 0 ⇔ rank = n ⇔ 行列線性獨立 ⇔ 𝐴𝑥=0 ， Ax=0 只有零解 ⇔ 0 不是EigenValue   解釋一下 :  det 不能是 0: 因為 $A A^{-1} = I$，$det(A) * det(A^{-1}) = det(I) = 1$ ，所以det(A)不能是0 齊次方程有非零解 : 如果 $Ax = 0$ 有 $x != 0$的解，那A就不可逆 因為如果有反矩陣，左右乘$A^{-1}$會得到 Ix = 0 =&gt; 不可能還有非0解 0 不是EigenValue 因為 Av = λv 且 v != 0 如果 λ = 0 則Av有非0解，因為v不為0，但Av卻是0。    </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/52554cd4.html" title="(線性代數) 矩陣與矩陣運算"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(線性代數) 矩陣與矩陣運算</div></div><div class="info-2"><div class="info-item-1">矩陣與矩陣運算基礎 在線性代數中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。 矩陣由數字依照**列（row）與行（column）**排列成長方形陣列。  1. 矩陣的表示法 令 $F$ 為一個域（Field），一個 $m \times n$ 的矩陣 $A$ 為： $$ A = \begin{bmatrix} a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\ a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} \end{bmatrix}, \quad a_{ij} \in F $$ 其中：  $A$ 為 $m$ 列 $n$ 行矩陣 $a_{ij}$：第 $i$ 列、第 $j$ 行元素 行（row）：橫向排列 列（column）：縱向排列 $F^{m \times n}$：所有 ...</div></div></div></a><a class="pagination-related" href="/posts/590f0522.html" title="(線性代數) 線代小技巧"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-11</div><div class="info-item-2">(線性代數) 線代小技巧</div></div><div class="info-2"><div class="info-item-1">甚麼時候沒有反矩陣？   方陣有反矩陣 ⇔ det 不為 0 ⇔ rank = n ⇔ 行列線性獨立 ⇔ 𝐴𝑥=0 ， Ax=0 只有零解 ⇔ 0 不是EigenValue   解釋一下 :  det 不能是 0: 因為 $A A^{-1} = I$，$det(A) * det(A^{-1}) = det(I) = 1$ ，所以det(A)不能是0 齊次方程有非零解 : 如果 $Ax = 0$ 有 $x != 0$的解，那A就不可逆 因為如果有反矩陣，左右乘$A^{-1}$會得到 Ix = 0 =&gt; 不可能還有非0解 0 不是EigenValue 因為 Av = λv 且 v != 0 如果 λ = 0 則Av有非0解，因為v不為0，但Av卻是0。    </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%A9%E9%99%A3%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E5%B0%8D%E8%A7%92%E5%8C%96%E7%9A%84%E5%88%A4%E6%96%B7"><span class="toc-number">1.</span> <span class="toc-text">矩陣是否可以對角化的判斷</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%88%A4%E6%96%B7%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">常用判斷方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%EF%BC%9A%E6%9C%89-n-%E5%80%8B%E4%BA%92%E7%95%B0%E7%89%B9%E5%BE%B5%E5%80%BC"><span class="toc-number">1.1.1.</span> <span class="toc-text">方法 1：有 (n) 個互異特徵值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2%EF%BC%9A%E6%AF%94%E8%BC%83%E4%BB%A3%E6%95%B8%E9%87%8D%E6%95%B8%E8%88%87%E5%B9%BE%E4%BD%95%E9%87%8D%E6%95%B8"><span class="toc-number">1.1.2.</span> <span class="toc-text">方法 2：比較代數重數與幾何重數</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%99%E6%BA%96%E8%A7%A3%E9%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">標準解題流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1%EF%BC%9A%E6%B1%82%E7%89%B9%E5%BE%B5%E5%80%BC"><span class="toc-number">1.2.1.</span> <span class="toc-text">Step 1：求特徵值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2%EF%BC%9A%E7%9C%8B%E6%AF%8F%E5%80%8B%E7%89%B9%E5%BE%B5%E5%80%BC%E7%9A%84%E4%BB%A3%E6%95%B8%E9%87%8D%E6%95%B8"><span class="toc-number">1.2.2.</span> <span class="toc-text">Step 2：看每個特徵值的代數重數</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3%EF%BC%9A%E6%B1%82%E6%AF%8F%E5%80%8B%E7%89%B9%E5%BE%B5%E5%80%BC%E7%9A%84%E5%B9%BE%E4%BD%95%E9%87%8D%E6%95%B8"><span class="toc-number">1.2.3.</span> <span class="toc-text">Step 3：求每個特徵值的幾何重數</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-4%EF%BC%9A%E6%AF%94%E8%BC%83"><span class="toc-number">1.2.4.</span> <span class="toc-text">Step 4：比較</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A6%8B%E7%B5%90%E8%AB%96"><span class="toc-number">1.3.</span> <span class="toc-text">常見結論</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E5%8F%AF%E5%B0%8D%E8%A7%92%E5%8C%96"><span class="toc-number">1.3.1.</span> <span class="toc-text">一定可對角化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E4%B8%80%E5%AE%9A%E5%8F%AF%E5%B0%8D%E8%A7%92%E5%8C%96"><span class="toc-number">1.3.2.</span> <span class="toc-text">不一定可對角化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E4%B8%8D%E5%8F%AF%E5%B0%8D%E8%A7%92%E5%8C%96"><span class="toc-number">1.3.3.</span> <span class="toc-text">一定不可對角化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-1%EF%BC%9A%E5%8F%AF%E5%B0%8D%E8%A7%92%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">例子 1：可對角化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-2%EF%BC%9A%E4%B8%8D%E5%8F%AF%E5%B0%8D%E8%A7%92%E5%8C%96"><span class="toc-number">1.5.</span> <span class="toc-text">例子 2：不可對角化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E7%9F%A9%E9%99%A3%E7%9A%84%E5%88%A4%E6%96%B7%E6%8A%80%E5%B7%A7"><span class="toc-number">1.6.</span> <span class="toc-text">三角矩陣的判斷技巧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B8%BD%E7%B5%90"><span class="toc-number">1.7.</span> <span class="toc-text">總結</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/1460649e.html" title="(線性代數) 判斷是否可以對角化">(線性代數) 判斷是否可以對角化</a><time datetime="2026-03-19T15:08:00.000Z" title="發表於 2026-03-19 23:08:00">2026-03-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/590f0522.html" title="(線性代數) 線代小技巧">(線性代數) 線代小技巧</a><time datetime="2026-03-11T15:08:00.000Z" title="發表於 2026-03-11 23:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/52554cd4.html" title="(線性代數) EigenValue and EigenVector計算">(線性代數) EigenValue and EigenVector計算</a><time datetime="2026-03-11T12:08:00.000Z" title="發表於 2026-03-11 20:08:00">2026-03-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8a817699.html" title="[日文] 日文學習-進階4-文法">[日文] 日文學習-進階4-文法</a><time datetime="2026-01-30T08:00:00.000Z" title="發表於 2026-01-30 16:00:00">2026-01-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5b29cb9e.html" title="(計算機組織) 計算機組織摘要-Memory">(計算機組織) 計算機組織摘要-Memory</a><time datetime="2026-01-29T09:20:00.000Z" title="發表於 2026-01-29 17:20:00">2026-01-29</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="/"></script></div></body></html>
