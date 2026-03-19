@@ -5,9 +5,9 @@ categories:
   - 其他
 tags:
   - 線性代數
-abbrlink: 52554cd4
-date: 2026-03-11 23:08:00
+abbrlink: 590f0522
 mathjax: true
+date: 2026-03-11 23:08:00
 ---
 
 # 甚麼時候沒有反矩陣？
