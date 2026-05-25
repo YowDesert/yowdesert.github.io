@@ -6,9 +6,9 @@ categories:
 tags:
   - 線性代數
   - 對角化及其應用
-abbrlink: 52554cd4
-date: 2026-03-11 20:08:00
+abbrlink: e60b2746
 mathjax: true
+date: 2026-03-11 20:08:00
 ---
 
 # 求EigenValue 方法
