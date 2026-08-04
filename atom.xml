@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-08-04T07:35:47.158Z</updated>
+  <updated>2026-08-04T15:54:30.626Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -21,8 +21,18 @@
     <link href="https://yowdesert.github.io/posts/978b4c60.html"/>
     <id>https://yowdesert.github.io/posts/978b4c60.html</id>
     <published>2026-08-04T08:00:00.000Z</published>
-    <updated>2026-08-04T07:35:47.158Z</updated>
+    <updated>2026-08-04T15:54:30.626Z</updated>
     
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;System call&lt;/h1&gt;
+&lt;p&gt;為User Process 與 Kernel 的溝通介面&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;System call 經常利用 Trap(Software Interrupt) 進入</summary>
+        
+      
     
     
     
