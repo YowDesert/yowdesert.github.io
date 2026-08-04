@@ -1111,6 +1111,7 @@ CDN:
   custom_format:
 
   option:
+    busuanzi: //busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js
     # abcjs_basic_js:
     # activate_power_mode:
     # algolia_js:
