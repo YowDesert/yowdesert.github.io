@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-08-04T15:54:30.626Z</updated>
+  <updated>2026-08-06T14:04:03.977Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OS-CH1-3 題目注意</title>
+    <link href="https://yowdesert.github.io/posts/841a1f01.html"/>
+    <id>https://yowdesert.github.io/posts/841a1f01.html</id>
+    <published>2026-08-05T08:00:00.000Z</published>
+    <updated>2026-08-06T14:04:03.977Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;第一章 到 第三章 題目提醒&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;Bootstrap program 存在 &lt;strong&gt;ROM&lt;/strong&gt; 中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ROM : 唯讀記憶體 :</summary>
+        
+      
+    
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+  </entry>
   
   <entry>
     <title>OS-CH3</title>
@@ -598,38 +628,6 @@ $$&lt;br&gt;
     <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
     
     <category term="單字" scheme="https://yowdesert.github.io/tags/%E5%96%AE%E5%AD%97/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[日文] 日文學習-初級2-文法</title>
-    <link href="https://yowdesert.github.io/posts/a47372cf.html"/>
-    <id>https://yowdesert.github.io/posts/a47372cf.html</id>
-    <published>2025-12-31T08:45:00.000Z</published>
-    <updated>2026-01-05T04:40:30.178Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;初級日文｜第1課（時間・日期・數字）文法筆記（4句型）&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;本課重點：數字讀法＋現在時間、日期、星期＋時間範圍（從～到～）。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
-&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
-    
-    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
     
   </entry>
   
