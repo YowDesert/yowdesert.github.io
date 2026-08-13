@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-08-11T15:09:58.108Z</updated>
+  <updated>2026-08-13T02:02:42.388Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OS-CH4-Process Management</title>
+    <link href="https://yowdesert.github.io/posts/12e18ab3.html"/>
+    <id>https://yowdesert.github.io/posts/12e18ab3.html</id>
+    <published>2026-08-12T06:30:00.000Z</published>
+    <updated>2026-08-13T02:02:42.388Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;Process Management&lt;/h1&gt;
+&lt;h2 id=&quot;Process-Concept&quot;&gt;Process Concept&lt;/h2&gt;
+&lt;p&gt;Process : 執行中的程式&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Memory</summary>
+        
+      
+    
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+    <category term="第四章" scheme="https://yowdesert.github.io/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E5%9B%9B%E7%AB%A0/"/>
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+  </entry>
   
   <entry>
     <title>資料結構 - 各種資料結構優點</title>
@@ -585,38 +616,6 @@ $$&lt;br&gt;
     <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
     
     <category term="單字" scheme="https://yowdesert.github.io/tags/%E5%96%AE%E5%AD%97/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[日文] 日文學習-初級1-文法</title>
-    <link href="https://yowdesert.github.io/posts/2afc752c.html"/>
-    <id>https://yowdesert.github.io/posts/2afc752c.html</id>
-    <published>2026-01-05T04:00:00.000Z</published>
-    <updated>2026-01-05T04:05:23.331Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;作者我之前就有淺淺學過日文了，但因為我懶惰現在準備有空來一點一點學 順便筆記下我學了甚麼。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
-&lt;h1&gt;第一課 文法&lt;/h1&gt;
-&lt;h2 id=&quot;句型一：〜は-です／では-ありません。&quot;&gt;句型一：〜は</summary>
-        
-      
-    
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
-    
-    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
     
   </entry>
   
