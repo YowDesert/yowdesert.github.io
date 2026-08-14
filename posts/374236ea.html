@@ -1,0 +1,942 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OS-CH4-Thread Management | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Thread 為了讓同一程式可以同時處理不同工作。   是輕量級的Process OS 分配 CPU Time的基本單位 私有的組成包含 :  Thread ID PC  Register Set Stack   同一個Process 共享此Process的 (global)code&#x2F;data section、OS Resource、…  (考選) 表格    Private（每個 thread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS-CH4-Thread Management">
+<meta property="og:url" content="https://yowdesert.github.io/posts/374236ea.html">
+<meta property="og:site_name" content="YD&#39;s 學習筆記">
+<meta property="og:description" content="Thread 為了讓同一程式可以同時處理不同工作。   是輕量級的Process OS 分配 CPU Time的基本單位 私有的組成包含 :  Thread ID PC  Register Set Stack   同一個Process 共享此Process的 (global)code&#x2F;data section、OS Resource、…  (考選) 表格    Private（每個 thread">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-08-13T14:05:00.000Z">
+<meta property="article:modified_time" content="2026-08-14T07:40:50.174Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="作業系統">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OS-CH4-Thread Management",
+  "url": "https://yowdesert.github.io/posts/374236ea.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2026-08-13T14:05:00.000Z",
+  "dateModified": "2026-08-14T07:40:50.174Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/374236ea.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OS-CH4-Thread Management',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 學習筆記" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">30</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">OS-CH4-Thread Management</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">OS-CH4-Thread Management</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-08-13T14:05:00.000Z" title="發表於 2026-08-13 22:05:00">2026-08-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-08-14T07:40:50.174Z" title="更新於 2026-08-14 15:40:50">2026-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E5%9B%9B%E7%AB%A0/">第四章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>11分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h1><blockquote>
+<p>為了讓同一程式可以同時處理不同工作。</p>
+</blockquote>
+<ul>
+<li>是輕量級的Process</li>
+<li>OS 分配 CPU Time的基本單位</li>
+<li><strong>私有的</strong>組成包含 : <ul>
+<li>Thread ID</li>
+<li>PC </li>
+<li>Register Set</li>
+<li>Stack</li>
+</ul>
+</li>
+<li>同一個Process 共享此Process的 (global)code/data section、OS Resource、…</li>
+</ul>
+<h2 id="考選-表格"><a href="#考選-表格" class="headerlink" title="(考選) 表格"></a>(考選) 表格</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>Private（每個 thread 自己有）</strong></th>
+<th><strong>Shared with other threads of the same process（同一 process 內其他 threads 共用）</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Program Counter (PC)</td>
+<td>Code section (text section)</td>
+</tr>
+<tr>
+<td>CPU Register Set</td>
+<td>Data section（global data / global variables）</td>
+</tr>
+<tr>
+<td>Stack</td>
+<td><strong>Heap</strong>(指標)</td>
+</tr>
+<tr>
+<td>Local Variables</td>
+<td>Other OS resources（open files, signals, I/O resources, etc.）</td>
+</tr>
+<tr>
+<td>Thread ID (TID)</td>
+<td>Static local variables（本質上也在 data section）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Benefits-申論"><a href="#Benefits-申論" class="headerlink" title="Benefits (申論)"></a>Benefits (申論)</h2><ol>
+<li><p><strong>Responsiveness</strong>(回應程度) : 某個 Thread 被 blocked，其他 Thread 還可以繼續執行。</p>
+<blockquote>
+<p>程式會不會因為某個工作卡住，就整個沒反應？</p>
+</blockquote>
+</li>
+<li><p><strong>Resource Sharing</strong>（資源共享）</p>
+</li>
+<li><strong>Economy</strong>（經濟性 / 低成本）:<ul>
+<li>Thread 比 Process：<ul>
+<li>建立（creation）較快</li>
+<li>Context switch 較快</li>
+<li>使用記憶體較少</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Scalability</strong> : Utilization of Multiprocessors Architectures <ul>
+<li>不同 Threads 可以分配到不同 CPU cores，真正平行執行（Parallelism）。<blockquote>
+<p>當 CPU core 變多時，程式能不能利用更多 cores，讓效能跟著提升？</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Process : 汽車 ; Thread : 引擎    </p>
+</blockquote>
+<h2 id="Process-v-s-Thread"><a href="#Process-v-s-Thread" class="headerlink" title="Process v.s. Thread"></a>Process v.s. Thread</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Process</th>
+<th>Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td><strong>Heavyweight process</strong></td>
+<td><strong>Lightweight process</strong></td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Single-threaded model</td>
+<td>Multithreading model</td>
+</tr>
+<tr>
+<td>Responsiveness</td>
+<td>一旦 process 做 blocking system call，<strong>整個 process 都會 blocked</strong></td>
+<td>某個 thread blocked 時，若還有其他可執行 thread，<strong>process 仍可繼續執行</strong></td>
+</tr>
+<tr>
+<td>Economy</td>
+<td>Process creation、context switch <strong>慢、成本高</strong></td>
+<td>Thread creation、context switch <strong>快、成本低</strong></td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Single-threaded process 通常只能使用 <strong>一個 CPU/core</strong></td>
+<td>同一 process 的 threads 可在不同 CPU/cores <strong>平行執行</strong></td>
+</tr>
+<tr>
+<td>Resource Sharing</td>
+<td>不同 processes 原則上<strong>不共享 memory / OS resources</strong></td>
+<td>同一 process 的 threads 可共享 <strong>code、data、OS resources</strong></td>
+</tr>
+<tr>
+<td>Synchronization</td>
+<td>一般不需同步；若使用 shared memory 則需要</td>
+<td><strong>需要 synchronization</strong>，避免 race condition</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="Multicore-Programming"><a href="#Multicore-Programming" class="headerlink" title="Multicore Programming"></a>Multicore Programming</h1><blockquote>
+<p>Multithreading =「把程式拆成多條 thread」<br>Multicore Programming =「讓工作有效分配到多個 core」</p>
+</blockquote>
+<p>Multithreading  Programming</p>
+<ul>
+<li>更有效利用 multiple CPU cores</li>
+<li>提高 <strong>concurrency</strong></li>
+<li>在多核心下進一步做到 parallelism</li>
+</ul>
+<h2 id="Concurrency-vs-Parallelism"><a href="#Concurrency-vs-Parallelism" class="headerlink" title="Concurrency vs. Parallelism"></a>Concurrency vs. Parallelism</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Concurrency（並行／並發）</th>
+<th>Parallelism（平行）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>意思</td>
+<td>多個 tasks 都在「推進」</td>
+<td>多個 tasks <strong>同一時間真的執行</strong></td>
+</tr>
+<tr>
+<td>是否同時執行</td>
+<td>不一定</td>
+<td>是</td>
+</tr>
+<tr>
+<td>單核心可以嗎</td>
+<td>✅ 可以</td>
+<td>❌ 不行</td>
+</tr>
+<tr>
+<td>多核心可以嗎</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>Concurrency ≠ 同時執行<br>Parallelism = 真正同時執行</p>
+</blockquote>
+<h2 id="平行化-的-5-個挑戰"><a href="#平行化-的-5-個挑戰" class="headerlink" title="平行化 的 5 個挑戰"></a>平行化 的 5 個挑戰</h2><ol>
+<li><p>Identifying Tasks</p>
+<ul>
+<li>找出可獨立、平行執行的 tasks</li>
+</ul>
+</li>
+<li><p>Balance</p>
+<ul>
+<li>各 task 工作量應平均</li>
+<li>避免某些 cores idle</li>
+</ul>
+</li>
+<li><p>Data Splitting</p>
+<ul>
+<li>將資料分割給不同 tasks / cores</li>
+</ul>
+</li>
+<li><p>Data Dependency</p>
+<ul>
+<li>有相依性的 tasks 需要 synchronization</li>
+</ul>
+</li>
+<li><p>Testing &amp; Debugging</p>
+<ul>
+<li>concurrent programs 執行順序不固定</li>
+<li>較難測試與除錯</li>
+</ul>
+</li>
+</ol>
+<h2 id="Type-of-Parallelism-記"><a href="#Type-of-Parallelism-記" class="headerlink" title="Type of Parallelism (記)"></a>Type of Parallelism (記)</h2><h3 id="Data-Parallelism"><a href="#Data-Parallelism" class="headerlink" title="Data Parallelism"></a>Data Parallelism</h3><ul>
+<li>將 data 切成多個 subsets</li>
+<li>不同 cores 處理不同資料</li>
+<li><strong>執行相同 operation</strong></li>
+<li>Different Data + Same Operation<blockquote>
+<p>例子 :<br>Core 1：1,2 → 每個 ×2<br>Core 2：3,4 → 每個 ×2<br>Core 3：5,6 → 每個 ×2<br>Core 4：7,8 → 每個 ×2</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Task-Parallelism"><a href="#Task-Parallelism" class="headerlink" title="Task Parallelism"></a>Task Parallelism</h3><ul>
+<li>將不同 tasks/threads 分配到不同 cores</li>
+<li>不同 cores <strong>執行不同 operation</strong></li>
+<li>Different Tasks / Operations<blockquote>
+<p>例子<br>Core 1：讀取影片<br>Core 2：影像處理<br>Core 3：聲音處理<br>Core 4：儲存檔案</p>
+</blockquote>
+</li>
+</ul>
+<p>Data parallelism 與 Task parallelism 可以混合使用</p>
+<h2 id="Amdahl’s-Law"><a href="#Amdahl’s-Law" class="headerlink" title="Amdahl’s Law"></a>Amdahl’s Law</h2><p>Speedup ≤ 1 / [S + (1-S)/N]</p>
+<ul>
+<li>S：serial portion</li>
+<li>1-S：parallel portion</li>
+<li>N：number of cores</li>
+</ul>
+<p>N → ∞：<br>Speedup_max = 1/S</p>
+<p>重點：</p>
+<ul>
+<li>增加 cores 不代表效能等比例增加</li>
+<li>Serial portion 限制最大 speedup</li>
+<li>提升平行化比例，比一直增加 cores 更重要</li>
+</ul>
+<h1 id="User-Thread-vs-Kernel-Thread"><a href="#User-Thread-vs-Kernel-Thread" class="headerlink" title="User Thread vs. Kernel Thread"></a>User Thread vs. Kernel Thread</h1><p>工作是由誰負責支援來區分thread種類</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>比較</th>
+<th>User-Level Thread</th>
+<th>Kernel-Level Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管理者</td>
+<td><strong>User-level thread library</strong></td>
+<td><strong>OS Kernel</strong></td>
+</tr>
+<tr>
+<td>Kernel 是否知道每條 thread</td>
+<td>❌ 不知道</td>
+<td>✅ 知道</td>
+</tr>
+<tr>
+<td>建立 / Context Switch</td>
+<td><strong>快</strong></td>
+<td><strong>較慢</strong></td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>一條 blocking，可能造成<strong>整個 process blocked</strong></td>
+<td>一條 blocked，其他 thread <strong>仍可執行</strong></td>
+</tr>
+<tr>
+<td>Multicore / Parallelism</td>
+<td>傳統純 user-thread 模型下 ❌</td>
+<td>✅ 可以</td>
+</tr>
+<tr>
+<td>Scheduling</td>
+<td>Thread library 排程</td>
+<td>Kernel scheduler 排程</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="User-Level-Thread"><a href="#User-Level-Thread" class="headerlink" title="User-Level Thread"></a>User-Level Thread</h2><ul>
+<li>Managed by user-level thread library</li>
+<li>Kernel is <strong>unaware</strong> of individual user threads</li>
+<li>creation / context switch：Fast</li>
+<li>優點：不用 kernel involvement，overhead 小</li>
+<li>缺點：<ul>
+<li>blocking system call 可能使整個 process blocked</li>
+<li>傳統 many-to-one 下不能真正利用 multicore parallelism</li>
+</ul>
+</li>
+</ul>
+<h2 id="Kernel-Level-Thread"><a href="#Kernel-Level-Thread" class="headerlink" title="Kernel-Level Thread"></a>Kernel-Level Thread</h2><ul>
+<li>Managed directly by <strong>OS kernel</strong></li>
+<li>Kernel <strong>knows each thread</strong></li>
+<li>creation / context switch：Slower</li>
+<li>優點：<ul>
+<li>one thread blocked → other threads can run</li>
+<li>可在 multiple CPU cores 上 parallel execution</li>
+</ul>
+</li>
+<li>缺點：kernel involvement → overhead 較高</li>
+</ul>
+<h2 id="必背"><a href="#必背" class="headerlink" title="必背"></a>必背</h2><p>User Thread：快，但 kernel 看不到<br>Kernel Thread：慢一些，但 kernel 可個別排程</p>
+<p>Kernel knows thread<br>→ independent scheduling<br>→ blocking 不影響其他 threads<br>→ 支援 multicore parallelism</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Items</th>
+<th><strong>User Thread</strong></th>
+<th><strong>Kernel Thread</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Supported in</strong></td>
+<td>User level（Thread library）</td>
+<td>Kernel level（Kernel）</td>
+</tr>
+<tr>
+<td><strong>Responsiveness</strong></td>
+<td>❌ 較差</td>
+<td>✅ 較好</td>
+</tr>
+<tr>
+<td><strong>Scalability</strong></td>
+<td>❌ 較差</td>
+<td>✅ 較好</td>
+</tr>
+<tr>
+<td><strong>Speed for creation / context switch</strong></td>
+<td><strong>Fast</strong></td>
+<td><strong>Slow</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>User Thread：Responsiveness : Kernel 看不到 T1、T2、T3，它只知道「這是一個 process」。<br>Scability : Kernel 也不知道 T1、T2、T3 可以分開排程。→ 難以真正平行跑在不同 core。</p>
+</blockquote>
+<h1 id="User-Thread-對應-Kernel-Thread"><a href="#User-Thread-對應-Kernel-Thread" class="headerlink" title="User-Thread 對應 Kernel-Thread"></a>User-Thread 對應 Kernel-Thread</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Mapping</th>
+<th>Parallelism</th>
+<th>一條 Blocking</th>
+<th>Creation / Switch</th>
+<th>主要問題</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Many-to-One</strong></td>
+<td>M:1</td>
+<td>❌</td>
+<td>整個 process 受影響</td>
+<td><strong>快</strong></td>
+<td>無法利用 multicore</td>
+</tr>
+<tr>
+<td><strong>One-to-One</strong></td>
+<td>1:1</td>
+<td>✅</td>
+<td>其他 threads 可繼續</td>
+<td><strong>較慢</strong></td>
+<td>Kernel thread overhead</td>
+</tr>
+<tr>
+<td><strong>Many-to-Many</strong></td>
+<td>M:N</td>
+<td>✅</td>
+<td>其他 threads 可繼續</td>
+<td>折衷</td>
+<td><strong>實作複雜</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Many-to-One"><a href="#Many-to-One" class="headerlink" title="Many-to-One"></a>Many-to-One</h2><p>Many-to-one : Many User Thread -&gt; 1 Kernel Thread</p>
+<ul>
+<li>Thread 由 thread libraby in <strong>User Space</strong> =&gt; Efficient<br>缺點 : </li>
+<li>喪失Reponsiveness : 只要Block 全部不能執行</li>
+<li>喪失Scability : 只有一個Kernel Thread -&gt; Scalability 差</li>
+</ul>
+<h2 id="One-to-One"><a href="#One-to-One" class="headerlink" title="One-to-One"></a>One-to-One</h2><ul>
+<li>Reponsiveness好 : 一個Block -&gt; 其他還能跑</li>
+<li>Scability 好 : 多條Kernel Thread 可以分到多個CPU Core<br>缺 : 一條對一條所以如果建立大量很耗效能</li>
+</ul>
+<h2 id="Many-to-Many"><a href="#Many-to-Many" class="headerlink" title="Many-to-Many"></a>Many-to-Many</h2><p>很多 User Threads → 較少/相等的 Kernel Threads</p>
+<p>Many-to-One 的優點 :</p>
+<ul>
+<li>可以建立很多 User Threads<br>One-to-One 的優點 : </li>
+<li>多核心 Parallelism</li>
+<li>一條 thread block 時，其他 thread 繼續執行</li>
+</ul>
+<h2 id="Many-to-Many-Variation：Two-Level-Model"><a href="#Many-to-Many-Variation：Two-Level-Model" class="headerlink" title="Many-to-Many Variation：Two-Level Model"></a>Many-to-Many Variation：Two-Level Model</h2><p>允許某一個 User Thread <strong>綁定</strong>到特定 Kernel Thread。</p>
+<blockquote>
+<p>基本架構是 M:N，但又允許部分 thread 採用 1:1 binding</p>
+</blockquote>
+<p>Many-to-Many 很難製作 ， 現在都朝向 1-1 因為Thread進步可以多到用不完那樣</p>
+<h1 id="Thread-Library"><a href="#Thread-Library" class="headerlink" title="Thread Library"></a>Thread Library</h1><p>提供Programmer 相關的APIs與建立及管理Threads</p>
+<p>兩種 : </p>
+<ol>
+<li>沒有Kernel 支持，全部在User Space<ul>
+<li>Fast、Overhead小</li>
+</ul>
+</li>
+<li>全部都在Kernel-Level<ul>
+<li>需要System Call</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Pthread 可以是 <strong>Kernel、User Thread</strong></p>
+</blockquote>
+<h2 id="各-OS-用-Thread"><a href="#各-OS-用-Thread" class="headerlink" title="各 OS 用 Thread"></a>各 OS 用 Thread</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">UNIX / Linux / macOS</span><br><span class="line">        ↓</span><br><span class="line">     Pthreads</span><br><span class="line"></span><br><span class="line">      Windows </span><br><span class="line">        ↓</span><br><span class="line"> Windows Threads API</span><br><span class="line"></span><br><span class="line">      Java </span><br><span class="line">        ↓</span><br><span class="line"> Java Thread API</span><br><span class="line">        ↓</span><br><span class="line"> JVM 使用 Host OS 提供的 native thread</span><br></pre></td></tr></table></figure>
+<p>Java：<strong>無 global variable</strong>，但可用 object/static data 做 shared data。</p>
+<h2 id="Asynchronous-vs-Synchronous-Threading"><a href="#Asynchronous-vs-Synchronous-Threading" class="headerlink" title="Asynchronous vs Synchronous Threading"></a>Asynchronous vs Synchronous Threading</h2><ul>
+<li><p>Asynchronous</p>
+<ul>
+<li>Parent 建立 Child 後<strong>立即繼續執行</strong></li>
+<li>Parent / Child independently execute</li>
+<li>通常 <strong>little</strong> data sharing</li>
+<li>常用於 responsive UI / server</li>
+</ul>
+</li>
+<li><p>Synchronous</p>
+<ul>
+<li>Parent 建立 Child 後<strong>等待 Child 完成</strong></li>
+<li>Child finish → join Parent</li>
+<li>通常 <strong>significant</strong> data sharing</li>
+<li>Parent 常負責收集 Child 的結果</li>
+</ul>
+</li>
+</ul>
+<h2 id="Pthread"><a href="#Pthread" class="headerlink" title="Pthread"></a>Pthread</h2><p>Pthreads 是 POSIX(IEEE) 定義的 Thread <strong>API specification</strong>，不是某一個固定的 implementation。</p>
+<h3 id="Important-APIs"><a href="#Important-APIs" class="headerlink" title="Important APIs"></a>Important APIs</h3><ul>
+<li><code>pthread_t tid</code>：Thread ID</li>
+<li><code>pthread_attr_t attr</code>：Thread attributes</li>
+<li><p><code>pthread_attr_init()</code>：初始化 default attributes</p>
+</li>
+<li><p><code>pthread_create(&amp;tid, &amp;attr, func, arg)</code></p>
+<ul>
+<li>建立 Thread</li>
+<li>tid：Thread ID</li>
+<li>attr：屬性</li>
+<li>func：Thread 要執行的 function</li>
+<li>arg：傳入參數</li>
+</ul>
+</li>
+<li><p><code>pthread_join(tid, NULL)</code></p>
+<ul>
+<li>等待指定 Thread 結束</li>
+<li>類似 Process 的 <code>wait()</code></li>
+<li>父等子完成</li>
+</ul>
+</li>
+<li><p><code>pthread_exit()</code></p>
+<ul>
+<li>結束目前 Thread</li>
+</ul>
+</li>
+</ul>
+<h1 id="Threading-Issue"><a href="#Threading-Issue" class="headerlink" title="Threading Issue"></a>Threading Issue</h1><p>在Single Thread不會發生，但在<strong>Multi-Thread</strong>會發生的</p>
+<h2 id="Fork-and-exec-System-Call"><a href="#Fork-and-exec-System-Call" class="headerlink" title="Fork() and exec() System Call"></a>Fork() and exec() System Call</h2><ul>
+<li>Fork()只要複製callling thread</li>
+<li>Fork()要複製所有Thread</li>
+</ul>
+<p>如果Fork()後面接Exec()則只需複製Calling Thread : 因為Exec 會被新程式取代</p>
+<h2 id="Signal-Handling-考過一次"><a href="#Signal-Handling-考過一次" class="headerlink" title="Signal Handling (考過一次)"></a>Signal Handling (考過一次)</h2><p><strong>定義 (考過)</strong> : UNIX System 通知 Process 有特定事件發生<br><strong>兩種模式 (考過)</strong> : </p>
+<ul>
+<li><strong>Synchronous signals</strong> : 目前程式自己造成的</li>
+<li><strong>Asynchronous signals</strong> : 外部事件造成的</li>
+</ul>
+<p>Multithreaded Process收到Signal 要給誰?<br>四種處理方法 : </p>
+<ul>
+<li>給造成Signal的Thread(sync. signal)</li>
+<li>給Process的所有Thread</li>
+<li>給某些特定的Thread</li>
+<li>設定專門的Signal Handler Thread<ul>
+<li>Default</li>
+<li>User-Defined</li>
+</ul>
+</li>
+</ul>
+<h2 id="Thread-Cancellation-選擇"><a href="#Thread-Cancellation-選擇" class="headerlink" title="Thread Cancellation (選擇)"></a>Thread Cancellation (選擇)</h2><p>Thread 還沒做完你就把它終止了！<br>被<strong>取消的</strong>Thread : <strong>Target Thread</strong><br>2種Cacellation : </p>
+<ol>
+<li><strong>Asynchrounous</strong> cancellation : 立刻中止Target Thread<ul>
+<li>有可能還在修改Shared Data、還把Mutex鎖住</li>
+</ul>
+</li>
+<li><strong>Deffered</strong>(延遲) cancellation : 等到Safe Point再中止</li>
+</ol>
+<blockquote>
+<p>pthread_testcancel() : 主動建立/檢查cancellation point</p>
+</blockquote>
+<h2 id="Thread-Local-Storage-課本放在補充"><a href="#Thread-Local-Storage-課本放在補充" class="headerlink" title="Thread Local Storage(課本放在補充)"></a>Thread Local Storage(課本放在補充)</h2><p>有些資料需要<strong>每個Thread獨立保</strong>存 =&gt; TLS</p>
+<ul>
+<li>同一 Process 的 Threads 通常共享 Data / Heap</li>
+<li>TLS：讓每個 Thread 對某變數擁有<strong>自己的獨立</strong> copy</li>
+<li>各 Thread 修改互不影響</li>
+<li>用途：儲存 Thread-specific data</li>
+<li>POSIX：<code>pthread_key_t</code></li>
+</ul>
+<h3 id="TLS-和-local-variable-不一樣"><a href="#TLS-和-local-variable-不一樣" class="headerlink" title="TLS 和 local variable 不一樣"></a>TLS 和 local variable 不一樣</h3><ul>
+<li>Local variable <ul>
+<li>function 開始-&gt; x 存在 -&gt; function 結束 -&gt; x 消失</li>
+<li>只在一次 function invocation 中存在。</li>
+</ul>
+</li>
+<li>TLS<ul>
+<li>Thread 開始 -&gt; TLS data 存在 -&gt; function A -&gt; function B -&gt; function C -&gt; 仍然是同一份 TLS</li>
+<li>TLS 可以跨 function invocation 存在。</li>
+<li>每個 thread 有自己的 copy。</li>
+</ul>
+</li>
+</ul>
+<h1 id="Implicit-Threading"><a href="#Implicit-Threading" class="headerlink" title="Implicit Threading"></a>Implicit Threading</h1><p>提供一些工具，讓developer減少平行化程式撰寫困難</p>
+<ul>
+<li>Explicit threading：<ul>
+<li>Programmer <strong>自己 create / manage threads</strong></li>
+</ul>
+</li>
+<li>Implicit threading：<ul>
+<li>Programmer 只定義可平行的 <strong>tasks</strong></li>
+<li>Compiler / Runtime Library 負責 thread creation &amp; management</li>
+</ul>
+</li>
+<li>優點：<ul>
+<li>降低 multithread programming 複雜度</li>
+<li>適合大量 threads/tasks</li>
+</ul>
+</li>
+<li>常以 <strong>many-to-many</strong> 的方式管理</li>
+</ul>
+<h2 id="五個方法"><a href="#五個方法" class="headerlink" title="五個方法"></a>五個方法</h2><h2 id="Thread-Pool"><a href="#Thread-Pool" class="headerlink" title="Thread Pool"></a>Thread Pool</h2><p><strong>預先建立</strong>一批thread 放在<strong>pool</strong>裡，需要就直接拿來用，用完再放回去<br>如果有人想用但沒有Threads了就要等。</p>
+<ul>
+<li>如果Request 才建立thread有兩個問題<ol>
+<li>建立刪除有成本 =&gt; 對Client 不是很迅速</li>
+<li>如果沒限制數量,則系統會建立過多的threads</li>
+</ol>
+</li>
+</ul>
+<h3 id="Thread-Pool-三個優點"><a href="#Thread-Pool-三個優點" class="headerlink" title="Thread Pool 三個優點"></a>Thread Pool 三個優點</h3><ol>
+<li>服務請求迅速</li>
+<li>限制Thread 生成數量 : Pool固定數量</li>
+<li>工作排程彈性 : 工作（Task）不用自己綁死某一個 Thread，可以先丟進工作佇列，再由 Thread Pool 決定哪個 Thread 來執行。</li>
+</ol>
+<h2 id="以下在補充"><a href="#以下在補充" class="headerlink" title="以下在補充"></a>以下在補充</h2><h2 id="Fork-Join"><a href="#Fork-Join" class="headerlink" title="Fork-Join"></a>Fork-Join</h2><p>Fork : 把大工作拆成數個小工作<br>Join : 等兩邊都算完再把結果拿回來</p>
+<h2 id="OpenMP-一次"><a href="#OpenMP-一次" class="headerlink" title="OpenMP(一次)"></a>OpenMP(一次)</h2><p>是一組compiler directives(#…) + API </p>
+<p>像是這段幫我<strong>平行</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>把 for loop 的 iterations <strong>分給多個 threads</strong>。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">    C[i] = A[i] + B[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Grand-Central-Dispatch-GCD-選擇-1-2次"><a href="#Grand-Central-Dispatch-GCD-選擇-1-2次" class="headerlink" title="Grand Central Dispatch(GCD)(選擇)(1~2次)"></a>Grand Central Dispatch(GCD)(選擇)(1~2次)</h2><p>是<strong>Apple</strong>出的<br>GCD 將要排程的Task放置於Dispatch Queue,當Tasks要用就從pool找可以用的thread分派給task用<br><strong>提供兩種型態 :(考)</strong></p>
+<h3 id="Serial-Queue-考"><a href="#Serial-Queue-考" class="headerlink" title="Serial Queue (考)"></a>Serial Queue (考)</h3><p>Serial = 一次只能執行一個 Task<br>取出的順序是：<strong>FIFO</strong><br>所以：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">時間 →</span><br><span class="line">A A A A</span><br><span class="line">        B B B</span><br><span class="line">              C C C</span><br></pre></td></tr></table></figure><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">加入：</span><br><span class="line">A → B → C</span><br><span class="line"></span><br><span class="line">取出：</span><br><span class="line">A → B → C</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Serial Queue 可以確保 tasks sequential execution。</p>
+</blockquote>
+<h3 id="Concurrent-Queue-考"><a href="#Concurrent-Queue-考" class="headerlink" title="Concurrent Queue (考)"></a>Concurrent Queue (考)</h3><p><strong>按照 FIFO 取出</strong><br>但<strong>一次可以取出多個 tasks</strong> 交給不同 threads 執行。<br>可以是這樣<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread 1：AAAAAAAA</span><br><span class="line">Thread 2：  BBB</span><br><span class="line">Thread 3：    CCCCCCCCC</span><br></pre></td></tr></table></figure><br>所以 B 可能比 A 更早完成</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Serial Queue</th>
+<th>Concurrent Queue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>取出順序</td>
+<td>FIFO</td>
+<td>FIFO</td>
+</tr>
+<tr>
+<td>同時執行 task</td>
+<td>1 個</td>
+<td>多個</td>
+</tr>
+<tr>
+<td>Parallelism</td>
+<td>❌</td>
+<td>✅ 可以</td>
+</tr>
+<tr>
+<td>完成順序</td>
+<td>通常照 FIFO</td>
+<td>不一定</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Intel-Threading-Building-block-沒說到"><a href="#Intel-Threading-Building-block-沒說到" class="headerlink" title="Intel Threading Building block (沒說到)"></a>Intel Threading Building block (沒說到)</h2><h1 id="Scheduler-Activations"><a href="#Scheduler-Activations" class="headerlink" title="Scheduler Activations"></a>Scheduler Activations</h1><p>LWP = Lightweight Process<br>LWP 位於 User - Kernel 之間，且位於<strong>Kernel Mode</strong><br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">User Thread</span><br><span class="line">     ↓</span><br><span class="line">    LWP</span><br><span class="line">     ↓</span><br><span class="line">Kernel Thread</span><br><span class="line">     ↓</span><br><span class="line"> Physical CPU</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>一個 LWP 綁一個 Kernel Thread</strong></li>
+<li>很多 User Threads -&gt; 幾個 LWP : many-to-many  </li>
+<li>如果Kernel Thread Block -&gt; LWP Block -&gt; User Attach Block</li>
+</ul>
+<h2 id="CPU-bound-為什麼只需要一個-LWP？"><a href="#CPU-bound-為什麼只需要一個-LWP？" class="headerlink" title="CPU-bound 為什麼只需要一個 LWP？"></a>CPU-bound 為什麼只需要一個 LWP？</h2><p>假設在Single Processor 同一時間只能有一個thread 真正使用 CPU，所以 1 LWP 就夠了。</p>
+<h2 id="I-O-intensive-為什麼需要多個-LWP？"><a href="#I-O-intensive-為什麼需要多個-LWP？" class="headerlink" title="I/O-intensive 為什麼需要多個 LWP？"></a>I/O-intensive 為什麼需要多個 LWP？</h2><p>因為如果一個Blocked 其他的還可以跑。</p>
+<h2 id="Upcall"><a href="#Upcall" class="headerlink" title="Upcall"></a>Upcall</h2><p>Kernel 怎麼告訴 user thread library：「欸，你的 LWP block 了！」？</p>
+<ul>
+<li>一般 System Call : Application -&gt;  Kernel : read(),write()</li>
+<li>Upcall 反過來 : Kernel -&gt; Application : Kernel 通知 User 卡住了</li>
+</ul>
+<h1 id="Linux-clone-中央常考"><a href="#Linux-clone-中央常考" class="headerlink" title="Linux clone() (中央常考)"></a>Linux <code>clone()</code> (中央常考)</h1><p>Linux 除了 Fork() 以外還有 <code>Clone()</code></p>
+<ul>
+<li>Linux 使用 <code>task</code> 表示 execution flow</li>
+<li><code>clone()</code> 透過 <strong>flags</strong> 決定 parent / child 資源共享程度</li>
+</ul>
+<p>常見 flags：</p>
+<ul>
+<li><code>CLONE_VM</code>：share memory ⭐</li>
+<li><code>CLONE_FILES</code>：share open files</li>
+<li><code>CLONE_SIGHAND</code>：share signal handlers</li>
+<li><p><code>CLONE_FS</code>：share file-system info</p>
+</li>
+<li><p>沒有設定的話 -&gt; <strong>則沒有sharing</strong></p>
+</li>
+<li>少 / 無 sharing → <strong>Process-like / fork-like</strong></li>
+<li>多 sharing → <strong>Thread-like</strong></li>
+</ul>
+<blockquote>
+<p>核心：<code>clone()</code> 可以建立「像 process」或「像 thread」的 task。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/374236ea.html">https://yowdesert.github.io/posts/374236ea.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/603b4b38.html" title="OS-CH4-題目注意"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">OS-CH4-題目注意</div></div><div class="info-2"><div class="info-item-1"> I/O Device Queue 是OS管理的 Timer 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊  Which Schedulers can be used to control the degree of multiprogramming? 問誰可以增/減Memory的Process Job Scheduler(Long Term) : 看誰要進Memory、Medium-Term Scheduler : Swapper to Disk   Job Scheduler = Long-Term Scheduler CPU Scheduler = Short-term Scheduler Disk scheduler =&gt; Disk I/O request 哪一個先處理 Printing 表 I/O 完成了  </div></div></div></a><a class="pagination-related" href="/posts/6f2552db.html" title="OS-CH4-CPU Scheduling"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">OS-CH4-CPU Scheduling</div></div><div class="info-2"><div class="info-item-1">Scheduling Critiiria and Goal   CPU utilization : Process execution time / CPU Total Time   CPU Total Time :  Process exec Time COntext Switch Time Idle       Throughput : 單位時間內完成的工作數目   Turnaround Time : process 進入到工作完成的時間 = finished time - arrival time   Waiting Time : Process 待在Ready Queue 等待時間 = Turnaround Time - Cpu Burst Time - I/O op. TIme   Response Time : 系統產生第一個回應時間   I/O Bound / CPU Bound I/O Bound process : 大部分時間花在I/O  多、短 CPU ex : DBMS,成績計算,外部search CPU-Bound process : 大部分時間花在處理 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/67c68839.html" title="(作業系統) Deadlock Definition, Avoidance and Resolution"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-13</div><div class="info-item-2">(作業系統) Deadlock Definition, Avoidance and Resolution</div></div><div class="info-2"><div class="info-item-1">Deadlock基本概念 1. Deadlock 是什麼？ Deadlock 指的是：  一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。  Deadlock 的特徵  每個 process：  已持有至少一個資源 同時等待另一個 process 持有的資源   結果：大家互等，系統停住   2. Deadlock 範例 Example 1：兩個 processes、兩個資源  P1 持有 R1，等待 R2 P2 持有 R2，等待 R1 → 互相等待，發生 deadlock  Example 2：Semaphore A 與 B 12P1: wait(A); wait(B); ...; signal(B); signal(A);P2: wait(B); wait(A); ...; signal(A); signal(B);  若 P1 先拿到 A、P2 先拿到 B 下一步彼此都在等對方 → deadlock   Deadlock 的四個必要條件 Deadlock 當且僅當下列四個條件同時成立：  Mutual Exclusion（互斥）...</div></div></div></a><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-20</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-19</div><div class="info-item-2">(作業系統) Main Memory Management</div></div><div class="info-2"><div class="info-item-1"> 本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直接存取的很少，只有Main Memory和 Registers而已 Disk 上的程式，只是「檔案」而已，要被Loader載入memory才會變成Process 把多個程式放進 RAM → 多程式（multiprogramming）: 改善CPU使用率以及加快反應時間 process 會移動在Disk和memory之間  Memory Management Issues  How to refer to memory in a program? → Address binding How to load a program into memory? → static/dynamic lo...</div></div></div></a><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">30</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Thread"><span class="toc-number">1.</span> <span class="toc-text">Thread</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E9%81%B8-%E8%A1%A8%E6%A0%BC"><span class="toc-number">1.1.</span> <span class="toc-text">(考選) 表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Benefits-%E7%94%B3%E8%AB%96"><span class="toc-number">1.2.</span> <span class="toc-text">Benefits (申論)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-v-s-Thread"><span class="toc-number">1.3.</span> <span class="toc-text">Process v.s. Thread</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Multicore-Programming"><span class="toc-number">2.</span> <span class="toc-text">Multicore Programming</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Concurrency-vs-Parallelism"><span class="toc-number">2.1.</span> <span class="toc-text">Concurrency vs. Parallelism</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B3%E8%A1%8C%E5%8C%96-%E7%9A%84-5-%E5%80%8B%E6%8C%91%E6%88%B0"><span class="toc-number">2.2.</span> <span class="toc-text">平行化 的 5 個挑戰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Type-of-Parallelism-%E8%A8%98"><span class="toc-number">2.3.</span> <span class="toc-text">Type of Parallelism (記)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Parallelism"><span class="toc-number">2.3.1.</span> <span class="toc-text">Data Parallelism</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Task-Parallelism"><span class="toc-number">2.3.2.</span> <span class="toc-text">Task Parallelism</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Amdahl%E2%80%99s-Law"><span class="toc-number">2.4.</span> <span class="toc-text">Amdahl’s Law</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#User-Thread-vs-Kernel-Thread"><span class="toc-number">3.</span> <span class="toc-text">User Thread vs. Kernel Thread</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Level-Thread"><span class="toc-number">3.1.</span> <span class="toc-text">User-Level Thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kernel-Level-Thread"><span class="toc-number">3.2.</span> <span class="toc-text">Kernel-Level Thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%85%E8%83%8C"><span class="toc-number">3.3.</span> <span class="toc-text">必背</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#User-Thread-%E5%B0%8D%E6%87%89-Kernel-Thread"><span class="toc-number">4.</span> <span class="toc-text">User-Thread 對應 Kernel-Thread</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Many-to-One"><span class="toc-number">4.1.</span> <span class="toc-text">Many-to-One</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#One-to-One"><span class="toc-number">4.2.</span> <span class="toc-text">One-to-One</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Many-to-Many"><span class="toc-number">4.3.</span> <span class="toc-text">Many-to-Many</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Many-to-Many-Variation%EF%BC%9ATwo-Level-Model"><span class="toc-number">4.4.</span> <span class="toc-text">Many-to-Many Variation：Two-Level Model</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Thread-Library"><span class="toc-number">5.</span> <span class="toc-text">Thread Library</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84-OS-%E7%94%A8-Thread"><span class="toc-number">5.1.</span> <span class="toc-text">各 OS 用 Thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Asynchronous-vs-Synchronous-Threading"><span class="toc-number">5.2.</span> <span class="toc-text">Asynchronous vs Synchronous Threading</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pthread"><span class="toc-number">5.3.</span> <span class="toc-text">Pthread</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Important-APIs"><span class="toc-number">5.3.1.</span> <span class="toc-text">Important APIs</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Threading-Issue"><span class="toc-number">6.</span> <span class="toc-text">Threading Issue</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fork-and-exec-System-Call"><span class="toc-number">6.1.</span> <span class="toc-text">Fork() and exec() System Call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Signal-Handling-%E8%80%83%E9%81%8E%E4%B8%80%E6%AC%A1"><span class="toc-number">6.2.</span> <span class="toc-text">Signal Handling (考過一次)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread-Cancellation-%E9%81%B8%E6%93%87"><span class="toc-number">6.3.</span> <span class="toc-text">Thread Cancellation (選擇)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread-Local-Storage-%E8%AA%B2%E6%9C%AC%E6%94%BE%E5%9C%A8%E8%A3%9C%E5%85%85"><span class="toc-number">6.4.</span> <span class="toc-text">Thread Local Storage(課本放在補充)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TLS-%E5%92%8C-local-variable-%E4%B8%8D%E4%B8%80%E6%A8%A3"><span class="toc-number">6.4.1.</span> <span class="toc-text">TLS 和 local variable 不一樣</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Implicit-Threading"><span class="toc-number">7.</span> <span class="toc-text">Implicit Threading</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E5%80%8B%E6%96%B9%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">五個方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread-Pool"><span class="toc-number">7.2.</span> <span class="toc-text">Thread Pool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread-Pool-%E4%B8%89%E5%80%8B%E5%84%AA%E9%BB%9E"><span class="toc-number">7.2.1.</span> <span class="toc-text">Thread Pool 三個優點</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E4%B8%8B%E5%9C%A8%E8%A3%9C%E5%85%85"><span class="toc-number">7.3.</span> <span class="toc-text">以下在補充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fork-Join"><span class="toc-number">7.4.</span> <span class="toc-text">Fork-Join</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenMP-%E4%B8%80%E6%AC%A1"><span class="toc-number">7.5.</span> <span class="toc-text">OpenMP(一次)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Grand-Central-Dispatch-GCD-%E9%81%B8%E6%93%87-1-2%E6%AC%A1"><span class="toc-number">7.6.</span> <span class="toc-text">Grand Central Dispatch(GCD)(選擇)(1~2次)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial-Queue-%E8%80%83"><span class="toc-number">7.6.1.</span> <span class="toc-text">Serial Queue (考)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Concurrent-Queue-%E8%80%83"><span class="toc-number">7.6.2.</span> <span class="toc-text">Concurrent Queue (考)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intel-Threading-Building-block-%E6%B2%92%E8%AA%AA%E5%88%B0"><span class="toc-number">7.7.</span> <span class="toc-text">Intel Threading Building block (沒說到)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scheduler-Activations"><span class="toc-number">8.</span> <span class="toc-text">Scheduler Activations</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-bound-%E7%82%BA%E4%BB%80%E9%BA%BC%E5%8F%AA%E9%9C%80%E8%A6%81%E4%B8%80%E5%80%8B-LWP%EF%BC%9F"><span class="toc-number">8.1.</span> <span class="toc-text">CPU-bound 為什麼只需要一個 LWP？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-intensive-%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81%E5%A4%9A%E5%80%8B-LWP%EF%BC%9F"><span class="toc-number">8.2.</span> <span class="toc-text">I&#x2F;O-intensive 為什麼需要多個 LWP？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Upcall"><span class="toc-number">8.3.</span> <span class="toc-text">Upcall</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-clone-%E4%B8%AD%E5%A4%AE%E5%B8%B8%E8%80%83"><span class="toc-number">9.</span> <span class="toc-text">Linux clone() (中央常考)</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/603b4b38.html" title="OS-CH4-題目注意">OS-CH4-題目注意</a><time datetime="2026-08-14T09:49:00.000Z" title="發表於 2026-08-14 17:49:00">2026-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/374236ea.html" title="OS-CH4-Thread Management">OS-CH4-Thread Management</a><time datetime="2026-08-13T14:05:00.000Z" title="發表於 2026-08-13 22:05:00">2026-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6f2552db.html" title="OS-CH4-CPU Scheduling">OS-CH4-CPU Scheduling</a><time datetime="2026-08-13T02:30:00.000Z" title="發表於 2026-08-13 10:30:00">2026-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/12e18ab3.html" title="OS-CH4-Process Management">OS-CH4-Process Management</a><time datetime="2026-08-12T06:30:00.000Z" title="發表於 2026-08-12 14:30:00">2026-08-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/96b225e3.html" title="資料結構 - 各種資料結構優點">資料結構 - 各種資料結構優點</a><time datetime="2026-08-11T15:09:00.000Z" title="發表於 2026-08-11 23:09:00">2026-08-11</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
