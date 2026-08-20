@@ -1,7 +1,9 @@
 ---
 title: OS-CH1-3 題目注意
 categories:
+  - 研究所題目
   - 作業系統
+  - 第1~3章
 tags:
   - 作業系統
 abbrlink: 841a1f01
