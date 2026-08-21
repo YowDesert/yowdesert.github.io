@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-08-14T13:19:35.013Z</updated>
+  <updated>2026-08-21T06:20:56.620Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -17,11 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>OS-CH4-題目注意</title>
+    <title>資料結構 - Advanced Tree</title>
+    <link href="https://yowdesert.github.io/posts/23cf8539.html"/>
+    <id>https://yowdesert.github.io/posts/23cf8539.html</id>
+    <published>2026-08-20T03:30:00.000Z</published>
+    <updated>2026-08-21T06:20:56.620Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;Double-Ended Priority Queue&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Operation&lt;/th&gt;
+&lt;th&gt;Time</summary>
+        
+      
+    
+    
+    
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OS-CH4-補充加強觀念</title>
     <link href="https://yowdesert.github.io/posts/603b4b38.html"/>
     <id>https://yowdesert.github.io/posts/603b4b38.html</id>
     <published>2026-08-14T09:49:00.000Z</published>
-    <updated>2026-08-14T13:19:35.013Z</updated>
+    <updated>2026-08-17T08:04:06.715Z</updated>
     
     
       
@@ -29,9 +57,14 @@
         
         
     <summary type="html">&lt;ul&gt;
-&lt;li&gt;I/O Device Queue 是OS管理的&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Timer&lt;/strong&gt; 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊 &lt;/li&gt;
-&lt;li&gt;Which Schedulers can be</summary>
+&lt;li&gt;
+&lt;p&gt;I/O Device Queue 是OS管理的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Timer&lt;/strong&gt; 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Which</summary>
         
       
     
@@ -53,7 +86,7 @@
     <link href="https://yowdesert.github.io/posts/374236ea.html"/>
     <id>https://yowdesert.github.io/posts/374236ea.html</id>
     <published>2026-08-13T14:05:00.000Z</published>
-    <updated>2026-08-14T07:40:50.174Z</updated>
+    <updated>2026-08-16T04:40:30.017Z</updated>
     
     
       
@@ -80,7 +113,7 @@
     <link href="https://yowdesert.github.io/posts/6f2552db.html"/>
     <id>https://yowdesert.github.io/posts/6f2552db.html</id>
     <published>2026-08-13T02:30:00.000Z</published>
-    <updated>2026-08-13T13:58:00.635Z</updated>
+    <updated>2026-08-16T15:19:27.642Z</updated>
     
     
       
@@ -110,18 +143,14 @@
     <link href="https://yowdesert.github.io/posts/12e18ab3.html"/>
     <id>https://yowdesert.github.io/posts/12e18ab3.html</id>
     <published>2026-08-12T06:30:00.000Z</published>
-    <updated>2026-08-14T13:30:17.421Z</updated>
+    <updated>2026-08-14T16:00:48.662Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1&gt;Process Management&lt;/h1&gt;
-&lt;h2 id=&quot;Process-Concept&quot;&gt;Process Concept&lt;/h2&gt;
-&lt;p&gt;Process : 執行中的程式&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Memory</summary>
+    <summary type="html">&lt;h1 id=&quot;Process-Management&quot;&gt;&lt;a href=&quot;#Process-Management&quot; class=&quot;headerlink&quot; title=&quot;Process Management&quot;&gt;&lt;/a&gt;Process Management&lt;/h1&gt;&lt;h2</summary>
         
       
     
@@ -577,36 +606,6 @@ $$&lt;br&gt;
 &lt;p&gt;命令形表示「上位者對下位者發號施令、強制對方做某事」的語氣。&lt;br&gt;
 只要將動詞變成命令形，即可表達命令。&lt;/p&gt;
 &lt;p&gt;⚠️</summary>
-        
-      
-    
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
-    
-    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[日文] 日文動詞各種活用型完整整理</title>
-    <link href="https://yowdesert.github.io/posts/9cae78e1.html"/>
-    <id>https://yowdesert.github.io/posts/9cae78e1.html</id>
-    <published>2026-01-06T06:00:00.000Z</published>
-    <updated>2026-01-08T05:34:07.957Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;日文筆記｜日文的各種「型」（活用）完整整理&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;本筆記整理日文動詞的各種「活用型」，適用於 N5～N4&lt;br&gt;
-核心觀念：&lt;strong&gt;先判斷動詞種類 →</summary>
         
       
     

@@ -1,24 +1,24 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OS-CH4-題目注意 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="I&#x2F;O Device Queue 是OS管理的 Timer 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊  Which Schedulers can be used to control the degree of multiprogramming? 問誰可以增&#x2F;減Memory的Process Job Scheduler(Long Term) : 看誰要進Memor">
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OS-CH4-補充加強觀念 | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="I&#x2F;O Device Queue 是OS管理的   Timer 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊   Which Schedulers can be used to control the degree of multiprogramming?  問誰可以增&#x2F;減Memory的Process Job Scheduler(Long Term) : 看誰要進">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OS-CH4-題目注意">
+<meta property="og:title" content="OS-CH4-補充加強觀念">
 <meta property="og:url" content="https://yowdesert.github.io/posts/603b4b38.html">
 <meta property="og:site_name" content="YD&#39;s 學習筆記">
-<meta property="og:description" content="I&#x2F;O Device Queue 是OS管理的 Timer 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊  Which Schedulers can be used to control the degree of multiprogramming? 問誰可以增&#x2F;減Memory的Process Job Scheduler(Long Term) : 看誰要進Memor">
+<meta property="og:description" content="I&#x2F;O Device Queue 是OS管理的   Timer 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊   Which Schedulers can be used to control the degree of multiprogramming?  問誰可以增&#x2F;減Memory的Process Job Scheduler(Long Term) : 看誰要進">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
 <meta property="article:published_time" content="2026-08-14T09:49:00.000Z">
-<meta property="article:modified_time" content="2026-08-14T13:19:35.013Z">
+<meta property="article:modified_time" content="2026-08-17T08:04:06.715Z">
 <meta property="article:author" content="YowDesert">
 <meta property="article:tag" content="作業系統">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "OS-CH4-題目注意",
+  "headline": "OS-CH4-補充加強觀念",
   "url": "https://yowdesert.github.io/posts/603b4b38.html",
   "image": "https://yowdesert.github.io/img/butterfly-icon.png",
   "datePublished": "2026-08-14T09:49:00.000Z",
-  "dateModified": "2026-08-14T13:19:35.013Z",
+  "dateModified": "2026-08-17T08:04:06.715Z",
   "author": [
     {
       "@type": "Person",
@@ -158,7 +158,7 @@
   },
   autoDarkmode: false
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'OS-CH4-題目注意',
+  title: 'OS-CH4-補充加強觀念',
   isHighlightShrink: false,
   isToc: false,
   pageType: 'post'
@@ -193,20 +193,256 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">30</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">OS-CH4-題目注意</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">OS-CH4-題目注意</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-08-14T09:49:00.000Z" title="發表於 2026-08-14 17:49:00">2026-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-08-14T13:19:35.013Z" title="更新於 2026-08-14 21:19:35">2026-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/">研究所題目</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E5%9B%9B%E7%AB%A0/">第四章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">95</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>1分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
-<li>I/O Device Queue 是OS管理的</li>
-<li><strong>Timer</strong> 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊 </li>
-<li>Which Schedulers can be used to control the degree of multiprogramming?<ul>
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">30</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">OS-CH4-補充加強觀念</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">OS-CH4-補充加強觀念</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-08-14T09:49:00.000Z" title="發表於 2026-08-14 17:49:00">2026-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-08-17T08:04:06.715Z" title="更新於 2026-08-17 16:04:06">2026-08-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/">研究所題目</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E5%9B%9B%E7%AB%A0/">第四章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>4分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
+<li>
+<p>I/O Device Queue 是OS管理的</p>
+</li>
+<li>
+<p><strong>Timer</strong> 不在PCB裡 ， 他是用來產生Interrupt的，不是CPU使用時間資訊</p>
+</li>
+<li>
+<p>Which Schedulers can be used to control the degree of multiprogramming?</p>
+<ul>
 <li>問誰可以增/減Memory的Process</li>
 <li>Job Scheduler(Long Term) : 看誰要進Memory、Medium-Term Scheduler : Swapper to Disk</li>
 </ul>
 </li>
-<li>Job Scheduler = Long-Term Scheduler</li>
-<li>CPU Scheduler = Short-term Scheduler</li>
-<li>Disk scheduler =&gt; Disk I/O request 哪一個先處理</li>
-<li>Printing 表 I/O 完成了</li>
+<li>
+<p>Job Scheduler = Long-Term Scheduler</p>
+</li>
+<li>
+<p>CPU Scheduler = Short-term Scheduler</p>
+</li>
+<li>
+<p>Disk scheduler =&gt; Disk I/O request 哪一個先處理</p>
+</li>
+<li>
+<p>Printing 表 I/O 完成了</p>
+</li>
+<li>
+<p>(A)Synchronous I/O</p>
+</li>
 </ul>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/603b4b38.html">https://yowdesert.github.io/posts/603b4b38.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/374236ea.html" title="OS-CH4-Thread Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">OS-CH4-Thread Management</div></div><div class="info-2"><div class="info-item-1">Thread 為了讓同一程式可以同時處理不同工作。   是輕量級的Process OS 分配 CPU Time的基本單位 私有的組成包含 :  Thread ID PC  Register Set Stack   同一個Process 共享此Process的 (global)code/data section、OS Resource、…  (考選) 表格    Private（每個 thread 自己有） Shared with other threads of the same process（同一 process 內其他 threads 共用）     Program Counter (PC) Code section (text section)   CPU Register Set Data section（global data / global variables）   Stack Heap(指標)   Local Variables Other OS resources（open files, signals, I/O resources, etc.）   Thre...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/67c68839.html" title="(作業系統) Deadlock Definition, Avoidance and Resolution"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-13</div><div class="info-item-2">(作業系統) Deadlock Definition, Avoidance and Resolution</div></div><div class="info-2"><div class="info-item-1">Deadlock基本概念 1. Deadlock 是什麼？ Deadlock 指的是：  一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。  Deadlock 的特徵  每個 process：  已持有至少一個資源 同時等待另一個 process 持有的資源   結果：大家互等，系統停住   2. Deadlock 範例 Example 1：兩個 processes、兩個資源  P1 持有 R1，等待 R2 P2 持有 R2，等待 R1 → 互相等待，發生 deadlock  Example 2：Semaphore A 與 B 12P1: wait(A); wait(B); ...; signal(B); signal(A);P2: wait(B); wait(A); ...; signal(A); signal(B);  若 P1 先拿到 A、P2 先拿到 B 下一步彼此都在等對方 → deadlock   Deadlock 的四個必要條件 Deadlock 當且僅當下列四個條件同時成立：  Mutual Exclusion（互斥）...</div></div></div></a><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-20</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-19</div><div class="info-item-2">(作業系統) Main Memory Management</div></div><div class="info-2"><div class="info-item-1"> 本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直接存取的很少，只有Main Memory和 Registers而已 Disk 上的程式，只是「檔案」而已，要被Loader載入memory才會變成Process 把多個程式放進 RAM → 多程式（multiprogramming）: 改善CPU使用率以及加快反應時間 process 會移動在Disk和memory之間  Memory Management Issues  How to refer to memory in a program? → Address binding How to load a program into memory? → static/dynamic lo...</div></div></div></a><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">30</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/603b4b38.html" title="OS-CH4-題目注意">OS-CH4-題目注意</a><time datetime="2026-08-14T09:49:00.000Z" title="發表於 2026-08-14 17:49:00">2026-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/374236ea.html" title="OS-CH4-Thread Management">OS-CH4-Thread Management</a><time datetime="2026-08-13T14:05:00.000Z" title="發表於 2026-08-13 22:05:00">2026-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6f2552db.html" title="OS-CH4-CPU Scheduling">OS-CH4-CPU Scheduling</a><time datetime="2026-08-13T02:30:00.000Z" title="發表於 2026-08-13 10:30:00">2026-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/12e18ab3.html" title="OS-CH4-Process Management">OS-CH4-Process Management</a><time datetime="2026-08-12T06:30:00.000Z" title="發表於 2026-08-12 14:30:00">2026-08-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/96b225e3.html" title="資料結構 - 各種資料結構優點">資料結構 - 各種資料結構優點</a><time datetime="2026-08-11T15:09:00.000Z" title="發表於 2026-08-11 23:09:00">2026-08-11</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>發出 I/O 後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Synchronous I/O</strong></td>
+<td>等 I/O 完成再繼續</td>
+</tr>
+<tr>
+<td><strong>Asynchronous I/O</strong></td>
+<td>不用等完成，可以先做其他工作</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>Context Switch 除了要儲存與載入Process Context 還可能破壞 Cache Locality 造成 Cache Miss</p>
+</li>
+<li>
+<p>Thread <strong>沒有共用 PC</strong> -&gt; 可能自己做到自己的位置</p>
+</li>
+<li>
+<p>Exec()被呼叫-&gt; <strong>Process ID 不換</strong> : 因為只是把執行的程式換掉</p>
+</li>
+<li>
+<p><strong>fork()</strong> = 從「目前這個位置」複製一個 process，接著從下一步程式碼開始</p>
+</li>
+<li>
+<p><strong>wait()</strong> : 只負責等待子結束，不能收集孩子的資訊，只能知道他是不是正常結束</p>
+</li>
+<li>
+<p>每個 Thread <strong>不共用 PC</strong></p>
+</li>
+<li>
+<p>SJF 不適合 Short-Term Scheduler : 因為執行時間太頻繁了，來不及預測</p>
+</li>
+<li>
+<p>RR 是設計給 Time-Sharing</p>
+</li>
+<li>
+<p>RR 是使用 FIFO <strong>Queue</strong></p>
+</li>
+<li>
+<p>$A \subset B$ 是代表 A包含於B 但不等於</p>
+</li>
+<li>
+<p>CPU Efficiency = 真正做工作的時間 / (真正工作時間 + overhead)</p>
+<ul>
+<li>T : Process 平均跑<code>T</code>會被Block；S:Switch 時間；Q : RR Quantum</li>
+<li>S &lt; Q &lt; T : $*Q / (Q + S)$</li>
+<li>Q =&gt; 無限 : $ T / (T + S) $</li>
+</ul>
+</li>
+<li>
+<p>Interactive processes usually produce short <strong>CPU Burst</strong></p>
+</li>
+<li>
+<p>CPU-Bound 要給他 <strong>低priority</strong></p>
+</li>
+<li>
+<p>SJF是一種策略<strong>改善Waiting Time</strong></p>
+</li>
+<li>
+<p>Process 的 Thread 共享 <strong>Heap</strong> 、 <strong>Global variable</strong>、<strong>Static Local Variable</strong>、Code Text、Open File</p>
+<blockquote>
+<p>Threads share Code、Data、Heap、Files；各自有 Stack、PC、Registers。</p>
+</blockquote>
+</li>
+<li>
+<p>描述 Thread / Process Switch</p>
+<ul>
+<li>Thread Switch : 只需儲存舊Thread Data，PC、Stack、Registers等<strong>私有Data</strong>，但同一Process的<strong>共享資訊</strong>不需要切換</li>
+<li>Process Switch : 需要儲存舊Process 的狀態，並且恢復下一個Process的資訊，除了<strong>CPU Register</strong>以外，還有<strong>記憶體配置Data</strong>，還可能需要<strong>刷新Data Cache、Instruction Cache</strong></li>
+</ul>
+</li>
+<li>
+<p>LWP 只連接一個Kernel Thread</p>
+</li>
+<li>
+<p>User Thread 之間的排程與Context Switch，<strong>由Thread Library負責</strong>，不需要Kernel</p>
+</li>
+<li>
+<p>Kernel <strong>只負責 Kernel Thread</strong></p>
+</li>
+<li>
+<p>LWP 會儲存目前正在它上面執行的User Thread的<strong>Register Set</strong></p>
+</li>
+<li>
+<p>Linux / Windows / macOS =&gt; <strong>one-to-one</strong> Model</p>
+</li>
+<li>
+<p>Many-to-one =&gt; 舊Java、<strong>Green</strong></p>
+</li>
+<li>
+<p>Many-to-Many =&gt; 舊Solaris、Implicit Thread</p>
+</li>
+</ul>
+<blockquote>
+<p>現在都是 One-to-One</p>
+</blockquote>
+<ul>
+<li>Process / Thread 分別需要甚麼執行</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Thread</th>
+<th>Process</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory</td>
+<td><strong>X</strong></td>
+<td>O</td>
+</tr>
+<tr>
+<td>PC</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>Stack</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>Register</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td>I/O Resource</td>
+<td><strong>X</strong></td>
+<td>O</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Context Switch : CPU 從這個Process  <strong>換</strong> 跑另一個Process</li>
+<li>Linux 有 Hard/Soft Addinity</li>
+<li>process 結束要求OS用**Exit()**刪除他</li>
+<li>Android裡，<code>Empty process</code>=&gt; 主要留下來當Cache，方便之後快速啟動</li>
+<li>正在跟使用者互動的 =&gt; <strong>Foreground Process</strong></li>
+<li><strong>Visible Process</strong> 使用者看的到，但不一定在操作</li>
+<li>影響context Switch Time
+<ul>
+<li>Register 數量</li>
+<li>Special Instruction : 可以一次存很多，與一次存一個</li>
+<li>Memory Speed</li>
+<li><s>Disk Size 沒有</s></li>
+</ul>
+</li>
+<li>有 <strong>idle Process</strong></li>
+<li>MLFQ 通常是高層先跑完，全部跑完一輪空了 =&gt; 下一層繼續 =&gt; 直到最後一層</li>
+<li>C library 需要OS System call才能Access檔案</li>
+<li>SJN / SJF : 主要是最小化Average Waiting Time</li>
+<li>區域變數可以<strong>有效利用記憶體</strong>，因為它使用的空間會在需要的時候才配置，用完之後再釋放</li>
+<li>同一Process 不能共享區域變數</li>
+<li>User Thread 比 Kernel Thread的優點在 : <strong>切換快、建立快</strong></li>
+<li>Thread v.s. Process
+<ul>
+<li>Process : 是在執行的Program ， 通常包含 Code/Data Section、Heap、Stack，另外會用PCB來保存Data : 有PC、CPU Register</li>
+<li>Thread : 是 CPU Utilicaiton unit，一個Process可以有很多Thread，共享Code 、 Data、Heap、OS Resource，但每個Thrad自己有TID、PC、Stack</li>
+</ul>
+</li>
+<li>Thread v.s Process優點與限制</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Process</th>
+<th>Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td><strong>Heavyweight process</strong></td>
+<td><strong>Lightweight process</strong></td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Single-threaded model</td>
+<td>Multithreading model</td>
+</tr>
+<tr>
+<td>Responsiveness</td>
+<td>一旦 process 做 blocking system call，<strong>整個 process 都會 blocked</strong></td>
+<td>某個 thread blocked 時，若還有其他可執行 thread，<strong>process 仍可繼續執行</strong></td>
+</tr>
+<tr>
+<td>Economy</td>
+<td>Process creation、context switch <strong>慢、成本高</strong></td>
+<td>Thread creation、context switch <strong>快、成本低</strong></td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Single-threaded process 通常只能使用 <strong>一個 CPU/core</strong></td>
+<td>同一 process 的 threads 可在不同 CPU/cores <strong>平行執行</strong></td>
+</tr>
+<tr>
+<td>Resource Sharing</td>
+<td>不同 processes 原則上<strong>不共享 memory / OS resources</strong></td>
+<td>同一 process 的 threads 可共享 <strong>code、data、OS resources</strong></td>
+</tr>
+<tr>
+<td>Synchronization</td>
+<td>一般不需同步；若使用 shared memory 則需要</td>
+<td><strong>需要 synchronization</strong>，避免 race condition</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/603b4b38.html">https://yowdesert.github.io/posts/603b4b38.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/23cf8539.html" title="資料結構 - Advanced Tree"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">資料結構 - Advanced Tree</div></div><div class="info-2"><div class="info-item-1">Double-Ended Priority Queue    Operation Time Complexity     Insert x O(log n)   Delete-Min O(log n)   Delete-MAX O(log n)   Find min or MAX O(1)    min-Max Heap  complete Binary Tree 每層交替 min level -&gt; MAX -&gt; min -&gt; MAX -&gt; …  min 是整個 subtree 裡最小的 MAX 是整個 subtree 裡最大的    insertion  x 置放於last node之後 令 x 父點為 p  P 位於 min :    1234567// 若插入點在 max 層，即代表父親位於 min 層if(x&lt;H[p])&#123; // x 若比父點小    H[n] = H[p]; // 把父親往下拉    verifyMin(x); // 讓 x 去往上挑戰 min&#125;else&#123; // x 比父點大    verify...</div></div></div></a><a class="pagination-related" href="/posts/374236ea.html" title="OS-CH4-Thread Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">OS-CH4-Thread Management</div></div><div class="info-2"><div class="info-item-1">Thread 為了讓同一程式可以同時處理不同工作。   是輕量級的Process OS 分配 CPU Time的基本單位 私有的組成包含 :  Thread ID PC  Register Set Stack   同一個Process 共享此Process的 (global)code/data section、OS Resource、…  (考選) 表格    Private（每個 thread 自己有） Shared with other threads of the same process（同一 process 內其他 threads 共用）     Program Counter (PC) Code section (text section)   CPU Register Set Data section（global data / global variables）   Stack Heap(指標)   Local Variables Other OS resources（open files, signals, I/O resources, etc.）   Thre...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/67c68839.html" title="(作業系統) Deadlock Definition, Avoidance and Resolution"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-13</div><div class="info-item-2">(作業系統) Deadlock Definition, Avoidance and Resolution</div></div><div class="info-2"><div class="info-item-1">Deadlock基本概念 1. Deadlock 是什麼？ Deadlock 指的是：  一組 processes 彼此等待對方所持有的資源，導致所有 process 都無法繼續執行。  Deadlock 的特徵  每個 process：  已持有至少一個資源 同時等待另一個 process 持有的資源   結果：大家互等，系統停住   2. Deadlock 範例 Example 1：兩個 processes、兩個資源  P1 持有 R1，等待 R2 P2 持有 R2，等待 R1 → 互相等待，發生 deadlock  Example 2：Semaphore A 與 B 12P1: wait(A); wait(B); ...; signal(B); signal(A);P2: wait(B); wait(A); ...; signal(A); signal(B);  若 P1 先拿到 A、P2 先拿到 B 下一步彼此都在等對方 → deadlock   Deadlock 的四個必要條件 Deadlock 當且僅當下列四個條件同時成立：  Mutual Exclusion（互斥）...</div></div></div></a><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-20</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/6575bc75.html" title="(作業系統) Main Memory Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-19</div><div class="info-item-2">(作業系統) Main Memory Management</div></div><div class="info-2"><div class="info-item-1"> 本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直接存取的很少，只有Main Memory和 Registers而已 Disk 上的程式，只是「檔案」而已，要被Loader載入memory才會變成Process 把多個程式放進 RAM → 多程式（multiprogramming）: 改善CPU使用率以及加快反應時間 process 會移動在Disk和memory之間  Memory Management Issues  How to refer to memory in a program? → Address binding How to load a program into memory? → static/dynamic lo...</div></div></div></a><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">30</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/23cf8539.html" title="資料結構 - Advanced Tree">資料結構 - Advanced Tree</a><time datetime="2026-08-20T03:30:00.000Z" title="發表於 2026-08-20 11:30:00">2026-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/603b4b38.html" title="OS-CH4-補充加強觀念">OS-CH4-補充加強觀念</a><time datetime="2026-08-14T09:49:00.000Z" title="發表於 2026-08-14 17:49:00">2026-08-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/374236ea.html" title="OS-CH4-Thread Management">OS-CH4-Thread Management</a><time datetime="2026-08-13T14:05:00.000Z" title="發表於 2026-08-13 22:05:00">2026-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6f2552db.html" title="OS-CH4-CPU Scheduling">OS-CH4-CPU Scheduling</a><time datetime="2026-08-13T02:30:00.000Z" title="發表於 2026-08-13 10:30:00">2026-08-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/12e18ab3.html" title="OS-CH4-Process Management">OS-CH4-Process Management</a><time datetime="2026-08-12T06:30:00.000Z" title="發表於 2026-08-12 14:30:00">2026-08-12</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {
