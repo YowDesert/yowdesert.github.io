@@ -2,6 +2,7 @@
 title: 資料結構 - Advanced Tree
 tags:
   - 資料結構
+  - 第九章
 abbrlink: 23cf8539
 mathjax: true
 date: '2026-8-20 11:30:00'
@@ -14,6 +15,11 @@ date: '2026-8-20 11:30:00'
 |Delete-Min|O(log n)|
 |Delete-MAX|O(log n)|
 |Find min or MAX|O(1)|
+
+- Double Priority Queue 
+    - Insert(x)：插入任意元素
+    - Delete-Max：刪除最大值
+    - Delete-Min：刪除最小值
 
 ## min-Max Heap
 - **complete Binary Tree**
@@ -84,15 +90,62 @@ if(x < deap[j]){
 	insert_max_heap(deap,n,x);
 }
 ```
-### **Delete Min (特別注意)**
-1. 移走左子樹之Root
-2. Last node刪除 並令為`x`
-3. 左子樹node空缺，由其子點最小往上遞補，子點的空缺，再由子點的子點的最小往上遞補...(O(log n))，最後在leaf留下空 = i
-4. Run DeapInsetion(D,i,x)，**花O(log n)**
+### Delete Min（特別注意）
 
+1. 移走左子樹的 Root，也就是 **Min**。
+
+2. 刪除 Last Node，並令其值為 `x`。
+   - `x` 先拿在手上，**不要直接補進洞裡**。
+
+3. 左子樹出現空缺後，讓洞一路往下：
+   - 每次選兩個 child 中 **較小的那個往上補**。
+   - 子點留下的新空缺，再繼續用其較小的 child 往上補。
+   - 一直到最後在 Leaf 留下一個空缺位置 `i`。
+
+   時間複雜度：
+
+   $$
+   O(\log n)
+   $$
+
+4. 對位置 `i` 執行 `DeapInsertion(D, i, x)`：
+
+   - 找 `i` 在 Max Heap 的 **Corresponding Node**，假設其值為 `y`。
+   - 比較 `x` 與 `y`。
+
+   若：
+
+   $$
+   x \le y
+   $$
+
+   則：
+
+   ```text
+   x → 直接放入 Min side 的空缺 i
+   ```
+
+   若：
+
+   $$
+   x > y
+   $$
+
+   則：
+
+   ```text
+   y → 放入 Min side 的空缺 i
+   x → 放到 Max side
+   ```
+
+   並在 Max Heap 中做向上調整，使其仍符合 Max Heap。
+
+---
 ## SMMH(Symmetric Min-MAX Heap)
+> 他能夠快速地找到最大最小
+
 - 為一個 Completed B.T 且 root 不存資料，則滿足以下 3 個 path
-1. left sibling <= right sibling
+1. left sibling <= right sibling **(同一個爸爸的兩個子點)**
 2. 如果 node `x` 有祖父，則祖父的**左子點**必定 <= X
 3. 如果 node `x` 有祖父，則祖父的**右子點**必定 >= X
 - 代表T[2] 為**最小**，T[3]為**最大**
@@ -235,18 +288,6 @@ $$
 | RR | 右 → 右 | Left Rotation  |
 | LR | 左 → 右 | Left + Right   |
 | RL | 右 → 左 | Right + Left   |
-
-### 快速記
-
-* **LL、RR：Single Rotation**
-* **LR、RL：Double Rotation**
-
-```text
-LL → 右旋
-RR → 左旋
-LR → 左旋、右旋
-RL → 右旋、左旋
-```
 
 Rotation 後仍然要保持 BST：
 
@@ -685,21 +726,24 @@ $$
 
 > 再往上檢查 Parent 是否發生 Underflow。
 
-#### Delete 超短版
+### Delete 口訣
 
-```text
-Delete
-↓
-Underflow？
-├─ No → End
-└─ Yes
-    ↓
-兄弟能借？
-├─ Yes → Rotation
-└─ No  → Merge
-          ↓
-      檢查 Parent
-```
+刪完沒空 → 結束
+
+刪完空了：
+- 兄弟有 2 keys → Borrow
+- 兄弟只有 1 key → Merge
+
+Parent 空了：
+- 繼續往上處理
+
+刪 internal key：
+- predecessor / successor 取代
+- 真正到 leaf 刪除
+
+Root 空了：
+- child 升成新 Root
+- height -1
 
 ---
 
@@ -1353,6 +1397,323 @@ CLRS 常使用此方法。
 > **在真正插到底之前，先將可能爆掉的 4-Node split。**
 
 ---
+## Red-Black Tree Delete
+
+> RB Tree Delete 的核心：
+> **刪掉 Black Node 之後，可能造成 Double Black，要把它修掉。**
+> Double Black = 「這條路徑少了一個 Black」
+
+---
+
+### 基本角色
+
+假設 Double Black 在左邊：
+
+```text
+          P
+         / \
+       DB   S
+           / \
+          N   F
+```
+
+* `P` = Parent
+* `S` = Sibling
+* `N` = Near Nephew
+* `F` = Far Nephew
+* `DB` = Double Black
+
+### Near / Far 判斷
+
+Double Black 在左邊：
+
+```text
+          P
+         / \
+       DB   S
+           / \
+        Near Far
+```
+
+Double Black 在右邊：
+
+```text
+          P
+         / \
+        S   DB
+       / \
+     Far Near
+```
+
+> **Near = 靠近 Double Black**
+> **Far = 遠離 Double Black**
+
+---
+
+### Case 1：Sibling 是 Red
+
+```text
+          P(B)
+         /    \
+       DB     S(R)
+             /   \
+           A(B)  B(B)
+```
+
+如果 DB 在左邊：
+
+1. `S → Black`
+2. `P → Red`
+3. 對 `P` 做 **Left Rotation**
+
+變成：
+
+```text
+             S(B)
+            /   \
+         P(R)   B(B)
+        /   \
+      DB    A(B)
+```
+
+重點：
+
+```text
+Sibling = Red
+→ Parent 和 Sibling 換顏色
+→ Rotate Parent
+→ 繼續判斷其他 Case
+```
+
+> Case 1 不會直接結束，
+> 只是把 Red Sibling 轉成 Black Sibling。
+
+---
+
+### Case 2：Sibling Black，兩個 Nephew 都 Black
+
+```text
+          P(?)
+         /    \
+       DB     S(B)
+             /   \
+           N(B)  F(B)
+```
+
+Sibling 變 Red，Double Black 往 Parent 移：
+
+```text
+          P(DB)
+         /     \
+        B      S(R)
+              /   \
+            N(B)  F(B)
+```
+
+重點：
+
+```text
+Sibling = Black
+Near    = Black
+Far     = Black
+
+→ Sibling 變 Red
+→ Double Black 往上傳
+```
+
+如果 Parent 是 Root：
+
+```text
+Double Black 消失
+```
+
+---
+
+### Case 3：Sibling Black、Near Red、Far Black
+
+```text
+          P(?)
+         /    \
+       DB     S(B)
+             /   \
+          N(R)   F(B)
+```
+
+如果 DB 在左邊：
+
+1. `N → Black`
+2. `S → Red`
+3. 對 `S` 做 **Right Rotation**
+
+原本：
+
+```text
+          P
+         / \
+       DB   S(B)
+           /
+         N(R)
+```
+
+對 `S` Right Rotate：
+
+```text
+          P
+         / \
+       DB   N(B)
+              \
+              S(R)
+```
+
+重點：
+
+```text
+Sibling = Black
+Near    = Red
+Far     = Black
+
+→ Rotate Sibling
+→ 轉成 Case 4
+```
+
+> **Near Red 是過渡 Case**
+> 目的就是把 Near Red 變成 Far Red。
+
+---
+
+### Case 4：Sibling Black、Far Red
+
+```text
+          P(?)
+         /    \
+       DB     S(B)
+             /   \
+           N(?)  F(R)
+```
+
+如果 DB 在左邊：
+
+1. `S.color = P.color`
+2. `P → Black`
+3. `F → Black`
+4. 對 `P` 做 **Left Rotation**
+
+變成：
+
+```text
+             S
+            / \
+          P(B) F(B)
+         / \
+        B   N
+```
+
+Double Black 消失。
+
+重點：
+
+```text
+Sibling = Black
+Far     = Red
+
+→ Recolor
+→ Rotate Parent
+→ Double Black 消失
+→ 結束
+```
+
+---
+
+### 四個 Case 快速判斷
+
+```text
+             Double Black
+                  |
+                  v
+
+          Sibling 是 Red？
+             /       \
+           Yes        No
+            |          |
+         Case 1      Sibling Black
+                       |
+                兩個 Nephew 都 Black？
+                   /          \
+                 Yes           No
+                  |             |
+               Case 2       Far 是 Red？
+                              /      \
+                            Yes       No
+                             |         |
+                          Case 4    Case 3
+                                      |
+                                      v
+                                  變 Case 4
+```
+---
+
+### Delete 最差情況
+
+- Rotation：最多 **3 次**
+- Recolor / Fixup：最多沿樹高往上，$O(\log n)$
+- Delete 總時間複雜度：
+
+$$
+\boxed{O(\log n)}
+$$
+---
+
+### 快速判斷表
+
+| Case   | Sibling | Near  | Far   | 動作                         |
+| ------ | ------- | ----- | ----- | -------------------------- |
+| Case 1 | Red     | -     | -     | Recolor + Rotate Parent    |
+| Case 2 | Black   | Black | Black | Sibling → Red，DB 往上        |
+| Case 3 | Black   | Red   | Black | Rotate Sibling → Case 4    |
+| Case 4 | Black   | 任意    | Red   | Recolor + Rotate Parent，結束 |
+
+---
+
+### Rotation 怎麼記
+
+如果 Double Black 在左邊：
+
+```text
+          P
+         / \
+       DB   S
+```
+
+* Case 1：`Left Rotate(P)`
+* Case 3：`Right Rotate(S)`
+* Case 4：`Left Rotate(P)`
+
+如果 Double Black 在右邊：
+
+```text
+          P
+         / \
+        S   DB
+```
+
+全部左右相反：
+
+* Case 1：`Right Rotate(P)`
+* Case 3：`Left Rotate(S)`
+* Case 4：`Right Rotate(P)`
+
+---
+
+### 超短口訣
+
+```text
+兄弟紅 → 轉爸爸
+兩侄黑 → 黑往上
+近侄紅 → 轉兄弟
+遠侄紅 → 轉爸爸，結束
+```
+
+---
 
 ## RB Tree 高度
 
@@ -1595,6 +1956,18 @@ $$
 $$
 \boxed{O(\log n)}
 $$
+
+---
+## Bottom up/Top Down Splay Tree
+
+|              | Bottom-Up        | Top-Down            |
+| ------------ | ---------------- | ------------------- |
+| 什麼時候旋轉       | 找到後              | 搜尋途中                |
+| 修正方向         | Bottom → Root    | Root → Bottom 過程中   |
+| 需要 Parent 資訊 | 通常需要             | 通常不用 parent pointer |
+| 結果           | 把目標 Splay 到 Root | 把目標 Splay 到 Root    |
+| 本質           | Splay Tree       | Splay Tree          |
+
 
 ---
 
