@@ -1892,6 +1892,8 @@ Splay Tree 是一種 BST。
 > 原則:將Splay 起點變成Root,Finally
 
 
+- Splay Tree，Search 失敗時，通常把「最後碰到的節點」Splay 到 Root。
+
 ## Splay 起點
 
 - Insert `X`：`X` 為 splay 起點
@@ -2469,6 +2471,7 @@ $$
 
 - 把 Node Cut 到 Root List
 - 必要時做 Cascading Cut
+
 
 Amortized：
 

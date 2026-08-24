@@ -67,3 +67,30 @@ date: '2026-8-21 16:12:00'
     h <= 2*$log_2 (n+1)$
     ```
 - RB Tree是平衡的，因為bh要一樣高，所以可以保證Longest path <= 2 * shortest path
+- RB-Tree size of n
+    - 一 個 search 花 O(log n)
+    - 一 個 Insertion 花 O(log n)
+    - n 個 Insertion 花 O(nlog n)
+    - 一 個 Deletion 花 O(log n)
+    - n 個 Deletion 花 O(nlog n)
+- Binomial Tree
+    - 高度 : O(log n)
+    - 合併兩棵要花 **O(1)**
+    
+- Binomial Heap 
+    - root數 : O(log n)
+    - 由一堆Binomial Tree合成
+    - 每棵皆為min-heap
+    - Union 兩個heap 要 O(log n)
+    - Decrease Key O(log n)
+- Fibonacci Heap Decrease Key 是O(1)
+    - 如果比較小 必要時直接切到Root List
+
+| 路徑    | 類型      | 做法                     |
+| ----- | ------- | ---------------------- |
+| 左 → 左 | Zig-Zig | 連續做 2 次 Right Rotation |
+| 右 → 右 | Zig-Zig | 連續做 2 次 Left Rotation  |
+| 左 → 右 | Zig-Zag | 先 Left，再 Right         |
+| 右 → 左 | Zig-Zag | 先 Right，再 Left         |
+
+- Splay Tree，Search 失敗時，通常把「最後碰到的節點」Splay 到 Root。
