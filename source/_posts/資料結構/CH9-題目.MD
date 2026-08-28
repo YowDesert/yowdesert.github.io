@@ -1,8 +1,11 @@
 ---
 title: 資料結構 - 高等樹-題目注意
-tags:
+categories:
+  - 研究所題目
   - 資料結構
   - 第九章
+tags:
+  - 資料結構
 abbrlink: 
 mathjax: true
 date: '2026-8-21 16:12:00'

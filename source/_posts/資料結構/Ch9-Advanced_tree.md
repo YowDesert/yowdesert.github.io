@@ -1,8 +1,10 @@
 ---
 title: 資料結構 - Advanced Tree
-tags:
+categories:
   - 資料結構
   - 第九章
+tags:
+  - 資料結構
 abbrlink: 23cf8539
 mathjax: true
 date: '2026-8-20 11:30:00'

@@ -1,8 +1,10 @@
 ---
 title: 資料結構 - 所有 Tree 整理
-tags:
+categories:
   - 資料結構
   - 第九章
+tags:
+ - 資料結構
 abbrlink: f184578f
 mathjax: true
 date: '2026-8-22 11:30:00'

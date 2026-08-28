@@ -2,7 +2,7 @@
 title: (作業系統) Deadlock Definition, Avoidance and Resolution
 categories:
   - 作業系統
-  - Process and Concurrency
+  - 第五章
 tags:
   - 作業系統
 abbrlink: 67c68839
@@ -109,7 +109,7 @@ Deadlock 當且僅當下列四個條件同時成立：
 
 1. **Prevention / Avoidance**
 2. **Detection & Recovery**
-3. **Ignore（Ostrich Algorithm）**
+3. **Ignore（Ostrich Algorithm）** (通常用這個因為前面成本太高，而且DeadLock頻率不高)
 
 
 ---
@@ -153,6 +153,8 @@ Deadlock Prevention 的核心概念是：
 - 未取得全部資源前，不得持有任何資源
 
 ### Protocol 2：Release before request (用前先Release)
+> 允許持有部分資源
+
 - Process 只有在「未持有任何資源」時才能請求新資源
 - 若需新資源，必須先釋放目前全部資源
 
@@ -218,9 +220,19 @@ Deadlock Prevention 的核心概念是：
 - Runtime overhead 低
 
 ### 缺點
+- 可能Starvation
+- 低的CPU utilization、Throughput
 - 小的號碼很搶手
 - 排序設計困難
 - 可能限制資源請求彈性
+
+### 做法以及例子
+- OS 會賦予每一類型資源一**unique** resource No/ID
+- 必須按照**Ascending**方式提出申請
+例子 :
+|持有|申請|OK?|
+|R0|R3|OK|
+|R0,R5|R3|必須先Release R5才能提R3|
 
 ---
 
@@ -461,6 +473,73 @@ Available = 12 − (5 + 2 + 3) = **2**
 ---
 
 
+# Deadlock-Free 的充分條件（單一 Resource Type） 
+
+假設：
+- `m`：系統中相同 Resource 的總數
+- `n`：Process / Thread 數量
+- `Max_i`：第 `i` 個 Process 最大需要的 Resource 數量
+
+若：
+
+$$
+\sum_{i=1}^{n}(Max_i - 1) < m
+$$
+
+則可以保證系統 **Deadlock Free**。
+
+等價寫法：
+
+$$
+\sum_{i=1}^{n} Max_i < m+n
+$$
+
+### 為什麼？
+假設 m 個 Resources 全部分配出去：
+
+Σ Allocation_i = m
+
+因為：
+
+$$
+Need_i = Max_i - Allocation_i
+$$
+
+所以：
+
+$$
+Σ Need_i= Σ Max_i - m< n
+$$
+
+因為共有 n 個 Processes，而 Σ Need_i < n，
+所以至少有一個 Process：
+
+Need_i = 0
+
+→ 該 Process 一定可以完成  
+→ 完成後釋放 Resources  
+→ 其他 Process 便可繼續完成  
+→ 因此系統 Deadlock Free
+
+### Example
+4 個相同 Resources，N 個 Threads，
+每個 Thread 最多需要 2 個：
+
+m = 4
+Max_i = 2
+
+$$
+Σ Max_i < m + n
+$$
+
+2N < 4 + N
+
+N < 4
+
+∴ 最多 3 個 Threads 可保證 Deadlock Free
+
+---
+
 # Banker’s Algorithm
 
 ## 一、用途與適用情境
@@ -582,6 +661,41 @@ Available = 12 − (5 + 2 + 3) = **2**
 
 👉 **拒絕請求（會進入 Unsafe State，無 Safe Sequence）**
 
+## 八、時間複雜度 $O(n^2*m)$
+
+主要耗時在Safety Algorithm 中 : 2、3 Loop
+
+- n : Process數量
+- m : Resources Type數量
+
+ex : 
+- n = 5 : $P_0$ ~ $P_4$
+- m = 3 : A、B、C
+
+|Process|Allocation|Need|
+|---|---|---|
+|P0|(0,1,0)|(7,4,3)|
+|P1|(3,0,2)|(0,2,0)|
+|P2|(3,0,2)|(6,0,0)|
+|P3|(2,1,1)|(0,1,1)|
+|P4|(0,0,2)|(4,3,1)|
+
+- 一開始Work = Avalible = (2,3,0)
+- 第一輪
+   - (0,1,0) + (2,3,0) >= (7,4,3)?
+- 第二輪
+   - (3,0,2) + (2,3,0) >= (0,2,0)?
+- 一直重複
+
+那每輪都要**比3種Resources**合不合理 => **O(m)**
+那每輪最多檢查 n 個 => n-1 個 => ... => 1個 : 因為掃到最後一個才成功
+所以 => n + n-1 + n-2 + n-3 + n-4 + .... + 1 = n(n+1) / 2  => $O(n^2)$
+最終 : 
+
+$$
+O(n^2*m)
+$$
+
 ---
 
 # Deadlock Detection（死結偵測）
@@ -630,6 +744,10 @@ Available = 12 − (5 + 2 + 3) = **2**
 
 
 ## 三、Algorithm 2：Detection with Banker’s Algorithm（多個 instances）
+
+### 時間複雜度 $O(m*n^2)$
+- 最多檢查 n + (n-1) + ... + 1 =$O(n^2)$
+- 每次check 花 O(m)
 
 ### 適用情境
 - **每種資源有多個 instances**
