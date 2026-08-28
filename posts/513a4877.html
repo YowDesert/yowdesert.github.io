@@ -1,0 +1,1786 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>資料結構 - Search and Sort | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Search and Sort Search Linear(Sequential) Search  由左至右一一比較 Time Compexity : $O(1)$  Binary Search  資料要先排序 需要保存在 Array Time Compexity : $O(log n)$  方法  每次都與中間比較  相等 : 找到 x &lt; 中間值 : 在左半部再做一次 x &gt; 中間">
+<meta property="og:type" content="article">
+<meta property="og:title" content="資料結構 - Search and Sort">
+<meta property="og:url" content="https://yowdesert.github.io/posts/513a4877.html">
+<meta property="og:site_name" content="YD&#39;s 學習筆記">
+<meta property="og:description" content="Search and Sort Search Linear(Sequential) Search  由左至右一一比較 Time Compexity : $O(1)$  Binary Search  資料要先排序 需要保存在 Array Time Compexity : $O(log n)$  方法  每次都與中間比較  相等 : 找到 x &lt; 中間值 : 在左半部再做一次 x &gt; 中間">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-08-28T02:18:00.000Z">
+<meta property="article:modified_time" content="2026-08-28T13:08:05.424Z">
+<meta property="article:author" content="YowDesert">
+<meta property="article:tag" content="資料結構">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yowdesert.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "資料結構 - Search and Sort",
+  "url": "https://yowdesert.github.io/posts/513a4877.html",
+  "image": "https://yowdesert.github.io/img/butterfly-icon.png",
+  "datePublished": "2026-08-28T02:18:00.000Z",
+  "dateModified": "2026-08-28T13:08:05.424Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "YowDesert",
+      "url": "https://YowDesert.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yowdesert.github.io/posts/513a4877.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><meta name="google-site-verification" content="google5c543dcf16a66e3c.html"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-5975504062599634',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"已切換為繁體中文","cht_to_chs":"已切換為簡體中文","day_to_night":"已切換為深色模式","night_to_day":"已切換為淺色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '資料結構 - Search and Sort',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="YD's 學習筆記" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">34</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">資料結構 - Search and Sort</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">資料結構 - Search and Sort</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2026-08-28T02:18:00.000Z" title="發表於 2026-08-28 10:18:00">2026-08-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-08-28T13:08:05.424Z" title="更新於 2026-08-28 21:08:05">2026-08-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/">資料結構</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/%E7%AC%AC%E4%B8%83%E7%AB%A0/">第七章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">5.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>22分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>Search and Sort</h1>
+<h1>Search</h1>
+<h2 id="Linear-Sequential-Search">Linear(Sequential) Search</h2>
+<ul>
+<li>由左至右一一比較</li>
+<li>Time Compexity : $O(1)$</li>
+</ul>
+<h2 id="Binary-Search">Binary Search</h2>
+<ul>
+<li>資料要先<strong>排序</strong></li>
+<li>需要保存在 <strong>Array</strong></li>
+<li>Time Compexity : $O(log n)$</li>
+</ul>
+<h3 id="方法">方法</h3>
+<ul>
+<li>每次都與中間比較
+<ul>
+<li>相等 : 找到</li>
+<li><code>x</code> &lt; 中間值 : 在左半部再做一次</li>
+<li><code>x</code> &gt; 中間值 : 在右半部再做一次</li>
+</ul>
+</li>
+</ul>
+<h1>Sort</h1>
+<ul>
+<li>Internal Sorting : 資料量很小，<strong>可以全部放在Memory中</strong></li>
+<li>External Sorting : 資料量太大，需要藉助外部儲存體
+<ul>
+<li>常見External Sort : <strong>Merge Sort</strong>(也可以搭配<strong>Sellection Tree</strong>)、M-Way Tree、B Tree、B+ Tree</li>
+</ul>
+</li>
+</ul>
+<h2 id="Stable-and-unStable">Stable and unStable</h2>
+<ul>
+<li>Input Data : …,K,…,K+,…</li>
+<li>OutPut Data保證結果為…,K,K+,… 則為<strong>Stable</strong></li>
+<li>UnStable Sort會比Stable<strong>多不必要的資料交換</strong></li>
+</ul>
+<p>例子 :</p>
+<ul>
+<li>Stable Sort : Insertion,Bubble Sort,Merge Sort,Bucket Sort,Radix Sort,Counting Sort</li>
+<li>Unstable Sort : Seletion,Shell,Quick,heap</li>
+</ul>
+<h2 id="Sorting-In-Place">Sorting In-Place</h2>
+<ul>
+<li>排序時，幾乎都直接在原本陣列裡面交換，<strong>不另外開一個跟n一樣大的陣列</strong></li>
+<li><strong>Merge Sort</strong> 不是 In-Place</li>
+<li>Linear-Time Sorting 也不是 Inplace</li>
+</ul>
+<h1>初等 Sort 方法</h1>
+<h2 id="Insertion-Sort">Insertion Sort</h2>
+<p>概念：</p>
+<ul>
+<li>將資料分成「已排序區」與「未排序區」</li>
+<li>每次從未排序區拿一個元素，插入前面已排序區的正確位置</li>
+<li>類似整理撲克牌</li>
+<li>適合資料量小或 Almost Sorted 的資料</li>
+</ul>
+<p>範例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">5 2 4 1</span><br><span class="line"></span><br><span class="line">[5] 2 4 1</span><br><span class="line">[2 5] 4 1</span><br><span class="line">[2 4 5] 1</span><br><span class="line">[1 2 4 5]</span><br></pre></td></tr></table></figure>
+<p>時間複雜度：</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Best：原本已經由小到大排列</li>
+<li>Worst：原本由大到小排列</li>
+<li>Worst 比較次數：</li>
+</ul>
+<p>$$<br>
+1+2+\cdots +(n-1)=\frac{n(n-1)}{2}=O(n^2)<br>
+$$</p>
+<p>特性：</p>
+<ul>
+<li>Space：$O(1)$</li>
+<li>In-Place：✅</li>
+<li>Stable：✅</li>
+</ul>
+<hr>
+<h2 id="Selection-Sort">Selection Sort</h2>
+<p>概念：</p>
+<ul>
+<li>每一回合從「尚未排序區」找出最小值</li>
+<li>再把最小值與目前位置交換</li>
+<li>每回合最多 Swap 一次</li>
+</ul>
+<p>範例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">5 2 4 1 3</span><br><span class="line"></span><br><span class="line">找最小 1</span><br><span class="line">1 | 2 4 5 3</span><br><span class="line"></span><br><span class="line">找最小 2</span><br><span class="line">1 2 | 4 5 3</span><br><span class="line"></span><br><span class="line">找最小 3</span><br><span class="line">1 2 3 | 5 4</span><br><span class="line"></span><br><span class="line">1 2 3 4 5</span><br></pre></td></tr></table></figure>
+<p>比較次數固定：</p>
+<p>$$<br>
+(n-1)+(n-2)+\cdots+1<br>
+$$</p>
+<p>$$<br>
+=\frac{n(n-1)}{2}<br>
+=O(n^2)<br>
+$$</p>
+<p>所以即使資料本來就已排序：</p>
+<p>$$<br>
+\boxed{Best=O(n^2)}<br>
+$$</p>
+<p>時間複雜度：</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+</tbody>
+</table>
+<p>特性：</p>
+<ul>
+<li>Space：$O(1)$</li>
+<li>In-Place：✅</li>
+<li>Stable：❌</li>
+<li>Swap 次數少，最多約 $n-1$ 次</li>
+<li>適合 Data Movement 成本很高的情況</li>
+</ul>
+<blockquote>
+<p>適合「交換 / 搬動資料成本高」的情況，因為 Selection Sort 的 Swap 次數少</p>
+</blockquote>
+<p>Unstable 範例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5A 5B 3</span><br></pre></td></tr></table></figure>
+<p>Selection Sort 將 3 與第一個 5 交換：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 5B 5A</span><br></pre></td></tr></table></figure>
+<p>原本：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5A 在 5B 前</span><br></pre></td></tr></table></figure>
+<p>排序後變成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5B 在 5A 前</span><br></pre></td></tr></table></figure>
+<p>所以 Unstable。</p>
+<hr>
+<h2 id="Bubble-Sort">Bubble Sort</h2>
+<p>概念：</p>
+<ul>
+<li>每次比較相鄰兩個元素</li>
+<li>若左邊 &gt; 右邊，就 Swap</li>
+<li>每一回合會把目前最大的元素「冒」到最右邊</li>
+</ul>
+<p>範例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">5 2 4 1</span><br><span class="line"></span><br><span class="line">5 2 → Swap</span><br><span class="line">2 5 4 1</span><br><span class="line"></span><br><span class="line">5 4 → Swap</span><br><span class="line">2 4 5 1</span><br><span class="line"></span><br><span class="line">5 1 → Swap</span><br><span class="line">2 4 1 5</span><br><span class="line">        ↑</span><br><span class="line">      最大值完成</span><br></pre></td></tr></table></figure>
+<p>若一整個 Pass 都沒有發生 Swap：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag = 0</span><br></pre></td></tr></table></figure>
+<p>代表資料已經排序完成，可以提早結束。</p>
+<p>時間複雜度：</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+</tbody>
+</table>
+<p>Best：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3 4 5</span><br></pre></td></tr></table></figure>
+<p>第一個 Pass 做完完全沒有 Swap，因此直接結束：</p>
+<p>$$<br>
+T(n)=n-1=O(n)<br>
+$$</p>
+<p>Worst：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5 4 3 2 1</span><br></pre></td></tr></table></figure>
+<p>比較次數：</p>
+<p>$$<br>
+(n-1)+(n-2)+\cdots+1<br>
+$$</p>
+<p>$$<br>
+=\frac{n(n-1)}2<br>
+=O(n^2)<br>
+$$</p>
+<p>特性：</p>
+<ul>
+<li>Space：$O(1)$</li>
+<li>In-Place：✅</li>
+<li>Stable：✅</li>
+</ul>
+<p>Stable 原因：<br>
+只有：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr[j] &gt; arr[j<span class="number">+1</span>]</span><br></pre></td></tr></table></figure>
+<p>才交換。</p>
+<p>如果兩個元素相等，就不交換，因此相同 Key 的相對順序不變。</p>
+<hr>
+<h2 id="Shell-Sort-補充">Shell Sort (補充)</h2>
+<p>概念：</p>
+<ul>
+<li>Insertion Sort 的改良版</li>
+<li>不一開始只比較相鄰元素</li>
+<li>先用較大的 Gap（Span）比較相隔較遠的元素</li>
+<li>Gap 逐漸縮小</li>
+<li>最後一定要：</li>
+</ul>
+<p>$$<br>
+\boxed{gap=1}<br>
+$$</p>
+<p>最後一輪其實就是 Insertion Sort。</p>
+<p>常見 Gap：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n/2 → n/4 → n/8 → ... → 1</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n = 16</span><br><span class="line"></span><br><span class="line">gap：</span><br><span class="line">8 → 4 → 2 → 1</span><br></pre></td></tr></table></figure>
+<p>目的：</p>
+<ul>
+<li>先讓距離很遠但位置差很多的元素快速移動</li>
+<li>讓資料變成 Almost Sorted</li>
+<li>最後再用 gap = 1 快速完成排序</li>
+</ul>
+<p>時間複雜度：</p>
+<ul>
+<li>與 Gap Sequence 有關</li>
+<li>考試若依課本可記：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">與 Gap 有關，目前已知最好$O(n^{7/6})$，考試可以寫 $O(n^{3/2})$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+</tbody>
+</table>
+<p>特性：</p>
+<ul>
+<li>Space：$O(1)$</li>
+<li>In-Place：✅</li>
+<li>Stable：❌</li>
+</ul>
+<p>Unstable 原因：</p>
+<ul>
+<li>Shell Sort 可能讓元素跨越很遠的位置交換</li>
+<li>相同 Key 的相對順序可能因此改變</li>
+</ul>
+<h3 id="Shell-Sort-Example">Shell Sort Example</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">8 5 3 9 1 6 4 7</span><br><span class="line"></span><br><span class="line">gap = 4</span><br><span class="line">→ 比距離 4 的元素</span><br><span class="line">→ 1 5 3 7 8 6 4 9</span><br><span class="line"></span><br><span class="line">gap = 2</span><br><span class="line">→ 比距離 2 的元素</span><br><span class="line">→ 1 5 3 6 4 7 8 9</span><br><span class="line"></span><br><span class="line">gap = 1</span><br><span class="line">→ 比相鄰元素</span><br><span class="line">→ 1 3 5 4 6 7 8 9</span><br><span class="line">→ 1 3 4 5 6 7 8 9</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Gap 逐漸縮小</li>
+<li>可以讓元素一次移動很遠</li>
+<li>最後一定要 gap = 1</li>
+<li>gap = 1 時就是最後的細部排序</li>
+<li>先粗排再細排</li>
+</ul>
+<hr>
+<h2 id="初等-Sort-比較">初等 Sort 比較</h2>
+<table>
+<thead>
+<tr>
+<th>Sort</th>
+<th style="text-align:right">Best</th>
+<th style="text-align:right">Average</th>
+<th style="text-align:right">Worst</th>
+<th style="text-align:right">Space</th>
+<th>Stable</th>
+<th>In-Place</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Insertion Sort</td>
+<td style="text-align:right">$O(n)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Selection Sort</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Bubble Sort</td>
+<td style="text-align:right">$O(n)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Shell Sort</td>
+<td style="text-align:right">Gap 決定</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>高等 Sort 方法</h1>
+<h2 id="Quick-Sort">Quick Sort</h2>
+<p>Quick Sort 採用：</p>
+<blockquote>
+<p><strong>Divide and Conquer</strong></p>
+</blockquote>
+<p>核心想法：</p>
+<ol>
+<li>選一個 <strong>Pivot Key (<code>pk</code>)</strong></li>
+<li>執行 <code>Partition</code></li>
+<li>將資料切成兩邊：
+<ul>
+<li>左邊：$\le pk$</li>
+<li>右邊：$\ge pk$</li>
+</ul>
+</li>
+<li>左右兩邊再分別做 Quick Sort</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">原資料</span><br><span class="line"></span><br><span class="line">[ 8, 2, 7, 1, 5, 6, 4 ]</span><br><span class="line">                    ↑</span><br><span class="line">                   Pivot</span><br><span class="line"></span><br><span class="line">Partition 後</span><br><span class="line"></span><br><span class="line">[ 2, 1, 3 ] [ 4 ] [ 7, 5, 6, 8 ]</span><br><span class="line">               ↑</span><br><span class="line">             Pivot</span><br><span class="line"></span><br><span class="line">左半再 Quick Sort</span><br><span class="line">右半再 Quick Sort</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Partition">Partition</h3>
+<p>Partition 的目的就是：</p>
+<blockquote>
+<p>找出 Pivot 最後應該放的位置，並把資料分成左右兩邊。</p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[2, 8, 7, 1, 3, 5, 6, 4]</span><br><span class="line"></span><br><span class="line">Pivot = 4</span><br></pre></td></tr></table></figure>
+<p>Partition 後可能變成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[2, 1, 3] [4] [7, 5, 6, 8]</span><br><span class="line">           ↑</span><br><span class="line">         Pivot</span><br></pre></td></tr></table></figure>
+<p>因此：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">左邊 &lt;= 4</span><br><span class="line">右邊 &gt;= 4</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Lomuto-Partition">Lomuto Partition</h3>
+<p>演算法課常見版本：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Partition(A, p, r)</span><br><span class="line">&#123;</span><br><span class="line">    pk = A[r]</span><br><span class="line">    i = p - 1</span><br><span class="line"></span><br><span class="line">    for j = p to r-1</span><br><span class="line">    &#123;</span><br><span class="line">        if A[j] &lt;= pk</span><br><span class="line">        &#123;</span><br><span class="line">            i++</span><br><span class="line">            swap(A[i], A[j])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    swap(A[i+1], A[r])</span><br><span class="line"></span><br><span class="line">    return i+1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>概念：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i：目前「小於等於 pivot 區域」的最後位置</span><br><span class="line">j：負責掃描資料</span><br></pre></td></tr></table></figure>
+<p>最後：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swap(A[i+1], pivot)</span><br></pre></td></tr></table></figure>
+<p>Pivot 就放到正確位置。</p>
+<hr>
+<h3 id="Hoare-Partition">Hoare Partition</h3>
+<p>資料結構課常見版本：</p>
+<ul>
+<li>Pivot 通常取最左邊</li>
+<li><code>i</code> 從左往右找</li>
+<li><code>j</code> 從右往左找</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i 找 &gt;= Pivot 的值</span><br><span class="line">j 找 &lt;= Pivot 的值</span><br></pre></td></tr></table></figure>
+<p>如果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i &lt; j</span><br></pre></td></tr></table></figure>
+<p>就交換。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">       i          j</span><br><span class="line">       ↓          ↓</span><br><span class="line">[小 小 大 ...... 小 大]</span><br></pre></td></tr></table></figure>
+<p>直到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i &gt;= j</span><br></pre></td></tr></table></figure>
+<p>停止。</p>
+<hr>
+<h3 id="Quick-Sort-時間複雜度">Quick Sort 時間複雜度</h3>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="Best-Case">Best Case</h3>
+<p>每次 Pivot 都剛好切成兩半：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">        n</span><br><span class="line">     /     \</span><br><span class="line">   n/2     n/2</span><br><span class="line">  /  \     /  \</span><br><span class="line">n/4 n/4  n/4 n/4</span><br></pre></td></tr></table></figure>
+<p>因此：</p>
+<p>$$<br>
+T(n)=2T(n/2)+cn<br>
+$$</p>
+<p>共有：</p>
+<p>$$<br>
+\log n<br>
+$$</p>
+<p>層。</p>
+<p>每層 Partition 總共處理：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+\boxed{O(n\log n)}<br>
+$$</p>
+<hr>
+<h3 id="Worst-Case">Worst Case</h3>
+<p>如果每次 Pivot 都是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最小值</span><br></pre></td></tr></table></figure>
+<p>或：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最大值</span><br></pre></td></tr></table></figure>
+<p>就會切成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0 + (n-1)</span><br><span class="line">0 + (n-2)</span><br><span class="line">0 + (n-3)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>因此：</p>
+<p>$$<br>
+T(n)=T(n-1)+cn<br>
+$$</p>
+<p>總時間：</p>
+<p>$$<br>
+n+(n-1)+(n-2)+\cdots+1<br>
+$$</p>
+<p>$$<br>
+=\frac{n(n+1)}2<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+\boxed{O(n^2)}<br>
+$$</p>
+<hr>
+<h3 id="Quick-Sort-Worst-Case-常見情況">Quick Sort Worst Case 常見情況</h3>
+<p>例如輸入已經排序：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3 4 5 6 7</span><br></pre></td></tr></table></figure>
+<p>如果每次都選最右邊：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pivot = 最大值</span><br></pre></td></tr></table></figure>
+<p>則會一直變成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">6 + 0</span><br><span class="line">5 + 0</span><br><span class="line">4 + 0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>因此變成：</p>
+<p>$$<br>
+O(n^2)<br>
+$$</p>
+<hr>
+<h3 id="改善-Worst-Case">改善 Worst Case</h3>
+<p>核心：</p>
+<blockquote>
+<p>盡量不要讓 Pivot 一直選到 Min 或 Max。</p>
+</blockquote>
+<h4 id="Randomized-Quick-Sort">Randomized Quick Sort</h4>
+<p>隨機選 Pivot：</p>
+<p>複雜度：</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+</tr>
+</tbody>
+</table>
+<p>注意：</p>
+<blockquote>
+<p>Randomized Quick Sort 並沒有消滅 Worst Case，只是降低發生機率。</p>
+</blockquote>
+<hr>
+<h4 id="Median-of-Three">Median of Three</h4>
+<p>從：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Left</span><br><span class="line">Middle</span><br><span class="line">Right</span><br></pre></td></tr></table></figure>
+<p>三個元素中選中位數當 Pivot。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Left = 2</span><br><span class="line">Middle = 8</span><br><span class="line">Right = 4</span><br></pre></td></tr></table></figure>
+<p>排序：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2 &lt; 4 &lt; 8</span><br></pre></td></tr></table></figure>
+<p>所以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pivot = 4</span><br></pre></td></tr></table></figure>
+<p>目的：</p>
+<blockquote>
+<p>避免 Pivot 太容易選到極端值。</p>
+</blockquote>
+<hr>
+<h4 id="Median-of-Medians">Median of Medians</h4>
+<p>可以保證 Pivot 不會太差。</p>
+<p>可使 Worst Case 達到：</p>
+<p>$$<br>
+\boxed{O(n\log n)}<br>
+$$</p>
+<p>但實作與常數成本較高。</p>
+<hr>
+<h3 id="所有元素都相同">所有元素都相同</h3>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5 5 5 5 5 5 5</span><br></pre></td></tr></table></figure>
+<p>某些 Partition 寫法可能每次都切成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 + (n-1)</span><br></pre></td></tr></table></figure>
+<p>導致：</p>
+<p>$$<br>
+\boxed{O(n^2)}<br>
+$$</p>
+<p>但若採用適當的 Hoare Partition 或 Three-way Partition，可以改善這個問題。</p>
+<hr>
+<h3 id="Quick-Sort-空間複雜度">Quick Sort 空間複雜度</h3>
+<p>Quick Sort 本身通常不需要另一個大小為 $n$ 的 Array。</p>
+<p>主要額外空間來自：</p>
+<blockquote>
+<p>Recursive Call Stack</p>
+</blockquote>
+<p>一般：</p>
+<p>$$<br>
+O(\log n)<br>
+$$</p>
+<p>Worst Case：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+\boxed{O(\log n)\sim O(n)}<br>
+$$</p>
+<hr>
+<h3 id="Quick-Sort-性質">Quick Sort 性質</h3>
+<table>
+<thead>
+<tr>
+<th>性質</th>
+<th>Quick Sort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Divide and Conquer</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Stable</td>
+<td>No</td>
+</tr>
+<tr>
+<td>In-place</td>
+<td>通常 Yes</td>
+</tr>
+<tr>
+<td>Best</td>
+<td>$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td>$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td>$O(n^2)$</td>
+</tr>
+<tr>
+<td>Extra Space</td>
+<td>$O(\log n)\sim O(n)$</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Merge-Sort">Merge Sort</h2>
+<p>Merge Sort 也是：</p>
+<blockquote>
+<p><strong>Divide and Conquer</strong></p>
+</blockquote>
+<p>但是它與 Quick Sort 最大差別：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Quick Sort：</span><br><span class="line">先 Partition</span><br><span class="line">再遞迴</span><br><span class="line"></span><br><span class="line">Merge Sort：</span><br><span class="line">先 Divide</span><br><span class="line">再遞迴</span><br><span class="line">最後 Merge</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="基本概念">基本概念</h3>
+<p>Merge Sort：</p>
+<ol>
+<li>將資料切成兩半</li>
+<li>左半做 Merge Sort</li>
+<li>右半做 Merge Sort</li>
+<li>將兩個排序好的部分 Merge</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[26, 5, 77, 1, 61, 11, 59, 15, 48, 19]</span><br><span class="line"></span><br><span class="line">              ↓ divide</span><br><span class="line"></span><br><span class="line">[26,5,77,1,61]        [11,59,15,48,19]</span><br><span class="line"></span><br><span class="line">              ↓</span><br><span class="line"></span><br><span class="line">繼續切到只剩一個元素</span><br><span class="line"></span><br><span class="line">              ↓</span><br><span class="line"></span><br><span class="line">再慢慢 Merge 回去</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Run">Run</h3>
+<p>Merge Sort 常出現：</p>
+<blockquote>
+<p><strong>Run</strong></p>
+</blockquote>
+<p>Run：</p>
+<blockquote>
+<p>一段已經排序好的連續資料。</p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 5, 26, 77]</span><br></pre></td></tr></table></figure>
+<p>就是一個 Run。</p>
+<p>Run Length：</p>
+<blockquote>
+<p>每一個 Run 裡面的資料個數。</p>
+</blockquote>
+<hr>
+<h3 id="Merge-Two-Runs">Merge Two Runs</h3>
+<p>假設兩個已排序的 Runs：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">L = [1, 5, 26, 77]</span><br><span class="line">M = [11, 15, 59, 61]</span><br></pre></td></tr></table></figure>
+<p>每次比較兩邊最前面的元素：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 vs 11 → 1</span><br><span class="line">5 vs 11 → 5</span><br><span class="line">26 vs 11 → 11</span><br><span class="line">26 vs 15 → 15</span><br><span class="line">26 vs 59 → 26</span><br><span class="line">77 vs 59 → 59</span><br><span class="line">77 vs 61 → 61</span><br></pre></td></tr></table></figure>
+<p>最後：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 5, 11, 15, 26, 59, 61, 77]</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Merge-的時間複雜度">Merge 的時間複雜度</h3>
+<p>假設：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">左 Run 大小 = n1</span><br><span class="line">右 Run 大小 = n2</span><br></pre></td></tr></table></figure>
+<p>最多比較：</p>
+<p>$$<br>
+n_1+n_2-1<br>
+$$</p>
+<p>因此：</p>
+<p>$$<br>
+\boxed{O(n)}<br>
+$$</p>
+<p>其中：</p>
+<p>$$<br>
+n=n_1+n_2<br>
+$$</p>
+<hr>
+<h2 id="Recursive-Merge-Sort">Recursive Merge Sort</h2>
+<p>程式概念：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mergeSort(arr, l, r)</span><br><span class="line">&#123;</span><br><span class="line">    if (l &lt; r)</span><br><span class="line">    &#123;</span><br><span class="line">        m = l + (r-l)/2</span><br><span class="line"></span><br><span class="line">        mergeSort(arr, l, m)</span><br><span class="line">        mergeSort(arr, m+1, r)</span><br><span class="line"></span><br><span class="line">        merge(arr, l, m, r)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>流程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">       [8 elements]</span><br><span class="line"></span><br><span class="line">      /           \</span><br><span class="line">  [4 elements]   [4 elements]</span><br><span class="line"></span><br><span class="line">   /   \           /   \</span><br><span class="line"> [2]   [2]       [2]   [2]</span><br><span class="line"></span><br><span class="line"> / \   / \       / \   / \</span><br><span class="line">[1][1][1][1]   [1][1][1][1]</span><br><span class="line"></span><br><span class="line">       ↓ Merge</span><br><span class="line"></span><br><span class="line">       Sorted</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Merge-Sort-時間複雜度">Merge Sort 時間複雜度</h3>
+<p>每次切成：</p>
+<p>$$<br>
+\frac n2<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+T(n)=2T(n/2)+cn<br>
+$$</p>
+<p>Tree 高度：</p>
+<p>$$<br>
+\log_2 n<br>
+$$</p>
+<p>而每一層所有 Merge 加起來都是：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>因此：</p>
+<p>$$<br>
+n\times\log n<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+\boxed{O(n\log n)}<br>
+$$</p>
+<hr>
+<h3 id="為什麼-Best-Case-也是-O-n-log-n-？">為什麼 Best Case 也是 $O(n\log n)$？</h3>
+<p>即使原本就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3 4 5 6 7 8</span><br></pre></td></tr></table></figure>
+<p>Merge Sort 還是會照樣：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">切</span><br><span class="line">切</span><br><span class="line">切</span><br><span class="line">Merge</span><br><span class="line">Merge</span><br><span class="line">Merge</span><br></pre></td></tr></table></figure>
+<p>所以：</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Iterative-Merge-Sort">Iterative Merge Sort</h2>
+<p>不使用 Recursive。</p>
+<p>一開始：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Run Length = 1</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[26] [5] [77] [1] [61] [11] [59] [15]</span><br></pre></td></tr></table></figure>
+<p>兩兩合併：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[5,26] [1,77] [11,61] [15,59]</span><br></pre></td></tr></table></figure>
+<p>Run Length：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+<p>再合併：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1,5,26,77] [11,15,59,61]</span><br></pre></td></tr></table></figure>
+<p>Run Length：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+<p>最後：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1,5,11,15,26,59,61,77]</span><br></pre></td></tr></table></figure>
+<p>每次：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 → 2 → 4 → 8 → ...</span><br></pre></td></tr></table></figure>
+<p>所以總共約：</p>
+<p>$$<br>
+\log_2 n<br>
+$$</p>
+<p>輪。</p>
+<p>每一輪：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>因此：</p>
+<p>$$<br>
+\boxed{O(n\log n)}<br>
+$$</p>
+<hr>
+<h2 id="Merge-Sort-空間複雜度">Merge Sort 空間複雜度</h2>
+<p>Merge 時通常需要：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Temporary Array</span><br></pre></td></tr></table></figure>
+<p>用來暫存合併結果。</p>
+<p>需要：</p>
+<p>$$<br>
+\boxed{O(n)}<br>
+$$</p>
+<p>額外空間。</p>
+<p>因此一般 Array Merge Sort：</p>
+<blockquote>
+<p><strong>不是 In-place Sorting</strong></p>
+</blockquote>
+<hr>
+<h3 id="Merge-Sort-為什麼-Stable？">Merge Sort 為什麼 Stable？</h3>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3A  5  3B</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3A 和 3B 的 Key 都是 3</span><br></pre></td></tr></table></figure>
+<p>Stable Sorting 要求排序後：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3A</span><br></pre></td></tr></table></figure>
+<p>仍然要在：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3B</span><br></pre></td></tr></table></figure>
+<p>前面。</p>
+<p>Merge 時若相等使用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L[i] &lt;= R[j]</span><br></pre></td></tr></table></figure>
+<p>優先拿左邊：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3A → 3B</span><br></pre></td></tr></table></figure>
+<p>因此 Merge Sort 可以保持原本相同 Key 的相對順序。</p>
+<p>所以：</p>
+<p>$$<br>
+\boxed{\text{Merge Sort is Stable}}<br>
+$$</p>
+<hr>
+<h2 id="Quick-Sort-vs-Merge-Sort">Quick Sort vs Merge Sort</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:right">Quick Sort</th>
+<th style="text-align:right">Merge Sort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>方法</td>
+<td style="text-align:right">Divide &amp; Conquer</td>
+<td style="text-align:right">Divide &amp; Conquer</td>
+</tr>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Stable</td>
+<td style="text-align:right">No</td>
+<td style="text-align:right">Yes</td>
+</tr>
+<tr>
+<td>In-place</td>
+<td style="text-align:right">Yes（通常）</td>
+<td style="text-align:right">No（Array 版本）</td>
+</tr>
+<tr>
+<td>Extra Space</td>
+<td style="text-align:right">$O(\log n)\sim O(n)$</td>
+<td style="text-align:right">$O(n)$</td>
+</tr>
+<tr>
+<td>核心操作</td>
+<td style="text-align:right">Partition</td>
+<td style="text-align:right">Merge</td>
+</tr>
+<tr>
+<td>主要優點</td>
+<td style="text-align:right">實務通常很快</td>
+<td style="text-align:right">時間穩定、Stable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Heap-Sort">Heap Sort</h2>
+<p>Heap Sort 的核心：</p>
+<blockquote>
+<p>先建立 <strong>Max Heap</strong>，再不斷把 Root（最大值）放到陣列最後。</p>
+</blockquote>
+<h3 id="方法-2">方法</h3>
+<ol>
+<li>用 <strong>Bottom-Up</strong> 建立 Max Heap：$O(n)$</li>
+<li>將 Root 與目前最後一個元素 Swap</li>
+<li>排除已經排好的最後一格</li>
+<li>對 Root 做 Adjust / Heapify：$O(\log n)$</li>
+<li>重複 $n-1$ 回合</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Max Heap</span><br><span class="line"></span><br><span class="line">        77</span><br><span class="line">      /    \</span><br><span class="line">    61      59</span><br><span class="line">   /  \    / \</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">Swap Root 與最後一個元素</span><br><span class="line">→ 77 放到最後</span><br><span class="line">→ 剩下部分重新 Adjust 成 Max Heap</span><br><span class="line">→ 再取下一個最大值</span><br></pre></td></tr></table></figure>
+<h3 id="時間複雜度">時間複雜度</h3>
+<p>建立 Heap：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>排序階段共約 $n-1$ 回合，每回合 Adjust：</p>
+<p>$$<br>
+O(\log n)<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+O(n)+O(n\log n)=\boxed{O(n\log n)}<br>
+$$</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n\log n)$</td>
+</tr>
+</tbody>
+</table>
+<p>特性：</p>
+<ul>
+<li>Space：$O(1)$</li>
+<li>In-Place：✅</li>
+<li>Stable：❌</li>
+</ul>
+<h3 id="Heap-Sort-Example">Heap Sort Example</h3>
+<p>假設：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = [4, 10, 3, 5, 1]</span><br></pre></td></tr></table></figure>
+<p>Heap Sort 要做遞增排序，所以先建立 <strong>Max Heap</strong>。</p>
+<h4 id="Step-1：Bottom-Up-建-Max-Heap">Step 1：Bottom-Up 建 Max Heap</h4>
+<p>原本：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     4</span><br><span class="line">    / \</span><br><span class="line">  10   3</span><br><span class="line"> / \</span><br><span class="line">5   1</span><br></pre></td></tr></table></figure>
+<p>建立 Max Heap：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    10</span><br><span class="line">   /  \</span><br><span class="line">  5    3</span><br><span class="line"> / \</span><br><span class="line">4   1</span><br></pre></td></tr></table></figure>
+<p>Array：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[10, 5, 3, 4, 1]</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Step-2：Root-與最後一個元素-Swap">Step 2：Root 與最後一個元素 Swap</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 5, 3, 4, 10]</span><br></pre></td></tr></table></figure>
+<p>此時 <code>10</code> 已經排好，不再參與 Heap。</p>
+<p>對剩下的資料 Adjust：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    5</span><br><span class="line">   / \</span><br><span class="line">  4   3</span><br><span class="line"> /</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>得到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[5, 4, 3, 1, 10]</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Step-3：再次-Swap-Adjust">Step 3：再次 Swap + Adjust</h4>
+<p>Root <code>5</code> 與目前 Heap 最後的 <code>1</code> Swap：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 4, 3, 5, 10]</span><br></pre></td></tr></table></figure>
+<p>剩下重新 Adjust：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  4</span><br><span class="line"> / \</span><br><span class="line">1   3</span><br></pre></td></tr></table></figure>
+<p>得到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[4, 1, 3, 5, 10]</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Step-4：繼續-Swap-Adjust">Step 4：繼續 Swap + Adjust</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[4, 1, 3, 5, 10]</span><br><span class="line"></span><br><span class="line">→ Swap</span><br><span class="line"></span><br><span class="line">[3, 1, 4, 5, 10]</span><br><span class="line"></span><br><span class="line">→ Swap</span><br><span class="line"></span><br><span class="line">[1, 3, 4, 5, 10]</span><br></pre></td></tr></table></figure>
+<p>排序完成。</p>
+<h3 id="Heap-Sort-流程">Heap Sort 流程</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[4,10,3,5,1]</span><br><span class="line"></span><br><span class="line">建 Max Heap</span><br><span class="line">↓</span><br><span class="line">[10,5,3,4,1]</span><br><span class="line"></span><br><span class="line">Swap + Adjust</span><br><span class="line">↓</span><br><span class="line">[5,4,3,1,10]</span><br><span class="line"></span><br><span class="line">Swap + Adjust</span><br><span class="line">↓</span><br><span class="line">[4,1,3,5,10]</span><br><span class="line"></span><br><span class="line">Swap + Adjust</span><br><span class="line">↓</span><br><span class="line">[3,1,4,5,10]</span><br><span class="line"></span><br><span class="line">Swap</span><br><span class="line">↓</span><br><span class="line">[1,3,4,5,10]</span><br></pre></td></tr></table></figure>
+<p>記法：</p>
+<ol>
+<li><strong>Bottom-Up 建 Max Heap</strong></li>
+<li><strong>Root 和 Heap 最後一個元素交換</strong></li>
+<li><strong>Heap Size - 1</strong></li>
+<li><strong>對 Root 做 Adjust</strong></li>
+<li>重複直到排序完成</li>
+</ol>
+<blockquote>
+<p>Heap Sort 每一回合都把「目前最大值」放到 Array 最後面，放好之後就不再參與 Heap。</p>
+</blockquote>
+<hr>
+<h2 id="Selection-Tree">Selection Tree</h2>
+<p>用途：</p>
+<blockquote>
+<p>加速 <strong>k-way Merge</strong>，從 $k$ 個已排序 Runs 中反覆找出最小值。</p>
+</blockquote>
+<p>例如有 $k$ 個 Runs：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Run 1：5  10 20</span><br><span class="line">Run 2：6  16 26</span><br><span class="line">Run 3：4  14 24</span><br><span class="line">Run 4：3  13 23</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>每次只需要比較每個 Run 最前面的元素。</p>
+<p>Selection Tree 是一棵有 $k$ 個 Leaf 的 Binary Tree，高度約：</p>
+<p>$$<br>
+\log_2 k<br>
+$$</p>
+<h3 id="Winner-Tree">Winner Tree</h3>
+<ul>
+<li>Leaf：各 Run 目前最前面的值</li>
+<li>兩兩比較</li>
+<li>較小者往上晉級</li>
+<li>Root 為目前所有 Runs 的最小值</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">       1</span><br><span class="line">     /   \</span><br><span class="line">    3     1</span><br><span class="line">   / \   / \</span><br><span class="line">  5   3 2   1</span><br><span class="line"> /\  /\ /\ /\</span><br><span class="line">5 6 4 3 7 2 9 1</span><br></pre></td></tr></table></figure>
+<h4 id="Example">Example</h4>
+<p>假設目前有 4 個 Runs：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1 = 7</span><br><span class="line">R2 = 3</span><br><span class="line">R3 = 9</span><br><span class="line">R4 = 5</span><br></pre></td></tr></table></figure>
+<p>兩兩比較：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">7 vs 3</span><br><span class="line">→ 3 Winner</span><br><span class="line"></span><br><span class="line">9 vs 5</span><br><span class="line">→ 5 Winner</span><br><span class="line"></span><br><span class="line">3 vs 5</span><br><span class="line">→ 3 Winner</span><br></pre></td></tr></table></figure>
+<p>所以 Winner Tree：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">      3</span><br><span class="line">    /   \</span><br><span class="line">   3     5</span><br><span class="line">  / \   / \</span><br><span class="line"> 7   3 9   5</span><br><span class="line">R1  R2 R3  R4</span><br></pre></td></tr></table></figure>
+<p>Root 的 <code>3</code> 就是目前所有 Runs 中的最小值。</p>
+<p>假設輸出 <code>3</code> 後，R2 的下一筆資料是 <code>8</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1 = 7</span><br><span class="line">R2 = 8</span><br><span class="line">R3 = 9</span><br><span class="line">R4 = 5</span><br></pre></td></tr></table></figure>
+<p>只需要沿著 R2 原本的路徑重新比較：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">7 vs 8</span><br><span class="line">→ 7</span><br><span class="line"></span><br><span class="line">7 vs 5</span><br><span class="line">→ 5</span><br></pre></td></tr></table></figure>
+<p>新的 Winner Tree：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">      5</span><br><span class="line">    /   \</span><br><span class="line">   7     5</span><br><span class="line">  / \   / \</span><br><span class="line"> 7   8 9   5</span><br><span class="line">R1  R2 R3  R4</span><br></pre></td></tr></table></figure>
+<p>所以新的 Winner 為：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5</span><br></pre></td></tr></table></figure>
+<p>輸出 Winner 後，只需：</p>
+<ol>
+<li>從 Winner 所屬 Run 補入下一筆資料</li>
+<li>沿著原本 Winner 的路徑重新比較到 Root</li>
+</ol>
+<p>因此每輸出一筆只需：</p>
+<p>$$<br>
+\boxed{O(\log k)}<br>
+$$</p>
+<p>建樹：</p>
+<p>$$<br>
+O(k)<br>
+$$</p>
+<p>若總共有 $n$ 筆資料：</p>
+<p>$$<br>
+\boxed{O(k+n\log k)}<br>
+$$</p>
+<p>通常寫成：</p>
+<p>$$<br>
+\boxed{O(n\log k)}<br>
+$$</p>
+<hr>
+<h3 id="Loser-Tree">Loser Tree</h3>
+<p>概念與 Winner Tree 類似，但：</p>
+<ul>
+<li>內部節點記錄每次比較的 <strong>Loser</strong></li>
+<li>最後 Winner 另外保存</li>
+<li>Winner 更新後，只需要沿原路與之前的 Loser 比較</li>
+<li>把輸的留下來</li>
+<li>贏的晉級上去 ， 最後比完 贏的那一格要遞補一個繼續比</li>
+</ul>
+<h4 id="Example-2">Example</h4>
+<p>使用同樣的資料：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">R1 = 7</span><br><span class="line">R2 = 3</span><br><span class="line">R3 = 9</span><br><span class="line">R4 = 5</span><br></pre></td></tr></table></figure>
+<p>第一次：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">7 vs 3</span><br><span class="line"></span><br><span class="line">Winner = 3</span><br><span class="line">Loser = 7</span><br></pre></td></tr></table></figure>
+<p>第二次：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">9 vs 5</span><br><span class="line"></span><br><span class="line">Winner = 5</span><br><span class="line">Loser = 9</span><br></pre></td></tr></table></figure>
+<p>最後：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">3 vs 5</span><br><span class="line"></span><br><span class="line">Winner = 3</span><br><span class="line">Loser = 5</span><br></pre></td></tr></table></figure>
+<p>所以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Winner = 3</span><br><span class="line">     |</span><br><span class="line">     5</span><br><span class="line">   /   \</span><br><span class="line">  7     9</span><br></pre></td></tr></table></figure>
+<p>樹中的：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7、9、5</span><br></pre></td></tr></table></figure>
+<p>都是每一次比較留下來的 Loser。</p>
+<p>真正的 Winner：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>另外保存。</p>
+<p>可以簡單記：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Winner Tree：</span><br><span class="line">贏的人存在 Internal Node</span><br><span class="line"></span><br><span class="line">Loser Tree：</span><br><span class="line">輸的人存在 Internal Node</span><br><span class="line">最後 Winner 另外保存</span><br></pre></td></tr></table></figure>
+<p>主要用途同樣是：</p>
+<blockquote>
+<p><strong>k-way Merge</strong></p>
+</blockquote>
+<p>複雜度同樣：</p>
+<h2 id="boxed-O-n-log-k">$$<br>
+\boxed{O(n\log k)}<br>
+$$</h2>
+<h1>Linear-Time Sorting Methods</h1>
+<p>這類排序不是 Comparison-Based Sorting。</p>
+<table>
+<thead>
+<tr>
+<th>Method(資結版)</th>
+<th>Method(演算法版)</th>
+<th>核心概念</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSD Radix Sort</td>
+<td>Radix Sort</td>
+<td>從最低位數一路排到最高位數</td>
+</tr>
+<tr>
+<td>MSD Radix Sort</td>
+<td>Bucket Sort</td>
+<td>將資料分配到不同 Bucket，再各自排序</td>
+</tr>
+<tr>
+<td>Counting Sort</td>
+<td>Counting Sort</td>
+<td>統計每個 Key 出現次數</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="LSD-Radix-Sort">LSD Radix Sort</h2>
+<p>採用：</p>
+<blockquote>
+<p><strong>Distribution + Merge</strong></p>
+</blockquote>
+<p>不是靠兩兩比較大小排序。</p>
+<p>假設：</p>
+<ul>
+<li>$n$：Data 數量</li>
+<li>$d$：最大值的位數</li>
+<li>$r$：Base，也就是 Bucket 數量</li>
+</ul>
+<p>例如十進位：</p>
+<p>$$<br>
+r=10<br>
+$$</p>
+<p>需要 Bucket：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 1 2 3 4 5 6 7 8 9</span><br></pre></td></tr></table></figure>
+<h3 id="方法-3">方法</h3>
+<p>從 <strong>最低位數 → 最高位數</strong>，共執行 $d$ 回合。</p>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">179, 208, 306, 93, 859, 984, 55, 9, 271, 33</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pass 1：個位數</span><br><span class="line">Pass 2：十位數</span><br><span class="line">Pass 3：百位數</span><br></pre></td></tr></table></figure>
+<p>每一回合：</p>
+<ol>
+<li>Distribution：依目前位數放入對應 Bucket</li>
+<li>Merge：依 Bucket <code>0 → r-1</code> 合併回去</li>
+</ol>
+<p>Bucket 中資料必須維持 <strong>FIFO</strong>，才能保持 Stable。</p>
+<h3 id="時間複雜度-2">時間複雜度</h3>
+<p>每一回合：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Distribution：O(n)</span><br><span class="line">Merge：O(n+r)</span><br></pre></td></tr></table></figure>
+<p>共 $d$ 回合：</p>
+<p>$$<br>
+\boxed{O(d(n+r))}<br>
+$$</p>
+<p>若 $d$、$r$ 可視為常數：</p>
+<p>$$<br>
+\boxed{O(n)}<br>
+$$</p>
+<p>特性：</p>
+<ul>
+<li>Stable：✅</li>
+<li>Comparison-Based：❌</li>
+</ul>
+<h3 id="LSD-Radix-Sort-Example">LSD Radix Sort Example</h3>
+<p>假設：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = [179, 208, 306, 93, 859, 984, 55, 9, 271, 33]</span><br></pre></td></tr></table></figure>
+<p>最大值有 3 位數，所以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d = 3</span><br></pre></td></tr></table></figure>
+<p>因此總共做：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 Pass</span><br></pre></td></tr></table></figure>
+<p>不足的位數視為 <code>0</code>。</p>
+<hr>
+<h4 id="Pass-1：看個位數">Pass 1：看個位數</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">179 → 9</span><br><span class="line">208 → 8</span><br><span class="line">306 → 6</span><br><span class="line"> 93 → 3</span><br><span class="line">859 → 9</span><br><span class="line">984 → 4</span><br><span class="line"> 55 → 5</span><br><span class="line">  9 → 9</span><br><span class="line">271 → 1</span><br><span class="line"> 33 → 3</span><br></pre></td></tr></table></figure>
+<p>Distribution：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Bucket 0：</span><br><span class="line"></span><br><span class="line">Bucket 1：271</span><br><span class="line"></span><br><span class="line">Bucket 2：</span><br><span class="line"></span><br><span class="line">Bucket 3：93, 33</span><br><span class="line"></span><br><span class="line">Bucket 4：984</span><br><span class="line"></span><br><span class="line">Bucket 5：55</span><br><span class="line"></span><br><span class="line">Bucket 6：306</span><br><span class="line"></span><br><span class="line">Bucket 7：</span><br><span class="line"></span><br><span class="line">Bucket 8：208</span><br><span class="line"></span><br><span class="line">Bucket 9：179, 859, 9</span><br></pre></td></tr></table></figure>
+<p>依照 Bucket：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 → 1 → 2 → ... → 9</span><br></pre></td></tr></table></figure>
+<p>Merge：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">271, 93, 33, 984, 55, 306, 208, 179, 859, 9</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Pass-2：看十位數">Pass 2：看十位數</h4>
+<p>使用上一輪的結果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">271 → 7</span><br><span class="line"> 93 → 9</span><br><span class="line"> 33 → 3</span><br><span class="line">984 → 8</span><br><span class="line"> 55 → 5</span><br><span class="line">306 → 0</span><br><span class="line">208 → 0</span><br><span class="line">179 → 7</span><br><span class="line">859 → 5</span><br><span class="line">  9 → 0</span><br></pre></td></tr></table></figure>
+<p>Distribution：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Bucket 0：306, 208, 9</span><br><span class="line"></span><br><span class="line">Bucket 1：</span><br><span class="line"></span><br><span class="line">Bucket 2：</span><br><span class="line"></span><br><span class="line">Bucket 3：33</span><br><span class="line"></span><br><span class="line">Bucket 4：</span><br><span class="line"></span><br><span class="line">Bucket 5：55, 859</span><br><span class="line"></span><br><span class="line">Bucket 6：</span><br><span class="line"></span><br><span class="line">Bucket 7：271, 179</span><br><span class="line"></span><br><span class="line">Bucket 8：984</span><br><span class="line"></span><br><span class="line">Bucket 9：93</span><br></pre></td></tr></table></figure>
+<p>Merge：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">306, 208, 9, 33, 55, 859, 271, 179, 984, 93</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Pass-3：看百位數">Pass 3：看百位數</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">306 → 3</span><br><span class="line">208 → 2</span><br><span class="line">  9 → 0</span><br><span class="line"> 33 → 0</span><br><span class="line"> 55 → 0</span><br><span class="line">859 → 8</span><br><span class="line">271 → 2</span><br><span class="line">179 → 1</span><br><span class="line">984 → 9</span><br><span class="line"> 93 → 0</span><br></pre></td></tr></table></figure>
+<p>Distribution：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Bucket 0：9, 33, 55, 93</span><br><span class="line"></span><br><span class="line">Bucket 1：179</span><br><span class="line"></span><br><span class="line">Bucket 2：208, 271</span><br><span class="line"></span><br><span class="line">Bucket 3：306</span><br><span class="line"></span><br><span class="line">Bucket 4：</span><br><span class="line"></span><br><span class="line">Bucket 5：</span><br><span class="line"></span><br><span class="line">Bucket 6：</span><br><span class="line"></span><br><span class="line">Bucket 7：</span><br><span class="line"></span><br><span class="line">Bucket 8：859</span><br><span class="line"></span><br><span class="line">Bucket 9：984</span><br></pre></td></tr></table></figure>
+<p>最後 Merge：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">9, 33, 55, 93, 179, 208, 271, 306, 859, 984</span><br></pre></td></tr></table></figure>
+<p>排序完成。</p>
+<blockquote>
+<p>LSD Radix Sort 就是「個位 → 十位 → 百位 → …」，每一輪都 Distribution 再 Merge。</p>
+</blockquote>
+<hr>
+<h2 id="Bucket-Sort">Bucket Sort</h2>
+<p>核心：</p>
+<blockquote>
+<p>將資料依範圍分配到不同 Bucket，各 Bucket 自己排序，最後依序合併。</p>
+</blockquote>
+<h3 id="方法-4">方法</h3>
+<ol>
+<li>建立 Buckets</li>
+<li>將每筆資料分配到對應 Bucket</li>
+<li>每個 Bucket 各自 Sort</li>
+<li>按 Bucket 順序合併</li>
+</ol>
+<p>例如資料位於 $[0,1)$：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0.78, 0.17, 0.39, 0.26, 0.72,</span><br><span class="line">0.94, 0.21, 0.12, 0.23, 0.68</span><br></pre></td></tr></table></figure>
+<p>可以依第一位小數分 Bucket：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Bucket 1：0.17, 0.12</span><br><span class="line">Bucket 2：0.26, 0.21, 0.23</span><br><span class="line">Bucket 3：0.39</span><br><span class="line">Bucket 6：0.68</span><br><span class="line">Bucket 7：0.78, 0.72</span><br><span class="line">Bucket 9：0.94</span><br></pre></td></tr></table></figure>
+<p>各 Bucket 排好後再合併即可。</p>
+<blockquote>
+<p>分派與最後合併各做一次，不像 LSD Radix Sort 要依位數做 $d$ 回合。</p>
+</blockquote>
+<hr>
+<h2 id="Counting-Sort">Counting Sort</h2>
+<p>適合 Key 是有限整數範圍：</p>
+<p>$$<br>
+0\sim k<br>
+$$</p>
+<p>核心：</p>
+<blockquote>
+<p>不比較元素，而是直接統計每個 Key 出現幾次。</p>
+</blockquote>
+<p>假設：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A = [2, 5, 3, 0, 2, 3, 0, 3]</span><br><span class="line">Key Range = 0 ~ 5</span><br></pre></td></tr></table></figure>
+<h3 id="Step-1：Counting">Step 1：Counting</h3>
+<p>建立：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C[0...k]</span><br></pre></td></tr></table></figure>
+<p>統計次數：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Key： 0 1 2 3 4 5</span><br><span class="line">C  ： 2 0 2 3 0 1</span><br></pre></td></tr></table></figure>
+<h3 id="Step-2：Prefix-Sum">Step 2：Prefix Sum</h3>
+<p>令：</p>
+<p>$$<br>
+C[i]=C[i]+C[i-1]<br>
+$$</p>
+<p>得到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Key： 0 1 2 3 4 5</span><br><span class="line">C  ： 2 2 4 7 7 8</span><br></pre></td></tr></table></figure>
+<p>此時：</p>
+<blockquote>
+<p><code>C[x]</code> 表示 Key = x 的資料，在 Output 中最後可以放到的位置。</p>
+</blockquote>
+<h3 id="Step-3：由後往前放入-Output">Step 3：由後往前放入 Output</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for j = A.length downto 1</span><br></pre></td></tr></table></figure>
+<p>依照：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Out[C[A[j]]] = A[j]</span><br><span class="line">C[A[j]]--</span><br></pre></td></tr></table></figure>
+<p>最後：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 2 2 3 3 3 5</span><br></pre></td></tr></table></figure>
+<h3 id="為什麼要從後往前？">為什麼要從後往前？</h3>
+<p>為了保持相同 Key 的原本順序，因此 Counting Sort 可以是：</p>
+<p>$$<br>
+\boxed{Stable}<br>
+$$</p>
+<p>這也很重要，因為 Counting Sort 常被拿來當 <strong>Radix Sort 的 Subroutine</strong>。</p>
+<ul>
+<li>要選Stable的</li>
+</ul>
+<h3 id="複雜度">複雜度</h3>
+<p>初始化 $C$：</p>
+<p>$$<br>
+O(k)<br>
+$$</p>
+<p>掃描 Input：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>Prefix Sum：</p>
+<p>$$<br>
+O(k)<br>
+$$</p>
+<p>建立 Output：</p>
+<p>$$<br>
+O(n)<br>
+$$</p>
+<p>所以：</p>
+<p>$$<br>
+\boxed{O(n+k)}<br>
+$$</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th style="text-align:right">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best</td>
+<td style="text-align:right">$O(n+k)$</td>
+</tr>
+<tr>
+<td>Average</td>
+<td style="text-align:right">$O(n+k)$</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td style="text-align:right">$O(n+k)$</td>
+</tr>
+</tbody>
+</table>
+<p>Space：</p>
+<p>$$<br>
+\boxed{O(n+k)}<br>
+$$</p>
+<p>特性：</p>
+<ul>
+<li>Stable：✅</li>
+<li>In-Place：❌</li>
+<li>Comparison-Based：❌</li>
+</ul>
+<p>若 $k=O(n)$：</p>
+<p>$$<br>
+O(n+k)=O(n)<br>
+$$</p>
+<p>所以可達 Linear Time。</p>
+<hr>
+<h1>Selection Problem</h1>
+<p>Selection Problem：</p>
+<blockquote>
+<p>從未排序的 $n$ 筆資料中找指定順位的元素，例如 Min、Max 或第 $i$ 小。</p>
+</blockquote>
+<h2 id="同時找-Min-與-Max">同時找 Min 與 Max</h2>
+<p>最直接的方法：</p>
+<ol>
+<li>用 $n-1$ 次比較找 Min</li>
+<li>剩餘資料再找 Max</li>
+</ol>
+<p>約需要：</p>
+<p>$$<br>
+(n-1)+(n-2)=2n-3<br>
+$$</p>
+<h3 id="改善方法：兩兩比較">改善方法：兩兩比較</h3>
+<p>每兩個元素先互相比較：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A[i] &lt; A[j]</span><br></pre></td></tr></table></figure>
+<p>則：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">較小者 → 只需要參加 Min 的比較</span><br><span class="line">較大者 → 只需要參加 Max 的比較</span><br></pre></td></tr></table></figure>
+<p>每一對：</p>
+<ul>
+<li>先比較彼此：1 次</li>
+<li>較小者與目前 Min 比：1 次</li>
+<li>較大者與目前 Max 比：1 次</li>
+</ul>
+<p>所以每兩筆資料大約只需要 3 次比較。</p>
+<p>總比較次數約：</p>
+<p>$$<br>
+\boxed{\frac{3}{2}n}<br>
+$$</p>
+<p>比原本的：</p>
+<p>$$<br>
+2n-3<br>
+$$</p>
+<p>更少。</p>
+<h1>Sort 總整理</h1>
+<h2 id="Sorting-Methods-總表">Sorting Methods 總表</h2>
+<table>
+<thead>
+<tr>
+<th>Sort</th>
+<th>類型</th>
+<th style="text-align:right">Best</th>
+<th style="text-align:right">Average</th>
+<th style="text-align:right">Worst</th>
+<th style="text-align:right">Space</th>
+<th>Stable</th>
+<th>In-Place</th>
+<th>Comparison-Based</th>
+<th>核心概念</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Insertion Sort</td>
+<td>初等</td>
+<td style="text-align:right">$O(n)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>將元素插入已排序區正確位置</td>
+</tr>
+<tr>
+<td>Selection Sort</td>
+<td>初等</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>每回合找最小值放到前面</td>
+</tr>
+<tr>
+<td>Bubble Sort</td>
+<td>初等</td>
+<td style="text-align:right">$O(n)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>相鄰比較，把最大值往右冒</td>
+</tr>
+<tr>
+<td>Shell Sort</td>
+<td>初等 / 補充</td>
+<td style="text-align:right">Gap 決定</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>Gap 逐漸縮小的 Insertion Sort</td>
+</tr>
+<tr>
+<td>Quick Sort</td>
+<td>高等</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n^2)$</td>
+<td style="text-align:right">$O(\log n)\sim O(n)$</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>Pivot + Partition</td>
+</tr>
+<tr>
+<td>Merge Sort</td>
+<td>高等</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n)$</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>Divide + Merge</td>
+</tr>
+<tr>
+<td>Heap Sort</td>
+<td>高等</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(n\log n)$</td>
+<td style="text-align:right">$O(1)$</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>建 Max Heap，再反覆取最大值</td>
+</tr>
+<tr>
+<td>LSD Radix Sort</td>
+<td>Linear-Time</td>
+<td style="text-align:right">$O(d(n+r))$</td>
+<td style="text-align:right">$O(d(n+r))$</td>
+<td style="text-align:right">$O(d(n+r))$</td>
+<td style="text-align:right">額外 Bucket</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>從最低位數排到最高位數</td>
+</tr>
+<tr>
+<td>Bucket Sort</td>
+<td>Linear-Time</td>
+<td style="text-align:right">視資料分布</td>
+<td style="text-align:right">視資料分布</td>
+<td style="text-align:right">視桶內排序</td>
+<td style="text-align:right">額外 Bucket</td>
+<td>✅*</td>
+<td>❌</td>
+<td>❌</td>
+<td>分 Bucket，各桶排序後合併</td>
+</tr>
+<tr>
+<td>Counting Sort</td>
+<td>Linear-Time</td>
+<td style="text-align:right">$O(n+k)$</td>
+<td style="text-align:right">$O(n+k)$</td>
+<td style="text-align:right">$O(n+k)$</td>
+<td style="text-align:right">$O(n+k)$</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>統計 Key 次數 + Prefix Sum</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/513a4877.html">https://yowdesert.github.io/posts/513a4877.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/">資料結構</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/917205a6.html" title="OS-CH5-補充加強觀念"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">OS-CH5-補充加強觀念</div></div><div class="info-2"><div class="info-item-1"> Single Resource RAG : Cycle &lt;=&gt; Deadlock   但是多個Resources 不一定    DeadLock 要成立 要四個條件達成  Mutual Exclusion Hold and wait No Preemptive Circuler Wait    Deadlock Prevention 通常不會去破壞 Mutual Exclusion  因為有些資源天生就不能給兩個使用    甚麼時候Run DeadLock Detection  隔一段時間 系統回應變慢 事件等待太久 CPU utilization 太低    Deadlock Prevention  定期檢查wait-for Graph -&gt; 這個不是Prevention 每次分配前都先確認是不是Safe State    DeadLock Safe/Unsafe 是用在 DeadLock Avoidance 不是 Prevention   DeadLock 4個條件是 必要條件  必要條件 : B 要發生時 A一定要存在 : B =&gt; A 充分條件 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/1f21266d.html" title="資料結構-Heap、Disjoint Sets"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-09</div><div class="info-item-2">資料結構-Heap、Disjoint Sets</div></div><div class="info-2"><div class="info-item-1">Heap  MAX heap  complete binary tree 父點要 大於 左右子點 Root為最大值   min heap  適合用Array保存 (因為compelete) Heap 優點 : Heap 適合實作 Priority Queue，可以在 O(1) 時間取得最大/最小值，且插入與刪除只需 O(logn)，並可用 Array 有效率地儲存。    Heap 操作 中文意思 時間複雜度 為什麼     Insert X 插入元素 (O(log n)) 插入最後，再往上調整，最多走樹高   Delete-Max 刪除最大值 (O(log n)) 刪 Root 後，要向下 Heapify   Heapify / Adjust 調整 Heap (O(log n)) 最差從 Root 一路調到 Leaf   Find-Max 找最大值 (O(1)) Max-Heap 最大值就在 Root   Build a Heap (Bottom-Up) 建立 Heap (O(n)) ⭐ Bottom-Up Heapify   Decrease Key（Min-Heap） 降低...</div></div></div></a><a class="pagination-related" href="/posts/96b225e3.html" title="資料結構 - 各種資料結構優點"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-11</div><div class="info-item-2">資料結構 - 各種資料結構優點</div></div><div class="info-2"><div class="info-item-1">各種資料結構優點整理1. Array優點 可以透過 index 直接存取元素 Random Access 很快 記憶體連續，效率高 適合已知大小、常做查詢的資料  時間複雜度 Access: O(1) Search: O(n) Insert/Delete: O(n)  適合 頻繁用 index 查資料 Heap Matrix Dynamic Programming table  一句話記憶 Array：查位置很快，插刪較慢   2. Linked List優點 不需要連續記憶體 插入、刪除方便 不需要搬動其他元素 大小可以動態改變  時間複雜度 Access: O(n) Search: O(n) Insert/Delete: 已知位置：O(1) 找位置：O(n)    適合 常做插入、刪除 資料數量經常改變  一句話記憶 Linked List：插刪方便，但不能直接跳到某個位置   3. Stack特性LIFO Last In First Out 後進先出 優點 Push / Pop 都很快 適合處理「最近加入的資料」 很適合遞迴、括號匹配、Expression  時間複雜度 P...</div></div></div></a><a class="pagination-related" href="/posts/23cf8539.html" title="資料結構 - Advanced Tree"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-20</div><div class="info-item-2">資料結構 - Advanced Tree</div></div><div class="info-2"><div class="info-item-1">Double-Ended Priority Queue    Operation Time Complexity     Insert x O(log n)   Delete-Min O(log n)   Delete-MAX O(log n)   Find min or MAX O(1)     Double Priority Queue  Insert(x)：插入任意元素 Delete-Max：刪除最大值 Delete-Min：刪除最小值    min-Max Heap  complete Binary Tree 每層交替 min level -&gt; MAX -&gt; min -&gt; MAX -&gt; …  min 是整個 subtree 裡最小的 MAX 是整個 subtree 裡最大的    insertion  x 置放於last node之後 令 x 父點為 p  P 位於 min :    1234567// 若插入點在 max 層，即代表父親位於 min 層if(x&lt;H[p])&#123; // x 若比父點小    H[n] = H[p]; /...</div></div></div></a><a class="pagination-related" href="/posts/f184578f.html" title="資料結構 - 所有 Tree 整理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-22</div><div class="info-item-2">資料結構 - 所有 Tree 整理</div></div><div class="info-2"><div class="info-item-1">Tree 總整理 一、各種 Tree 關係圖 123456789101112131415161718192021222324252627282930Tree│├── Binary Tree│   ││   ├── Full Binary Tree│   ├── Complete Binary Tree│   │   └── Heap│   │       ├── Min Heap│   │       └── Max Heap│   ││   ├── Binary Search Tree (BST)│   │   ││   │   ├── AVL Tree│   │   ├── Red-Black Tree│   │   └── Splay Tree│   ││   └── Huffman Tree│├── Multi-Way Search Tree│   ││   └── B-Tree│       ├── 2-3 Tree│       ├── 2-3-4 Tree│       └── B+ Tree（B-Tree 的變形）│└── Heap 類    ├── Binary...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Search and Sort</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Search</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linear-Sequential-Search"><span class="toc-number">2.1.</span> <span class="toc-text">Linear(Sequential) Search</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Binary-Search"><span class="toc-number">2.2.</span> <span class="toc-text">Binary Search</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stable-and-unStable"><span class="toc-number">3.1.</span> <span class="toc-text">Stable and unStable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sorting-In-Place"><span class="toc-number">3.2.</span> <span class="toc-text">Sorting In-Place</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">初等 Sort 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Insertion-Sort"><span class="toc-number">4.1.</span> <span class="toc-text">Insertion Sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selection-Sort"><span class="toc-number">4.2.</span> <span class="toc-text">Selection Sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bubble-Sort"><span class="toc-number">4.3.</span> <span class="toc-text">Bubble Sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-Sort-%E8%A3%9C%E5%85%85"><span class="toc-number">4.4.</span> <span class="toc-text">Shell Sort (補充)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell-Sort-Example"><span class="toc-number">4.4.1.</span> <span class="toc-text">Shell Sort Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E7%AD%89-Sort-%E6%AF%94%E8%BC%83"><span class="toc-number">4.5.</span> <span class="toc-text">初等 Sort 比較</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">高等 Sort 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Sort"><span class="toc-number">5.1.</span> <span class="toc-text">Quick Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Partition"><span class="toc-number">5.1.1.</span> <span class="toc-text">Partition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lomuto-Partition"><span class="toc-number">5.1.2.</span> <span class="toc-text">Lomuto Partition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hoare-Partition"><span class="toc-number">5.1.3.</span> <span class="toc-text">Hoare Partition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quick-Sort-%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">5.1.4.</span> <span class="toc-text">Quick Sort 時間複雜度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Best-Case"><span class="toc-number">5.1.5.</span> <span class="toc-text">Best Case</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Worst-Case"><span class="toc-number">5.1.6.</span> <span class="toc-text">Worst Case</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quick-Sort-Worst-Case-%E5%B8%B8%E8%A6%8B%E6%83%85%E6%B3%81"><span class="toc-number">5.1.7.</span> <span class="toc-text">Quick Sort Worst Case 常見情況</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E5%96%84-Worst-Case"><span class="toc-number">5.1.8.</span> <span class="toc-text">改善 Worst Case</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Randomized-Quick-Sort"><span class="toc-number">5.1.8.1.</span> <span class="toc-text">Randomized Quick Sort</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Median-of-Three"><span class="toc-number">5.1.8.2.</span> <span class="toc-text">Median of Three</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Median-of-Medians"><span class="toc-number">5.1.8.3.</span> <span class="toc-text">Median of Medians</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0%E9%83%BD%E7%9B%B8%E5%90%8C"><span class="toc-number">5.1.9.</span> <span class="toc-text">所有元素都相同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quick-Sort-%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">5.1.10.</span> <span class="toc-text">Quick Sort 空間複雜度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Quick-Sort-%E6%80%A7%E8%B3%AA"><span class="toc-number">5.1.11.</span> <span class="toc-text">Quick Sort 性質</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Merge-Sort"><span class="toc-number">5.2.</span> <span class="toc-text">Merge Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">5.2.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run"><span class="toc-number">5.2.2.</span> <span class="toc-text">Run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Merge-Two-Runs"><span class="toc-number">5.2.3.</span> <span class="toc-text">Merge Two Runs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Merge-%E7%9A%84%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">5.2.4.</span> <span class="toc-text">Merge 的時間複雜度</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Recursive-Merge-Sort"><span class="toc-number">5.3.</span> <span class="toc-text">Recursive Merge Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Merge-Sort-%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">5.3.1.</span> <span class="toc-text">Merge Sort 時間複雜度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC-Best-Case-%E4%B9%9F%E6%98%AF-O-n-log-n-%EF%BC%9F"><span class="toc-number">5.3.2.</span> <span class="toc-text">為什麼 Best Case 也是 $O(n\log n)$？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iterative-Merge-Sort"><span class="toc-number">5.4.</span> <span class="toc-text">Iterative Merge Sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Merge-Sort-%E7%A9%BA%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">5.5.</span> <span class="toc-text">Merge Sort 空間複雜度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Merge-Sort-%E7%82%BA%E4%BB%80%E9%BA%BC-Stable%EF%BC%9F"><span class="toc-number">5.5.1.</span> <span class="toc-text">Merge Sort 為什麼 Stable？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Sort-vs-Merge-Sort"><span class="toc-number">5.6.</span> <span class="toc-text">Quick Sort vs Merge Sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Heap-Sort"><span class="toc-number">5.7.</span> <span class="toc-text">Heap Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2"><span class="toc-number">5.7.1.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">5.7.2.</span> <span class="toc-text">時間複雜度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Heap-Sort-Example"><span class="toc-number">5.7.3.</span> <span class="toc-text">Heap Sort Example</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-1%EF%BC%9ABottom-Up-%E5%BB%BA-Max-Heap"><span class="toc-number">5.7.3.1.</span> <span class="toc-text">Step 1：Bottom-Up 建 Max Heap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-2%EF%BC%9ARoot-%E8%88%87%E6%9C%80%E5%BE%8C%E4%B8%80%E5%80%8B%E5%85%83%E7%B4%A0-Swap"><span class="toc-number">5.7.3.2.</span> <span class="toc-text">Step 2：Root 與最後一個元素 Swap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-3%EF%BC%9A%E5%86%8D%E6%AC%A1-Swap-Adjust"><span class="toc-number">5.7.3.3.</span> <span class="toc-text">Step 3：再次 Swap + Adjust</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-4%EF%BC%9A%E7%B9%BC%E7%BA%8C-Swap-Adjust"><span class="toc-number">5.7.3.4.</span> <span class="toc-text">Step 4：繼續 Swap + Adjust</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Heap-Sort-%E6%B5%81%E7%A8%8B"><span class="toc-number">5.7.4.</span> <span class="toc-text">Heap Sort 流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selection-Tree"><span class="toc-number">5.8.</span> <span class="toc-text">Selection Tree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Winner-Tree"><span class="toc-number">5.8.1.</span> <span class="toc-text">Winner Tree</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Example"><span class="toc-number">5.8.1.1.</span> <span class="toc-text">Example</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Loser-Tree"><span class="toc-number">5.8.2.</span> <span class="toc-text">Loser Tree</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Example-2"><span class="toc-number">5.8.2.1.</span> <span class="toc-text">Example</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#boxed-O-n-log-k"><span class="toc-number">5.9.</span> <span class="toc-text">$$
+\boxed{O(n\log k)}
+$$</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Linear-Time Sorting Methods</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LSD-Radix-Sort"><span class="toc-number">6.1.</span> <span class="toc-text">LSD Radix Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-3"><span class="toc-number">6.1.1.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%82%E9%96%93%E8%A4%87%E9%9B%9C%E5%BA%A6-2"><span class="toc-number">6.1.2.</span> <span class="toc-text">時間複雜度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSD-Radix-Sort-Example"><span class="toc-number">6.1.3.</span> <span class="toc-text">LSD Radix Sort Example</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pass-1%EF%BC%9A%E7%9C%8B%E5%80%8B%E4%BD%8D%E6%95%B8"><span class="toc-number">6.1.3.1.</span> <span class="toc-text">Pass 1：看個位數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pass-2%EF%BC%9A%E7%9C%8B%E5%8D%81%E4%BD%8D%E6%95%B8"><span class="toc-number">6.1.3.2.</span> <span class="toc-text">Pass 2：看十位數</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pass-3%EF%BC%9A%E7%9C%8B%E7%99%BE%E4%BD%8D%E6%95%B8"><span class="toc-number">6.1.3.3.</span> <span class="toc-text">Pass 3：看百位數</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bucket-Sort"><span class="toc-number">6.2.</span> <span class="toc-text">Bucket Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-4"><span class="toc-number">6.2.1.</span> <span class="toc-text">方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Counting-Sort"><span class="toc-number">6.3.</span> <span class="toc-text">Counting Sort</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1%EF%BC%9ACounting"><span class="toc-number">6.3.1.</span> <span class="toc-text">Step 1：Counting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2%EF%BC%9APrefix-Sum"><span class="toc-number">6.3.2.</span> <span class="toc-text">Step 2：Prefix Sum</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3%EF%BC%9A%E7%94%B1%E5%BE%8C%E5%BE%80%E5%89%8D%E6%94%BE%E5%85%A5-Output"><span class="toc-number">6.3.3.</span> <span class="toc-text">Step 3：由後往前放入 Output</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E5%BE%9E%E5%BE%8C%E5%BE%80%E5%89%8D%EF%BC%9F"><span class="toc-number">6.3.4.</span> <span class="toc-text">為什麼要從後往前？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A4%87%E9%9B%9C%E5%BA%A6"><span class="toc-number">6.3.5.</span> <span class="toc-text">複雜度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">Selection Problem</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%99%82%E6%89%BE-Min-%E8%88%87-Max"><span class="toc-number">7.1.</span> <span class="toc-text">同時找 Min 與 Max</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E5%96%84%E6%96%B9%E6%B3%95%EF%BC%9A%E5%85%A9%E5%85%A9%E6%AF%94%E8%BC%83"><span class="toc-number">7.1.1.</span> <span class="toc-text">改善方法：兩兩比較</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">Sort 總整理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sorting-Methods-%E7%B8%BD%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">Sorting Methods 總表</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/513a4877.html" title="資料結構 - Search and Sort">資料結構 - Search and Sort</a><time datetime="2026-08-28T02:18:00.000Z" title="發表於 2026-08-28 10:18:00">2026-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/917205a6.html" title="OS-CH5-補充加強觀念">OS-CH5-補充加強觀念</a><time datetime="2026-08-25T06:49:00.000Z" title="發表於 2026-08-25 14:49:00">2026-08-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/f184578f.html" title="資料結構 - 所有 Tree 整理">資料結構 - 所有 Tree 整理</a><time datetime="2026-08-22T03:30:00.000Z" title="發表於 2026-08-22 11:30:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/23cf8539.html" title="資料結構 - Advanced Tree">資料結構 - Advanced Tree</a><time datetime="2026-08-20T03:30:00.000Z" title="發表於 2026-08-20 11:30:00">2026-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/603b4b38.html" title="OS-CH4-補充加強觀念">OS-CH4-補充加強觀念</a><time datetime="2026-08-14T09:49:00.000Z" title="發表於 2026-08-14 17:49:00">2026-08-14</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

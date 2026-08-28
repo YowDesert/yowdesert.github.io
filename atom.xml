@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-08-23T07:20:03.169Z</updated>
+  <updated>2026-08-28T13:08:05.424Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -17,11 +17,76 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>資料結構 - Search and Sort</title>
+    <link href="https://yowdesert.github.io/posts/513a4877.html"/>
+    <id>https://yowdesert.github.io/posts/513a4877.html</id>
+    <published>2026-08-28T02:18:00.000Z</published>
+    <updated>2026-08-28T13:08:05.424Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1&gt;Search and Sort&lt;/h1&gt;
+&lt;h1&gt;Search&lt;/h1&gt;
+&lt;h2 id=&quot;Linear-Sequential-Search&quot;&gt;Linear(Sequential) Search&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;由左至右一一比較&lt;/li&gt;
+&lt;li&gt;Time</summary>
+        
+      
+    
+    
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+    <category term="第七章" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/%E7%AC%AC%E4%B8%83%E7%AB%A0/"/>
+    
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OS-CH5-補充加強觀念</title>
+    <link href="https://yowdesert.github.io/posts/917205a6.html"/>
+    <id>https://yowdesert.github.io/posts/917205a6.html</id>
+    <published>2026-08-25T06:49:00.000Z</published>
+    <updated>2026-08-26T13:53:49.572Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Single&lt;/strong&gt; Resource RAG : Cycle &amp;lt;=&amp;gt; Deadlock&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;但是多個Resources</summary>
+        
+      
+    
+    
+    
+    <category term="研究所題目" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/"/>
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+    <category term="第五章" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E4%BA%94%E7%AB%A0/"/>
+    
+    
+    <category term="作業系統" scheme="https://yowdesert.github.io/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/"/>
+    
+  </entry>
+  
+  <entry>
     <title>資料結構 - 所有 Tree 整理</title>
     <link href="https://yowdesert.github.io/posts/f184578f.html"/>
     <id>https://yowdesert.github.io/posts/f184578f.html</id>
     <published>2026-08-22T03:30:00.000Z</published>
-    <updated>2026-08-23T07:20:03.169Z</updated>
+    <updated>2026-08-25T04:01:54.770Z</updated>
     
     
       
@@ -36,10 +101,12 @@
     
     
     
+    <category term="資料結構" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+    <category term="第九章" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/%E7%AC%AC%E4%B9%9D%E7%AB%A0/"/>
+    
     
     <category term="資料結構" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
-    
-    <category term="第九章" scheme="https://yowdesert.github.io/tags/%E7%AC%AC%E4%B9%9D%E7%AB%A0/"/>
     
   </entry>
   
@@ -48,23 +115,30 @@
     <link href="https://yowdesert.github.io/posts/23cf8539.html"/>
     <id>https://yowdesert.github.io/posts/23cf8539.html</id>
     <published>2026-08-20T03:30:00.000Z</published>
-    <updated>2026-08-24T07:31:39.911Z</updated>
+    <updated>2026-08-25T04:01:39.078Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;Double-Ended-Priority-Queue&quot;&gt;&lt;a href=&quot;#Double-Ended-Priority-Queue&quot; class=&quot;headerlink&quot; title=&quot;Double-Ended Priority</summary>
+    <summary type="html">&lt;h1&gt;Double-Ended Priority Queue&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Operation&lt;/th&gt;
+&lt;th&gt;Time</summary>
         
       
     
     
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+    <category term="第九章" scheme="https://yowdesert.github.io/categories/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/%E7%AC%AC%E4%B9%9D%E7%AB%A0/"/>
     
     
     <category term="資料結構" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
-    
-    <category term="第九章" scheme="https://yowdesert.github.io/tags/%E7%AC%AC%E4%B9%9D%E7%AB%A0/"/>
     
   </entry>
   
@@ -534,70 +608,6 @@ $$&lt;br&gt;
         
     <summary type="html">&lt;h2 id=&quot;1-～か、～（疑問詞＋か：間接疑問／名詞化）&quot;&gt;1) ～か、～（疑問詞＋か：間接疑問／名詞化）&lt;/h2&gt;
 &lt;h3</summary>
-        
-      
-    
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
-    
-    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(計算機組織) 計算機組織摘要</title>
-    <link href="https://yowdesert.github.io/posts/869672ee.html"/>
-    <id>https://yowdesert.github.io/posts/869672ee.html</id>
-    <published>2026-01-26T09:15:00.000Z</published>
-    <updated>2026-01-29T09:19:53.483Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1&gt;Chapter 1：計算機組織與指令集架構（ISA）&lt;/h1&gt;
-&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="計算機組織" scheme="https://yowdesert.github.io/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/"/>
-    
-    <category term="第一章" scheme="https://yowdesert.github.io/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/%E7%AC%AC%E4%B8%80%E7%AB%A0/"/>
-    
-    
-    <category term="計算機組織" scheme="https://yowdesert.github.io/tags/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[日文] 日文學習-進階2-文法</title>
-    <link href="https://yowdesert.github.io/posts/4cee7f1e.html"/>
-    <id>https://yowdesert.github.io/posts/4cee7f1e.html</id>
-    <published>2026-01-13T08:00:00.000Z</published>
-    <updated>2026-01-13T08:59:32.116Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1&gt;日文文法｜進階2｜第 1 課：～たら（條件／提議）&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;本課重點：&lt;strong&gt;～たら&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;假定條件「如果…就…」&lt;/li&gt;
-&lt;li&gt;確定條件「…之後就…」&lt;/li&gt;
-&lt;li&gt;建議句「～たら</summary>
         
       
     
