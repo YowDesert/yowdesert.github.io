@@ -111,6 +111,78 @@
   </entry>
   
   <entry>
+    <title>資料結構 - 高等樹-題目注意</title>
+    <link href="https://yowdesert.github.io/posts/3e53adeb.html"/>
+    <id>https://yowdesert.github.io/posts/3e53adeb.html</id>
+    <published>2026-08-21T08:12:00.000Z</published>
+    <updated>2026-08-25T06:33:51.132Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;Double Priority Queue &lt;ul&gt;
+&lt;li&gt;Insert(x)：插入任意元素&lt;/li&gt;
+&lt;li&gt;Delete-Max：刪除最大值&lt;/li&gt;
+&lt;li&gt;Delete-Min：刪除最小值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;SMMH</summary>
+        
+      
+    
+    
+    
+    <category term="研究所題目" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/"/>
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+    <category term="第九章" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/%E7%AC%AC%E4%B9%9D%E7%AB%A0/"/>
+    
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>資料結構 - Search and Sort - 題目注意</title>
+    <link href="https://yowdesert.github.io/posts/514e5281.html"/>
+    <id>https://yowdesert.github.io/posts/514e5281.html</id>
+    <published>2026-08-21T08:12:00.000Z</published>
+    <updated>2026-08-28T13:34:00.526Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;Double Priority Queue &lt;ul&gt;
+&lt;li&gt;Insert(x)：插入任意元素&lt;/li&gt;
+&lt;li&gt;Delete-Max：刪除最大值&lt;/li&gt;
+&lt;li&gt;Delete-Min：刪除最小值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;SMMH</summary>
+        
+      
+    
+    
+    
+    <category term="研究所題目" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/"/>
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+    <category term="第七章" scheme="https://yowdesert.github.io/categories/%E7%A0%94%E7%A9%B6%E6%89%80%E9%A1%8C%E7%9B%AE/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/%E7%AC%AC%E4%B8%83%E7%AB%A0/"/>
+    
+    
+    <category term="資料結構" scheme="https://yowdesert.github.io/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>資料結構 - Advanced Tree</title>
     <link href="https://yowdesert.github.io/posts/23cf8539.html"/>
     <id>https://yowdesert.github.io/posts/23cf8539.html</id>
@@ -547,66 +619,6 @@ $$&lt;br&gt;
         
         
     <summary type="html">&lt;h2 id=&quot;1-～やすいです（容易～／好～）&quot;&gt;1) ～やすいです（容易～／好～）&lt;/h2&gt;
-&lt;h3</summary>
-        
-      
-    
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/"/>
-    
-    <category term="文法" scheme="https://yowdesert.github.io/categories/%E6%97%A5%E6%96%87/%E6%96%87%E6%B3%95/"/>
-    
-    
-    <category term="日文" scheme="https://yowdesert.github.io/tags/%E6%97%A5%E6%96%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>(計算機組織) 計算機組織摘要-Memory</title>
-    <link href="https://yowdesert.github.io/posts/5b29cb9e.html"/>
-    <id>https://yowdesert.github.io/posts/5b29cb9e.html</id>
-    <published>2026-01-29T09:20:00.000Z</published>
-    <updated>2026-02-13T08:15:19.753Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;我是根據張凡老師的講義整理的筆記 我想說可以考前看比較快!!!&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1&gt;Memory Function&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;OS copy Data 到 Memory</summary>
-        
-      
-    
-    
-    
-    <category term="計算機組織" scheme="https://yowdesert.github.io/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/"/>
-    
-    <category term="第一章" scheme="https://yowdesert.github.io/categories/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/%E7%AC%AC%E4%B8%80%E7%AB%A0/"/>
-    
-    
-    <category term="計算機組織" scheme="https://yowdesert.github.io/tags/%E8%A8%88%E7%AE%97%E6%A9%9F%E7%B5%84%E7%B9%94/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[日文] 日文學習-進階3-文法</title>
-    <link href="https://yowdesert.github.io/posts/80447f80.html"/>
-    <id>https://yowdesert.github.io/posts/80447f80.html</id>
-    <published>2026-01-29T08:00:00.000Z</published>
-    <updated>2026-01-30T09:47:14.451Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;1-～か、～（疑問詞＋か：間接疑問／名詞化）&quot;&gt;1) ～か、～（疑問詞＋か：間接疑問／名詞化）&lt;/h2&gt;
 &lt;h3</summary>
         
       
