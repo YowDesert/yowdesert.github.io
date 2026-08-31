@@ -6,7 +6,7 @@
   <link href="https://yowdesert.github.io/atom.xml" rel="self"/>
   
   <link href="https://yowdesert.github.io/"/>
-  <updated>2026-08-28T13:08:05.424Z</updated>
+  <updated>2026-08-29T05:58:01.728Z</updated>
   <id>https://yowdesert.github.io/</id>
   
   <author>
@@ -21,19 +21,14 @@
     <link href="https://yowdesert.github.io/posts/513a4877.html"/>
     <id>https://yowdesert.github.io/posts/513a4877.html</id>
     <published>2026-08-28T02:18:00.000Z</published>
-    <updated>2026-08-28T13:08:05.424Z</updated>
+    <updated>2026-08-29T05:58:01.728Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1&gt;Search and Sort&lt;/h1&gt;
-&lt;h1&gt;Search&lt;/h1&gt;
-&lt;h2 id=&quot;Linear-Sequential-Search&quot;&gt;Linear(Sequential) Search&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;由左至右一一比較&lt;/li&gt;
-&lt;li&gt;Time</summary>
+    <summary type="html">&lt;h1 id=&quot;Search-and-Sort&quot;&gt;&lt;a href=&quot;#Search-and-Sort&quot; class=&quot;headerlink&quot; title=&quot;Search and Sort&quot;&gt;&lt;/a&gt;Search and Sort&lt;/h1&gt;&lt;h1 id=&quot;Search&quot;&gt;&lt;a</summary>
         
       
     
@@ -115,7 +110,7 @@
     <link href="https://yowdesert.github.io/posts/3e53adeb.html"/>
     <id>https://yowdesert.github.io/posts/3e53adeb.html</id>
     <published>2026-08-21T08:12:00.000Z</published>
-    <updated>2026-08-25T06:33:51.132Z</updated>
+    <updated>2026-08-28T13:34:15.812Z</updated>
     
     
       
@@ -151,7 +146,7 @@
     <link href="https://yowdesert.github.io/posts/514e5281.html"/>
     <id>https://yowdesert.github.io/posts/514e5281.html</id>
     <published>2026-08-21T08:12:00.000Z</published>
-    <updated>2026-08-28T13:34:00.526Z</updated>
+    <updated>2026-08-31T07:30:51.267Z</updated>
     
     
       
@@ -159,13 +154,9 @@
         
         
     <summary type="html">&lt;ul&gt;
-&lt;li&gt;Double Priority Queue &lt;ul&gt;
-&lt;li&gt;Insert(x)：插入任意元素&lt;/li&gt;
-&lt;li&gt;Delete-Max：刪除最大值&lt;/li&gt;
-&lt;li&gt;Delete-Min：刪除最小值&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;SMMH</summary>
+&lt;li&gt;Ordered-Linked-List 就算有排序也不能直接Binary Sort&lt;/li&gt;
+&lt;li&gt;兩個Array，大的n個，小的m個，要找兩個有沒有相同的 =&amp;gt; $O(nlogm)$&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;m&lt;/code&gt; Array 先</summary>
         
       
     
