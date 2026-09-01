@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(作業系統) Main Memory Management | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直">
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(作業系統) Main Memory Management | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。 前導 為什麼「主記憶體管理」很重要？ CPU 只能直接存取主記憶體     - 記憶體是：     - 昂貴     - 有限  - 多個行程要一起用     - OS 必須解決三個核心問題：     - 誰用哪一塊記憶體？     - 怎麼防止程式亂讀／亂寫別人的記憶體？     - 怎麼讓記憶體">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(作業系統) Main Memory Management">
 <meta property="og:url" content="https://yowdesert.github.io/posts/6575bc75.html">
 <meta property="og:site_name" content="YD&#39;s 學習筆記">
-<meta property="og:description" content="本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。  前導  為什麼「主記憶體管理」很重要？   CPU 只能直接存取主記憶體   記憶體是：  昂貴 有限    多個行程要一起用  OS 必須解決三個核心問題： 誰用哪一塊記憶體？ 怎麼防止程式亂讀／亂寫別人的記憶體？ 怎麼讓記憶體使用率最高？       摘要 BackGround  CPU 能直">
+<meta property="og:description" content="本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。 前導 為什麼「主記憶體管理」很重要？ CPU 只能直接存取主記憶體     - 記憶體是：     - 昂貴     - 有限  - 多個行程要一起用     - OS 必須解決三個核心問題：     - 誰用哪一塊記憶體？     - 怎麼防止程式亂讀／亂寫別人的記憶體？     - 怎麼讓記憶體">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
 <meta property="article:published_time" content="2025-12-19T06:15:00.000Z">
-<meta property="article:modified_time" content="2026-08-31T13:38:39.548Z">
+<meta property="article:modified_time" content="2026-09-01T07:20:03.354Z">
 <meta property="article:author" content="YowDesert">
 <meta property="article:tag" content="作業系統">
 <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   "url": "https://yowdesert.github.io/posts/6575bc75.html",
   "image": "https://yowdesert.github.io/img/butterfly-icon.png",
   "datePublished": "2025-12-19T06:15:00.000Z",
-  "dateModified": "2026-08-31T13:38:39.548Z",
+  "dateModified": "2026-09-01T07:20:03.354Z",
   "author": [
     {
       "@type": "Person",
@@ -193,76 +193,56 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(作業系統) Main Memory Management</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(作業系統) Main Memory Management</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-12-19T06:15:00.000Z" title="發表於 2025-12-19 14:15:00">2025-12-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-08-31T13:38:39.548Z" title="更新於 2026-08-31 21:38:39">2026-08-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E4%B8%83%E7%AB%A0/">第七章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">7.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>27分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(作業系統) Main Memory Management</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(作業系統) Main Memory Management</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-12-19T06:15:00.000Z" title="發表於 2025-12-19 14:15:00">2025-12-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-09-01T07:20:03.354Z" title="更新於 2026-09-01 15:20:03">2026-09-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/%E7%AC%AC%E4%B8%83%E7%AB%A0/">第七章</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">8.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>31分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
 <p>本章內容 : 作業系統如何管理「主記憶體（RAM）」：讓多個行程安全、有效率地共用有限的記憶體。</p>
+<h1 id="前導"><a href="#前導" class="headerlink" title="前導"></a>前導</h1><ul>
+<li>為什麼「主記憶體管理」很重要？<ul>
+<li>CPU 只能直接存取主記憶體</li>
+</ul>
+</li>
+</ul>
 </blockquote>
-<h1>前導</h1>
-<ul>
-<li>為什麼「主記憶體管理」很重要？
-<ul>
-<li>
-<p>CPU 只能直接存取主記憶體</p>
-</li>
-<li>
-<p>記憶體是：</p>
-<ul>
-<li>昂貴</li>
-<li>有限</li>
-</ul>
-</li>
-<li>
-<p>多個行程要一起用</p>
-<ul>
-<li>OS 必須解決三個核心問題：</li>
-<li>誰用哪一塊記憶體？</li>
-<li>怎麼防止程式亂讀／亂寫別人的記憶體？</li>
-<li>怎麼讓記憶體使用率最高？</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h1>摘要</h1>
-<h2 id="BackGround">BackGround</h2>
-<ul>
+<pre><code>- 記憶體是：
+    - 昂貴
+    - 有限
+
+- 多個行程要一起用
+    - OS 必須解決三個核心問題：
+    - 誰用哪一塊記憶體？
+    - 怎麼防止程式亂讀／亂寫別人的記憶體？
+    - 怎麼讓記憶體使用率最高？
+</code></pre><hr>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="BackGround"><a href="#BackGround" class="headerlink" title="BackGround"></a>BackGround</h2><ul>
 <li>CPU 能直接存取的很少，只有<strong>Main Memory</strong>和 <strong>Registers</strong>而已</li>
 <li>Disk 上的程式，只是「檔案」而已，<strong>要被Loader載入memory才會變成Process</strong></li>
 <li>把多個程式放進 RAM → 多程式（multiprogramming）: <strong>改善CPU使用率</strong>以及<strong>加快反應時間</strong></li>
 <li>process 會移動在<strong>Disk</strong>和<strong>memory</strong>之間</li>
 </ul>
-<h2 id="Memory-Management-Issues">Memory Management Issues</h2>
-<ul>
+<h2 id="Memory-Management-Issues"><a href="#Memory-Management-Issues" class="headerlink" title="Memory Management Issues"></a>Memory Management Issues</h2><ul>
 <li>How to refer to memory in a program? → Address binding</li>
 <li>How to load a program into memory? → static/dynamic loading &amp; linking</li>
 <li>How to move a program between memory and disk? → Swapping</li>
 <li>How to allocate memory? → Paging, Segmentation</li>
 </ul>
-<h2 id="Multistep-Processing">Multistep Processing</h2>
-<ol>
+<h2 id="Multistep-Processing"><a href="#Multistep-Processing" class="headerlink" title="Multistep Processing"></a>Multistep Processing</h2><ol>
 <li>Source program（原始碼）</li>
 <li>Compiler/Assembler → Object module（目標檔 .o）</li>
-<li>Linkage editor（linker）
-<ul>
+<li>Linkage editor（linker）<ul>
 <li>把你的 object 檔 + 其他 object 檔 + library 接起來</li>
 </ul>
 </li>
 <li>產生 Load module（可載入檔 / executable）</li>
-<li>Loader
-<ul>
+<li>Loader<ul>
 <li>OS/loader 把 load module 放到 RAM，形成 in-memory binary image（記憶體中的程式映像）</li>
 </ul>
 </li>
-<li>Dynamic linking（動態連結）
-<ul>
-<li>有些 library 不會在 linker 時就塞進去<br>
-會在「執行時」才載入/連結（例如共享函式庫 .so / .dll）</li>
+<li>Dynamic linking（動態連結）<ul>
+<li>有些 library 不會在 linker 時就塞進去<br>會在「執行時」才載入/連結（例如共享函式庫 .so / .dll）</li>
 </ul>
 </li>
 </ol>
 <ul>
-<li>
-<p>因為「位址到底何時決定」有三種：</p>
+<li><p>因為「位址到底何時決定」有三種：</p>
 <ul>
 <li>編譯期決定（compile time）</li>
 <li>載入期決定（load time）</li>
@@ -271,25 +251,19 @@
 </li>
 </ul>
 <hr>
-<h1>基本觀念</h1>
-<ul>
+<h1 id="基本觀念"><a href="#基本觀念" class="headerlink" title="基本觀念"></a>基本觀念</h1><ul>
 <li>每個Process會有自己的獨立記憶體空間，且不可以去存取其他Processes 的記憶體空間</li>
-<li>先前的Memory Protection (連續性)配置下
-<ul>
+<li>先前的Memory Protection (連續性)配置下<ul>
 <li>BaseResister + Linit Register</li>
 </ul>
 </li>
 </ul>
 <p><img src="../../img/MEMPROFLOW.png" alt="alt text"></p>
-<h1>Address Binding</h1>
-<blockquote>
-<p>前兩個是Static Binding<br>
-後一個是Dynamic Binding</p>
+<h1 id="Address-Binding"><a href="#Address-Binding" class="headerlink" title="Address Binding"></a>Address Binding</h1><blockquote>
+<p>前兩個是Static Binding<br>後一個是Dynamic Binding</p>
 </blockquote>
-<h2 id="Compile-Time（編譯期綁定）">Compile Time（編譯期綁定）</h2>
-<ul>
-<li>程式一開始寫的是symbolic address(符號位址)
-<blockquote>
+<h2 id="Compile-Time（編譯期綁定）"><a href="#Compile-Time（編譯期綁定）" class="headerlink" title="Compile Time（編譯期綁定）"></a>Compile Time（編譯期綁定）</h2><ul>
+<li>程式一開始寫的是symbolic address(符號位址)<blockquote>
 <p>symbolic address : 在寫程式、編譯之前或剛編譯完，程式裡出現的位址通常是：變數名稱、函式名稱、label、相對位置</p>
 </blockquote>
 </li>
@@ -301,8 +275,7 @@
 <li>缺點：起始位置一改就完蛋 → 必須<strong>重新編譯</strong>（recompile）</li>
 <li>例子：老系統 MS-DOS .COM 程式（固定載入位置）</li>
 </ul>
-<h2 id="Load-Time（載入期綁定）">Load Time（載入期綁定）</h2>
-<ul>
+<h2 id="Load-Time（載入期綁定）"><a href="#Load-Time（載入期綁定）" class="headerlink" title="Load Time（載入期綁定）"></a>Load Time（載入期綁定）</h2><ul>
 <li>由linking loader / <strong>linking Editor</strong>執行Binding</li>
 <li>編譯器不產生寫死的絕對位址，而是產生 relocatable code（可重定位碼）</li>
 <li>程式碼裡用「相對於起點」的方式表示位址（Ex. BS + 0x18）</li>
@@ -313,61 +286,51 @@
 <li>缺點：如果起點改了 → 不用重編譯，但要<strong>重新載入</strong>（reload）</li>
 <li>這需要 loader 做 relocation（重定位）（通常靠 relocation table）</li>
 </ul>
-<h2 id="Execution-Time（執行期綁定）">Execution Time（執行期綁定）</h2>
-<blockquote>
+<h2 id="Execution-Time（執行期綁定）"><a href="#Execution-Time（執行期綁定）" class="headerlink" title="Execution Time（執行期綁定）"></a>Execution Time（執行期綁定）</h2><blockquote>
 <p>現代 OS 幾乎都用這個。</p>
-</blockquote>
 <ul>
 <li>Binding 工作延遲到Run Time</li>
-<li>程式看到的是 <strong>logical address</strong>(i.e., virtual address)
-<ul>
+<li>程式看到的是 <strong>logical address</strong>(i.e., virtual address)<ul>
 <li>例如它可能以為 data 在 0x18</li>
 </ul>
 </li>
-<li>真正的 physical address（例如 0x2018）由<strong>special hardware</strong>(ex.the MMU) 在每次記憶體存取時「<strong>即時轉換</strong>」
-<ul>
+<li>真正的 physical address（例如 0x2018）由<strong>special hardware</strong>(ex.the MMU) 在每次記憶體存取時「<strong>即時轉換</strong>」<ul>
 <li>MMU : CPU 發出 virtual address → MMU 翻成 physical address</li>
 </ul>
 </li>
 </ul>
+</blockquote>
 <p>✅ 結論（超常考）</p>
 <ul>
-<li>優點：
-<ul>
+<li>優點：<ul>
 <li>程式可以在執行途中被搬家（支援 swapping / relocation / virtual memory）</li>
 <li>每個 process 都可以有「<strong>自己的位址空間</strong>」（安全、隔離）</li>
 </ul>
 </li>
-<li>缺點：
-<ul>
+<li>缺點：<ul>
 <li>需要硬體支援（MMU），會有轉換成本（靠 TLB 加速）</li>
 </ul>
 </li>
 </ul>
-<h2 id="Memory-Management-Unit-MMU">Memory-Management Unit(MMU)</h2>
-<ul>
+<h2 id="Memory-Management-Unit-MMU"><a href="#Memory-Management-Unit-MMU" class="headerlink" title="Memory-Management Unit(MMU)"></a>Memory-Management Unit(MMU)</h2><ul>
 <li>MMU 是 CPU 裡的硬體元件，在程式執行時把 <strong>Virtual/Logical Address（虛擬/邏輯位址）→ Physical Address（實體位址）</strong>。</li>
-<li>Translation mechanism :</li>
+<li>Translation mechanism : </li>
 </ul>
-<p>$$<br>
-Physical Address = Base Register (relocation register) + Logical Address<br>
-$$</p>
-<pre><code>- 例子 : 
-    - CPU 產生 Logical Address = `346` 
-    - relocation register 位址 `12000`
-    - Physical Address = Base + Logical = `12000` + `346` = `12346`
-    - 最後去 Memory 存取 `12346`
-</code></pre>
-<ul>
-<li>✅優點：
-<ul>
-<li>Memory protection（保護）
-<ul>
+<script type="math/tex; mode=display">
+Physical Address = Base Register (relocation register) + Logical Address</script><ul>
+<li>例子 : <ul>
+<li>CPU 產生 Logical Address = <code>346</code> </li>
+<li>relocation register 位址 <code>12000</code></li>
+<li>Physical Address = Base + Logical = <code>12000</code> + <code>346</code> = <code>12346</code></li>
+<li>最後去 Memory 存取 <code>12346</code></li>
+</ul>
+</li>
+<li>✅優點：<ul>
+<li>Memory protection（保護）<ul>
 <li>每個 process 只能在自己的範圍內活動。</li>
 </ul>
 </li>
-<li>Dynamic relocation（動態搬家）
-<ul>
+<li>Dynamic relocation（動態搬家）<ul>
 <li>base 改掉，整個程式的位址就「等效搬家」，不用重編譯。</li>
 </ul>
 </li>
@@ -375,98 +338,53 @@ $$</p>
 </ul>
 </li>
 </ul>
-<h2 id="Logical-v-s-Physical-Address">Logical v.s. Physical Address</h2>
-<blockquote>
+<h2 id="Logical-v-s-Physical-Address"><a href="#Logical-v-s-Physical-Address" class="headerlink" title="Logical v.s. Physical Address"></a>Logical v.s. Physical Address</h2><blockquote>
 <p>User program 只用 logical address，不需要知道 physical memory 在哪。</p>
 </blockquote>
 <ul>
-<li>
-<p>Logical Address（= Virtual Address）</p>
+<li><p>Logical Address（= Virtual Address）</p>
 <ul>
+<li>也就是你程式碼多大</li>
 <li><strong>CPU 在執行時產生的位址</strong></li>
 <li>使用者程式看得到、操作的位址空間</li>
 </ul>
 </li>
-<li>
-<p>Physical Address</p>
+<li><p>Physical Address</p>
 <ul>
 <li><strong>RAM 裡真正的位址</strong></li>
 <li>最終由記憶體硬體去存取</li>
 </ul>
 </li>
-<li>
-<p>跟 Address Binding 的關係</p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>Compile-time / Load-time Binding</th>
-<th>Execution-time Binding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>位址綁定時機</strong></td>
-<td><strong>執行前</strong>（compile 或 load 時）</td>
-<td><strong>執行中</strong>（run time）</td>
-</tr>
-<tr>
-<td><strong>位址是否先定死</strong></td>
-<td>✅ 是，已定成實體位址</td>
-<td>❌ 否，執行時才轉換</td>
-</tr>
-<tr>
-<td><strong>Logical address</strong></td>
-<td>= Physical address</td>
-<td>≠ Physical address</td>
-</tr>
-<tr>
-<td><strong>是否需要 MMU</strong></td>
-<td>❌ 不需要</td>
-<td>✅ 需要</td>
-</tr>
-</tbody>
-</table>
+<li><p>跟 Address Binding 的關係</p>
+<p>  | 項目                        | Compile-time / Load-time Binding | Execution-time Binding |<br>  | ————————————- | ———————————————— | ——————————— |<br>  | <strong>位址綁定時機</strong>                | <strong>執行前</strong>（compile 或 load 時）        | <strong>執行中</strong>（run time）      |<br>  | <strong>位址是否先定死</strong>               | ✅ 是，已定成實體位址                      | ❌ 否，執行時才轉換             |<br>  | <strong>Logical address</strong>       | = Physical address               | ≠ Physical address     |<br>  | <strong>是否需要 MMU</strong>              | ❌ 不需要                            | ✅ 需要                   |</p>
 </li>
 </ul>
 <hr>
-<h1>Load Program  into Memory → static/dynamic loading &amp; linking</h1>
-<h2 id="Dynamic-Loading">Dynamic Loading</h2>
-<blockquote>
+<h1 id="Load-Program-into-Memory-→-static-dynamic-loading-amp-linking"><a href="#Load-Program-into-Memory-→-static-dynamic-loading-amp-linking" class="headerlink" title="Load Program  into Memory → static/dynamic loading &amp; linking"></a>Load Program  into Memory → static/dynamic loading &amp; linking</h1><h2 id="Dynamic-Loading"><a href="#Dynamic-Loading" class="headerlink" title="Dynamic Loading"></a>Dynamic Loading</h2><blockquote>
 <p>不需要整個 Program 載入 Memory → 用到再載入就好</p>
+<ul>
+<li>只需載入<strong>被呼叫</strong>的程式碼進記憶體就好</li>
+<li>沒被執行的就放在硬碟就好了</li>
+</ul>
 </blockquote>
 <ul>
-<li>
-<p>只需載入<strong>被呼叫</strong>的程式碼進記憶體就好</p>
-</li>
-<li>
-<p>沒被執行的就放在硬碟就好了</p>
-</li>
-<li>
-<p>✅優點： <strong>改善Memory utilization</strong></p>
-</li>
-<li>
-<p>實作 : 其實他理論上來說<strong>可以不用OS提供新的支援</strong>，可以用使用者層的方法做到</p>
-</li>
+<li>✅優點： <strong>改善Memory utilization</strong></li>
+<li>實作 : 其實他理論上來說<strong>可以不用OS提供新的支援</strong>，可以用使用者層的方法做到</li>
 </ul>
-<h2 id="Static-Linking">Static Linking</h2>
-<ul>
+<h2 id="Static-Linking"><a href="#Static-Linking" class="headerlink" title="Static Linking"></a>Static Linking</h2><ul>
 <li><strong>在link time時</strong>，將有用到的Libraries打包進可執行檔 → <strong>單一包含所有需要程式的執行檔</strong></li>
-<li>特性 :
-<ul>
+<li>特性 :<ul>
 <li>缺點：記憶體浪費（duplicate library code）: 多個程式各自帶一份 libc → RAM 會出現<strong>多份重複</strong></li>
 </ul>
 </li>
 </ul>
 <p>✅優點：</p>
 <ul>
-<li>執行快
-<ul>
+<li>執行快<ul>
 <li>不用在 runtime 做符號解析（resolve），呼叫可直接跳</li>
 </ul>
 </li>
-<li>自給自足
-<ul>
+<li>自給自足<ul>
 <li>不怕機器上缺 library（部署比較直覺）</li>
 </ul>
 </li>
@@ -478,6 +396,7 @@ $$</p>
 <li><strong>但重複碼問題仍在</strong>：因為靜態連結的 library 每個 process 仍各有一份。</li>
 </ul>
 <p><strong>Trade-off Analysis</strong></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -504,43 +423,41 @@ $$</p>
 </tr>
 </tbody>
 </table>
-<h2 id="Dynamic-Linking">Dynamic Linking</h2>
-<blockquote>
+</div>
+<h2 id="Dynamic-Linking"><a href="#Dynamic-Linking" class="headerlink" title="Dynamic Linking"></a>Dynamic Linking</h2><blockquote>
 <p>Dynamic linking = 第一次呼叫要辦手續，之後就走快速通關</p>
-</blockquote>
 <ul>
-<li>概念 :
-<ul>
+<li>概念 : <ul>
 <li>連結時機延後到執行期（run time）</li>
 <li>Executable 不直接包含整套 library</li>
 <li>只放 library function 的引用點（references）</li>
 </ul>
 </li>
-<li>關鍵機制:
-<ul>
+<li>關鍵機制:<ul>
 <li>在 executable 中 ， 每個 library function 呼叫點 ， 插入一小段程式碼 → stub</li>
 </ul>
 </li>
+<li><strong>需要OS額外支持</strong>，OS是唯一可以檢查其所需要ㄉroutine是在其他Processes所在的記憶體區域</li>
 </ul>
+</blockquote>
 <p><img src="/img/OS_CH8_1.png" alt="alt text"></p>
 <p>✅優點 : <strong>Memory Efficiency</strong></p>
 <ul>
 <li><strong>Single copy of library code shared across all processes</strong></li>
 <li>多個程式使用同一個 library（如 libc）</li>
 <li>RAM 中只需要一份 library code（共享）</li>
+<li>助Library自動更新且無須relinking (記，少考)</li>
 </ul>
 <p>第一次呼叫 library function（First call）</p>
 <ul>
 <li>程式先跳到 stub</li>
-<li>stub 檢查：
-<ul>
+<li>stub 檢查：<ul>
 <li>library 是否已載入</li>
 <li>該 function symbol 是否已解析</li>
 </ul>
 </li>
-<li>若尚未完成：
-<ul>
-<li>載入 library</li>
+<li>若尚未完成：<ul>
+<li>載入 library </li>
 <li>解析 symbol（binding）</li>
 </ul>
 </li>
@@ -550,14 +467,12 @@ $$</p>
 <ul>
 <li>不再做載入與解析</li>
 <li>stub 已更新跳轉位址</li>
-<li>直接跳到 function<br>
-→ 執行速度接近 static linking</li>
+<li>直接跳到 function<br>→ 執行速度接近 static linking</li>
 </ul>
-<h2 id="Static-Dynamic-Loading-Linking：Four-Combinations">Static / Dynamic Loading &amp; Linking：Four Combinations</h2>
-<blockquote>
-<p>Loading：什麼時候把 code 放進 RAM（startup vs on-demand）<br>
-Linking：什麼時候把外部符號/library 接起來（link time vs run time）</p>
+<h2 id="Static-Dynamic-Loading-amp-Linking：Four-Combinations"><a href="#Static-Dynamic-Loading-amp-Linking：Four-Combinations" class="headerlink" title="Static / Dynamic Loading &amp; Linking：Four Combinations"></a>Static / Dynamic Loading &amp; Linking：Four Combinations</h2><blockquote>
+<p>Loading：什麼時候把 code 放進 RAM（startup vs on-demand）<br>Linking：什麼時候把外部符號/library 接起來（link time vs run time）</p>
 </blockquote>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -604,7 +519,9 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 </tr>
 </tbody>
 </table>
+</div>
 <p>易混淆觀念對照</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -631,18 +548,16 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 </tr>
 </tbody>
 </table>
+</div>
 <hr>
-<h1>Swapping</h1>
-<h2 id="定義">定義 :</h2>
-<ul>
+<h1 id="Swapping"><a href="#Swapping" class="headerlink" title="Swapping"></a>Swapping</h1><h2 id="定義"><a href="#定義" class="headerlink" title="定義 :"></a>定義 :</h2><ul>
 <li>Swapping = 把整個 process 在 <strong>Memory</strong> 與 <strong>backing store</strong>之間搬移，之後可以再搬回來接著執行</li>
 </ul>
-<p>不同的點 :</p>
+<p>不同的點 : </p>
 <ul>
 <li>Scope : Entire process image</li>
 <li>Scheduler : <strong>Medium-term scheduler operation</strong></li>
-<li>Swapping vs Context Switch :
-<ul>
+<li>Swapping vs Context Switch :  <ul>
 <li>Swapping : 把 process 直接搬去 disk（人都不在 RAM 了）</li>
 <li>Context Switch : 只是換 CPU 跑誰（process 都還在 RAM）</li>
 </ul>
@@ -659,7 +574,7 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 <li>Memory pressure : RAM 快不夠</li>
 <li>Priority-based scheduling (Roll-out/Roll-in) : 高優先權的 process 需要 RAM → 把低優先權的「roll-out」出去</li>
 </ul>
-<h2 id="Swap-back-Memory-Address-Requirements">Swap-back Memory Address Requirements</h2>
+<h2 id="Swap-back-Memory-Address-Requirements"><a href="#Swap-back-Memory-Address-Requirements" class="headerlink" title="Swap-back Memory Address Requirements"></a>Swap-back Memory Address Requirements</h2><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -686,10 +601,9 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 </tr>
 </tbody>
 </table>
-<h2 id="Swapping-I-O-Problem">Swapping: I/O Problem</h2>
-<ul>
-<li>The I/O Problem
-<ul>
+</div>
+<h2 id="Swapping-I-O-Problem"><a href="#Swapping-I-O-Problem" class="headerlink" title="Swapping: I/O Problem"></a>Swapping: I/O Problem</h2><ul>
+<li>The I/O Problem<ul>
 <li>Process P 正在等 I/O</li>
 <li>OS 覺得 RAM 不夠 → 把 P swap out</li>
 <li>I/O 完成時，DMA 會把資料寫到「P 原本的記憶體位置」</li>
@@ -697,39 +611,29 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 </li>
 <li>結果：<strong>Data corruption</strong>（資料毀損）</li>
 </ul>
-<h2 id="Solution-to-I-O-Swapping-Conflict">Solution to I/O-Swapping Conflict:</h2>
-<h3 id="Solution-1-Never-swap-processes-with-pending-I-O">Solution 1 : Never swap processes with pending I/O</h3>
-<ul>
+<h2 id="Solution-to-I-O-Swapping-Conflict"><a href="#Solution-to-I-O-Swapping-Conflict" class="headerlink" title="Solution to I/O-Swapping Conflict:"></a>Solution to I/O-Swapping Conflict:</h2><h3 id="Solution-1-Never-swap-processes-with-pending-I-O"><a href="#Solution-1-Never-swap-processes-with-pending-I-O" class="headerlink" title="Solution 1 : Never swap processes with pending I/O"></a>Solution 1 : Never swap processes with pending I/O</h3><ul>
 <li>swap 之前先檢查 I/O queue</li>
 <li>I/O 進行中就把該 process 標記為 non-swappable</li>
 </ul>
-<h3 id="Solution-2-Use-OS-managed-I-O-buffers（kernel-buffer）">Solution 2 : Use OS-managed I/O buffers（kernel buffer）</h3>
-<ul>
+<h3 id="Solution-2-Use-OS-managed-I-O-buffers（kernel-buffer）"><a href="#Solution-2-Use-OS-managed-I-O-buffers（kernel-buffer）" class="headerlink" title="Solution 2 : Use OS-managed I/O buffers（kernel buffer）"></a>Solution 2 : Use OS-managed I/O buffers（kernel buffer）</h3><ul>
 <li>I/O 不要直接寫到 user space 的 buffer</li>
 <li>改成先寫到 kernel buffer（不會被 swap）</li>
 <li>等 process swap 回來後，再把資料 copy 回 user space</li>
 </ul>
-<h2 id="Process-Swapping-to-Backing-Store">Process Swapping to Backing Store</h2>
-<p>Swap time components :</p>
+<h2 id="Process-Swapping-to-Backing-Store"><a href="#Process-Swapping-to-Backing-Store" class="headerlink" title="Process Swapping to Backing Store"></a>Process Swapping to Backing Store</h2><p>Swap time components : </p>
 <ul>
-<li><strong>Transfer Time (dominant factor)</strong> - Moving dadata between memory and disk</li>
-</ul>
-<blockquote>
-<p><strong>正比於process size</strong> : process 越大搬越久</p>
+<li><strong>Transfer Time (dominant factor)</strong> - Moving dadata between memory and disk<blockquote>
+<p>  <strong>正比於process size</strong> : process 越大搬越久</p>
 </blockquote>
-<ul>
+</li>
 <li>Latency : 磁碟的 seek + rotational delay</li>
-<li>Context switch overhead - OS bookkeeping</li>
+<li>Context switch overhead - OS bookkeeping </li>
 </ul>
 <hr>
-<h1>Memory Allocation Schemes (連續記憶體配置)</h1>
-<h2 id="Fixed-Partition-Allocation">Fixed-Partition Allocation</h2>
-<ul>
+<h1 id="Memory-Allocation-Schemes-連續記憶體配置"><a href="#Memory-Allocation-Schemes-連續記憶體配置" class="headerlink" title="Memory Allocation Schemes (連續記憶體配置)"></a>Memory Allocation Schemes (連續記憶體配置)</h1><h2 id="Fixed-Partition-Allocation"><a href="#Fixed-Partition-Allocation" class="headerlink" title="Fixed-Partition Allocation"></a>Fixed-Partition Allocation</h2><ul>
 <li>做法 ： 系統一開機就把 RAM 切成<strong>固定大小的 partitions</strong></li>
-<li>規則 ： 每個 process 只能佔一格 partition。
-<ul>
-<li>✅ <strong>Multiprogramming degree</strong> = partitions 數量
-<ul>
+<li>規則 ： 每個 process 只能佔一格 partition。<ul>
+<li>✅ <strong>Multiprogramming degree</strong> = partitions 數量<ul>
 <li>因為同時最多就塞得下「partition 個 process」</li>
 </ul>
 </li>
@@ -739,23 +643,18 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 <li>✅ 優點：簡單（表格也說 Simple）</li>
 <li>❌ 主要問題：<strong>Internal fragmentation（內部碎裂）</strong> - 因為 partition 固定大小，process 可能用不滿</li>
 </ul>
-<h2 id="Variable-Partition-Allocation">Variable-Partition Allocation</h2>
-<ul>
+<h2 id="Variable-Partition-Allocation"><a href="#Variable-Partition-Allocation" class="headerlink" title="Variable-Partition Allocation"></a>Variable-Partition Allocation</h2><ul>
 <li>做法： 你要多少就切多少給你（依需求切一塊連續的）</li>
 <li><strong>hole</strong>：一段連續的空閒記憶體區塊</li>
 <li>多次 allocate/free 後，hole 會散落各處（各種大小）</li>
 <li>✅ 優點：彈性高、初期利用率更好</li>
 <li>❌ 主要問題：<strong>External fragmentation（外部碎裂）</strong></li>
 </ul>
-<h2 id="Multiple-Partition-Variable-Size-Method（可變分割到底怎麼運作）">Multiple Partition (Variable-Size) Method（可變分割到底怎麼運作）</h2>
-<ul>
+<h2 id="Multiple-Partition-Variable-Size-Method（可變分割到底怎麼運作）"><a href="#Multiple-Partition-Variable-Size-Method（可變分割到底怎麼運作）" class="headerlink" title="Multiple Partition (Variable-Size) Method（可變分割到底怎麼運作）"></a>Multiple Partition (Variable-Size) Method（可變分割到底怎麼運作）</h2><ul>
 <li>如果要分配 ， 找一個夠大的hole 切下來分配，會變成一個較小的hole(split)</li>
-<li>Data Structure
-<ul>
-<li><strong>Allocation Table（已配置表）</strong><br>
-記每個 process 用哪一段：(PID, base, limit)</li>
-<li><strong>Free List（空閒表）</strong>
-<ul>
+<li>Data Structure<ul>
+<li><strong>Allocation Table（已配置表）</strong><br>  記每個 process 用哪一段：(PID, base, limit)</li>
+<li><strong>Free List（空閒表）</strong><ul>
 <li>記所有 holes：(base address, size)</li>
 </ul>
 </li>
@@ -763,61 +662,57 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 </ul>
 </li>
 <li>相鄰的 holes 應該自動合併（merge）</li>
-<li>Implementation
-<ul>
+<li>Implementation <ul>
 <li>allocate：如果 hole 比需求大 → 切割</li>
 <li>deallocate：釋放後變 hole → 看左右是否也是 hole，能合就合</li>
 </ul>
 </li>
 </ul>
-<h2 id="Dynamic-Storage-Allocation-Problem">Dynamic Storage Allocation Problem</h2>
-<blockquote>
+<h2 id="Dynamic-Storage-Allocation-Problem"><a href="#Dynamic-Storage-Allocation-Problem" class="headerlink" title="Dynamic Storage Allocation Problem"></a>Dynamic Storage Allocation Problem</h2><blockquote>
 <p>3個演算法</p>
-</blockquote>
 <ol>
-<li>First-fit（第一個放得下就用）(O(n))
-<ul>
+<li>First-fit（第一個放得下就用）(O(n))<ul>
+<li>Next-fit 的變形</li>
 <li>✅ 優點：平均最快</li>
 <li>缺點：前面區域容易被切得很碎（很多小洞集中前面）</li>
 </ul>
 </li>
-<li>Best-fit（找「最小但夠用」的 hole）(O(n))
-<ul>
+<li>Best-fit（找「最小但夠用」的 hole）(O(n))<ul>
 <li>✅ 好處：這次剩下的碎片最小（“看起來”很省）</li>
 <li>❌ 壞處（投影片紅字）：會產生很多超小、用不到的洞</li>
 </ul>
 </li>
-<li>Worst-fit（找最大的 hole）(O(n))
-<ul>
+<li>Worst-fit（找最大的 hole）(O(n))<ul>
 <li>挑最大的 hole 來切</li>
 <li>理論：留下的大碎片比較可能再放大 process</li>
 </ul>
 </li>
 </ol>
+</blockquote>
 <ul>
 <li>First-fit 和 Best-fit 通常<strong>勝過</strong> Worst-fit</li>
 <li>First-fit 通常<strong>最快</strong>，而且利用率跟 best-fit 差不多</li>
 <li>Best-fit 不一定真的最優</li>
 </ul>
-<h2 id="Memory-Fragmentation">Memory Fragmentation</h2>
-<h3 id="External-Fragmentation（外部碎裂）">External Fragmentation（外部碎裂）</h3>
-<ul>
-<li>Total free memory ≥ request size，但不連續（not contiguous）</li>
+<h2 id="Memory-Fragmentation"><a href="#Memory-Fragmentation" class="headerlink" title="Memory Fragmentation"></a>Memory Fragmentation</h2><h3 id="External-Fragmentation（外部碎裂）"><a href="#External-Fragmentation（外部碎裂）" class="headerlink" title="External Fragmentation（外部碎裂）"></a>External Fragmentation（外部碎裂）</h3><ul>
+<li><p>定義(申論) : 在連續性配置下， 我們在AV-List找不到一個free hole size可以滿足process size，但free hole size加總卻 &gt;= process size，但因為不連續所以無法配置給此processes</p>
+</li>
+<li><p>Total free memory ≥ request size，但不連續（not contiguous）</p>
+</li>
 <li>出現在 Variable-size partition（可變分割）</li>
+<li>所有連續性記憶體配置方法皆會<strong>遭遇外部碎裂</strong></li>
+<li>經驗法則顯示 : 約每 N 個 allocated blocks 會有 0.5N 個 holes ，<strong>也就是大約有1/3 memory may be un useable， 又叫做 </strong>50 percent rule<strong> or </strong>one-third rule**</li>
 </ul>
-<h3 id="Internal-Fragmentation（內部碎裂）">Internal Fragmentation（內部碎裂）</h3>
-<ul>
+<h3 id="Internal-Fragmentation（內部碎裂）"><a href="#Internal-Fragmentation（內部碎裂）" class="headerlink" title="Internal Fragmentation（內部碎裂）"></a>Internal Fragmentation（內部碎裂）</h3><ul>
+<li>連續性配置沒有內部碎裂</li>
 <li>已分配出去的 partition 裡面，但 process 沒用到的空間</li>
 <li>出現在 Fixed-partition（固定分割）</li>
 </ul>
-<h3 id="Solution-Memory-Compaction">Solution : <strong>Memory Compaction</strong></h3>
-<p>把所有 processes「搬到一起」，把 holes 集中成一個大洞</p>
+<h3 id="Solution-Memory-Compaction"><a href="#Solution-Memory-Compaction" class="headerlink" title="Solution : Memory Compaction"></a>Solution : <strong>Memory Compaction</strong></h3><p>把所有 processes「搬到一起」，把 holes 集中成一個大洞</p>
 <ul>
-<li>
-<p>需要 <strong>Dynamic binding</strong>（execution-time binding）</p>
+<li><p>需要 <strong>Dynamic binding</strong>（execution-time binding）</p>
 </li>
-<li>
-<p>Constraints :</p>
+<li><p>Constraints : </p>
 <ul>
 <li>需要 relocatable code / MMU</li>
 <li>overhead 很高：要搬「所有」process</li>
@@ -826,117 +721,94 @@ Linking：什麼時候把外部符號/library 接起來（link time vs run time�
 </li>
 </ul>
 <hr>
-<h1>Non-Contiguous Memory Allocation - Paging</h1>
-<h2 id="Paging-Concept">Paging Concept</h2>
+<h1 id="Non-Contiguous-Memory-Allocation-Paging"><a href="#Non-Contiguous-Memory-Allocation-Paging" class="headerlink" title="Non-Contiguous Memory Allocation - Paging"></a>Non-Contiguous Memory Allocation - Paging</h1><h2 id="Paging-Concept"><a href="#Paging-Concept" class="headerlink" title="Paging Concept"></a>Paging Concept</h2><ul>
+<li><p>Core mechanism</p>
 <ul>
-<li>
-<p>Core mechanism</p>
-<ul>
-<li>**Physical memory（實體記憶體 RAM）**切成固定大小小格子：叫 frames</li>
-<li>**Logical memory（邏輯/虛擬位址空間）**也切成一樣大小小格子：叫 pages</li>
-<li>page/frame 大小通常是 2 的次方（4KB、8KB…）
-<ul>
+<li><strong>Physical memory（實體記憶體 RAM</strong> 切成固定大小小格子：叫 frames</li>
+<li><strong>Logical memory（邏輯/虛擬位址空間</strong> 也切成一樣大小小格子：叫 pages</li>
+<li>page/frame 大小通常是 2 的次方（4KB、8KB…）<ul>
 <li>因為這樣「位址切割」可以用 bit 切：右邊 n bits 當 offset</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>Process 要能執行，需要什麼？</p>
+<li><p>Process 要能執行，需要什麼？</p>
 <ul>
 <li>程式如果有 n pages，就需要 n 個可用 frames(不要求連續)</li>
 </ul>
 </li>
-<li>
-<p>OS 會維護：</p>
-<ul>
+<li>OS 會維護：<ul>
 <li><strong>free frame list</strong>：哪些 frame 還空著</li>
 <li><strong>page table</strong>：把每個 page 對到哪個 frame（做位址轉換）</li>
 </ul>
 </li>
-<li>
-<p>Address translation</p>
-<ul>
-<li>Logical Address = [Page Number | Page Offset]<br>
-→ (via page Table)→<br>
-Pysical Address = [Frame Number | Page Offset]</li>
+<li>Address translation<ul>
+<li>Logical Address = [Page Number | Page Offset]<br>→ (via page Table)→<br>Pysical Address = [Frame Number | Page Offset]</li>
 <li>重點：<strong>offset 不變</strong>（因為 page 和 frame 大小一樣）</li>
 </ul>
 </li>
 </ul>
-<h2 id="Paging-的-4-大好處">Paging 的 4 大好處</h2>
-<p>這頁就是「為什麼 paging 比 variable partition 好」。</p>
-<ol>
-<li><strong>Noncontiguous</strong> allocation（可不連續）</li>
-</ol>
+<h2 id="Paging-的-4-大好處"><a href="#Paging-的-4-大好處" class="headerlink" title="Paging 的 4 大好處"></a>Paging 的 4 大好處</h2><p>這頁就是「為什麼 paging 比 variable partition 好」。</p>
+<p>1) <strong>Noncontiguous</strong> allocation（可不連續）</p>
 <ul>
 <li>pages 可以散落在任何 frames</li>
 <li>OS 不用再煩惱找一大段連續洞</li>
 </ul>
-<ol start="2">
-<li>Eliminates external fragmentation（消除外部碎裂）</li>
-</ol>
+<p>2) Eliminates external fragmentation（消除外部碎裂）</p>
 <ul>
 <li>因為不再需要連續的大洞</li>
-<li>所有空間都以 frame 為單位可用</li>
-</ul>
-<blockquote>
+<li>所有空間都以 frame 為單位可用<blockquote>
 <p>Paging 解掉 external fragmentation。</p>
 </blockquote>
-<ol start="3">
-<li>Minimal internal fragmentation（仍有少量內部碎裂）</li>
-</ol>
+</li>
+</ul>
+<p>3) Minimal internal fragmentation（仍有少量內部碎裂）</p>
 <ul>
 <li>只可能發生在 最後一頁（因為程式大小不一定剛好整除 page size）</li>
-<li>平均浪費：半頁 / process</li>
-</ul>
-<blockquote>
+<li>平均浪費：半頁 / process<blockquote>
 <p>Paging 沒有 external fragmentation，但有 internal fragmentation（平均半頁）。</p>
 </blockquote>
-<ol start="4">
-<li>Enables memory sharing（支援共享）</li>
-</ol>
+</li>
+</ul>
+<p>4) Enables memory sharing（支援共享）</p>
 <ul>
 <li>多個 process 可以把某些頁 map 到同一個 physical frame</li>
 <li>常見：<strong>共享的程式碼段</strong>（shared libraries）、共享記憶體</li>
 </ul>
-<h2 id="Page-table-fundamentals">Page table fundamentals</h2>
-<ul>
+<h3 id="壞處"><a href="#壞處" class="headerlink" title="壞處"></a>壞處</h3><p>5) 會有<strong>內部碎裂</strong><br>6) Pageing 可能會提升context switch Time<br>7) 需要硬體的支援</p>
+<pre><code>- page table製作
+- Logical address -&gt; Physical Address by MMU
+</code></pre><h2 id="Page-table-fundamentals"><a href="#Page-table-fundamentals" class="headerlink" title="Page table fundamentals"></a>Page table fundamentals</h2><ul>
 <li>把 logical page number → physical frame number</li>
 <li>每個 process 一張 page table</li>
 <li>page table entry（PTE）至少要存：<strong>frame number</strong></li>
 </ul>
-<p>3 大特性 :</p>
+<p>3 大特性 : </p>
 <ol>
 <li>Process isolation（隔離）</li>
 <li>Memory protection（保護）</li>
 <li>Address translation（轉換）</li>
 </ol>
-<h2 id="Address-Translation-Scheme">Address Translation Scheme</h2>
-<p>Logical address 結構</p>
+<h2 id="Address-Translation-Scheme"><a href="#Address-Translation-Scheme" class="headerlink" title="Address Translation Scheme"></a>Address Translation Scheme</h2><p>Logical address 結構</p>
 <ul>
-<li>
-<p>m-bit logical address</p>
+<li><p>m-bit logical address</p>
 <ul>
 <li>page number <code>p</code>：m-n bits</li>
 <li>offset <code>d</code>：n bits</li>
 </ul>
 </li>
-<li>
-<p><code>p</code>（page number）的意義</p>
+<li><p><code>p</code>（page number）的意義</p>
 <ul>
 <li><code>p</code> 是 page table 的索引（index）</li>
 <li>m-n bits → 最多可表示 2^(m-n) 個 pages</li>
-<li>最大 logical memory：
-<ul>
+<li>最大 logical memory：<ul>
 <li>pages 數量 2^(m-n) × 每頁大小 2^n bytes</li>
 <li>= <code>2^m</code> bytes（剛好對應 m-bit 位址空間）</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p><code>d</code>（page offset）的意義</p>
+<li><p><code>d</code>（page offset）的意義</p>
 <ul>
 <li><code>d</code> 是「在 page/frame 裡面的位移」</li>
 <li>n bits → page size = 2^n bytes</li>
@@ -947,164 +819,56 @@ Pysical Address = [Frame Number | Page Offset]</li>
 </ul>
 <p><strong>Translation formula</strong></p>
 <ul>
-<li>Physical Address = (Frame Number × Page Size) + Offset<br>
-= Frame base + d</li>
+<li>Physical Address = (Frame Number × Page Size) + Offset<br>= Frame base + d</li>
 </ul>
-<h2 id="Address-Translation">Address Translation</h2>
-<ul>
-<li>Page size = 4KB = 2¹²→ Offset bits = 12</li>
-</ul>
-<blockquote>
-<p>先看 page size → 算 offset bits<br>
-位址總 bits − offset bits = page / frame number bits<br>
-2^(number bits) = pages / frames 數量<br>
-2^(address bits) = 最大記憶體大小</p>
+<h2 id="Address-Translation"><a href="#Address-Translation" class="headerlink" title="Address Translation"></a>Address Translation</h2><ul>
+<li>Page size = 4KB = 2¹²→ Offset bits = 12<blockquote>
+<p>先看 page size → 算 offset bits<br>位址總 bits − offset bits = page / frame number bits<br>2^(number bits) = pages / frames 數量<br>2^(address bits) = 最大記憶體大小</p>
 </blockquote>
+</li>
+</ul>
 <ol>
-<li>
-<p>Logical Address Space（32-bit）</p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>計算</th>
-<th>結果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Logical address bits</td>
-<td>已知</td>
-<td>32 bits</td>
-</tr>
-<tr>
-<td>Offset bits</td>
-<td>4KB = 2¹²</td>
-<td>12 bits</td>
-</tr>
-<tr>
-<td><strong>Page number bits</strong></td>
-<td>32 − 12</td>
-<td><strong>20 bits</strong></td>
-</tr>
-<tr>
-<td>Pages per process</td>
-<td>2²⁰</td>
-<td><strong>1M pages</strong></td>
-</tr>
-<tr>
-<td>Max process size</td>
-<td>2³² bytes</td>
-<td><strong>4 GB</strong></td>
-</tr>
-</tbody>
-</table>
+<li><p>Logical Address Space（32-bit）</p>
+<p> | 項目                   | 計算        | 結果           |<br> | —————————— | ————- | —————— |<br> | Logical address bits | 已知        | 32 bits      |<br> | Offset bits          | 4KB = 2¹² | 12 bits      |<br> | <strong>Page number bits</strong> | 32 − 12   | <strong>20 bits</strong>  |<br> | Pages per process    | 2²⁰       | <strong>1M pages</strong> |<br> | Max process size     | 2³² bytes | <strong>4 GB</strong>     |</p>
 </li>
-<li>
-<p>Physical Address Space（36-bit）</p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>計算</th>
-<th>結果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Physical address bits</td>
-<td>已知</td>
-<td>36 bits</td>
-</tr>
-<tr>
-<td>Offset bits</td>
-<td>4KB = 2¹²</td>
-<td>12 bits</td>
-</tr>
-<tr>
-<td><strong>Frame number bits</strong></td>
-<td>36 − 12</td>
-<td><strong>24 bits</strong></td>
-</tr>
-<tr>
-<td>Total frames</td>
-<td>2²⁴</td>
-<td><strong>16M frames</strong></td>
-</tr>
-<tr>
-<td>Total physical memory</td>
-<td>2³⁶ bytes</td>
-<td><strong>64 GB</strong></td>
-</tr>
-</tbody>
-</table>
+<li><p>Physical Address Space（36-bit）</p>
+<p> | 項目                    | 計算        | 結果             |<br> | ——————————- | ————- | ——————— |<br> | Physical address bits | 已知        | 36 bits        |<br> | Offset bits           | 4KB = 2¹² | 12 bits        |<br> | <strong>Frame number bits</strong> | 36 − 12   | <strong>24 bits</strong>    |<br> | Total frames          | 2²⁴       | <strong>16M frames</strong> |<br> | Total physical memory | 2³⁶ bytes | <strong>64 GB</strong>      |</p>
 </li>
-<li>
-<p>Page Table（每個 process）</p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>計算</th>
-<th>結果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Page table 數量</td>
-<td>每個 process 一張</td>
-<td>1</td>
-</tr>
-<tr>
-<td>Page table entries</td>
-<td>= pages 數量</td>
-<td><strong>2²⁰ = 1M entries</strong></td>
-</tr>
-</tbody>
-</table>
+<li><p>Page Table（每個 process）</p>
+<p> | 項目                 | 計算            | 結果                   |<br> | ————————— | ——————- | —————————— |<br> | Page table 數量      | 每個 process 一張 | 1                    |<br> | Page table entries | = pages 數量    | <strong>2²⁰ = 1M entries</strong> |</p>
 </li>
 </ol>
-<h2 id="Page-Frame-Size-Considerations">Page/Frame Size Considerations</h2>
-<ol>
-<li>為什麼 page size 由硬體決定、且必須是 2 的次方？</li>
-</ol>
+<h2 id="Page-Frame-Size-Considerations"><a href="#Page-Frame-Size-Considerations" class="headerlink" title="Page/Frame Size Considerations"></a>Page/Frame Size Considerations</h2><p>1) 為什麼 page size 由硬體決定、且必須是 2 的次方？</p>
 <ul>
-<li>因為位址要用 bit 切：
-<ul>
+<li>因為位址要用 bit 切：<ul>
 <li>低 n bits = offset</li>
 <li>高位 = page/frame number</li>
 </ul>
 </li>
 <li>不是 2 的次方就不好用位元運算切割</li>
 </ul>
-<ol start="2">
-<li>常見大小與趨勢</li>
-</ol>
+<p>2) 常見大小與趨勢</p>
 <ul>
 <li>常見：4KB、8KB</li>
 <li>範圍：512B 到 16MB</li>
 <li>現代也有 huge pages（2MB、1GB）給特定工作負載</li>
 </ul>
-<ol start="3">
-<li>Internal fragmentation 分析</li>
-</ol>
+<p>3) Internal fragmentation 分析</p>
 <ul>
 <li>平均每個 process 的內部碎裂 ≈ page_size / 2</li>
 <li><strong>page 越大 → 浪費越多</strong>（最後一頁平均半頁浪費會變大）</li>
 </ul>
-<ol start="4">
-<li>為什麼歷史上 page size 變大？</li>
-</ol>
+<p>4) 為什麼歷史上 page size 變大？</p>
 <ul>
 <li>記憶體系統變大（GB/TB 時代）</li>
 <li>dataset 變大（DB、科學運算）</li>
 <li>I/O 最佳化：page fault overhead 相對變高，頁大可以減少 fault 次數（某些情境）</li>
 <li>TLB 壓力：TLB entries 有限，頁大可以讓 TLB cover 更多記憶體（TLB reach 變大）</li>
 </ul>
-<h2 id="Paging-Summary">Paging Summary</h2>
-<ol>
+<h2 id="Paging-Summary"><a href="#Paging-Summary" class="headerlink" title="Paging Summary"></a>Paging Summary</h2><ol>
 <li>Memory Abstraction Achievement</li>
 </ol>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1127,153 +891,57 @@ Pysical Address = [Frame Number | Page Offset]</li>
 </tr>
 </tbody>
 </table>
-<ol start="2">
+</div>
+<ol>
 <li>OS 兩大關鍵資料結構</li>
 </ol>
-<p><strong>Page Table（per-process）</strong></p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>數量</td>
-<td>每個 process 一張</td>
-</tr>
-<tr>
-<td>功能</td>
-<td>Logical pages → Physical frames</td>
-</tr>
-<tr>
-<td>提供</td>
-<td>隔離、保護</td>
-</tr>
-<tr>
-<td>Context switch</td>
-<td>需要切換 page table base</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Frame Table（system-wide）</strong></p>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>說明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>數量</td>
-<td>全系統一張</td>
-</tr>
-<tr>
-<td>對象</td>
-<td>每個 physical frame 一個 entry</td>
-</tr>
-<tr>
-<td>記錄內容</td>
-<td>free / allocated</td>
-</tr>
-<tr>
-<td>若被佔用</td>
-<td>owner：PID + page#（共享則是清單）</td>
-</tr>
-<tr>
-<td>其他 metadata</td>
-<td>reference count、dirty bit、lock status…</td>
-</tr>
-</tbody>
-</table>
+<p><strong>Page Table（per-process）</strong><br>| 項目             | 說明                              |<br>| ——————— | ———————————————- |<br>| 數量             | 每個 process 一張                   |<br>| 功能             | Logical pages → Physical frames |<br>| 提供             | 隔離、保護                           |<br>| Context switch | 需要切換 page table base            |</p>
+<p><strong>Frame Table（system-wide）</strong><br>| 項目          | 說明                                     |<br>| —————- | ——————————————————— |<br>| 數量          | 全系統一張                                  |<br>| 對象          | 每個 physical frame 一個 entry             |<br>| 記錄內容        | free / allocated                       |<br>| 若被佔用        | owner：PID + page#（共享則是清單）              |<br>| 其他 metadata | reference count、dirty bit、lock status… |</p>
 <hr>
-<h1>Implementation of Page Table</h1>
-<ol>
-<li>Page table 存放（Storage）</li>
-</ol>
+<h1 id="Implementation-of-Page-Table"><a href="#Implementation-of-Page-Table" class="headerlink" title="Implementation of Page Table"></a>Implementation of Page Table</h1><p>三種方法<br>1) 使用Register : 最簡單</p>
+<pre><code>- 不須記憶體存取，所以快速
+- 對於大型Page Table 不適合，因為Register數量不構
+</code></pre><p>2) Page table 存放（Storage）</p>
+<pre><code>- Page tables reside in **main memory** (too large for registers)
+- **PTBR（Page-Table Base Register）**
+    - 記錄分頁表在 memory 的位址
+- PTBR **存在 PCB(Process Control Block)**
+- 所以 context switch 時，OS 會把新 process 的 PTBR 載入（等於換一張 page table）
+- Memory access overhead
+- 沒有 TLB 時，每次存取一個 logical address 要做兩次記憶體存取：
+    - 先去 memory 裡找 page table entry（用 PTBR + page#）
+    - 再去 memory 裡拿真正資料（frame# + offset）
+
+    | 情況           | 你要拿到「資料」前要做什麼      | 需要幾次 memory access |
+    | ------------  | ------------------ | -----------------: |
+    | 沒有 TLB       | 先查 page table，再讀資料 |                  2 |
+    | 有 TLB 且 hit  | 直接得到 frame#，讀資料    |                  1 |
+    | 有 TLB 但 miss | 查 page table + 讀資料 |                  2 |
+</code></pre><p>3) Solution：TLB</p>
 <ul>
-<li>Page tables reside in <strong>main memory</strong> (too large for registers)</li>
-<li><strong>PTBR（Page-Table Base Register）</strong>
-<ul>
-<li>存「這個 process 的 page table 在實體記憶體的起始位址」</li>
-</ul>
-</li>
-<li>PTBR <strong>存在 PCB(Process Control Block)</strong></li>
-<li>所以 context switch 時，OS 會把新 process 的 PTBR 載入（等於換一張 page table）</li>
-</ul>
-<ol start="2">
-<li>Memory access overhead</li>
-</ol>
-<ul>
-<li>
-<p>沒有 TLB 時，每次存取一個 logical address 要做兩次記憶體存取：</p>
-<ul>
-<li>先去 memory 裡找 page table entry（用 PTBR + page#）</li>
-<li>再去 memory 裡拿真正資料（frame# + offset）</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>情況</th>
-<th>你要拿到「資料」前要做什麼</th>
-<th style="text-align:right">需要幾次 memory access</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>沒有 TLB</td>
-<td>先查 page table，再讀資料</td>
-<td style="text-align:right">2</td>
-</tr>
-<tr>
-<td>有 TLB 且 hit</td>
-<td>直接得到 frame#，讀資料</td>
-<td style="text-align:right">1</td>
-</tr>
-<tr>
-<td>有 TLB 但 miss</td>
-<td>查 page table + 讀資料</td>
-<td style="text-align:right">2</td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-<ol start="3">
-<li>Solution：TLB</li>
-</ol>
-<ul>
-<li><strong>TLB = Translation Look-aside Buffer</strong>
-<ul>
+<li><strong>TLB = Translation Look-aside Buffer</strong><ul>
 <li>是在 MMU 裡的硬體 cache</li>
 <li>記最近用過的 page→frame 對應</li>
 <li>目的：讓大多數存取變成「一次 memory access」</li>
 </ul>
 </li>
 </ul>
-<h2 id="Associative-Memory-CAM">Associative Memory / CAM</h2>
-<p>TLB 用的記憶體型態是 Associative Memory / CAM（Content-Addressable Memory）</p>
+<h2 id="Associative-Memory-CAM"><a href="#Associative-Memory-CAM" class="headerlink" title="Associative Memory / CAM"></a>Associative Memory / CAM</h2><p>TLB 用的記憶體型態是 Associative Memory / CAM（Content-Addressable Memory）</p>
 <ul>
-<li>
-<p>特色：不是用「位址」找資料，而是用「內容」找。</p>
+<li><p>特色：不是用「位址」找資料，而是用「內容」找。</p>
 </li>
-<li>
-<p>Key characteristics</p>
+<li><p>Key characteristics</p>
 <ul>
-<li>
-<p>Parallel search：所有 entries 同時比對</p>
+<li><p>Parallel search：所有 entries 同時比對</p>
 </li>
-<li>
-<p>Search by content：輸入 page number（通常還會加 ASID），輸出 frame number</p>
+<li><p>Search by content：輸入 page number（通常還會加 ASID），輸出 frame number</p>
 </li>
-<li>
-<p>Access time O(1)：不管幾筆，都像一次查找</p>
+<li><p>Access time O(1)：不管幾筆，都像一次查找</p>
 </li>
 </ul>
 </li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1300,22 +968,22 @@ Pysical Address = [Frame Number | Page Offset]</li>
 </tr>
 </tbody>
 </table>
+</div>
 <ul>
-<li>Performance characteristics
-<ul>
+<li>Performance characteristics<ul>
 <li>TLB hit： 只要 1 次 memory access（直接去拿 data）</li>
 <li>TLB miss： 變回 2 次（page table + data）</li>
 <li>Replacement policy：常見 LRU（TLB 滿了要踢誰）</li>
 </ul>
 </li>
 </ul>
-<h2 id="Translation-Lookaside-Buffer-TLB">Translation Lookaside Buffer (TLB)</h2>
-<p>TLB 是什麼？</p>
+<h2 id="Translation-Lookaside-Buffer-TLB"><a href="#Translation-Lookaside-Buffer-TLB" class="headerlink" title="Translation Lookaside Buffer (TLB)"></a>Translation Lookaside Buffer (TLB)</h2><p>TLB 是什麼？</p>
 <ul>
-<li>「硬體快取」保存最近的 virtual→physical 轉換</li>
+<li><strong>「硬體快取」</strong>保存最近的 virtual→physical 轉換</li>
 <li>shared by all processes（同一顆 CPU 的 TLB 不是每個 process 一份）</li>
 </ul>
 <p>但 shared 會有問題：context switch 後，舊 process 的轉換還留在 TLB</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1334,33 +1002,62 @@ Pysical Address = [Frame Number | Page Offset]</li>
 </tr>
 <tr>
 <td>Option 2：ASID tag</td>
-<td>每個 TLB entry 加上 ASID(PID) 標籤</td>
+<td>每個 TLB entry 加上 ASID 標籤</td>
 <td>不用清空，效能好</td>
 <td>硬體較複雜，要有 ASID 支援</td>
 </tr>
 </tbody>
 </table>
-<h2 id="EMAT（Effective-Memory-Access-Time）">EMAT（Effective Memory-Access Time）</h2>
-<blockquote>
+</div>
+<h2 id="ASID-Address-space-identifier"><a href="#ASID-Address-space-identifier" class="headerlink" title="ASID(Address-space identifier)"></a>ASID(Address-space identifier)</h2><ul>
+<li>Context Switch 之後TLB裡面原本Process的資料怎麼辦?</li>
+<li>用ASID讓不同Process的TLB Entry 同時留在TLB裡</li>
+<li>使用<strong>Address Space的標籤標記</strong>這是哪一個Process的</li>
+<li>Context Switch 也就不用Flush整個TLB</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>ASID</th>
+<th>Page</th>
+<th>Frame</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>8</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="EMAT（Effective-Memory-Access-Time）"><a href="#EMAT（Effective-Memory-Access-Time）" class="headerlink" title="EMAT（Effective Memory-Access Time）"></a>EMAT（Effective Memory-Access Time）</h2><blockquote>
 <p>「平均一次記憶體存取要多久」，取決於 hit ratio。</p>
 </blockquote>
-<p>公式 :<br>
-$$<br>
-EMAT = TLB hit ratio * TLB hit Time + (1 - hit ratio) * miss Time<br>
-$$</p>
-<h2 id="Memory-Protection（Page-table-entry-裡的保護位）">Memory Protection（Page table entry 裡的保護位）</h2>
-<p>常見 protection bits</p>
+<p>公式 : </p>
+<script type="math/tex; mode=display">
+EMAT = TLB hit ratio * TLB hit Time + (1 - hit ratio) * miss Time</script><h2 id="Memory-Protection（Page-table-entry-裡的保護位）"><a href="#Memory-Protection（Page-table-entry-裡的保護位）" class="headerlink" title="Memory Protection（Page table entry 裡的保護位）"></a>Memory Protection（Page table entry 裡的保護位）</h2><p>常見 protection bits</p>
+<ul>
+<li><p><strong>Read-Write</strong> or <strong>Read-only bits</strong></p>
 <ul>
 <li>R/W/X：可讀、可寫、可執行</li>
 </ul>
-<p>Valid/Invalid bit</p>
+</li>
+<li><p><strong>Valid/Invalid bit</strong></p>
 <ul>
-<li>Valid vs Invalid（這是 OS 保護的關鍵）
-<ul>
+<li>Valid vs Invalid（這是 OS 保護的關鍵）<ul>
 <li>Valid (v)：此 page 在該 process 合法的 logical address space 內，可被存取</li>
-<li>Invalid (i)：不在合法範圍內
-<ul>
+<li>Invalid (i)：不在合法範圍內<ul>
 <li>程式一旦存取 invalid page → page fault（trap to OS）</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1369,8 +1066,7 @@ $$</p>
 <p><strong>Valid-Invalid Bit：Implementation Issues</strong></p>
 <p>Issue 1：Unused page table entries</p>
 <ul>
-<li>process 不一定用滿整個 logical space<br>
-但傳統 page table 看起來像要準備「所有可能 pages」的 entries（很浪費）</li>
+<li>process 不一定用滿整個 logical space<br>  但傳統 page table 看起來像要準備「所有可能 pages」的 entries（很浪費）</li>
 <li>解法：PTLR（Page Table Length Register）</li>
 </ul>
 <p>Issue 2：Non-page-aligned process memory</p>
@@ -1379,6 +1075,7 @@ $$</p>
 <li>所以最後一頁裡面會有一段「在 valid page 裡，但其實超出程式真正大小」的區域 <strong>valid but illegal</strong></li>
 <li>解法：還需要 limit registe</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1400,13 +1097,13 @@ $$</p>
 </tr>
 </tbody>
 </table>
-<h2 id="Shared-Pages">Shared Pages</h2>
-<ul>
-<li>Paging 可以讓多個 process 共享同一份 code</li>
-</ul>
-<blockquote>
+</div>
+<h2 id="Shared-Pages"><a href="#Shared-Pages" class="headerlink" title="Shared Pages"></a>Shared Pages</h2><ul>
+<li>Paging 可以讓多個 process 共享同一份 code<blockquote>
 <p>共享的前提：shared code 必須是 reentrant（pure code）</p>
 </blockquote>
+</li>
+</ul>
 <p>重點特性：</p>
 <ul>
 <li>Read-only：執行中不修改（不然大家改同一份會互相影響）</li>
@@ -1414,58 +1111,48 @@ $$</p>
 </ul>
 <p>Memory efficiency :</p>
 <ul>
-<li>
-<p>物理記憶體只放 <strong>一份</strong> shared code</p>
+<li><p>物理記憶體只放 <strong>一份</strong> shared code</p>
 </li>
-<li>
-<p>多個 process 的不同 virtual addresses都可以 map 到<strong>同一個 physical frame</strong></p>
+<li><p>多個 process 的不同 virtual addresses都可以 map 到<strong>同一個 physical frame</strong></p>
 </li>
-<li>
-<p>每個 process 仍<strong>保有自己的 private</strong> : data、heap、stack、process-specific code</p>
+<li><p>每個 process 仍<strong>保有自己的 private</strong> : data、heap、stack、process-specific code</p>
 </li>
 </ul>
-<h2 id="Shared-Pages-via-Page-Tables">Shared Pages via Page Tables</h2>
-<blockquote>
-<p>共享的 code 必須出現在所有共享 process 的 <strong>same virtual address</strong><br>
-Why ?</p>
-</blockquote>
+<h2 id="Shared-Pages-via-Page-Tables"><a href="#Shared-Pages-via-Page-Tables" class="headerlink" title="Shared Pages via Page Tables"></a>Shared Pages via Page Tables</h2><blockquote>
+<p>共享的 code 必須出現在所有共享 process 的 <strong>same virtual address</strong><br>Why ? </p>
 <ul>
-<li>reentrant code 仍可能含 <strong>position-dependent instructions</strong>
-<ul>
+<li>reentrant code 仍可能含 <strong>position-dependent instructions</strong><ul>
 <li>例如 jump/call 用「相對位址」或某些基於位置的計算</li>
 </ul>
 </li>
-<li>如果同一份 shared code 在不同 process 被映射到不同 virtual address<br>
-→ 這些位置相關指令可能指到錯地方</li>
+<li>如果同一份 shared code 在不同 process 被映射到不同 virtual address<br>  → 這些位置相關指令可能指到錯地方</li>
 </ul>
-<h2 id="Page-Table-Structure：Scalability-Problem">Page Table Structure：Scalability Problem</h2>
-<blockquote>
+</blockquote>
+<h2 id="Page-Table-Structure：Scalability-Problem"><a href="#Page-Table-Structure：Scalability-Problem" class="headerlink" title="Page Table Structure：Scalability Problem"></a>Page Table Structure：Scalability Problem</h2><blockquote>
 <p>「單層 page table 會爆炸」</p>
 </blockquote>
-<p>Challenges :</p>
+<p>Challenges : </p>
 <ul>
 <li>page table 太大，不可能放 registers/cache</li>
 <li>放在 memory 又會影響效能</li>
 <li>sparse address space：很多 entries 根本用不到，卻佔空間</li>
 </ul>
-<p>Design goals:</p>
+<p>Design goals: </p>
 <ul>
-<li>
-<p>把大 page table 切成小單元（理想每單元 ≤ 4KB）</p>
+<li><p>把大 page table 切成小單元（理想每單元 ≤ 4KB）</p>
 </li>
-<li>
-<p>降低總 memory overhead</p>
+<li><p>降低總 memory overhead</p>
 </li>
-<li>
-<p>仍要能有效Translation</p>
+<li><p>仍要能有效Translation</p>
 </li>
 </ul>
 <p>Solutions</p>
 <ul>
-<li>Hierarchical (multi-level) paging：多層頁表（常見）</li>
+<li><strong>Hierarchical</strong> (multi-level) paging (計算)：多層頁表（常見）</li>
 <li>Hashed page tables：用 hash 減少表大小（大位址空間用）</li>
-<li>Inverted page tables：每個 physical frame 一筆（不是每個 virtual page 一筆）</li>
+<li><strong>Inverted page tables</strong>：每個 physical frame 一筆（不是每個 virtual page 一筆）</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1492,7 +1179,8 @@ Why ?</p>
 </tr>
 </tbody>
 </table>
-<h2 id="Hierarchical-Paging、Hashed-Page-Table、Inverted-Page-Table-IPT">Hierarchical Paging、Hashed Page Table、Inverted Page Table, IPT</h2>
+</div>
+<h2 id="Hierarchical-Paging、Hashed-Page-Table、Inverted-Page-Table-IPT"><a href="#Hierarchical-Paging、Hashed-Page-Table、Inverted-Page-Table-IPT" class="headerlink" title="Hierarchical Paging、Hashed Page Table、Inverted Page Table, IPT"></a>Hierarchical Paging、Hashed Page Table、Inverted Page Table, IPT</h2><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1519,164 +1207,104 @@ Why ?</p>
 </tr>
 </tbody>
 </table>
+</div>
 <blockquote>
 <p>VPN = Virtual Page Number（虛擬頁號），PFN/Frame# = Physical Frame Number（實體 frame 編號）</p>
 </blockquote>
-<h3 id="Hierarchical-paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」">Hierarchical paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」</h3>
-<ul>
+<h3 id="Hierarchical-paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」"><a href="#Hierarchical-paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」" class="headerlink" title="Hierarchical paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」"></a>Hierarchical paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」</h3><ul>
 <li>Logical address = [ p1 | p2 | d ]</li>
 <li>只有當某段虛擬位址真的被用到，才需要那張 inner table 存在</li>
-<li>Example :<br>
-<img src="/img/TwoLevelH.png" alt="alt text"></li>
+<li><strong>需要多次額外的記憶體來存取</strong>，EMAT 會非常長</li>
+<li>Example :<br>  <img src="/img/TwoLevelH.png" alt="alt text"></li>
 <li>結論：不實際。</li>
 </ul>
-<h3 id="Hashed-page-table-想用-hash-直接跳到「可能的位置」，少走好幾層。">Hashed page table : 想用 hash 直接跳到「可能的位置」，少走好幾層。</h3>
-<ul>
-<li>
-<p>核心結構：</p>
-<ul>
+<h3 id="Hashed-page-table-想用-hash-直接跳到「可能的位置」，少走好幾層。"><a href="#Hashed-page-table-想用-hash-直接跳到「可能的位置」，少走好幾層。" class="headerlink" title="Hashed page table : 想用 hash 直接跳到「可能的位置」，少走好幾層。"></a>Hashed page table : 想用 hash 直接跳到「可能的位置」，少走好幾層。</h3><ul>
+<li>核心結構：<ul>
 <li>用 VPN 做 hash：index = hash(VPN)</li>
 <li>hash_table[index] 指向一條 chain（linked list）</li>
-<li>chain 每個節點通常包含：
-<ul>
-<li>VPN（用來比對是不是你要的）</li>
+<li>chain 每個節點通常包含：<ul>
+<li>VPN(Virtual Page Number)（用來比對是不是你要的）</li>
 <li>PFN/frame（對應到哪個實體 frame）</li>
 <li>next pointer（下一個節點）</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>缺點:</p>
+<li><p>缺點: </p>
 <ul>
-<li>Collision 造成 chain 變長
-<ul>
+<li>Collision 造成 chain 變長<ul>
 <li>table 越大 → collision 越少 → chain 越短 → 越快</li>
 <li>table 越小 → collision 越多 → chain 越長 → 越慢</li>
 </ul>
 </li>
-<li>指標開銷（尤其 64-bit 指標 8 bytes）
-<ul>
+<li>指標開銷（尤其 64-bit 指標 8 bytes）<ul>
 <li>每個節點/entry 需要 pointer，記憶體會多一些。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>Translation</p>
+<li><p>Translation </p>
 <ul>
-<li>
-<p>取出 VPN（p）</p>
+<li><p>取出 VPN（p）</p>
 </li>
-<li>
-<p>算 index = hash(VPN)</p>
+<li><p>算 index = hash(VPN)</p>
 </li>
-<li>
-<p>到 hash table 的那個 bucket</p>
+<li><p>到 hash table 的那個 bucket</p>
 </li>
-<li>
-<p>沿著 chain 一個個比 VPN</p>
+<li><p>沿著 chain 一個個比 VPN</p>
 </li>
-<li>
-<p>找到 → 拿 frame number；找不到 → page fault</p>
+<li><p>找到 → 拿 frame number；找不到 → page fault</p>
 </li>
 </ul>
 </li>
 </ul>
-<h3 id="Inverted-Page-Table">Inverted Page Table</h3>
-<ul>
-<li>
-<p>IPT：整台機器 只有一張表</p>
-</li>
-<li>
-<p>每個實體 frame 一筆</p>
-<ul>
+<h3 id="Inverted-Page-Table-常考"><a href="#Inverted-Page-Table-常考" class="headerlink" title="Inverted Page Table (常考)"></a>Inverted Page Table (常考)</h3><ul>
+<li>IPT：整台機器 只有一張表</li>
+<li>每個實體 frame 一筆<ul>
 <li>一筆內容大概是：</li>
 <li><strong>PID(Process ID)</strong>：這個 frame 現在屬於哪個 process</li>
 <li><strong>VPN(Virtual Page Number)</strong>：對應到該 process 的哪個虛擬頁</li>
 <li>control bits（valid/dirty/reference/protection…）</li>
 </ul>
 </li>
-<li>
-<p>所以表大小 ≈ <strong>實體記憶體有多少 frames</strong></p>
-</li>
-<li>
-<p>Translation:</p>
+<li>所以表大小 ≈ <strong>實體記憶體有多少 frames</strong></li>
+<li>優點 : 減少記憶體所需數量去儲存page table</li>
+<li><p>缺點 :</p>
 <ul>
-<li>
-<p>CPU 給 logical address，現在會是：</p>
+<li>需要一一比對，增加大量搜索時間</li>
+<li>無法提供shared memory</li>
+</ul>
+</li>
+<li><p>Translation:</p>
 <ul>
-<li>
-<p>PID（當前 process）</p>
+<li><p>CPU 給 logical address，現在會是：</p>
+<ul>
+<li><p>PID（當前 process）</p>
 </li>
-<li>
-<p>VPN（p）</p>
+<li><p>VPN（p）</p>
 </li>
-<li>
-<p>offset（d）</p>
-</li>
-</ul>
-</li>
-<li>
-<p>目標是找到「哪個 frame i 對應到 (PID, VPN)」</p>
-</li>
-<li>
-<p>整張 IPT 從頭掃到尾找 (PID,VPN) ⇒ O(n)（n = frames 數）很慢</p>
-</li>
-<li>
-<p>會用 <strong>hash</strong>(PID, VPN) 加速（平均查找時間下降），而且還是要靠 <strong>TLB</strong> 才能實用。</p>
+<li><p>offset（d）</p>
 </li>
 </ul>
 </li>
+<li>目標是找到「哪個 frame i 對應到 (PID, VPN)」</li>
+<li>整張 IPT 從頭掃到尾找 (PID,VPN) ⇒ O(n)（n = frames 數）很慢</li>
+<li>會用 <strong>hash</strong>(PID, VPN) 加速（平均查找時間下降），而且還是要靠 <strong>TLB</strong> 才能實用。</li>
 </ul>
+</li>
+</ul>
+<p><img src="../../img/inverted_page_table.png" alt="alt text"></p>
 <p>IPT 的共享記憶體（shared pages）為什麼麻煩？</p>
 <ul>
-<li>
-<p><strong>多個 process 的不同 VPN，要映到同一個 PFN/frame</strong></p>
+<li><strong>多個 process 的不同 VPN，要映到同一個 PFN/frame</strong></li>
+<li><p>但 IPT 每個 frame 通常只放 一組 (PID, VPN)<br>  所以共享時會卡住：「這個 frame 到底要記誰的 PID/VPN？」</p>
 </li>
-<li>
-<p>但 IPT 每個 frame 通常只放 一組 (PID, VPN)<br>
-所以共享時會卡住：「這個 frame 到底要記誰的 PID/VPN？」</p>
-</li>
-<li>
-<p>IPT shared-memory 三個解法比較表</p>
-<table>
-<thead>
-<tr>
-<th>解法</th>
-<th>怎麼做</th>
-<th>優點</th>
-<th>缺點/代價</th>
-<th>你可以怎麼記</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Allow multiple entries per frame</strong></td>
-<td>一個 frame 對應多組 (PID,VPN)（像一對多清單）</td>
-<td>最直觀，能完整表示共享</td>
-<td>查找/維護更複雜；每個 frame entry 變大（更多記憶體）</td>
-<td>「frame 裡放名冊」</td>
-</tr>
-<tr>
-<td><strong>Separate data structure for shared pages</strong></td>
-<td>IPT 維持 private pages；共享頁另外有一張結構（shared table）記映射</td>
-<td>IPT 本體簡潔；共享管理集中</td>
-<td>多一套資料結構要同步維護；系統更複雜</td>
-<td>「共享另開一本簿」</td>
-</tr>
-<tr>
-<td><strong>Hybrid approach</strong></td>
-<td><strong>private pages 用 IPT</strong>；<strong>shared pages 用傳統 page table</strong></td>
-<td>實務上常用的折衷：省很多又能處理共享</td>
-<td>兩套機制並存，設計更複雜</td>
-<td>「私用走 IPT，共享走傳統」</td>
-</tr>
-</tbody>
-</table>
+<li><p>IPT shared-memory 三個解法比較表</p>
+<p>  | 解法                                              | 怎麼做                                                     | 優點                 | 缺點/代價                             | 你可以怎麼記          |<br>  | ———————————————————————- | ———————————————————————————- | ————————— | ————————————————- | ———————- |<br>  |  <strong>Allow multiple entries per frame</strong>         | 一個 frame 對應多組 (PID,VPN)（像一對多清單）                         | 最直觀，能完整表示共享        | 查找/維護更複雜；每個 frame entry 變大（更多記憶體） | 「frame 裡放名冊」    |<br>  |  <strong>Separate data structure for shared pages</strong> | IPT 維持 private pages；共享頁另外有一張結構（shared table）記映射        | IPT 本體簡潔；共享管理集中    | 多一套資料結構要同步維護；系統更複雜                | 「共享另開一本簿」       |<br>  |  <strong>Hybrid approach</strong>                          | <strong>private pages 用 IPT</strong>；<strong>shared pages 用傳統 page table</strong> | 實務上常用的折衷：省很多又能處理共享 | 兩套機制並存，設計更複雜                      | 「私用走 IPT，共享走傳統」 |</p>
 </li>
 </ul>
 <p>總比較:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1719,27 +1347,22 @@ Why ?</p>
 </tr>
 </tbody>
 </table>
+</div>
 <hr>
-<h1>Segmentation</h1>
-<p>Segmentation = 讓記憶體看起來像「程式設計師理解的模組」</p>
+<h1 id="Segmentation"><a href="#Segmentation" class="headerlink" title="Segmentation"></a>Segmentation</h1><p>Segmentation = 讓記憶體看起來像「程式設計師理解的模組」</p>
 <blockquote>
-<p>跟 Paging 最大差別：<br>
-Paging 把記憶體切成固定大小 page/frame（對程式員「看不見」）<br>
-Segmentation 直接用程式的邏輯結構來切（對程式員「看得懂」）</p>
+<p>跟 Paging 最大差別：<br>Paging 把記憶體切成固定大小 page/frame（對程式員「看不見」）(Physical viewpoint)<br>Segmentation 直接用程式的邏輯結構來切（對程式員「看得懂」）(Logical viewpoint)</p>
 </blockquote>
 <p>重要特性 :</p>
 <ul>
 <li>每個 segment <strong>有名稱或編號</strong>（segment number）</li>
 <li>segment 大小是<strong>可變的</strong>（variable size）</li>
 <li>每個 segment 都是<strong>語意上有意義的單位</strong></li>
-<li>不同 segment 可有<strong>不同權限</strong>（例如 code：可執行但唯讀；data：可讀寫）</li>
-</ul>
-<p>Segmentation 的 Logical Address</p>
-<ul>
-<li>Logical Address = &lt;segment number,offset&gt;
-<blockquote>
-<p>s (segment number)：你要存取哪一段（第幾段）<br>
-d (offset)：在該段裡面第幾個 byte</p>
+<li>不同 segment 可有<strong>不同權限</strong>（例如 code：可執行但唯讀；data：可讀寫） </li>
+<li>段與段之間可以是<strong>不連續性的配置</strong></li>
+<li>但是就單一個段而言，必須採用連續性配置<br>Segmentation 的 Logical Address</li>
+<li>Logical Address = <segment number,offset> <blockquote>
+<p>s (segment number)：你要存取哪一段（第幾段）<br>d (offset)：在該段裡面第幾個 byte</p>
 </blockquote>
 </li>
 </ul>
@@ -1747,7 +1370,7 @@ d (offset)：在該段裡面第幾個 byte</p>
 <blockquote>
 <p>注意：每個 segment 自己本身通常需要一塊連續的實體空間（因為它是 base+offset 這種算法）。</p>
 </blockquote>
-<h2 id="Segmentation-Table（分段表）">Segmentation Table（分段表）</h2>
+<h2 id="Segmentation-Table（分段表）"><a href="#Segmentation-Table（分段表）" class="headerlink" title="Segmentation Table（分段表）"></a>Segmentation Table（分段表）</h2><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1769,14 +1392,16 @@ d (offset)：在該段裡面第幾個 byte</p>
 </tr>
 </tbody>
 </table>
-<h2 id="硬體暫存器：STBR-STLR">硬體暫存器：STBR / STLR</h2>
-<blockquote>
+</div>
+<p><img src="../../img/Segment.png" alt="alt text"></p>
+<h2 id="硬體暫存器：STBR-STLR"><a href="#硬體暫存器：STBR-STLR" class="headerlink" title="硬體暫存器：STBR / STLR"></a>硬體暫存器：STBR / STLR</h2><blockquote>
 <p>每個 process 都有自己的 segment table」，所以硬體要知道</p>
 <ul>
 <li>這張表在哪？</li>
 <li>這張表多長？（有幾個 segments）</li>
 </ul>
 </blockquote>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1801,76 +1426,120 @@ d (offset)：在該段裡面第幾個 byte</p>
 </tr>
 </tbody>
 </table>
+</div>
 <blockquote>
-<p>STLR 的用意：避免你用不存在的 segment number<br>
-若 s ≥ STLR → 直接 trap（非法段）</p>
+<p>STLR 的用意：避免你用不存在的 segment number<br>若 s ≥ STLR → 直接 trap（非法段）</p>
 </blockquote>
-<h2 id="Translation">Translation</h2>
-<p>給定 logical address ⟨𝑠,𝑑⟩</p>
+<h2 id="Translation"><a href="#Translation" class="headerlink" title="Translation"></a>Translation</h2><p>給定 logical address ⟨𝑠,𝑑⟩</p>
 <ol>
-<li>
-<p>Step 1：段號合法嗎？</p>
+<li><p>Step 1：段號合法嗎？</p>
 <ul>
 <li>如果 s ≥ STLR → TRAP（segment fault）</li>
 </ul>
 </li>
-<li>
-<p>Step 2：去 segment table 拿 entry</p>
+<li><p>Step 2：去 segment table 拿 entry</p>
 <ul>
 <li>entry_address = STBR + s × entry_size</li>
 <li>讀出 base 與 limit</li>
 </ul>
 </li>
-<li>
-<p>Step 3：offset 合法嗎？</p>
+<li><p>Step 3：offset 合法嗎？</p>
 <ul>
 <li>如果 d ≥ limit → TRAP（越界）</li>
 </ul>
 </li>
-<li>
-<p>Step 4：算 physical address</p>
+<li><p>Step 4：算 physical address</p>
 <ul>
 <li>PA=base+d</li>
 </ul>
 </li>
-<li>
-<p>Step 5：去記憶體存取資料</p>
+<li><p>Step 5：去記憶體存取資料</p>
 <ul>
 <li>Memory access cost（為什麼這頁提成本）</li>
 </ul>
 </li>
 </ol>
 <ul>
-<li>
-<p>如果沒快取（像 TLB）：</p>
+<li><p>如果沒快取（像 TLB）：</p>
 <ul>
-<li>
-<p>第 1 次 memory access：讀 segment table entry（base/limit）</p>
+<li><p>第 1 次 memory access：讀 segment table entry（base/limit）</p>
 </li>
-<li>
-<p>第 2 次 memory access：讀真正資料<br>
-→ 所以是 2 次 memory access / 每次位址轉換</p>
+<li><p>第 2 次 memory access：讀真正資料<br>  → 所以是 2 次 memory access / 每次位址轉換</p>
 </li>
 </ul>
 </li>
 </ul>
-<h2 id="MMU-會做三件事">MMU 會做三件事</h2>
-<ul>
-<li>
-<p>做 address translation（logical → physical）</p>
+<h2 id="MMU-會做三件事"><a href="#MMU-會做三件事" class="headerlink" title="MMU 會做三件事"></a>MMU 會做三件事</h2><ul>
+<li><p>做 address translation（logical → physical）</p>
 </li>
-<li>
-<p>做 bounds checking（用 limit 檢查 d）</p>
+<li><p>做 bounds checking（用 limit 檢查 d）</p>
 </li>
-<li>
-<p>違規就產生 trap（保護）</p>
+<li><p>違規就產生 trap（保護）</p>
 </li>
 </ul>
 <blockquote>
 <p>Segmentation =（STBR 找表）→（s 找 entry）→（limit 檢查 d）→（base + d）</p>
 </blockquote>
-<h2 id="Segmentation-vs-Paging">Segmentation vs Paging</h2>
+<h2 id="Segmentation-vs-Paging"><a href="#Segmentation-vs-Paging" class="headerlink" title="Segmentation vs Paging"></a>Segmentation vs Paging</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Paging</th>
+<th>Segmentation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>大小</strong></td>
+<td>各 Page Size 大小相同</td>
+<td>各 Segment 大小不一定相同</td>
+</tr>
+<tr>
+<td><strong>觀點</strong></td>
+<td>Physical (Hardware) Viewpoint</td>
+<td>Logical (User) Viewpoint</td>
+</tr>
+<tr>
+<td><strong>外部碎裂 External Fragmentation</strong></td>
+<td>沒有</td>
+<td>有</td>
+</tr>
+<tr>
+<td><strong>內部碎裂 Internal Fragmentation</strong></td>
+<td>有</td>
+<td>沒有</td>
+</tr>
+<tr>
+<td><strong>Memory Sharing &amp; Protection</strong></td>
+<td>YES，但比較困難實施</td>
+<td>YES，容易實施</td>
+</tr>
+<tr>
+<td><strong>EMAT</strong></td>
+<td>比較短</td>
+<td>比較長（因為需要檢查 <code>d &lt; limit</code>）</td>
+</tr>
+<tr>
+<td><strong>Need Hardware Support</strong></td>
+<td>YES（Page Table、MMU）</td>
+<td>YES（Segment Table、MMU）</td>
+</tr>
+<tr>
+<td><strong>Table 內容</strong></td>
+<td>Page Table 記錄 <code>frame no.</code></td>
+<td>Segment Table 記錄 <code>base</code> 和 <code>limit</code></td>
+</tr>
+<tr>
+<td><strong>Logical Address</strong></td>
+<td>一個位址，由硬體自動拆成 <code>(p, d)</code></td>
+<td>兩個量 <code>(s, d)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>Logical address 格式比較</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1892,7 +1561,9 @@ d (offset)：在該段裡面第幾個 byte</p>
 </tr>
 </tbody>
 </table>
+</div>
 <p>Table entry 結構比較</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1919,27 +1590,22 @@ d (offset)：在該段裡面第幾個 byte</p>
 </tr>
 </tbody>
 </table>
-<h2 id="Sharing-of-Segments">Sharing of Segments</h2>
-<blockquote>
-<p>共享 = 兩個 process 的 segment table entry 指向同一個 physical base<br>
-Segmentation 很自然支援共享：把「同一段」映射到「同一塊實體記憶體」</p>
+</div>
+<h2 id="Sharing-of-Segments"><a href="#Sharing-of-Segments" class="headerlink" title="Sharing of Segments"></a>Sharing of Segments</h2><blockquote>
+<p>共享 = 兩個 process 的 segment table entry 指向同一個 physical base<br>Segmentation 很自然支援共享：把「同一段」映射到「同一塊實體記憶體」</p>
 </blockquote>
-<h2 id="Protection-and-Sharing-in-Segmentation">Protection and Sharing in Segmentation</h2>
-<blockquote>
-<p>分段的每個 segment entry 不只有 base/limit，還有 <strong>protection bits</strong>；<br>
-共享就是「不同 process 的 segment table 指到同一塊實體記憶體（同一個 base）」。</p>
+<h2 id="Protection-and-Sharing-in-Segmentation"><a href="#Protection-and-Sharing-in-Segmentation" class="headerlink" title="Protection and Sharing in Segmentation"></a>Protection and Sharing in Segmentation</h2><blockquote>
+<p>分段的每個 segment entry 不只有 base/limit，還有 <strong>protection bits</strong>；<br>共享就是「不同 process 的 segment table 指到同一塊實體記憶體（同一個 base）」。</p>
 </blockquote>
 <ul>
-<li>
-<p>Segment Entry: [ Base | Limit | Protection Bits ] ← R/RW/RX/RWX</p>
+<li><p>Segment Entry: [ Base | Limit | Protection Bits ] ← R/RW/RX/RWX</p>
 <ul>
 <li>Base：這個 segment 在記憶體中的起始位址（實務上可理解為線性/實體某個起點，取決於你的架構）</li>
 <li>Limit：segment 的長度（或最大合法 offset）</li>
 <li>Protection Bits：權限控制</li>
 </ul>
 </li>
-<li>
-<p>Code sharing occurs at <strong>segment level</strong></p>
+<li><p>Code sharing occurs at <strong>segment level</strong></p>
 <ul>
 <li>整包 code 一段（text segment）</li>
 <li>整包 data 一段（data segment）</li>
@@ -1947,25 +1613,23 @@ Segmentation 很自然支援共享：把「同一段」映射到「同一塊實�
 <li>shared lib 一段</li>
 </ul>
 </li>
-<li>
-<p>Key Principle：每次存取都檢查保護；共享靠共同映射</p>
-</li>
+<li>Key Principle：每次存取都檢查保護；共享靠共同映射</li>
 </ul>
 <hr>
-<h1>Segmentation with Paging</h1>
-<ul>
-<li>Apply segmentation in logical address space
-<ul>
+<h1 id="Segmentation-with-Paging"><a href="#Segmentation-with-Paging" class="headerlink" title="Segmentation with Paging"></a>Segmentation with Paging</h1><ul>
+<li>Paged Segment</li>
+<li>段再分頁</li>
+<li>Apply segmentation in logical address space<ul>
 <li>程式員/OS 想像中的記憶體（Logical / Virtual view）→ 用 Segmentation</li>
 </ul>
 </li>
-<li>Apply paging in physical address space
-<ul>
+<li>Apply paging in physical address space<ul>
 <li>真正硬體的 RAM（Physical memory）→ 用 Paging</li>
 </ul>
 </li>
 </ul>
 <p>Address Translation（logical → linear → physical）</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1984,7 +1648,7 @@ Segmentation 很自然支援共享：把「同一段」映射到「同一塊實�
 </tr>
 <tr>
 <td><strong>Linear address</strong>（線性位址）</td>
-<td>「把 segment 翻譯完後的結果」：一條 0…max 的連續位址</td>
+<td>「把 segment 翻譯完後的結果」：一條 0..max 的連續位址</td>
 <td>segmentation unit 輸出</td>
 <td>交給 <strong>paging unit</strong></td>
 </tr>
@@ -1996,7 +1660,148 @@ Segmentation 很自然支援共享：把「同一段」映射到「同一塊實�
 </tr>
 </tbody>
 </table>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/6575bc75.html">https://yowdesert.github.io/posts/6575bc75.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/862ca019.html" title="Diffie–Hellman (DH) Key Exchange (金鑰交換)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Diffie–Hellman (DH) Key Exchange (金鑰交換)</div></div><div class="info-2"><div class="info-item-1"> Diffie–Hellman 是一個金鑰交換的演算法   DH 在解決什麼問題？  在不安全通道上，Alice 與 Bob 協議出共同秘密金鑰 $K$，用於對稱加密（如 AES）。  公開參數  質數 $p$ 生成元 $g$ 所有運算皆在 $\bmod p$ 下進行。  協議流程 Alice 選私鑰 $a$，公開 $A=g^a \bmod p$。 Bob 選私鑰 $b$，公開 $B=g^b \bmod p$。 共享秘密：  Alice：$K=B^a \bmod p$ Bob：$K=A^b \bmod p$ 正確性：$(g^b)^a \equiv (g^a)^b \equiv g^{ab}\pmod p$。   注意 : 不是 $(g^a) \times cross (g^b) = g^{a+b}$  手算例 選 $p=23, g=5$。 Alice：$a=6 \Rightarrow A=5^6 \bmod 23=8$。 Bob：$b=15 \Rightarrow B=5^{15} \bmod 23=19$。 共享：  $K=19^6 \bmod 23=2$ $K=8^{15} ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-20</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a><a class="pagination-related" href="/posts/978b4c60.html" title="OS-CH3"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-CH3</div></div><div class="info-2"><div class="info-item-1">System call 為User Process 與 Kernel 的溝通介面 System call 經常利用 Trap(Software Interrupt) 進入 Kernel System call 通常被 CPU 視為software interrupt  User -&gt; Trap -&gt; Kernel mode -&gt; OS Service -&gt; Return User  現代系統會透過**Application Programming Interface(API)**來呼叫System Call 好處 :  program portability 更方便使用  Run Time Environment (RTE)  程式執行時需要的環境 (Compiler Libraries Loader…) 提供 System call Interface   Program -&gt; API -&gt; RTE -&gt; System call ID -&gt; Kernel -&gt; OS Service -&gt; Return  Flow  U...</div></div></div></a><a class="pagination-related" href="/posts/841a1f01.html" title="OS-CH1-3 題目注意"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-05</div><div class="info-item-2">OS-CH1-3 題目注意</div></div><div class="info-2"><div class="info-item-1">第一章 到 第三章 題目提醒 Bootstrap program 存在 ROM 中  ROM : 唯讀記憶體 : 資料寫入後就不能隨便更改，關機後資料也不會消失。   Flash memory is another form of electronic disk.  不是所有系統都同時有 CLI and GUI  MultiProcessor 優點  產能上升 Economy of scale 增加Reliability 不保證提高 CPU utilization   Major Version of UNIX 支持 Soft Real Time System  Hard Real Time 依賴 RAM、ROM，避免使用Secondary Storage(Disk、Paging、Virtual Memory)  Industrial control 使用 Hard-real-Time  masked interrupt , 如果有正在處理的仍然會先通知 CPU , 但不會先處理  DMA 不適用 character Devices(Keyboard、Mouse)，一次只有幾 B...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">前導</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#BackGround"><span class="toc-number">2.1.</span> <span class="toc-text">BackGround</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Management-Issues"><span class="toc-number">2.2.</span> <span class="toc-text">Memory Management Issues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multistep-Processing"><span class="toc-number">2.3.</span> <span class="toc-text">Multistep Processing</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">基本觀念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">Address Binding</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Compile-Time%EF%BC%88%E7%B7%A8%E8%AD%AF%E6%9C%9F%E7%B6%81%E5%AE%9A%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">Compile Time（編譯期綁定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Load-Time%EF%BC%88%E8%BC%89%E5%85%A5%E6%9C%9F%E7%B6%81%E5%AE%9A%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">Load Time（載入期綁定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Execution-Time%EF%BC%88%E5%9F%B7%E8%A1%8C%E6%9C%9F%E7%B6%81%E5%AE%9A%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">Execution Time（執行期綁定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Management-Unit-MMU"><span class="toc-number">4.4.</span> <span class="toc-text">Memory-Management Unit(MMU)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logical-v-s-Physical-Address"><span class="toc-number">4.5.</span> <span class="toc-text">Logical v.s. Physical Address</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">Load Program  into Memory → static&#x2F;dynamic loading &amp; linking</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dynamic-Loading"><span class="toc-number">5.1.</span> <span class="toc-text">Dynamic Loading</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-Linking"><span class="toc-number">5.2.</span> <span class="toc-text">Static Linking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dynamic-Linking"><span class="toc-number">5.3.</span> <span class="toc-text">Dynamic Linking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-Dynamic-Loading-Linking%EF%BC%9AFour-Combinations"><span class="toc-number">5.4.</span> <span class="toc-text">Static &#x2F; Dynamic Loading &amp; Linking：Four Combinations</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Swapping</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9"><span class="toc-number">6.1.</span> <span class="toc-text">定義 :</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Swap-back-Memory-Address-Requirements"><span class="toc-number">6.2.</span> <span class="toc-text">Swap-back Memory Address Requirements</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Swapping-I-O-Problem"><span class="toc-number">6.3.</span> <span class="toc-text">Swapping: I&#x2F;O Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-to-I-O-Swapping-Conflict"><span class="toc-number">6.4.</span> <span class="toc-text">Solution to I&#x2F;O-Swapping Conflict:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-1-Never-swap-processes-with-pending-I-O"><span class="toc-number">6.4.1.</span> <span class="toc-text">Solution 1 : Never swap processes with pending I&#x2F;O</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-2-Use-OS-managed-I-O-buffers%EF%BC%88kernel-buffer%EF%BC%89"><span class="toc-number">6.4.2.</span> <span class="toc-text">Solution 2 : Use OS-managed I&#x2F;O buffers（kernel buffer）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-Swapping-to-Backing-Store"><span class="toc-number">6.5.</span> <span class="toc-text">Process Swapping to Backing Store</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">Memory Allocation Schemes (連續記憶體配置)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fixed-Partition-Allocation"><span class="toc-number">7.1.</span> <span class="toc-text">Fixed-Partition Allocation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variable-Partition-Allocation"><span class="toc-number">7.2.</span> <span class="toc-text">Variable-Partition Allocation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiple-Partition-Variable-Size-Method%EF%BC%88%E5%8F%AF%E8%AE%8A%E5%88%86%E5%89%B2%E5%88%B0%E5%BA%95%E6%80%8E%E9%BA%BC%E9%81%8B%E4%BD%9C%EF%BC%89"><span class="toc-number">7.3.</span> <span class="toc-text">Multiple Partition (Variable-Size) Method（可變分割到底怎麼運作）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dynamic-Storage-Allocation-Problem"><span class="toc-number">7.4.</span> <span class="toc-text">Dynamic Storage Allocation Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Fragmentation"><span class="toc-number">7.5.</span> <span class="toc-text">Memory Fragmentation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#External-Fragmentation%EF%BC%88%E5%A4%96%E9%83%A8%E7%A2%8E%E8%A3%82%EF%BC%89"><span class="toc-number">7.5.1.</span> <span class="toc-text">External Fragmentation（外部碎裂）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Internal-Fragmentation%EF%BC%88%E5%85%A7%E9%83%A8%E7%A2%8E%E8%A3%82%EF%BC%89"><span class="toc-number">7.5.2.</span> <span class="toc-text">Internal Fragmentation（內部碎裂）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-Memory-Compaction"><span class="toc-number">7.5.3.</span> <span class="toc-text">Solution : Memory Compaction</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">Non-Contiguous Memory Allocation - Paging</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Paging-Concept"><span class="toc-number">8.1.</span> <span class="toc-text">Paging Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paging-%E7%9A%84-4-%E5%A4%A7%E5%A5%BD%E8%99%95"><span class="toc-number">8.2.</span> <span class="toc-text">Paging 的 4 大好處</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Page-table-fundamentals"><span class="toc-number">8.3.</span> <span class="toc-text">Page table fundamentals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address-Translation-Scheme"><span class="toc-number">8.4.</span> <span class="toc-text">Address Translation Scheme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address-Translation"><span class="toc-number">8.5.</span> <span class="toc-text">Address Translation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Page-Frame-Size-Considerations"><span class="toc-number">8.6.</span> <span class="toc-text">Page&#x2F;Frame Size Considerations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paging-Summary"><span class="toc-number">8.7.</span> <span class="toc-text">Paging Summary</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">Implementation of Page Table</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Associative-Memory-CAM"><span class="toc-number">9.1.</span> <span class="toc-text">Associative Memory &#x2F; CAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Translation-Lookaside-Buffer-TLB"><span class="toc-number">9.2.</span> <span class="toc-text">Translation Lookaside Buffer (TLB)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EMAT%EF%BC%88Effective-Memory-Access-Time%EF%BC%89"><span class="toc-number">9.3.</span> <span class="toc-text">EMAT（Effective Memory-Access Time）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Protection%EF%BC%88Page-table-entry-%E8%A3%A1%E7%9A%84%E4%BF%9D%E8%AD%B7%E4%BD%8D%EF%BC%89"><span class="toc-number">9.4.</span> <span class="toc-text">Memory Protection（Page table entry 裡的保護位）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-Pages"><span class="toc-number">9.5.</span> <span class="toc-text">Shared Pages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-Pages-via-Page-Tables"><span class="toc-number">9.6.</span> <span class="toc-text">Shared Pages via Page Tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Page-Table-Structure%EF%BC%9AScalability-Problem"><span class="toc-number">9.7.</span> <span class="toc-text">Page Table Structure：Scalability Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hierarchical-Paging%E3%80%81Hashed-Page-Table%E3%80%81Inverted-Page-Table-IPT"><span class="toc-number">9.8.</span> <span class="toc-text">Hierarchical Paging、Hashed Page Table、Inverted Page Table, IPT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hierarchical-paging%E7%9A%84%E7%9B%AE%E6%A8%99%EF%BC%9A%E3%80%8C%E9%A0%81%E8%A1%A8%E4%B8%8D%E8%A6%81%E4%B8%80%E6%AC%A1%E6%95%B4%E5%BC%B5%E9%83%BD%E9%85%8D%E7%BD%AE%EF%BC%8C%E7%94%A8%E5%88%B0%E5%93%AA%E4%B8%80%E6%AE%B5%E6%89%8D%E9%96%8B%E5%93%AA%E4%B8%80%E6%AE%B5%E3%80%82%E3%80%8D"><span class="toc-number">9.8.1.</span> <span class="toc-text">Hierarchical paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hashed-page-table-%E6%83%B3%E7%94%A8-hash-%E7%9B%B4%E6%8E%A5%E8%B7%B3%E5%88%B0%E3%80%8C%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BD%8D%E7%BD%AE%E3%80%8D%EF%BC%8C%E5%B0%91%E8%B5%B0%E5%A5%BD%E5%B9%BE%E5%B1%A4%E3%80%82"><span class="toc-number">9.8.2.</span> <span class="toc-text">Hashed page table : 想用 hash 直接跳到「可能的位置」，少走好幾層。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inverted-Page-Table"><span class="toc-number">9.8.3.</span> <span class="toc-text">Inverted Page Table</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">Segmentation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Segmentation-Table%EF%BC%88%E5%88%86%E6%AE%B5%E8%A1%A8%EF%BC%89"><span class="toc-number">10.1.</span> <span class="toc-text">Segmentation Table（分段表）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E9%AB%94%E6%9A%AB%E5%AD%98%E5%99%A8%EF%BC%9ASTBR-STLR"><span class="toc-number">10.2.</span> <span class="toc-text">硬體暫存器：STBR &#x2F; STLR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Translation"><span class="toc-number">10.3.</span> <span class="toc-text">Translation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MMU-%E6%9C%83%E5%81%9A%E4%B8%89%E4%BB%B6%E4%BA%8B"><span class="toc-number">10.4.</span> <span class="toc-text">MMU 會做三件事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Segmentation-vs-Paging"><span class="toc-number">10.5.</span> <span class="toc-text">Segmentation vs Paging</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharing-of-Segments"><span class="toc-number">10.6.</span> <span class="toc-text">Sharing of Segments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protection-and-Sharing-in-Segmentation"><span class="toc-number">10.7.</span> <span class="toc-text">Protection and Sharing in Segmentation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">Segmentation with Paging</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/513a4877.html" title="資料結構 - Search and Sort">資料結構 - Search and Sort</a><time datetime="2026-08-28T02:18:00.000Z" title="發表於 2026-08-28 10:18:00">2026-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/917205a6.html" title="OS-CH5-補充加強觀念">OS-CH5-補充加強觀念</a><time datetime="2026-08-25T06:49:00.000Z" title="發表於 2026-08-25 14:49:00">2026-08-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/f184578f.html" title="資料結構 - 所有 Tree 整理">資料結構 - 所有 Tree 整理</a><time datetime="2026-08-22T03:30:00.000Z" title="發表於 2026-08-22 11:30:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3e53adeb.html" title="資料結構 - 高等樹-題目注意">資料結構 - 高等樹-題目注意</a><time datetime="2026-08-21T08:12:00.000Z" title="發表於 2026-08-21 16:12:00">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/514e5281.html" title="資料結構 - Search and Sort - 題目注意">資料結構 - Search and Sort - 題目注意</a><time datetime="2026-08-21T08:12:00.000Z" title="發表於 2026-08-21 16:12:00">2026-08-21</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+</div>
+<h1 id="Segmentation-with-Paging（Paged-Segmentation-段再分頁）-現Removed"><a href="#Segmentation-with-Paging（Paged-Segmentation-段再分頁）-現Removed" class="headerlink" title="Segmentation with Paging（Paged Segmentation / 段再分頁）(現Removed)"></a>Segmentation with Paging（Paged Segmentation / 段再分頁）(現Removed)</h1><h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p><strong>Paged Segmentation = 先 Segmentation，再對每個 Segment 做 Paging</strong></p>
+<ul>
+<li><p>Logical / Virtual View → 使用 <strong>Segmentation</strong></p>
+<ul>
+<li>將程式依邏輯分成 Code、Data、Stack 等 Segment</li>
+<li>各 Segment 大小可以不同</li>
+<li>方便 <strong>Memory Sharing / Protection</strong></li>
+</ul>
+</li>
+<li><p>Physical Memory → 使用固定大小的 <strong>Frame</strong></p>
+<ul>
+<li>每個 Segment 再切成固定大小的 Page</li>
+<li>Page 可以放到任意 Frame</li>
+<li>因此避免 <strong>External Fragmentation</strong></li>
+</ul>
+</li>
+</ul>
+<p>簡單理解：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Process</span><br><span class="line">│</span><br><span class="line">├─ Segment 0</span><br><span class="line">│   ├─ Page 0</span><br><span class="line">│   ├─ Page 1</span><br><span class="line">│   └─ Page 2</span><br><span class="line">│</span><br><span class="line">├─ Segment 1</span><br><span class="line">│   ├─ Page 0</span><br><span class="line">│   └─ Page 1</span><br><span class="line">│</span><br><span class="line">└─ Segment 2</span><br><span class="line">    ├─ Page 0</span><br><span class="line">    └─ Page 1</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Logical-Address"><a href="#Logical-Address" class="headerlink" title="Logical Address"></a>Logical Address</h2><p>原本 Segmentation：</p>
+<p>$<br>(s,d)<br>$</p>
+<ul>
+<li><code>s</code>：Segment number</li>
+<li><code>d</code>：Segment 內的 offset</li>
+</ul>
+<p>因為每個 Segment 又做 Paging，因此 <code>d</code> 可以再拆成：</p>
+<p>$<br>d \rightarrow (p,d’)<br>$</p>
+<p>所以 Logical Address 也可以看成：</p>
+<p>$<br>\boxed{(s,p,d’)}<br>$</p>
+<ul>
+<li><code>s</code>：哪個 Segment</li>
+<li><code>p</code>：該 Segment 的 Page number</li>
+<li><code>d&#39;</code>：Page offset</li>
+</ul>
+<hr>
+<h2 id="Address-Translation-1"><a href="#Address-Translation-1" class="headerlink" title="Address Translation"></a>Address Translation</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Logical Address</span><br><span class="line">     (s,d)</span><br><span class="line">       │</span><br><span class="line">       ▼</span><br><span class="line"> Segment Table</span><br><span class="line">       │</span><br><span class="line">       ├─ limit</span><br><span class="line">       │    ↓</span><br><span class="line">       │  檢查 d &lt; limit</span><br><span class="line">       │</span><br><span class="line">       └─ Page Table 位址</span><br><span class="line">                │</span><br><span class="line">        d 拆成 (p,d&#x27;)</span><br><span class="line">                │</span><br><span class="line">                ▼</span><br><span class="line">           Page Table</span><br><span class="line">                │</span><br><span class="line">           p → Frame f</span><br><span class="line">                │</span><br><span class="line">                ▼</span><br><span class="line">      Physical Address</span><br><span class="line">            (f,d&#x27;)</span><br></pre></td></tr></table></figure>
+<h3 id="Step-1：CPU-產生-Logical-Address"><a href="#Step-1：CPU-產生-Logical-Address" class="headerlink" title="Step 1：CPU 產生 Logical Address"></a>Step 1：CPU 產生 Logical Address</h3><p>$<br>(s,d)<br>$</p>
+<h3 id="Step-2：用-s-查-Segment-Table"><a href="#Step-2：用-s-查-Segment-Table" class="headerlink" title="Step 2：用 s 查 Segment Table"></a>Step 2：用 <code>s</code> 查 Segment Table</h3><p>Segment Table 每個 entry 記錄：</p>
+<ul>
+<li><code>limit</code></li>
+<li>該 Segment 的 <strong>Page Table 位址</strong></li>
+</ul>
+<blockquote>
+<p>注意：與單純 Segmentation 不同，這裡不是記 <code>base</code>。</p>
+</blockquote>
+<h3 id="Step-3：檢查-Segment-是否越界"><a href="#Step-3：檢查-Segment-是否越界" class="headerlink" title="Step 3：檢查 Segment 是否越界"></a>Step 3：檢查 Segment 是否越界</h3><p>$<br>d &lt; limit<br>$</p>
+<ul>
+<li>YES → 繼續</li>
+<li>NO → <strong>Trap</strong></li>
+</ul>
+<h3 id="Step-4：將-d-拆成-Page-Number-與-Page-Offset"><a href="#Step-4：將-d-拆成-Page-Number-與-Page-Offset" class="headerlink" title="Step 4：將 d 拆成 Page Number 與 Page Offset"></a>Step 4：將 <code>d</code> 拆成 Page Number 與 Page Offset</h3><p>$<br>p=\left\lfloor\frac{d}{PageSize}\right\rfloor<br>$</p>
+<p>$<br>d’=d\bmod PageSize<br>$</p>
+<p>因此：</p>
+<p>$<br>d\rightarrow(p,d’)<br>$</p>
+<h3 id="Step-5：用-p-查該-Segment-的-Page-Table"><a href="#Step-5：用-p-查該-Segment-的-Page-Table" class="headerlink" title="Step 5：用 p 查該 Segment 的 Page Table"></a>Step 5：用 <code>p</code> 查該 Segment 的 Page Table</h3><p>Page Table 記錄：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Page no. → Frame no.</span><br></pre></td></tr></table></figure>
+<p>查到：</p>
+<p>$<br>p\rightarrow f<br>$</p>
+<h3 id="Step-6：形成-Physical-Address"><a href="#Step-6：形成-Physical-Address" class="headerlink" title="Step 6：形成 Physical Address"></a>Step 6：形成 Physical Address</h3><p>$<br>\boxed{(f,d’)}<br>$</p>
+<hr>
+<h2 id="Table-內容整理"><a href="#Table-內容整理" class="headerlink" title="Table 內容整理"></a>Table 內容整理</h2><h3 id="Segment-Table"><a href="#Segment-Table" class="headerlink" title="Segment Table"></a>Segment Table</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>內容</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>limit</code></td>
+<td>檢查 Segment 是否越界</td>
+</tr>
+<tr>
+<td>Page Table 位址</td>
+<td>找到該 Segment 對應的 Page Table</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Page-Table"><a href="#Page-Table" class="headerlink" title="Page Table"></a>Page Table</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>內容</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Page no.</td>
+<td>Segment 裡的 Page</td>
+</tr>
+<tr>
+<td>Frame no.</td>
+<td>該 Page 實際放在哪個 Physical Frame</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="優點"><a href="#優點" class="headerlink" title="優點"></a>優點</h2><ol>
+<li><p><strong>沒有 External Fragmentation</strong></p>
+<ul>
+<li>Physical Memory 使用固定大小 Frame</li>
+</ul>
+</li>
+<li><p>保留 Segmentation 的優點</p>
+<ul>
+<li>容易做 Memory Sharing</li>
+<li>容易做 Protection</li>
+<li>符合使用者的 Logical View</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="缺點"><a href="#缺點" class="headerlink" title="缺點"></a>缺點</h2><ol>
+<li><p>Table 數目較多</p>
+<ul>
+<li>Segment Table</li>
+<li>各 Segment 的 Page Table</li>
+</ul>
+</li>
+<li><p>EMAT 較長</p>
+<ul>
+<li>要先查 Segment Table</li>
+<li>再查 Page Table</li>
+<li>還要檢查 <code>d &lt; limit</code></li>
+</ul>
+</li>
+<li><p>需要額外 Hardware Support</p>
+</li>
+<li><p>仍有 <strong>Internal Fragmentation</strong></p>
+<ul>
+<li>Segment 最後一個 Page 可能沒有填滿</li>
+</ul>
+</li>
+</ol>
+<p><img src="../../img/SegmentPage.png" alt="alt text"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/6575bc75.html">https://yowdesert.github.io/posts/6575bc75.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/862ca019.html" title="Diffie–Hellman (DH) Key Exchange (金鑰交換)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Diffie–Hellman (DH) Key Exchange (金鑰交換)</div></div><div class="info-2"><div class="info-item-1"> Diffie–Hellman 是一個金鑰交換的演算法   DH 在解決什麼問題？  在不安全通道上，Alice 與 Bob 協議出共同秘密金鑰 $K$，用於對稱加密（如 AES）。  公開參數  質數 $p$ 生成元 $g$ 所有運算皆在 $\bmod p$ 下進行。  協議流程 Alice 選私鑰 $a$，公開 $A=g^a \bmod p$。 Bob 選私鑰 $b$，公開 $B=g^b \bmod p$。 共享秘密：  Alice：$K=B^a \bmod p$ Bob：$K=A^b \bmod p$ 正確性：$(g^b)^a \equiv (g^a)^b \equiv g^{ab}\pmod p$。   注意 : 不是 $(g^a) \times cross (g^b) = g^{a+b}$  手算例 選 $p=23, g=5$。 Alice：$a=6 \Rightarrow A=5^6 \bmod 23=8$。 Bob：$b=15 \Rightarrow B=5^{15} \bmod 23=19$。 共享：  $K=19^6 \bmod 23=2$ $K=8^{15} ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/90aa57da.html" title="(作業系統) Process and Concurrency - Synchronization Concepts"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-14</div><div class="info-item-2">(作業系統) Process and Concurrency - Synchronization Concepts</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to shared data may result in data inconsistency Outcome depends on the order of execution(race condition)    The Solution :  Ensure orderly execution Synchronization : 協調資源的分享與存取 保證 Data Integrity 和 Correctness    Consumer and Producer Problem :   變數意義 :  in：下一個要放入的位置（next free position） out：下一個要取出的項目...</div></div></div></a><a class="pagination-related" href="/posts/8075d89.html" title="(作業系統) Virtual Memory Operation"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-20</div><div class="info-item-2">(作業系統) Virtual Memory Operation</div></div><div class="info-2"><div class="info-item-1">快速導覽 讓程式覺得自己有很大的連續記憶體（Virtual Address Space），但實際上只把「目前真的會用到的那部分」放在 RAM。 不夠的時候再把頁面換進換出（paging in/out）。  Virtual Memory = 用「需求載入（demand paging）」+「頁面置換（page replacement）」來用小 RAM 撐起大程式。    為什麼 VM 可行？  因為程式有 locality of reference（只會密集使用一小段頁面）。    Demand Paging 是怎麼運作的？  page table 的 valid/invalid bit + page fault 例外處理流程。    Page fault 為什麼會讓效能炸掉？  因為牽涉 disk I/O，所以 page fault rate 要非常非常小；會用 EAT（effective access time） 去算。    沒有 free frame 時怎麼辦？  用 page replacement，挑 victim page；dirty 的還要先寫回。    frames...</div></div></div></a><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a><a class="pagination-related" href="/posts/978b4c60.html" title="OS-CH3"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-CH3</div></div><div class="info-2"><div class="info-item-1">System call 為User Process 與 Kernel 的溝通介面 System call 經常利用 Trap(Software Interrupt) 進入 Kernel System call 通常被 CPU 視為software interrupt  User -&gt; Trap -&gt; Kernel mode -&gt; OS Service -&gt; Return User  現代系統會透過**Application Programming Interface(API)**來呼叫System Call 好處 :  program portability 更方便使用  Run Time Environment (RTE)  程式執行時需要的環境 (Compiler Libraries Loader…) 提供 System call Interface   Program -&gt; API -&gt; RTE -&gt; System call ID -&gt; Kernel -&gt; OS Service -&gt; Return  Flow  U...</div></div></div></a><a class="pagination-related" href="/posts/841a1f01.html" title="OS-CH1-3 題目注意"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-05</div><div class="info-item-2">OS-CH1-3 題目注意</div></div><div class="info-2"><div class="info-item-1">第一章 到 第三章 題目提醒 Bootstrap program 存在 ROM 中  ROM : 唯讀記憶體 : 資料寫入後就不能隨便更改，關機後資料也不會消失。   Flash memory is another form of electronic disk.  不是所有系統都同時有 CLI and GUI  MultiProcessor 優點  產能上升 Economy of scale 增加Reliability 不保證提高 CPU utilization   Major Version of UNIX 支持 Soft Real Time System  Hard Real Time 依賴 RAM、ROM，避免使用Secondary Storage(Disk、Paging、Virtual Memory)  Industrial control 使用 Hard-real-Time  masked interrupt , 如果有正在處理的仍然會先通知 CPU , 但不會先處理  DMA 不適用 character Devices(Keyboard、Mouse)，一次只有幾 B...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E5%B0%8E"><span class="toc-number">1.</span> <span class="toc-text">前導</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">2.</span> <span class="toc-text">摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#BackGround"><span class="toc-number">2.1.</span> <span class="toc-text">BackGround</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Management-Issues"><span class="toc-number">2.2.</span> <span class="toc-text">Memory Management Issues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multistep-Processing"><span class="toc-number">2.3.</span> <span class="toc-text">Multistep Processing</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">基本觀念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Address-Binding"><span class="toc-number">4.</span> <span class="toc-text">Address Binding</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Compile-Time%EF%BC%88%E7%B7%A8%E8%AD%AF%E6%9C%9F%E7%B6%81%E5%AE%9A%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">Compile Time（編譯期綁定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Load-Time%EF%BC%88%E8%BC%89%E5%85%A5%E6%9C%9F%E7%B6%81%E5%AE%9A%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">Load Time（載入期綁定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Execution-Time%EF%BC%88%E5%9F%B7%E8%A1%8C%E6%9C%9F%E7%B6%81%E5%AE%9A%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">Execution Time（執行期綁定）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Management-Unit-MMU"><span class="toc-number">4.4.</span> <span class="toc-text">Memory-Management Unit(MMU)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logical-v-s-Physical-Address"><span class="toc-number">4.5.</span> <span class="toc-text">Logical v.s. Physical Address</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Load-Program-into-Memory-%E2%86%92-static-dynamic-loading-amp-linking"><span class="toc-number">5.</span> <span class="toc-text">Load Program  into Memory → static&#x2F;dynamic loading &amp; linking</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dynamic-Loading"><span class="toc-number">5.1.</span> <span class="toc-text">Dynamic Loading</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-Linking"><span class="toc-number">5.2.</span> <span class="toc-text">Static Linking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dynamic-Linking"><span class="toc-number">5.3.</span> <span class="toc-text">Dynamic Linking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-Dynamic-Loading-amp-Linking%EF%BC%9AFour-Combinations"><span class="toc-number">5.4.</span> <span class="toc-text">Static &#x2F; Dynamic Loading &amp; Linking：Four Combinations</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Swapping"><span class="toc-number">6.</span> <span class="toc-text">Swapping</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9"><span class="toc-number">6.1.</span> <span class="toc-text">定義 :</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Swap-back-Memory-Address-Requirements"><span class="toc-number">6.2.</span> <span class="toc-text">Swap-back Memory Address Requirements</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Swapping-I-O-Problem"><span class="toc-number">6.3.</span> <span class="toc-text">Swapping: I&#x2F;O Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-to-I-O-Swapping-Conflict"><span class="toc-number">6.4.</span> <span class="toc-text">Solution to I&#x2F;O-Swapping Conflict:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-1-Never-swap-processes-with-pending-I-O"><span class="toc-number">6.4.1.</span> <span class="toc-text">Solution 1 : Never swap processes with pending I&#x2F;O</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-2-Use-OS-managed-I-O-buffers%EF%BC%88kernel-buffer%EF%BC%89"><span class="toc-number">6.4.2.</span> <span class="toc-text">Solution 2 : Use OS-managed I&#x2F;O buffers（kernel buffer）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-Swapping-to-Backing-Store"><span class="toc-number">6.5.</span> <span class="toc-text">Process Swapping to Backing Store</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Memory-Allocation-Schemes-%E9%80%A3%E7%BA%8C%E8%A8%98%E6%86%B6%E9%AB%94%E9%85%8D%E7%BD%AE"><span class="toc-number">7.</span> <span class="toc-text">Memory Allocation Schemes (連續記憶體配置)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fixed-Partition-Allocation"><span class="toc-number">7.1.</span> <span class="toc-text">Fixed-Partition Allocation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Variable-Partition-Allocation"><span class="toc-number">7.2.</span> <span class="toc-text">Variable-Partition Allocation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiple-Partition-Variable-Size-Method%EF%BC%88%E5%8F%AF%E8%AE%8A%E5%88%86%E5%89%B2%E5%88%B0%E5%BA%95%E6%80%8E%E9%BA%BC%E9%81%8B%E4%BD%9C%EF%BC%89"><span class="toc-number">7.3.</span> <span class="toc-text">Multiple Partition (Variable-Size) Method（可變分割到底怎麼運作）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dynamic-Storage-Allocation-Problem"><span class="toc-number">7.4.</span> <span class="toc-text">Dynamic Storage Allocation Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Fragmentation"><span class="toc-number">7.5.</span> <span class="toc-text">Memory Fragmentation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#External-Fragmentation%EF%BC%88%E5%A4%96%E9%83%A8%E7%A2%8E%E8%A3%82%EF%BC%89"><span class="toc-number">7.5.1.</span> <span class="toc-text">External Fragmentation（外部碎裂）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Internal-Fragmentation%EF%BC%88%E5%85%A7%E9%83%A8%E7%A2%8E%E8%A3%82%EF%BC%89"><span class="toc-number">7.5.2.</span> <span class="toc-text">Internal Fragmentation（內部碎裂）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-Memory-Compaction"><span class="toc-number">7.5.3.</span> <span class="toc-text">Solution : Memory Compaction</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Non-Contiguous-Memory-Allocation-Paging"><span class="toc-number">8.</span> <span class="toc-text">Non-Contiguous Memory Allocation - Paging</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Paging-Concept"><span class="toc-number">8.1.</span> <span class="toc-text">Paging Concept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paging-%E7%9A%84-4-%E5%A4%A7%E5%A5%BD%E8%99%95"><span class="toc-number">8.2.</span> <span class="toc-text">Paging 的 4 大好處</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%9E%E8%99%95"><span class="toc-number">8.2.1.</span> <span class="toc-text">壞處</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Page-table-fundamentals"><span class="toc-number">8.3.</span> <span class="toc-text">Page table fundamentals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address-Translation-Scheme"><span class="toc-number">8.4.</span> <span class="toc-text">Address Translation Scheme</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address-Translation"><span class="toc-number">8.5.</span> <span class="toc-text">Address Translation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Page-Frame-Size-Considerations"><span class="toc-number">8.6.</span> <span class="toc-text">Page&#x2F;Frame Size Considerations</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Paging-Summary"><span class="toc-number">8.7.</span> <span class="toc-text">Paging Summary</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Implementation-of-Page-Table"><span class="toc-number">9.</span> <span class="toc-text">Implementation of Page Table</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Associative-Memory-CAM"><span class="toc-number">9.1.</span> <span class="toc-text">Associative Memory &#x2F; CAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Translation-Lookaside-Buffer-TLB"><span class="toc-number">9.2.</span> <span class="toc-text">Translation Lookaside Buffer (TLB)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASID-Address-space-identifier"><span class="toc-number">9.3.</span> <span class="toc-text">ASID(Address-space identifier)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EMAT%EF%BC%88Effective-Memory-Access-Time%EF%BC%89"><span class="toc-number">9.4.</span> <span class="toc-text">EMAT（Effective Memory-Access Time）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-Protection%EF%BC%88Page-table-entry-%E8%A3%A1%E7%9A%84%E4%BF%9D%E8%AD%B7%E4%BD%8D%EF%BC%89"><span class="toc-number">9.5.</span> <span class="toc-text">Memory Protection（Page table entry 裡的保護位）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-Pages"><span class="toc-number">9.6.</span> <span class="toc-text">Shared Pages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-Pages-via-Page-Tables"><span class="toc-number">9.7.</span> <span class="toc-text">Shared Pages via Page Tables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Page-Table-Structure%EF%BC%9AScalability-Problem"><span class="toc-number">9.8.</span> <span class="toc-text">Page Table Structure：Scalability Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hierarchical-Paging%E3%80%81Hashed-Page-Table%E3%80%81Inverted-Page-Table-IPT"><span class="toc-number">9.9.</span> <span class="toc-text">Hierarchical Paging、Hashed Page Table、Inverted Page Table, IPT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hierarchical-paging%E7%9A%84%E7%9B%AE%E6%A8%99%EF%BC%9A%E3%80%8C%E9%A0%81%E8%A1%A8%E4%B8%8D%E8%A6%81%E4%B8%80%E6%AC%A1%E6%95%B4%E5%BC%B5%E9%83%BD%E9%85%8D%E7%BD%AE%EF%BC%8C%E7%94%A8%E5%88%B0%E5%93%AA%E4%B8%80%E6%AE%B5%E6%89%8D%E9%96%8B%E5%93%AA%E4%B8%80%E6%AE%B5%E3%80%82%E3%80%8D"><span class="toc-number">9.9.1.</span> <span class="toc-text">Hierarchical paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hashed-page-table-%E6%83%B3%E7%94%A8-hash-%E7%9B%B4%E6%8E%A5%E8%B7%B3%E5%88%B0%E3%80%8C%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BD%8D%E7%BD%AE%E3%80%8D%EF%BC%8C%E5%B0%91%E8%B5%B0%E5%A5%BD%E5%B9%BE%E5%B1%A4%E3%80%82"><span class="toc-number">9.9.2.</span> <span class="toc-text">Hashed page table : 想用 hash 直接跳到「可能的位置」，少走好幾層。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inverted-Page-Table-%E5%B8%B8%E8%80%83"><span class="toc-number">9.9.3.</span> <span class="toc-text">Inverted Page Table (常考)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Segmentation"><span class="toc-number">10.</span> <span class="toc-text">Segmentation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Segmentation-Table%EF%BC%88%E5%88%86%E6%AE%B5%E8%A1%A8%EF%BC%89"><span class="toc-number">10.1.</span> <span class="toc-text">Segmentation Table（分段表）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E9%AB%94%E6%9A%AB%E5%AD%98%E5%99%A8%EF%BC%9ASTBR-STLR"><span class="toc-number">10.2.</span> <span class="toc-text">硬體暫存器：STBR &#x2F; STLR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Translation"><span class="toc-number">10.3.</span> <span class="toc-text">Translation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MMU-%E6%9C%83%E5%81%9A%E4%B8%89%E4%BB%B6%E4%BA%8B"><span class="toc-number">10.4.</span> <span class="toc-text">MMU 會做三件事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Segmentation-vs-Paging"><span class="toc-number">10.5.</span> <span class="toc-text">Segmentation vs Paging</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharing-of-Segments"><span class="toc-number">10.6.</span> <span class="toc-text">Sharing of Segments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Protection-and-Sharing-in-Segmentation"><span class="toc-number">10.7.</span> <span class="toc-text">Protection and Sharing in Segmentation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Segmentation-with-Paging"><span class="toc-number">11.</span> <span class="toc-text">Segmentation with Paging</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Segmentation-with-Paging%EF%BC%88Paged-Segmentation-%E6%AE%B5%E5%86%8D%E5%88%86%E9%A0%81%EF%BC%89-%E7%8F%BERemoved"><span class="toc-number">12.</span> <span class="toc-text">Segmentation with Paging（Paged Segmentation &#x2F; 段再分頁）(現Removed)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">12.1.</span> <span class="toc-text">核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logical-Address"><span class="toc-number">12.2.</span> <span class="toc-text">Logical Address</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address-Translation-1"><span class="toc-number">12.3.</span> <span class="toc-text">Address Translation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1%EF%BC%9ACPU-%E7%94%A2%E7%94%9F-Logical-Address"><span class="toc-number">12.3.1.</span> <span class="toc-text">Step 1：CPU 產生 Logical Address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2%EF%BC%9A%E7%94%A8-s-%E6%9F%A5-Segment-Table"><span class="toc-number">12.3.2.</span> <span class="toc-text">Step 2：用 s 查 Segment Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3%EF%BC%9A%E6%AA%A2%E6%9F%A5-Segment-%E6%98%AF%E5%90%A6%E8%B6%8A%E7%95%8C"><span class="toc-number">12.3.3.</span> <span class="toc-text">Step 3：檢查 Segment 是否越界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-4%EF%BC%9A%E5%B0%87-d-%E6%8B%86%E6%88%90-Page-Number-%E8%88%87-Page-Offset"><span class="toc-number">12.3.4.</span> <span class="toc-text">Step 4：將 d 拆成 Page Number 與 Page Offset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-5%EF%BC%9A%E7%94%A8-p-%E6%9F%A5%E8%A9%B2-Segment-%E7%9A%84-Page-Table"><span class="toc-number">12.3.5.</span> <span class="toc-text">Step 5：用 p 查該 Segment 的 Page Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-6%EF%BC%9A%E5%BD%A2%E6%88%90-Physical-Address"><span class="toc-number">12.3.6.</span> <span class="toc-text">Step 6：形成 Physical Address</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Table-%E5%85%A7%E5%AE%B9%E6%95%B4%E7%90%86"><span class="toc-number">12.4.</span> <span class="toc-text">Table 內容整理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Segment-Table"><span class="toc-number">12.4.1.</span> <span class="toc-text">Segment Table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Page-Table"><span class="toc-number">12.4.2.</span> <span class="toc-text">Page Table</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%84%AA%E9%BB%9E"><span class="toc-number">12.5.</span> <span class="toc-text">優點</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E9%BB%9E"><span class="toc-number">12.6.</span> <span class="toc-text">缺點</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/513a4877.html" title="資料結構 - Search and Sort">資料結構 - Search and Sort</a><time datetime="2026-08-28T02:18:00.000Z" title="發表於 2026-08-28 10:18:00">2026-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/917205a6.html" title="OS-CH5-補充加強觀念">OS-CH5-補充加強觀念</a><time datetime="2026-08-25T06:49:00.000Z" title="發表於 2026-08-25 14:49:00">2026-08-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/f184578f.html" title="資料結構 - 所有 Tree 整理">資料結構 - 所有 Tree 整理</a><time datetime="2026-08-22T03:30:00.000Z" title="發表於 2026-08-22 11:30:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/3e53adeb.html" title="資料結構 - 高等樹-題目注意">資料結構 - 高等樹-題目注意</a><time datetime="2026-08-21T08:12:00.000Z" title="發表於 2026-08-21 16:12:00">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/514e5281.html" title="資料結構 - Search and Sort - 題目注意">資料結構 - Search and Sort - 題目注意</a><time datetime="2026-08-21T08:12:00.000Z" title="發表於 2026-08-21 16:12:00">2026-08-21</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {
