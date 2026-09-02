@@ -273,6 +273,7 @@ arr[j] > arr[j+1]
 - 不一開始只比較相鄰元素
 - 先用較大的 Gap（Span）比較相隔較遠的元素
 - Gap 逐漸縮小
+- gap = k 時，把「索引相差 k」的元素分成同一組，每一組做 Insertion Sort。
 - 最後一定要：
 
 $$
@@ -2118,6 +2119,14 @@ $$
 $$
 
 更少。
+
+# 排序可以到達多快?
+- 在限定使用**Comparison-Based** Skill 情況下，最快 $O(n log n)$
+- 如果沒有這個限制最快到 $O(n)$
+- Q : All Sorting Method 最快可到達 $\omega(n \log n)$ : **False**
+  - EX : Counting Sort : O(n+k) if k = O(n) => O(n)
+- 要證明 $\omega(n \log n)$ 要用Decision Tree
+  - Decision Tree  的樹高，可以用leaf多少去反推，例如5個點，共有5!種結果，那樹高就是>=log(5!) + 1 
 
 # Sort 總整理
 

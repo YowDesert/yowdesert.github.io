@@ -2,7 +2,7 @@
 title: (作業系統) Main Memory Management
 categories:
   - 作業系統
-  - Memory Management
+  - 第七章
 tags:
   - 作業系統
 abbrlink: 6575bc75
@@ -60,8 +60,17 @@ date: '2025-12-19 14:15:00'
     - 執行期決定（execution time）
 
 --- 
+# 基本觀念
+- 每個Process會有自己的獨立記憶體空間，且不可以去存取其他Processes 的記憶體空間
+- 先前的Memory Protection (連續性)配置下
+    - BaseResister + Linit Register
+
+![alt text](../../img/MEMPROFLOW.png)
 
 # Address Binding
+
+> 前兩個是Static Binding
+> 後一個是Dynamic Binding
 
 ## Compile Time（編譯期綁定）
 - 程式一開始寫的是symbolic address(符號位址)
@@ -74,6 +83,7 @@ date: '2025-12-19 14:15:00'
 - 例子：老系統 MS-DOS .COM 程式（固定載入位置）
 
 ## Load Time（載入期綁定）
+- 由linking loader / **linking Editor**執行Binding
 - 編譯器不產生寫死的絕對位址，而是產生 relocatable code（可重定位碼）
 - 程式碼裡用「相對於起點」的方式表示位址（Ex. BS + 0x18）
 
@@ -84,6 +94,7 @@ date: '2025-12-19 14:15:00'
 
 ## Execution Time（執行期綁定）
 > 現代 OS 幾乎都用這個。
+- Binding 工作延遲到Run Time
 - 程式看到的是 **logical address**(i.e., virtual address)
     - 例如它可能以為 data 在 0x18
 - 真正的 physical address（例如 0x2018）由**special hardware**(ex.the MMU) 在每次記憶體存取時「**即時轉換**」
@@ -99,12 +110,17 @@ date: '2025-12-19 14:15:00'
 
 ## Memory-Management Unit(MMU)
 - MMU 是 CPU 裡的硬體元件，在程式執行時把 **Virtual/Logical Address（虛擬/邏輯位址）→ Physical Address（實體位址）**。
-- Translation mechanism : Physical Address = Base Register (relocation register) + Logical Address
-    - 例子 : 
-        - CPU 產生 Logical Address = `346` 
-        - relocation register 位址 `12000`
-        - Physical Address = Base + Logical = `12000` + `346` = `12346`
-        - 最後去 Memory 存取 `12346`
+- Translation mechanism : 
+
+$$
+Physical Address = Base Register (relocation register) + Logical Address
+$$
+
+- 例子 : 
+    - CPU 產生 Logical Address = `346` 
+    - relocation register 位址 `12000`
+    - Physical Address = Base + Logical = `12000` + `346` = `12346`
+    - 最後去 Memory 存取 `12346`
 - ✅優點：
     - Memory protection（保護）
         - 每個 process 只能在自己的範圍內活動。
@@ -117,6 +133,7 @@ date: '2025-12-19 14:15:00'
 > User program 只用 logical address，不需要知道 physical memory 在哪。
 
 - Logical Address（= Virtual Address）
+    - 也就是你程式碼多大
     - **CPU 在執行時產生的位址**
     - 使用者程式看得到、操作的位址空間
 
@@ -179,6 +196,7 @@ date: '2025-12-19 14:15:00'
     - 只放 library function 的引用點（references）
 - 關鍵機制:
     - 在 executable 中 ， 每個 library function 呼叫點 ， 插入一小段程式碼 → stub
+- **需要OS額外支持**，OS是唯一可以檢查其所需要ㄉroutine是在其他Processes所在的記憶體區域
 
 ![alt text](/img/OS_CH8_1.png)
 
@@ -186,7 +204,7 @@ date: '2025-12-19 14:15:00'
 - **Single copy of library code shared across all processes**
 - 多個程式使用同一個 library（如 libc）
 - RAM 中只需要一份 library code（共享）
-
+- 助Library自動更新且無須relinking (記，少考)
 
 第一次呼叫 library function（First call）
 - 程式先跳到 stub
@@ -317,6 +335,7 @@ Swap time components :
 ## Dynamic Storage Allocation Problem
 > 3個演算法
 1. First-fit（第一個放得下就用）(O(n))
+    - Next-fit 的變形
     - ✅ 優點：平均最快
     - 缺點：前面區域容易被切得很碎（很多小洞集中前面）
 2. Best-fit（找「最小但夠用」的 hole）(O(n))
@@ -332,9 +351,15 @@ Swap time components :
 
 ## Memory Fragmentation
 ### External Fragmentation（外部碎裂）
+- 定義(申論) : 在連續性配置下， 我們在AV-List找不到一個free hole size可以滿足process size，但free hole size加總卻 >= process size，但因為不連續所以無法配置給此processes
+
 - Total free memory ≥ request size，但不連續（not contiguous）
 - 出現在 Variable-size partition（可變分割）
+- 所有連續性記憶體配置方法皆會**遭遇外部碎裂**
+- 經驗法則顯示 : 約每 N 個 allocated blocks 會有 0.5N 個 holes ，**也就是大約有1/3 memory may be un useable， 又叫做 **50 percent rule** or **one-third rule**
+
 ### Internal Fragmentation（內部碎裂）
+- 連續性配置沒有內部碎裂
 - 已分配出去的 partition 裡面，但 process 沒用到的空間
 - 出現在 Fixed-partition（固定分割）
 
@@ -354,8 +379,8 @@ Swap time components :
 
 ## Paging Concept
 - Core mechanism
-    - **Physical memory（實體記憶體 RAM）**切成固定大小小格子：叫 frames
-    - **Logical memory（邏輯/虛擬位址空間）**也切成一樣大小小格子：叫 pages
+    - **Physical memory（實體記憶體 RAM** 切成固定大小小格子：叫 frames
+    - **Logical memory（邏輯/虛擬位址空間** 也切成一樣大小小格子：叫 pages
     - page/frame 大小通常是 2 的次方（4KB、8KB…）
         - 因為這樣「位址切割」可以用 bit 切：右邊 n bits 當 offset
 
@@ -390,6 +415,14 @@ Swap time components :
 4) Enables memory sharing（支援共享）
 - 多個 process 可以把某些頁 map 到同一個 physical frame
 - 常見：**共享的程式碼段**（shared libraries）、共享記憶體
+
+### 壞處 
+
+5) 會有**內部碎裂**
+6) Pageing 可能會提升context switch Time
+7) 需要硬體的支援
+    - page table製作
+    - Logical address -> Physical Address by MMU
 
 ## Page table fundamentals
 - 把 logical page number → physical frame number
@@ -516,23 +549,27 @@ Logical address 結構
 
 # Implementation of Page Table
 
-1) Page table 存放（Storage）
-- Page tables reside in **main memory** (too large for registers)
-- **PTBR（Page-Table Base Register）**
-    - 存「這個 process 的 page table 在實體記憶體的起始位址」
-- PTBR **存在 PCB(Process Control Block)**
-- 所以 context switch 時，OS 會把新 process 的 PTBR 載入（等於換一張 page table）
+三種方法
+1) 使用Register : 最簡單
+    - 不須記憶體存取，所以快速
+    - 對於大型Page Table 不適合，因為Register數量不構
 
-2) Memory access overhead
-- 沒有 TLB 時，每次存取一個 logical address 要做兩次記憶體存取：
-    - 先去 memory 裡找 page table entry（用 PTBR + page#）
-    - 再去 memory 裡拿真正資料（frame# + offset）
+2) Page table 存放（Storage）
+    - Page tables reside in **main memory** (too large for registers)
+    - **PTBR（Page-Table Base Register）**
+        - 記錄分頁表在 memory 的位址
+    - PTBR **存在 PCB(Process Control Block)**
+    - 所以 context switch 時，OS 會把新 process 的 PTBR 載入（等於換一張 page table）
+    - Memory access overhead
+    - 沒有 TLB 時，每次存取一個 logical address 要做兩次記憶體存取：
+        - 先去 memory 裡找 page table entry（用 PTBR + page#）
+        - 再去 memory 裡拿真正資料（frame# + offset）
 
-    | 情況           | 你要拿到「資料」前要做什麼      | 需要幾次 memory access |
-    | ------------ | ------------------ | -----------------: |
-    | 沒有 TLB       | 先查 page table，再讀資料 |                  2 |
-    | 有 TLB 且 hit  | 直接得到 frame#，讀資料    |                  1 |
-    | 有 TLB 但 miss | 查 page table + 讀資料 |                  2 |
+        | 情況           | 你要拿到「資料」前要做什麼      | 需要幾次 memory access |
+        | ------------  | ------------------ | -----------------: |
+        | 沒有 TLB       | 先查 page table，再讀資料 |                  2 |
+        | 有 TLB 且 hit  | 直接得到 frame#，讀資料    |                  1 |
+        | 有 TLB 但 miss | 查 page table + 讀資料 |                  2 |
 
 3) Solution：TLB
 - **TLB = Translation Look-aside Buffer**
@@ -567,7 +604,7 @@ TLB 用的記憶體型態是 Associative Memory / CAM（Content-Addressable Memo
 
 ## Translation Lookaside Buffer (TLB) 
 TLB 是什麼？
-- 「硬體快取」保存最近的 virtual→physical 轉換
+- **「硬體快取」**保存最近的 virtual→physical 轉換
 - shared by all processes（同一顆 CPU 的 TLB 不是每個 process 一份）
 
 但 shared 會有問題：context switch 後，舊 process 的轉換還留在 TLB
@@ -575,8 +612,18 @@ TLB 是什麼？
 | 方法                 | 做法                           | 優點       | 缺點               |
 | ------------------ | ---------------------------- | -------- | ---------------- |
 | Option 1：Flush TLB | context switch 時整個 TLB 清空    | 簡單、安全    | 很貴：切換後命中率掉，變慢    |
-| Option 2：ASID tag  | 每個 TLB entry 加上 ASID(PID) 標籤 | 不用清空，效能好 | 硬體較複雜，要有 ASID 支援 |
+| Option 2：ASID tag  | 每個 TLB entry 加上 ASID 標籤 | 不用清空，效能好 | 硬體較複雜，要有 ASID 支援 |
 
+## ASID(Address-space identifier)
+- Context Switch 之後TLB裡面原本Process的資料怎麼辦?
+- 用ASID讓不同Process的TLB Entry 同時留在TLB裡
+- 使用**Address Space的標籤標記**這是哪一個Process的
+- Context Switch 也就不用Flush整個TLB
+
+|ASID|Page|Frame|
+|---|---|---|
+|1|3|8|
+|2|3|8|
 
 ## EMAT（Effective Memory-Access Time）
 > 「平均一次記憶體存取要多久」，取決於 hit ratio。
@@ -588,13 +635,14 @@ $$
 
 ## Memory Protection（Page table entry 裡的保護位）
 常見 protection bits
-- R/W/X：可讀、可寫、可執行
+- **Read-Write** or **Read-only bits**
+    - R/W/X：可讀、可寫、可執行
 
-Valid/Invalid bit
-- Valid vs Invalid（這是 OS 保護的關鍵）
-    - Valid (v)：此 page 在該 process 合法的 logical address space 內，可被存取
-    - Invalid (i)：不在合法範圍內
-        - 程式一旦存取 invalid page → page fault（trap to OS）
+- **Valid/Invalid bit**
+    - Valid vs Invalid（這是 OS 保護的關鍵）
+        - Valid (v)：此 page 在該 process 合法的 logical address space 內，可被存取
+        - Invalid (i)：不在合法範圍內
+            - 程式一旦存取 invalid page → page fault（trap to OS）
 
 **Valid-Invalid Bit：Implementation Issues**
 
@@ -655,9 +703,9 @@ Design goals:
 - 仍要能有效Translation
 
 Solutions
-- Hierarchical (multi-level) paging：多層頁表（常見）
+- **Hierarchical** (multi-level) paging (計算)：多層頁表（常見）
 - Hashed page tables：用 hash 減少表大小（大位址空間用）
-- Inverted page tables：每個 physical frame 一筆（不是每個 virtual page 一筆）
+- **Inverted page tables**：每個 physical frame 一筆（不是每個 virtual page 一筆）
 
 | 方法                  | 核心想法                                | 直覺記法         |
 | ------------------- | ----------------------------------- | ------------ |
@@ -679,6 +727,7 @@ Solutions
 ### Hierarchical paging的目標：「頁表不要一次整張都配置，用到哪一段才開哪一段。」
 - Logical address = [ p1 | p2 | d ]
 - 只有當某段虛擬位址真的被用到，才需要那張 inner table 存在
+- **需要多次額外的記憶體來存取**，EMAT 會非常長
 - Example :
     ![alt text](/img/TwoLevelH.png)
 - 結論：不實際。
@@ -688,7 +737,7 @@ Solutions
     - 用 VPN 做 hash：index = hash(VPN)
     - hash_table[index] 指向一條 chain（linked list）
     - chain 每個節點通常包含：
-        - VPN（用來比對是不是你要的）
+        - VPN(Virtual Page Number)（用來比對是不是你要的）
         - PFN/frame（對應到哪個實體 frame）
         - next pointer（下一個節點）
 - 缺點: 
@@ -708,7 +757,8 @@ Solutions
     - 沿著 chain 一個個比 VPN
 
     - 找到 → 拿 frame number；找不到 → page fault
-### Inverted Page Table
+
+### Inverted Page Table (常考)
 - IPT：整台機器 只有一張表
 - 每個實體 frame 一筆
     - 一筆內容大概是：
@@ -716,6 +766,10 @@ Solutions
     - **VPN(Virtual Page Number)**：對應到該 process 的哪個虛擬頁
     - control bits（valid/dirty/reference/protection…）
 - 所以表大小 ≈ **實體記憶體有多少 frames**
+- 優點 : 減少記憶體所需數量去儲存page table
+- 缺點 :
+    - 需要一一比對，增加大量搜索時間
+    - 無法提供shared memory
 
 - Translation:
     - CPU 給 logical address，現在會是：
@@ -728,6 +782,8 @@ Solutions
     - 目標是找到「哪個 frame i 對應到 (PID, VPN)」
     - 整張 IPT 從頭掃到尾找 (PID,VPN) ⇒ O(n)（n = frames 數）很慢
     - 會用 **hash**(PID, VPN) 加速（平均查找時間下降），而且還是要靠 **TLB** 才能實用。
+
+![alt text](../../img/inverted_page_table.png)
 
 IPT 的共享記憶體（shared pages）為什麼麻煩？
 - **多個 process 的不同 VPN，要映到同一個 PFN/frame**
@@ -758,15 +814,16 @@ IPT 的共享記憶體（shared pages）為什麼麻煩？
 Segmentation = 讓記憶體看起來像「程式設計師理解的模組」
 
 > 跟 Paging 最大差別：
-Paging 把記憶體切成固定大小 page/frame（對程式員「看不見」）
-Segmentation 直接用程式的邏輯結構來切（對程式員「看得懂」）
+Paging 把記憶體切成固定大小 page/frame（對程式員「看不見」）(Physical viewpoint)
+Segmentation 直接用程式的邏輯結構來切（對程式員「看得懂」）(Logical viewpoint)
 
 重要特性 :
 - 每個 segment **有名稱或編號**（segment number）
 - segment 大小是**可變的**（variable size）
 - 每個 segment 都是**語意上有意義的單位**
 - 不同 segment 可有**不同權限**（例如 code：可執行但唯讀；data：可讀寫） 
-
+- 段與段之間可以是**不連續性的配置**
+- 但是就單一個段而言，必須採用連續性配置
 Segmentation 的 Logical Address
 - Logical Address = <segment number,offset> 
     > s (segment number)：你要存取哪一段（第幾段）
@@ -781,6 +838,8 @@ Segmentation 的 Logical Address
 | --------- | -------------------------------------- | ----------------- |
 | **base**  | 這個 segment 在 **physical memory 的起始位址** | 用來做 base + offset |
 | **limit** | 這個 segment 的**長度**（或最大合法 offset）       | 用來做保護/界限檢查        |
+
+![alt text](../../img/Segment.png)
 
 ## 硬體暫存器：STBR / STLR
 > 每個 process 都有自己的 segment table」，所以硬體要知道
@@ -836,6 +895,18 @@ Segmentation 的 Logical Address
 
 ## Segmentation vs Paging
 
+| 比較項目 | Paging | Segmentation |
+|---|---|---|
+| **大小** | 各 Page Size 大小相同 | 各 Segment 大小不一定相同 |
+| **觀點** | Physical (Hardware) Viewpoint | Logical (User) Viewpoint |
+| **外部碎裂 External Fragmentation** | 沒有 | 有 |
+| **內部碎裂 Internal Fragmentation** | 有 | 沒有 |
+| **Memory Sharing & Protection** | YES，但比較困難實施 | YES，容易實施 |
+| **EMAT** | 比較短 | 比較長（因為需要檢查 `d < limit`） |
+| **Need Hardware Support** | YES（Page Table、MMU） | YES（Segment Table、MMU） |
+| **Table 內容** | Page Table 記錄 `frame no.` | Segment Table 記錄 `base` 和 `limit` |
+| **Logical Address** | 一個位址，由硬體自動拆成 `(p, d)` | 兩個量 `(s, d)` |
+
 Logical address 格式比較
 
 | Scheme           | Logical Address Format | 你在指定什麼       |
@@ -877,7 +948,8 @@ Segmentation 很自然支援共享：把「同一段」映射到「同一塊實�
 
 
 # Segmentation with Paging
-
+- Paged Segment
+- 段再分頁
 - Apply segmentation in logical address space
     - 程式員/OS 想像中的記憶體（Logical / Virtual view）→ 用 Segmentation
 - Apply paging in physical address space
@@ -890,3 +962,206 @@ Address Translation（logical → linear → physical）
 | **Logical address**（邏輯位址）  | 「程式用的位址」(常見：`<segment, offset>` 或虛擬位址) | CPU 在執行指令時產生         | 交給 **segmentation unit** |
 | **Linear address**（線性位址）   | 「把 segment 翻譯完後的結果」：一條 0..max 的連續位址    | segmentation unit 輸出 | 交給 **paging unit**       |
 | **Physical address**（實體位址） | 真正 RAM 上的位置                            | paging unit 輸出       | 去 RAM 讀/寫                |
+
+# Segmentation with Paging（Paged Segmentation / 段再分頁）(現Removed)
+
+## 核心概念
+
+**Paged Segmentation = 先 Segmentation，再對每個 Segment 做 Paging**
+
+- Logical / Virtual View → 使用 **Segmentation**
+  - 將程式依邏輯分成 Code、Data、Stack 等 Segment
+  - 各 Segment 大小可以不同
+  - 方便 **Memory Sharing / Protection**
+
+- Physical Memory → 使用固定大小的 **Frame**
+  - 每個 Segment 再切成固定大小的 Page
+  - Page 可以放到任意 Frame
+  - 因此避免 **External Fragmentation**
+
+簡單理解：
+
+```text
+Process
+│
+├─ Segment 0
+│   ├─ Page 0
+│   ├─ Page 1
+│   └─ Page 2
+│
+├─ Segment 1
+│   ├─ Page 0
+│   └─ Page 1
+│
+└─ Segment 2
+    ├─ Page 0
+    └─ Page 1
+```
+
+---
+
+## Logical Address
+
+原本 Segmentation：
+
+$
+(s,d)
+$
+
+- `s`：Segment number
+- `d`：Segment 內的 offset
+
+因為每個 Segment 又做 Paging，因此 `d` 可以再拆成：
+
+$
+d \rightarrow (p,d')
+$
+
+所以 Logical Address 也可以看成：
+
+$
+\boxed{(s,p,d')}
+$
+
+- `s`：哪個 Segment
+- `p`：該 Segment 的 Page number
+- `d'`：Page offset
+
+---
+
+## Address Translation
+
+```text
+Logical Address
+     (s,d)
+       │
+       ▼
+ Segment Table
+       │
+       ├─ limit
+       │    ↓
+       │  檢查 d < limit
+       │
+       └─ Page Table 位址
+                │
+        d 拆成 (p,d')
+                │
+                ▼
+           Page Table
+                │
+           p → Frame f
+                │
+                ▼
+      Physical Address
+            (f,d')
+```
+
+### Step 1：CPU 產生 Logical Address
+
+$
+(s,d)
+$
+
+### Step 2：用 `s` 查 Segment Table
+
+Segment Table 每個 entry 記錄：
+
+- `limit`
+- 該 Segment 的 **Page Table 位址**
+
+> 注意：與單純 Segmentation 不同，這裡不是記 `base`。
+
+### Step 3：檢查 Segment 是否越界
+
+$
+d < limit
+$
+
+- YES → 繼續
+- NO → **Trap**
+
+### Step 4：將 `d` 拆成 Page Number 與 Page Offset
+
+$
+p=\left\lfloor\frac{d}{PageSize}\right\rfloor
+$
+
+$
+d'=d\bmod PageSize
+$
+
+因此：
+
+$
+d\rightarrow(p,d')
+$
+
+### Step 5：用 `p` 查該 Segment 的 Page Table
+
+Page Table 記錄：
+
+```text
+Page no. → Frame no.
+```
+
+查到：
+
+$
+p\rightarrow f
+$
+
+### Step 6：形成 Physical Address
+
+$
+\boxed{(f,d')}
+$
+
+---
+
+## Table 內容整理
+
+### Segment Table
+
+| 內容 | 功能 |
+|---|---|
+| `limit` | 檢查 Segment 是否越界 |
+| Page Table 位址 | 找到該 Segment 對應的 Page Table |
+
+### Page Table
+
+| 內容 | 功能 |
+|---|---|
+| Page no. | Segment 裡的 Page |
+| Frame no. | 該 Page 實際放在哪個 Physical Frame |
+
+---
+
+## 優點
+
+1. **沒有 External Fragmentation**
+   - Physical Memory 使用固定大小 Frame
+
+2. 保留 Segmentation 的優點
+   - 容易做 Memory Sharing
+   - 容易做 Protection
+   - 符合使用者的 Logical View
+
+---
+
+## 缺點
+
+1. Table 數目較多
+   - Segment Table
+   - 各 Segment 的 Page Table
+
+2. EMAT 較長
+   - 要先查 Segment Table
+   - 再查 Page Table
+   - 還要檢查 `d < limit`
+
+3. 需要額外 Hardware Support
+
+4. 仍有 **Internal Fragmentation**
+   - Segment 最後一個 Page 可能沒有填滿
+
+![alt text](../../img/SegmentPage.png)

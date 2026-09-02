@@ -6,7 +6,7 @@ categories:
   - 第九章
 tags:
   - 資料結構
-abbrlink: 
+abbrlink: 3e53adeb
 mathjax: true
 date: '2026-8-21 16:12:00'
 ---
