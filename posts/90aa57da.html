@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(作業系統) Process and Concurrency - Synchronization Concepts | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="簡短說明： 主題：Synchronization Concepts 本章重點： 什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background問題與解決 The Problem :  Concurrent access to shared">
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>(作業系統) Process and Concurrency - Synchronization Concepts | YD's 學習筆記</title><meta name="author" content="YowDesert"><meta name="copyright" content="YowDesert"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to sh">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(作業系統) Process and Concurrency - Synchronization Concepts">
 <meta property="og:url" content="https://yowdesert.github.io/posts/90aa57da.html">
 <meta property="og:site_name" content="YD&#39;s 學習筆記">
-<meta property="og:description" content="簡短說明： 主題：Synchronization Concepts 本章重點： 什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background問題與解決 The Problem :  Concurrent access to shared">
+<meta property="og:description" content="簡短說明：  主題：Synchronization Concepts 本章重點：  什麼情況下會發生 Race Condition？ 作業系統必須滿足哪些條件，才能正確管理共享資源？ 有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？      Background 問題與解決   The Problem :  Concurrent access to sh">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://yowdesert.github.io/img/butterfly-icon.png">
 <meta property="article:published_time" content="2025-08-14T00:40:00.000Z">
-<meta property="article:modified_time" content="2026-09-15T16:26:35.336Z">
+<meta property="article:modified_time" content="2026-09-16T15:50:43.545Z">
 <meta property="article:author" content="YowDesert">
 <meta property="article:tag" content="作業系統">
 <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   "url": "https://yowdesert.github.io/posts/90aa57da.html",
   "image": "https://yowdesert.github.io/img/butterfly-icon.png",
   "datePublished": "2025-08-14T00:40:00.000Z",
-  "dateModified": "2026-09-15T16:26:35.336Z",
+  "dateModified": "2026-09-16T15:50:43.545Z",
   "author": [
     {
       "@type": "Person",
@@ -193,9 +193,11 @@
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(作業系統) Process and Concurrency - Synchronization Concepts</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(作業系統) Process and Concurrency - Synchronization Concepts</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-08-14T00:40:00.000Z" title="發表於 2025-08-14 08:40:00">2025-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-09-15T16:26:35.336Z" title="更新於 2026-09-16 00:26:35">2026-09-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/Process-and-Concurrency/">Process and Concurrency</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>9分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="簡短說明："><a href="#簡短說明：" class="headerlink" title="簡短說明："></a>簡短說明：</h1><ul>
+})()</script><div id="web_bg" style="background-image: url(/img/backgroundPic.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/nav_Picture.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/Top.png" alt="Logo"><span class="site-name">YD's 學習筆記</span></a><a class="nav-page-title" href="/"><span class="site-name">(作業系統) Process and Concurrency - Synchronization Concepts</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">(作業系統) Process and Concurrency - Synchronization Concepts</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2025-08-14T00:40:00.000Z" title="發表於 2025-08-14 08:40:00">2025-08-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2026-09-16T15:50:43.545Z" title="更新於 2026-09-16 23:50:43">2026-09-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/Process-and-Concurrency/">Process and Concurrency</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">總字數:</span><span class="word-count">8.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>33分鐘</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>簡短說明：</h1>
+<ul>
 <li>主題：Synchronization Concepts</li>
-<li>本章重點：<ul>
+<li>本章重點：
+<ul>
 <li>什麼情況下會發生 Race Condition？</li>
 <li>作業系統必須滿足哪些條件，才能正確管理共享資源？</li>
 <li>有哪些同步機制（Synchronization Mechanisms）可以保證程式正確性？</li>
@@ -204,14 +206,18 @@
 </ul>
 <hr>
 <!-- <span style="color:red">data inconsistency</span> -->
-<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><h2 id="問題與解決"><a href="#問題與解決" class="headerlink" title="問題與解決"></a>問題與解決</h2><ul>
-<li><p>The Problem :</p>
+<h1>Background</h1>
+<h2 id="問題與解決">問題與解決</h2>
+<ul>
+<li>
+<p>The Problem :</p>
 <ul>
 <li><strong>Concurrent access</strong> to shared data may result in <strong>data inconsistency</strong></li>
 <li>Outcome depends on the <strong>order of execution</strong>(race condition)</li>
 </ul>
 </li>
-<li><p>The Solution :</p>
+<li>
+<p>The Solution :</p>
 <ul>
 <li><strong>Ensure orderly execution</strong></li>
 <li><strong>Synchronization</strong> : 協調資源的分享與存取</li>
@@ -219,89 +225,115 @@
 </ul>
 </li>
 </ul>
-<h2 id="Consumer-and-Producer-Problem"><a href="#Consumer-and-Producer-Problem" class="headerlink" title="Consumer and Producer Problem :"></a>Consumer and Producer Problem :</h2><ul>
-<li>變數意義 :<ul>
+<h2 id="Consumer-and-Producer-Problem">Consumer and Producer Problem :</h2>
+<ul>
+<li>
+<p>變數意義 :</p>
+<ul>
 <li>in：下一個要放入的位置（next free position）</li>
 <li>out：下一個要取出的項目位置（first available item）</li>
 <li>buffer 是 circular queue（環狀），所以會用 <code>% BUFFER_SIZE</code></li>
 </ul>
 </li>
-<li><p>Consumer and Producer Problem :</p>
+<li>
+<p>Consumer and Producer Problem :</p>
 <ul>
-<li>Producer 端邏輯<ul>
-<li><code>while (((in+1) % BUFFER_SIZE) == out) &#123;&#125;</code><br>  → 代表 buffer 滿了（下一格就是 out，表示沒有空位）所以一直等</li>
+<li>Producer 端邏輯
+<ul>
+<li><code>while (((in+1) % BUFFER_SIZE) == out) &#123;&#125;</code><br>
+→ 代表 buffer 滿了（下一格就是 out，表示沒有空位）所以一直等</li>
 </ul>
 </li>
-<li>Consumer 端邏輯<ul>
-<li><code>while (in == out) &#123;&#125;</code><br>→ 代表 buffer 空（沒有可取的）</li>
+<li>Consumer 端邏輯
+<ul>
+<li><code>while (in == out) &#123;&#125;</code><br>
+→ 代表 buffer 空（沒有可取的）</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>如果加上 Counter : 直接記錄 buffer 內「目前有幾個 item」</p>
+<li>
+<p>如果加上 Counter : 直接記錄 buffer 內「目前有幾個 item」</p>
 <ul>
 <li>新增變數 : <code>counter = 0</code>：buffer 目前 item 數量</li>
-<li>Producer（用 counter）<ul>
+<li>Producer（用 counter）
+<ul>
 <li>while <code>(counter == BUFFER_SIZE) &#123;&#125;</code> → 滿了就等</li>
 <li>放入後 <code>counter++</code></li>
 </ul>
 </li>
-<li>Consumer（用 counter）<ul>
+<li>Consumer（用 counter）
+<ul>
 <li>while <code>(counter == 0) &#123;&#125;</code> → 空了就等</li>
 <li>取走後 <code>counter--</code></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>簡化法 : counter ++ 與 counter — 其實是3步驟<ul>
+<li>
+<p>簡化法 : counter ++ 與 counter – 其實是3步驟</p>
+<ul>
 <li>把 counter 從記憶體讀到暫存器</li>
 <li>暫存器 +1</li>
 <li>寫回記憶體</li>
 </ul>
 </li>
-<li>Problem : <ul>
+<li>
+<p>Problem :</p>
+<ul>
 <li>在這 3 步之間，可能發生 <strong>context switch</strong> 各自讀到舊的值，最後互相覆蓋對方寫回的結果 =&gt; Race Condition</li>
 </ul>
 </li>
 </ul>
-<h2 id="Race-Condition"><a href="#Race-Condition" class="headerlink" title="Race Condition"></a>Race Condition</h2><ul>
-<li><p>Race Condition 會發生在以下情況 :</p>
+<h2 id="Race-Condition">Race Condition</h2>
+<ul>
+<li>
+<p>Race Condition 會發生在以下情況 :</p>
 <ol>
 <li>Multiple processes access and manipulate <strong>shared data concurrently</strong></li>
 <li>The final value depends on which process finishes last</li>
-<li>Outcome is <strong>unpredictable</strong>（timing-dependent） </li>
+<li>Outcome is <strong>unpredictable</strong>（timing-dependent）</li>
 </ol>
 </li>
-<li><p>Prevention : Synchronization（同步）</p>
+<li>
+<p>Prevention : Synchronization（同步）</p>
 <ul>
 <li><strong>Ensure only one process accesses shared data at a time</strong></li>
 </ul>
 </li>
-<li><p>Simple Prevention (<strong>只適用於單核心</strong>)</p>
+<li>
+<p>Simple Prevention (<strong>只適用於單核心</strong>)</p>
 <ol>
-<li><strong>Disable Interrupts</strong>（關閉中斷）<ul>
+<li><strong>Disable Interrupts</strong>（關閉中斷）
+<ul>
 <li>關閉中斷 → CPU 不會發生 context switch</li>
 <li>如果多核心 要全部關 很耗效能</li>
 <li>如果關掉之後，他不開啟了就完蛋了</li>
 </ul>
 </li>
-<li>Non-Preemptive Scheduling（非搶占式排程）<ul>
+<li>Non-Preemptive Scheduling（非搶占式排程）
+<ul>
 <li>Process 一旦開始執行，不<strong>會被 OS 強制切換</strong></li>
 </ul>
 </li>
 </ol>
 </li>
-<li>Both only work on single-processor systems</li>
+<li>
+<p>Both only work on single-processor systems</p>
+</li>
 </ul>
-<h2 id="DeadLock"><a href="#DeadLock" class="headerlink" title="DeadLock"></a>DeadLock</h2><ul>
-<li>一開始為假設count = 0 </li>
-<li>Consumer 進入 CS First<ol>
+<h2 id="DeadLock">DeadLock</h2>
+<ul>
+<li>一開始為假設count = 0</li>
+<li>Consumer 進入 CS First
+<ol>
 <li>entry-section() → 拿到鎖</li>
 <li><code>while (counter == 0) &#123; &#125;</code></li>
 <li>Producer 想進來 ， entry-section()（鎖被 Consumer 拿走）</li>
 </ol>
 <ul>
-<li>Result: <ul>
+<li>Result:
+<ul>
 <li>Consumer：等 Producer 產生資料</li>
 <li>Producer：等 Consumer 放鎖</li>
 </ul>
@@ -310,21 +342,26 @@
 </ul>
 </li>
 </ul>
-<h2 id="原則"><a href="#原則" class="headerlink" title="原則"></a>原則</h2><ul>
-<li>原則 1<ul>
+<h2 id="原則">原則</h2>
+<ul>
+<li>原則 1
+<ul>
 <li>不要在 critical section 裡面「等條件」 → 會 deadlock</li>
 </ul>
 </li>
-<li>原則 2<ul>
+<li>原則 2
+<ul>
 <li>critical section 要「越小越好」，只包真正需要保護的<strong>共享資料</strong></li>
 </ul>
 </li>
-<li>原則3<ul>
+<li>原則3
+<ul>
 <li>互斥 ≠ 同步</li>
 </ul>
 </li>
 </ul>
-<h1 id="IPC-Process-Communicatioin"><a href="#IPC-Process-Communicatioin" class="headerlink" title="IPC (Process Communicatioin)"></a>IPC (Process Communicatioin)</h1><p><strong>執行中的Process</strong>可以有兩種型態</p>
+<h1>IPC (Process Communicatioin)</h1>
+<p><strong>執行中的Process</strong>可以有兩種型態</p>
 <ul>
 <li>Independent Processes : 不跟其他Process Shared Data</li>
 <li>Cooperating Processes : 可以影響或被影響by 其他Process</li>
@@ -335,15 +372,17 @@
 <li><strong>computation speedup</strong></li>
 <li><strong>Modularity</strong></li>
 </ul>
-<h2 id="2-Fundamental-Model"><a href="#2-Fundamental-Model" class="headerlink" title="2 Fundamental Model"></a>2 Fundamental Model</h2><h3 id="shared-memory"><a href="#shared-memory" class="headerlink" title="shared memory"></a>shared memory</h3><ul>
+<h2 id="2-Fundamental-Model">2 Fundamental Model</h2>
+<h3 id="shared-memory">shared memory</h3>
+<ul>
 <li>向OS要求配置一塊記憶體空間</li>
 </ul>
-<h3 id="Message-Passing"><a href="#Message-Passing" class="headerlink" title="Message Passing"></a>Message Passing</h3><ul>
+<h3 id="Message-Passing">Message Passing</h3>
+<ul>
 <li>建立通訊連結</li>
 <li>訊息互傳</li>
 <li>釋放Link</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -375,49 +414,137 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="Critical-Section"><a href="#Critical-Section" class="headerlink" title="Critical-Section"></a>Critical-Section</h1><h2 id="The-Critical-Section-Problem"><a href="#The-Critical-Section-Problem" class="headerlink" title="The Critical-Section Problem"></a>The Critical-Section Problem</h2><ul>
-<li>Purpose（目的）:<ul>
+<h1>Critical-Section</h1>
+<h2 id="The-Critical-Section-Problem">The Critical-Section Problem</h2>
+<ul>
+<li>Purpose（目的）:
+<ul>
 <li>Design a <strong>protocol</strong> : 允許處理器們協調與安全的存取共用的資料</li>
 </ul>
 </li>
-<li>Problem Discription : <ul>
+<li>Problem Discription :
+<ul>
 <li><strong>N processes</strong> compete to <strong>use shared data</strong></li>
 <li>Each process has a <strong>critical section</strong> - 每個 process 都有一段程式碼，會「<strong>讀 / 寫共享資料</strong>」</li>
 <li>Challenge（挑戰）: 當某個 process 正在 critical section ， 其他 process 不能 同時進入它們的 critical section</li>
 <li>這個性質叫 <strong>mutual exclusion（互斥）</strong></li>
 </ul>
 </li>
+<li>其他程式碼之間則稱為 <strong>Remainder Section</strong> (RS;剩餘區間)</li>
 </ul>
-<h2 id="Requirements-for-a-Valid-Solution"><a href="#Requirements-for-a-Valid-Solution" class="headerlink" title="Requirements for a Valid Solution"></a>Requirements for a Valid Solution</h2><ol>
-<li>Mutual Exclusion(互斥性):<ul>
+<h2 id="Requirements-for-a-Valid-Solution">Requirements for a Valid Solution</h2>
+<ol>
+<li>Mutual Exclusion(互斥性):
+<ul>
 <li>同一時間最多一個 process 在 critical section</li>
 <li>目的 : 防止 <strong>Race condition</strong> 、 確保資料完整性</li>
 </ul>
 </li>
-<li>Progress (進展性):<ul>
+<li>Progress (進展性):
+<ul>
 <li>如果：critical section 是空的，有 process 想進去</li>
 <li>那麼：<strong>不能無限期拖延</strong>「誰可以進去」的決定</li>
 <li>決定一定要在 <strong>有限時間內完成</strong></li>
 <li>目的 : 防止 <strong>DeadLock</strong></li>
 </ul>
 </li>
-<li>Bounded Waiting(有界等待):<ul>
+<li>Bounded Waiting(有界等待):</li>
+</ol>
+<ul>
 <li>一個 process 請求進入後 ， 其他 process 最多只能插隊有限次</li>
 <li>目的 : 防止 <strong>starvation</strong>（飢餓）</li>
 </ul>
-</li>
-</ol>
-<h2 id="Critical-Section-Solutions-–-Software-Solutions"><a href="#Critical-Section-Solutions-–-Software-Solutions" class="headerlink" title="Critical Section Solutions – Software Solutions"></a>Critical Section Solutions – Software Solutions</h2><ol>
-<li><p>Software Solutions</p>
+<h2 id="Busy-waiting">Busy waiting</h2>
+<p>Process 使用Loop，讓Processes 等待無法往下執行</p>
 <ul>
-<li><p>Characteristics:</p>
+<li>缺點 : 浪費CPU</li>
+<li>優點 :
+<ul>
+<li><strong>沒有context switch</strong></li>
+<li>在multicore，如果卡住時間<strong>小於2次context switch</strong> 則spinlock 有利</li>
+</ul>
+</li>
+</ul>
+<h2 id="Non-Busy-Waiting">Non-Busy Waiting</h2>
+<p>將Running -&gt; Waiting，直到同步事件發生後才變成Ready</p>
+<ul>
+<li>優點 : 避免Waiting 去跟其他Process爭奪CPU Time</li>
+<li>缺點 : 付出兩次context switch代價
+<ul>
+<li>Running -&gt; Waiting</li>
+<li>ready -&gt; Running</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>context switch 大部分都是跟 Running 有關</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>系統</th>
+<th>Disable Interrupt</th>
+<th>Spinlock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Uniprocessor 單核心</strong></td>
+<td>✅ 適合</td>
+<td>❌ 不適合</td>
+</tr>
+<tr>
+<td><strong>Multiprocessor / Multicore</strong></td>
+<td>❌ 單獨使用不適合</td>
+<td>✅ 適合</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Busy Waiting（Spinlock）</th>
+<th>Non-Busy Waiting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>等待方式</td>
+<td><code>while(lock)</code> 一直檢查</td>
+<td>進 Waiting 睡眠</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>❌ 等待時仍占 CPU</td>
+<td>✅ 不浪費 CPU</td>
+</tr>
+<tr>
+<td>Context Switch</td>
+<td>不需要因為「睡眠/喚醒」而做那兩次切換</td>
+<td>需要付出約 2 次 context switch overhead</td>
+</tr>
+<tr>
+<td>適合</td>
+<td><strong>等待很短</strong></td>
+<td><strong>等待很久</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="Critical-Section-Solutions-–-Software-Solutions">Critical Section Solutions – Software Solutions</h2>
+<ol>
+<li>
+<p>Software Solutions</p>
+<ul>
+<li>
+<p>Characteristics:</p>
 <ul>
 <li>Use only softwarealgorithms</li>
 <li>在任何系統都能用</li>
 </ul>
 </li>
-<li><p>Example: </p>
+<li>
+<p>Example:</p>
 <ul>
 <li>Peterson’s Algorithm（2 個 process）</li>
 <li>Dekker’s Algorithm（2 個）</li>
@@ -426,53 +553,69 @@
 </li>
 </ul>
 </li>
-<li>Synchronization Hardware（硬體支援）<ul>
-<li>Characteristics:<ul>
-<li>Relies on <strong>atomic hardware instructions</strong><blockquote>
-<p>atomic hardware instructions（原子硬體指令） :<br>是由 CPU 保證「整個操作不可被中斷、不可被拆開」的一條指令（或指令組）。<br>要嘛 全部做完，要嘛 完全沒做</p>
+<li>
+<p>Synchronization Hardware（硬體支援）</p>
+<ul>
+<li>Characteristics:
+<ul>
+<li>Relies on <strong>atomic hardware instructions</strong></li>
+</ul>
+<blockquote>
+<p>atomic hardware instructions（原子硬體指令） :<br>
+是由 CPU 保證「整個操作不可被中斷、不可被拆開」的一條指令（或指令組）。<br>
+要嘛 全部做完，要嘛 完全沒做</p>
 </blockquote>
 </li>
-</ul>
-</li>
-<li>Hardware Support<ul>
+<li>Hardware Support
+<ul>
 <li>Test-and-Set</li>
 <li>Compare-and-Swap (CAS)</li>
-<li>Atomic variables<blockquote>
+<li>Atomic variables</li>
+</ul>
+<blockquote>
 <p>這些保證「一整個操作不可被切割」</p>
 </blockquote>
 </li>
 </ul>
 </li>
-</ul>
-</li>
-<li>Semaphore<ul>
-<li>Characteristics:<ul>
+<li>
+<p>Semaphore</p>
+<ul>
+<li>Characteristics:
+<ul>
 <li>一個 <strong>整數變數</strong>，透過<strong>兩個原子操作(atomic operation)</strong> 存取</li>
 <li>提供By OS</li>
 <li>More abstract than hardware instructions</li>
 </ul>
 </li>
-<li>Operations:<ul>
+<li>Operations:
+<ul>
 <li>wait() / P() - dercrement and block : 會嘗試將 semaphore 減 1 並 阻塞。</li>
 <li>signal() / V() - increment and wake up wating process : 會將 semaphore 加 1 並喚醒等待者。</li>
 </ul>
 </li>
-<li>Types:<ul>
+<li>Types:
+<ul>
 <li>Binary semaphore(0 / 1) - 類似 mutex</li>
-<li>Counting semaphore(0 ~ N) - resource counting<blockquote>
+<li>Counting semaphore(0 ~ N) - resource counting</li>
+</ul>
+<blockquote>
 <p>Mutex（互斥鎖）: Mutex 保證「同一時間只有一個 thread 能進 critical section」</p>
 </blockquote>
-</li>
-</ul>
 </li>
 <li>Mutual exclusion</li>
 </ul>
 </li>
-<li>Monitor<ul>
-<li>Characteristics:<ul>
+<li>
+<p>Monitor</p>
+<ul>
+<li>
+<p>Characteristics:</p>
+<ul>
 <li>高階抽象（High-level abstraction）</li>
 <li>封裝共享資料與程序 - 共享變數不能被外面直接存取</li>
-<li>自動保證 Mutual Exclusion - 同一時間，只能一個 process / thread 在 monitor 裡<ul>
+<li>自動保證 Mutual Exclusion - 同一時間，只能一個 process / thread 在 monitor 裡
+<ul>
 <li>進入 Monitor → 自動上鎖</li>
 <li>離開 Monitor → 自動解鎖</li>
 </ul>
@@ -480,14 +623,18 @@
 <li>Synchronization : 使用 condition variable，使用 wait()、signal()</li>
 </ul>
 </li>
+<li>
+<p>Features :</p>
+<ul>
+<li>Only one process can be active</li>
+<li>Condition Variables（條件變數）for waiting and signaling</li>
+<li>Compiler enforces synchronization rules</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
-<pre><code>- Features : 
-    - Only one process can be active
-    - Condition Variables（條件變數）for waiting and signaling
-    - Compiler enforces synchronization rules
-</code></pre><h2 id="Comparison"><a href="#Comparison" class="headerlink" title="Comparison"></a>Comparison</h2><div class="table-container">
+<h2 id="Comparison">Comparison</h2>
 <table>
 <thead>
 <tr>
@@ -524,114 +671,157 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li>Key Points<ul>
+<li>Key Points
+<ul>
 <li>Hardware instructions 是一切的基礎</li>
 <li>Semaphore 與 Monitor 是不同抽象建於硬體之上</li>
 </ul>
 </li>
 </ul>
-<h1 id="Software-Solutions"><a href="#Software-Solutions" class="headerlink" title="Software Solutions"></a>Software Solutions</h1><h2 id="Algorithm-for-two-Processes"><a href="#Algorithm-for-two-Processes" class="headerlink" title="Algorithm for two Processes"></a>Algorithm for two Processes</h2><ul>
+<h1>Software Solutions</h1>
+<h2 id="Algorithm-for-two-Processes">Algorithm for two Processes</h2>
+<ul>
 <li>Setup : Two Processes(P0 and P1)</li>
-<li>Shared Variables : <code>int turn</code>;<ul>
+<li>Shared Variables : <code>int turn</code>;
+<ul>
 <li>$ turn_i $ 代表 輪到 Pi 可以進 critical section;</li>
 </ul>
 </li>
-<li>How It Work : Processes <strong>Alternate</strong> entering the critical section<ul>
-<li>Process P0:<ul>
+<li>How It Work : Processes <strong>Alternate</strong> entering the critical section
+<ul>
+<li>Process P0:
+<ul>
 <li>一直等到 turn == 0 才進去 ， 出來後把 turn = 1</li>
 </ul>
 </li>
-<li>Process P1:<ul>
+<li>Process P1:
+<ul>
 <li>一直等到 turn == 1 才進去出來後把 turn = 0</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Analysis:<ul>
+<li>Analysis:
+<ul>
 <li>Mutual Exclusion : ✅</li>
 <li>Progress : ❌（強制輪流），即使 critical section 是空的也不能進</li>
 <li>Bound Waiting : ✅</li>
 </ul>
 </li>
 </ul>
-<h2 id="Peterson’s-Solution"><a href="#Peterson’s-Solution" class="headerlink" title="Peterson’s Solution"></a>Peterson’s Solution</h2><ul>
-<li>不只看「輪到誰」，還看<strong>對方想不想進</strong></li>
-<li>Shared variables<ul>
-<li>Boolean <strong>Flag</strong>[2]<ul>
+<h2 id="Peterson’s-Solution">Peterson’s Solution</h2>
+<ul>
+<li>
+<p>不只看「輪到誰」，還看<strong>對方想不想進</strong></p>
+</li>
+<li>
+<p>Shared variables</p>
+<ul>
+<li>Boolean <strong>Flag</strong>[2]
+<ul>
 <li><code>flag[i] = true</code>：Pi 想進 CS（有意圖）</li>
 <li><code>flag[i] = false</code>：Pi 不想進</li>
 </ul>
 </li>
-<li>int <strong>turn</strong><ul>
+<li>int <strong>turn</strong>
+<ul>
 <li>用來在「兩個都想進」時決定誰先</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>How It Work :<ol>
+<li>
+<p>How It Work :</p>
+<ol>
 <li><code>flag[i] = true;</code> → 宣告：「我想進」</li>
 <li><code>turn = j;</code> → 禮讓：「如果你也想進，那先讓你」</li>
 <li><code>while (flag[j] &amp;&amp; turn == j) ;</code> → 只有在「<strong>對方想進</strong>」而且「<strong>輪到對方</strong>」時才等</li>
 </ol>
 </li>
-<li>Key : <ul>
-<li>如果兩個同時想進:<ul>
+<li>
+<p>Key :</p>
+<ul>
+<li>如果兩個同時想進:
+<ul>
 <li>Both set their flag to <strong>ture</strong></li>
 <li><strong>Last Process</strong> to set <strong>turn</strong> will wait</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Analysis:</p>
+<li>
+<p>Analysis:</p>
 <ul>
-<li>Mutual Exclusion : ✅</li>
-<li>Progress : ✅</li>
-<li>Bound Waiting : ✅</li>
+<li>Mutual Exclusion : ✅
+<ul>
+<li>只有其中一個能進</li>
 </ul>
 </li>
-<li><p>Cons : </p>
+<li>Progress : ✅
+<ul>
+<li>優先權會給對方</li>
+</ul>
+</li>
+<li>Bound Waiting : ✅
+<ul>
+<li>做完flag會轉成False</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Cons :</p>
 <ul>
 <li>Busy waiting（一直 while 空轉浪費 CPU）</li>
 <li>只適用 2 個 process</li>
 </ul>
 </li>
 </ul>
-<h3 id="Correctness-Proof-of-Peterson’s-Solution"><a href="#Correctness-Proof-of-Peterson’s-Solution" class="headerlink" title="Correctness Proof of Peterson’s Solution"></a>Correctness Proof of Peterson’s Solution</h3><ul>
-<li>Mutual Exclusion : Contradiction(矛盾)<ul>
+<h3 id="Correctness-Proof-of-Peterson’s-Solution">Correctness Proof of Peterson’s Solution</h3>
+<ul>
+<li>Mutual Exclusion : Contradiction(矛盾)
+<ul>
 <li>假設一個不可能的事 =&gt; P0、P1同時在 critical section</li>
 <li>flag[0]、flag[1] = true ， 只能靠turn來決定誰能進</li>
 <li>但turn不能同時是 0 or 1 =&gt; 矛盾！</li>
 </ul>
 </li>
-<li>Progress :<ul>
-<li>Scenario 1：只有 P0 想進<ul>
+<li>Progress :
+<ul>
+<li>Scenario 1：只有 P0 想進
+<ul>
 <li><code>flag[1]=false</code></li>
 <li>P0 while：<code>flag[1] &amp;&amp; turn==1 → false</code></li>
-<li>✅ P0 立刻進 → 不會被無限拖延 </li>
+<li>✅ P0 立刻進 → 不會被無限拖延</li>
 </ul>
 </li>
-<li>Scenario 2：兩個都想進<ul>
+<li>Scenario 2：兩個都想進
+<ul>
 <li><code>Flag[0] Flag[1] = true;</code></li>
 <li>決定只看turn，而turn 只能是 0 or 1，所以只有一個人會進 ✅</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Bounded waiting :<ul>
-<li>Case 1：P1 退出後不再回來<ul>
+<li>Bounded waiting :
+<ul>
+<li>Case 1：P1 退出後不再回來
+<ul>
 <li>P1 出來會 <code>flag[1]=false</code></li>
 <li>P0 的 while 立刻變 false</li>
 <li>✅ P0 直接進</li>
 </ul>
 </li>
-<li>Case 2：P1 退出後又想再進<ul>
-<li>P1 再次想進時會：<ul>
+<li>Case 2：P1 退出後又想再進
+<ul>
+<li>P1 再次想進時會：
+<ul>
 <li><code>flag[1]=true</code></li>
 <li>並且 設 <code>turn=0</code>（禮讓 P0）</li>
 <li>這會覆蓋掉 P0 可能設的 <code>turn=1</code></li>
-<li>此時對 P0 而言：<ul>
+<li>此時對 P0 而言：
+<ul>
 <li>while：<code>flag[1] &amp;&amp; turn==1</code></li>
 <li>因為 turn 已經變 0 → false ✅ → P0 進</li>
 </ul>
@@ -644,7 +834,18 @@
 </ul>
 </li>
 </ul>
-<h3 id="Turn-Algorithm-V-S-Peterson’s-Algorithm"><a href="#Turn-Algorithm-V-S-Peterson’s-Algorithm" class="headerlink" title="Turn Algorithm V.S. Peterson’s Algorithm"></a>Turn Algorithm V.S. Peterson’s Algorithm</h3><div class="table-container">
+<h3 id="Peterson’s-缺點">Peterson’s 缺點</h3>
+<p>在現代電腦下，不保證一定可以正確，因為Compiler有可能對調程式執行，讓程式最佳化</p>
+<ul>
+<li>也可能影響Mutual Exculusion</li>
+<li>解法就不用Software，而要用適當的同步機制
+<ul>
+<li>Primitive support in H.W.</li>
+<li>Proceeds 透過 abstract , high-level,software-based APIs,給Kernel,application 工程師</li>
+</ul>
+</li>
+</ul>
+<h3 id="Turn-Algorithm-V-S-Peterson’s-Algorithm">Turn Algorithm V.S. Peterson’s Algorithm</h3>
 <table>
 <thead>
 <tr>
@@ -676,8 +877,6 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -709,12 +908,11 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Dekker’s-Algorithm"><a href="#Dekker’s-Algorithm" class="headerlink" title="Dekker’s Algorithm"></a>Dekker’s Algorithm</h2><ul>
+<h2 id="Dekker’s-Algorithm">Dekker’s Algorithm</h2>
+<ul>
 <li>使用的共享變數</li>
 <li>第一個「完全正確」的純軟體 critical section 解法（1960s）</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -733,12 +931,10 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
 <li>Dekker 的 Entry Section（重點流程表）</li>
 <li>假設 Pi 想進，Pj 是對方：</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -785,11 +981,11 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li>Dekker 最特別的地方<br>  → 會「暫時撤回意圖（withdraw interest）」</li>
+<li>Dekker 最特別的地方<br>
+→ 會「暫時撤回意圖（withdraw interest）」</li>
 </ul>
-<h3 id="Dekker-vs-Peterson"><a href="#Dekker-vs-Peterson" class="headerlink" title="Dekker vs Peterson"></a>Dekker vs Peterson</h3><div class="table-container">
+<h3 id="Dekker-vs-Peterson">Dekker vs Peterson</h3>
 <table>
 <thead>
 <tr>
@@ -821,11 +1017,9 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
 <li>關鍵差異</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -852,8 +1046,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="Limitations-of-Dekker’s-Algorithm"><a href="#Limitations-of-Dekker’s-Algorithm" class="headerlink" title="Limitations of Dekker’s Algorithm"></a>Limitations of Dekker’s Algorithm</h3><div class="table-container">
+<h3 id="Limitations-of-Dekker’s-Algorithm">Limitations of Dekker’s Algorithm</h3>
 <table>
 <thead>
 <tr>
@@ -884,12 +1077,11 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Bakery-Algorithm"><a href="#Bakery-Algorithm" class="headerlink" title="Bakery Algorithm"></a>Bakery Algorithm</h2><ul>
+<h2 id="Bakery-Algorithm">Bakery Algorithm</h2>
+<ul>
 <li>第一個能解「<strong>N 個 processes</strong>」的純軟體 critical section 解法</li>
 <li>核心比喻</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -916,28 +1108,37 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li>Numbering scheme :<ul>
+<li>Numbering scheme :
+<ul>
 <li>Generate numbers in non-decresing order (後一個數字 &lt;= 前一個數字)</li>
 <li>Duplicate numbers are possible!</li>
 </ul>
 </li>
-<li>Tie-breaking rule:<ul>
+<li>Tie-breaking rule:
+<ul>
 <li>Use <strong>Process ID</strong> as the tiebreaker</li>
 </ul>
 </li>
 </ul>
-<h3 id="排序規則：Lexicographic-Ordering-字典順序"><a href="#排序規則：Lexicographic-Ordering-字典順序" class="headerlink" title="排序規則：Lexicographic Ordering (字典順序)"></a>排序規則：Lexicographic Ordering (字典順序)</h3><ul>
-<li>Bakery 比較的是 <strong>(number, process_id)</strong></li>
-<li>Definition:<script type="math/tex; mode=display">
-      (a,b) < (c,d)　if　a < c　OR　(a==c　AND　b<d)</script></li>
-<li><p>先比號碼 ， 號碼一樣 → 比 process ID</p>
+<h3 id="排序規則：Lexicographic-Ordering-字典順序">排序規則：Lexicographic Ordering (字典順序)</h3>
+<ul>
+<li>
+<p>Bakery 比較的是 <strong>(number, process_id)</strong></p>
 </li>
-<li><p>共享變數</p>
+<li>
+<p>Definition:<br>
+$$<br>
+(a,b) &lt; (c,d)　if　a &lt; c　OR　(a==c　AND　b&lt;d)<br>
+$$</p>
+</li>
+<li>
+<p>先比號碼 ， 號碼一樣 → 比 process ID</p>
+</li>
+<li>
+<p>共享變數</p>
 </li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -956,11 +1157,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="Bakery-Entry-Section"><a href="#Bakery-Entry-Section" class="headerlink" title="Bakery Entry Section"></a>Bakery Entry Section</h3><ul>
+<h3 id="Bakery-Entry-Section">Bakery Entry Section</h3>
+<ul>
 <li>Step 1：拿號碼（Get Ticket）</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -983,11 +1183,9 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
 <li>Step 2：等輪到我（Wait for Turn）</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1006,17 +1204,17 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li><p>Step 3：進入 CS</p>
+<li>
+<p>Step 3：進入 CS</p>
 <ul>
 <li>當「所有優先權比我高的都完成」→ 我就能進</li>
 </ul>
 </li>
-<li><p>Exit Section（Release Ticket）</p>
+<li>
+<p>Exit Section（Release Ticket）</p>
 </li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1031,11 +1229,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="為什麼一定要-choosing"><a href="#為什麼一定要-choosing" class="headerlink" title="為什麼一定要 choosing[]?"></a>為什麼一定要 choosing[]?</h3><ul>
+<h3 id="為什麼一定要-choosing">為什麼一定要 choosing[]?</h3>
+<ul>
 <li>沒有 choosing[]</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1070,14 +1267,14 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li><p>兩個人拿到一樣的號碼，還同時進去</p>
+<li>
+<p>兩個人拿到一樣的號碼，還同時進去</p>
 </li>
-<li><p>加上 choosing[] 後</p>
+<li>
+<p>加上 choosing[] 後</p>
 </li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1100,14 +1297,13 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="Correctness-Proof"><a href="#Correctness-Proof" class="headerlink" title="Correctness Proof"></a>Correctness Proof</h3><ol>
+<h3 id="Correctness-Proof">Correctness Proof</h3>
+<ol>
 <li>Mutual Exclusion</li>
 </ol>
 <ul>
 <li>假設 P0、P1 同時在 CS：</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1134,11 +1330,9 @@
 </tr>
 </tbody>
 </table>
-</div>
-<ol>
+<ol start="2">
 <li>Progress</li>
 </ol>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1161,11 +1355,9 @@
 </tr>
 </tbody>
 </table>
-</div>
-<ol>
+<ol start="3">
 <li>Bounded Waiting</li>
 </ol>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1188,11 +1380,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="Bekery’s-algorithm優缺點總表"><a href="#Bekery’s-algorithm優缺點總表" class="headerlink" title="Bekery’s algorithm優缺點總表"></a>Bekery’s algorithm優缺點總表</h3><ul>
+<h3 id="Bekery’s-algorithm優缺點總表">Bekery’s algorithm優缺點總表</h3>
+<ul>
 <li>✅ 優點</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1219,11 +1410,9 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
 <li>❌ 缺點</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1250,8 +1439,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="前面的總結"><a href="#前面的總結" class="headerlink" title="前面的總結"></a>前面的總結</h3><div class="table-container">
+<h3 id="前面的總結">前面的總結</h3>
 <table>
 <thead>
 <tr>
@@ -1298,85 +1486,181 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Pthread-Lock-Mutex-Routines"><a href="#Pthread-Lock-Mutex-Routines" class="headerlink" title="Pthread Lock/Mutex Routines"></a>Pthread Lock/Mutex Routines</h2><ul>
-<li><p>在 Unix/Linux 用 POSIX Threads（pthread）寫多執行緒時，最常用的互斥工具就是 mutex</p>
+<h2 id="Pthread-Lock-Mutex-Routines">Pthread Lock/Mutex Routines</h2>
 <ul>
-<li>保證同一時間只有一個 thread 進入 critical section（共享資料區） = Mutual Exclusion（互斥）<blockquote>
-<p>Mutex（互斥鎖）: Mutex 保證「同一時間只有一個 thread 能進 critical section」<br>🔒 mutex = 鎖<br>🚶 thread = 人</p>
+<li>在 Unix/Linux 用 POSIX Threads（pthread）寫多執行緒時，最常用的互斥工具就是 mutex
+<ul>
+<li>保證同一時間只有一個 thread 進入 critical section（共享資料區） = Mutual Exclusion（互斥）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Mutex（互斥鎖）: Mutex 保證「同一時間只有一個 thread 能進 critical section」<br>
+🔒 mutex = 鎖<br>
+🚶 thread = 人</p>
 </blockquote>
+<ul>
+<li>Pthread Mutex 的基本流程  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pthread_mutex_t mutex;</span><br><span class="line"></span><br><span class="line">// 1. 初始化</span><br><span class="line">pthread_mutex_init(&amp;mutex, NULL);</span><br><span class="line"></span><br><span class="line">// 2. 上鎖（進 critical section）</span><br><span class="line">pthread_mutex_lock(&amp;mutex);</span><br><span class="line"></span><br><span class="line">/* CRITICAL SECTION</span><br><span class="line">存取 shared data</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">// 3. 解鎖（離開 critical section）</span><br><span class="line">pthread_mutex_unlock(&amp;mutex);</span><br><span class="line"></span><br><span class="line">// 4. 不用時銷毀</span><br><span class="line">pthread_mutex_destroy(&amp;mutex);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</li>
-<li><p>Pthread Mutex 的基本流程</p>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pthread_mutex_t mutex;</span><br><span class="line"></span><br><span class="line">// 1. 初始化</span><br><span class="line">pthread_mutex_init(&amp;mutex, NULL);</span><br><span class="line"></span><br><span class="line">// 2. 上鎖（進 critical section）</span><br><span class="line">pthread_mutex_lock(&amp;mutex);</span><br><span class="line"></span><br><span class="line">/* CRITICAL SECTION</span><br><span class="line">存取 shared data</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">// 3. 解鎖（離開 critical section）</span><br><span class="line">pthread_mutex_unlock(&amp;mutex);</span><br><span class="line"></span><br><span class="line">// 4. 不用時銷毀</span><br><span class="line">pthread_mutex_destroy(&amp;mutex);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="Condition-Variables（CV）"><a href="#Condition-Variables（CV）" class="headerlink" title="Condition Variables（CV）"></a>Condition Variables（CV）</h2><ul>
-<li>CV:<ul>
+<h2 id="Condition-Variables（CV）">Condition Variables（CV）</h2>
+<ul>
+<li>CV:
+<ul>
 <li>Thread 想要等「某個條件成立」再繼續做事</li>
 <li>Notify other waiting thread that the condition has occured</li>
 </ul>
 </li>
-<li>三個核心操作:<ul>
+<li>三個核心操作:
+<ul>
 <li>wait() : 讓呼叫者「睡著」，直到有人通知它 、 wait 會原子性地「釋放 mutex 並進入等待</li>
 <li>signal() : 喚醒 一個 正在 wait 的 thread 、 如果沒人 wait：訊號會消失</li>
 <li>broadcast() : 喚醒 全部 wait 的 threads、大家會搶 mutex ， 仍是一次一個能真正繼續</li>
 </ul>
 </li>
 </ul>
-<h1 id="Hardware-Support-for-Synchronization"><a href="#Hardware-Support-for-Synchronization" class="headerlink" title="Hardware Support for Synchronization"></a>Hardware Support for Synchronization</h1><h2 id="純軟體的限制"><a href="#純軟體的限制" class="headerlink" title="純軟體的限制"></a>純軟體的限制</h2><ul>
-<li>❌　共享變數的修改會被「中斷」可能被 → context switch 打斷</li>
-<li>❌　多步驟操作不是 atomic → <code>load → modify → store</code> 不是不可分割的</li>
-<li><p>❌　純軟體解法太依賴「嚴格記憶體順序」</p>
+<h1>Hardware Support for Synchronization</h1>
+<h2 id="純軟體的限制">純軟體的限制</h2>
+<ul>
+<li>
+<p>❌　共享變數的修改會被「中斷」可能被 → context switch 打斷</p>
 </li>
-<li><p><strong>需要硬體支援的 atomic operations（原子操作）</strong></p>
+<li>
+<p>❌　多步驟操作不是 atomic → <code>load → modify → store</code> 不是不可分割的</p>
+</li>
+<li>
+<p>❌　純軟體解法太依賴「嚴格記憶體順序」</p>
+</li>
+<li>
+<p><strong>需要硬體支援的 atomic operations（原子操作）</strong></p>
 </li>
 </ul>
-<h2 id="Approach-1-Disable-Interrupts"><a href="#Approach-1-Disable-Interrupts" class="headerlink" title="Approach 1: Disable Interrupts"></a>Approach 1: Disable Interrupts</h2><ul>
-<li><p>Logic : 不讓中斷發生 → 就不會被 context switch → critical section 安全</p>
+<h2 id="Memory-barriers">Memory barriers</h2>
+<ul>
+<li>Stringly ordered : 修改馬上被其他processor看見</li>
+<li>Weekly ordered : 修改不一定馬上被其他processor看見<br>
+Barrier 要求前面排序好的memory operation 不能被後面的memory operatoins 跳過</li>
+</ul>
+<h2 id="Hardware-Instruction">Hardware Instruction</h2>
+<h2 id="Approach-1-Disable-Interrupts">Approach 1: Disable Interrupts</h2>
+<ul>
+<li>
+<p>Logic : 不讓中斷發生 → 就不會被 context switch → critical section 安全</p>
 </li>
-<li><p>單核心問題 :</p>
+<li>
+<p>單核心問題 :</p>
 <ul>
 <li>⛔ <strong>clock interrupt 被關</strong> → 系統時間亂掉</li>
 <li>⛔ <strong>I/O interrupt 被吃掉</strong> → 裝置可能壞掉</li>
 <li>⛔ <strong>安全風險</strong>：user process 若能關中斷，系統直接爆炸</li>
 </ul>
 </li>
-<li><p>多核心問題 : </p>
+<li>
+<p>多核心問題 :</p>
 <ul>
 <li>⛔ 關的是「本 CPU」的中斷 → 其他 CPU 還是能同時存取 shared data</li>
 </ul>
 </li>
-<li><p><strong>❌ 關中斷 不是通用解法</strong></p>
+<li>
+<p><strong>❌ 關中斷 不是通用解法</strong></p>
 </li>
 </ul>
-<h2 id="Approach-2-Hardware-Atomic-Instructions"><a href="#Approach-2-Hardware-Atomic-Instructions" class="headerlink" title="Approach 2: Hardware Atomic Instructions"></a>Approach 2: Hardware Atomic Instructions</h2><ul>
-<li><p>Atomic Instruction : </p>
+<h2 id="Approach-2-Hardware-Atomic-Instructions">Approach 2: Hardware Atomic Instructions</h2>
+<ul>
+<li>
+<p>Atomic Instruction :</p>
 <ul>
 <li><strong>一次完成</strong></li>
 <li><strong>不可被中斷</strong></li>
 <li>CPU 硬體保證</li>
 </ul>
 </li>
-<li><p>Common Atomic Instruction : </p>
+<li>
+<p>Common Atomic Instruction :</p>
 <ol>
-<li>Test-and-Set<ul>
+<li>Test-and-Set
+<ul>
 <li>讀＋寫一次完成</li>
 </ul>
 </li>
-<li>Compare-and-Swap (CAS)<ul>
+<li>Compare-and-Swap (CAS)
+<ul>
 <li>只有在「值沒變」時才更新</li>
 </ul>
 </li>
-<li>Swap / Exchange<ul>
+<li>Swap / Exchange
+<ul>
 <li>直接交換兩個值</li>
 </ul>
 </li>
 </ol>
 </li>
 </ul>
-<h2 id="Mutual-Exclusion-3-Common-Atomic-Instruction"><a href="#Mutual-Exclusion-3-Common-Atomic-Instruction" class="headerlink" title="Mutual Exclusion 3 Common Atomic Instruction"></a>Mutual Exclusion 3 Common Atomic Instruction</h2><div class="table-container">
+<h3 id="Test-and-set-param">Test and set(param)</h3>
+<ul>
+<li>傳回參數舊值，並同時將參數設為1，且保證atomically executed</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">test_and_set</span><span class="params">(<span class="type">bool</span> *target)</span></span>&#123;</span><br><span class="line">    <span class="type">bool</span> *ret = *target</span><br><span class="line">    *target = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>mutual exclution : T</li>
+<li>Progress : T</li>
+<li>違反Bounded Waiting : F
+<ul>
+<li>Pi比Pj早進去，Pj等待中，Pi做完離開後企圖立刻進去，則Pi有可能先搶到</li>
+</ul>
+</li>
+</ul>
+<h3 id="Test-and-set-algo2-正確-背">Test_and_set (algo2) (正確) (背)</h3>
+<ul>
+<li>lock = False</li>
+<li>Bool waiting[0…n-1] , 初值為False;
+<ul>
+<li>初值表: Pi想進C.S且等待中</li>
+<li>後表可(已)進入C.S.表不用等</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="comment">// &lt;!-- entry section --&gt;</span></span><br><span class="line">    waiting [i] = <span class="literal">true</span>; <span class="comment">// pi想進</span></span><br><span class="line">    key = ture;</span><br><span class="line">    <span class="keyword">while</span>(waiting[i] &amp;&amp; key)</span><br><span class="line">        key = <span class="built_in">test_and_set</span>(&amp;lock); <span class="comment">// 1st Process  傳回F，且Lock設T，if 2nd 3rd processes傳回T，Lock設T key仍為 T 卡住</span></span><br><span class="line">    waiting[i] = <span class="literal">false</span> <span class="comment">//不用等可以進</span></span><br><span class="line"><span class="comment">//critical section</span></span><br><span class="line">    <span class="comment">//Exit sec</span></span><br><span class="line">    j = (i<span class="number">+1</span>) % n <span class="comment">//找下一個</span></span><br><span class="line">    <span class="keyword">while</span>((j!=i)&amp;&amp;!waiting[j])<span class="comment">//找下一個想進的</span></span><br><span class="line">        j = (j<span class="number">+1</span>)%n;</span><br><span class="line">    <span class="keyword">if</span> (j==i)<span class="comment">//沒有其他想進的</span></span><br><span class="line">        lock = <span class="literal">false</span>&#x27;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        waiting[j] = <span class="literal">false</span></span><br><span class="line"><span class="comment">// RS</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Pi 想進</span><br><span class="line"> ↓</span><br><span class="line">waiting[i] = T</span><br><span class="line"> ↓</span><br><span class="line">嘗試 TestAndSet</span><br><span class="line"> ↓</span><br><span class="line">┌─────────────────┐</span><br><span class="line">│                 │</span><br><span class="line">自己搶到          別人交棒</span><br><span class="line">key = F           waiting[i] = F</span><br><span class="line">│                 │</span><br><span class="line">└────────┬────────┘</span><br><span class="line">         ↓</span><br><span class="line">       進 C.S.</span><br><span class="line">         ↓</span><br><span class="line">找下一個 waiting = T</span><br><span class="line">         ↓</span><br><span class="line">   ┌─────┴─────┐</span><br><span class="line">   │           │</span><br><span class="line"> 有人等       沒人等</span><br><span class="line">   ↓           ↓</span><br><span class="line">交棒給他     lock = F</span><br><span class="line">waiting[j]=F   釋放鎖</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>key = false<br>
+→ 原本 lock = false<br>
+→ 代表我成功搶到鎖<br>
+→ 可以進 C.S.</p>
+</li>
+<li>
+<p>key = true<br>
+→ 原本 lock = true<br>
+→ 代表別人已經有鎖<br>
+→ 繼續等</p>
+</li>
+</ul>
+<h3 id="CAS-Compare-and-set">CAS (Compare and set)</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">CAS</span><span class="params">(<span class="type">int</span> *value, <span class="type">int</span> expected, <span class="type">int</span> new_value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> temp = *value;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (*value == expected)</span><br><span class="line">        *value = new_value;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td>我要檢查、修改的變數</td>
+</tr>
+<tr>
+<td><code>expected</code></td>
+<td>我期待它現在的值</td>
+</tr>
+<tr>
+<td><code>new_value</code></td>
+<td>如果符合期待，要改成的新值</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Mutual-Exclusion-3-Common-Atomic-Instruction">Mutual Exclusion 3 Common Atomic Instruction</h2>
 <table>
 <thead>
 <tr>
@@ -1479,114 +1763,220 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li>Key Points:<ul>
+<li>Key Points:
+<ul>
 <li>硬體支援讓同步變簡單又快</li>
 <li>Atomic instructions 是 mutex 、 semaphore的地基</li>
 <li>busy waiting 仍存在 、 bounded waiting 仍需設計</li>
 </ul>
 </li>
 </ul>
-<h1 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h1><ul>
-<li><p>Purpose（目的）</p>
+<h1>Mutex Lock</h1>
+<p>提供兩個Atomic operation</p>
+<ul>
+<li>acquire()</li>
+<li>Release()</li>
+</ul>
+<h2 id="Lock-Contention-不重要">Lock Contention (不重要)</h2>
+<p>Lock contention = 多個 Threads 競爭同一個 Lock。</p>
+<ul>
+<li>
+<p>Uncontended：<br>
+Thread 要取得 Lock 時，Lock 可直接取得。</p>
+</li>
+<li>
+<p>Contended：<br>
+Thread 要取得 Lock 時，因 Lock 被占用而必須等待。</p>
+<ul>
+<li>Low contention：少量 Threads 競爭</li>
+<li>High contention：大量 Threads 競爭</li>
+</ul>
+</li>
+</ul>
+<h1>Semaphore</h1>
+<ul>
+<li>
+<p>Purpose（目的）</p>
 <ul>
 <li>它是一個「<strong>同步工具</strong>」，用來一般化 critical section 問題</li>
 <li>比硬體原子指令<strong>更高階</strong></li>
 </ul>
 </li>
-<li><p>Definition</p>
+<li>
+<p>Definition</p>
 <ul>
 <li>本質是一個 整數 counter</li>
 <li>存取只能透過兩<strong>個原子操作</strong> : wait() 、 signal()</li>
 <li>Key property：Operations are <strong>indivisible</strong>（不可分割/原子）</li>
-<li><strong>wait/signal 一定要 atomic</strong><h2 id="Type-of-Semaphore"><a href="#Type-of-Semaphore" class="headerlink" title="Type of Semaphore"></a>Type of Semaphore</h2></li>
+<li><strong>wait/signal 一定要 atomic</strong></li>
 </ul>
 </li>
-<li><p>Binary Semaphore（值只有 0 或 1）</p>
+</ul>
+<h2 id="Type-of-Semaphore">Type of Semaphore</h2>
+<ul>
+<li>
+<p>Binary Semaphore（值只有 0 或 1）</p>
 <ul>
 <li>value=1：資源可用 / 沒鎖（unlocked）</li>
 <li>value=0：資源不可用 / 上鎖（locked）</li>
 <li>用途：互斥（mutex lock）（一次只能一個人進 CS）</li>
 </ul>
 </li>
-<li><p>Counting Semaphore（值是 2…N）</p>
+<li>
+<p>Counting Semaphore（值是 2…N）</p>
 <ul>
 <li>代表「同時允許最多 N 個」使用資源</li>
 <li>用途：資源數量控制</li>
 </ul>
 </li>
 </ul>
-<h3 id="Two-Atomic-Operation"><a href="#Two-Atomic-Operation" class="headerlink" title="Two Atomic Operation :"></a>Two Atomic Operation :</h3><ul>
-<li><p>wait(S) / P(S) / down(S)</p>
+<h3 id="Two-Atomic-Operation">Two Atomic Operation :</h3>
 <ul>
-<li>做的事：S—</li>
+<li>
+<p>wait(S) / P(S) / down(S)</p>
+<ul>
+<li>做的事：S–</li>
 <li>如果 S 變成負數 → 表示「資源不夠」→ 呼叫者要 block（睡眠）</li>
 </ul>
 </li>
-<li><p>signal(S) / V(S) / up(S)</p>
+<li>
+<p>signal(S) / V(S) / up(S)</p>
 <ul>
 <li>做的事：S++</li>
 <li>如果有人在等 → wakeup 一個</li>
 </ul>
 </li>
-<li><p>Spinlock Implementation : </p>
+<li>
+<p>Spinlock Implementation :</p>
 <ul>
-<li>wait(S)：當 S-&gt;value &lt;= 0 就一直 while 轉圈（busy waiting），直到有資源再 value—</li>
+<li>wait(S)：當 S-&gt;value &lt;= 0 就一直 while 轉圈（busy waiting），直到有資源再 value–</li>
 <li>signal(S)：value++</li>
 </ul>
 </li>
 </ul>
-<h3 id="Issue"><a href="#Issue" class="headerlink" title="Issue"></a>Issue</h3><ul>
+<h3 id="Issue">Issue</h3>
+<ul>
 <li><strong>浪費 CPU cycles</strong>：一直 while 檢查</li>
 <li><strong>單核心更糟</strong>：等的人一直占 CPU，持鎖者可能根本拿不到 CPU 去解鎖</li>
 </ul>
-<h3 id="適合時機"><a href="#適合時機" class="headerlink" title="適合時機"></a>適合時機</h3><ul>
+<h3 id="適合時機">適合時機</h3>
+<ul>
 <li>critical section 很短（一下就解鎖）</li>
 <li>多核心 multiprocessor：別的 CPU 仍能前進（持鎖者能跑）</li>
 </ul>
-<h3 id="不適合時機"><a href="#不適合時機" class="headerlink" title="不適合時機"></a>不適合時機</h3><ul>
+<h3 id="不適合時機">不適合時機</h3>
+<ul>
 <li>CS 很長</li>
 <li>CPU 資源少</li>
 <li>單核心</li>
 </ul>
-<h2 id="Non-busy-waiting（有等待隊列的-semaphore，真正-OS-會用）"><a href="#Non-busy-waiting（有等待隊列的-semaphore，真正-OS-會用）" class="headerlink" title="Non-busy waiting（有等待隊列的 semaphore，真正 OS 會用）"></a>Non-busy waiting（有等待隊列的 semaphore，真正 OS 會用）</h2><ul>
-<li><p>不要忙等，改成 block/wakeup</p>
-</li>
-<li><p>wait(S)：先 S-&gt;value—</p>
+<h2 id="Semaphore考題-就考這一種">Semaphore考題 (就考這一種)</h2>
+<p>use Binary Semaphore to implement the counting semaphore</p>
 <ul>
-<li>如果變成 &lt; 0：代表要等<br>→ 把自己放到等待隊列 S-&gt;list<br>→ 呼叫 block()（睡眠，OS 把你移出 ready queue）</li>
+<li>int C</li>
+<li>Binary_Semaphore S1 = 1 給C互斥控制</li>
+<li>Binary_Semaphore S2 = 0 卡住Processes</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Wait</span>(c)&#123;</span><br><span class="line">    <span class="built_in">Wait</span>(S1);</span><br><span class="line">    C--;</span><br><span class="line">    <span class="keyword">if</span>(C&lt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">signal</span>(S1);</span><br><span class="line">        <span class="built_in">wait</span>(S2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">Else <span class="title">signal</span><span class="params">(S1)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Signal</span>(c)&#123;</span><br><span class="line">    <span class="built_in">Wait</span>(S1)</span><br><span class="line">    C++;</span><br><span class="line">    <span class="keyword">if</span>(C &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">signal</span>(S2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">signal</span>(S1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Non-busy-waiting（有等待隊列的-semaphore，真正-OS-會用）">Non-busy waiting（有等待隊列的 semaphore，真正 OS 會用）</h2>
+<ul>
+<li>
+<p>不要忙等，改成 block/wakeup</p>
+</li>
+<li>
+<p>wait(S)：先 S-&gt;value–</p>
+<ul>
+<li>如果變成 &lt; 0：代表要等<br>
+→ 把自己放到等待隊列 S-&gt;list<br>
+→ 呼叫 block()（睡眠，OS 把你移出 ready queue）</li>
 </ul>
 </li>
-<li><p>signal(S)：先 S-&gt;value++</p>
+<li>
+<p>signal(S)：先 S-&gt;value++</p>
 <ul>
-<li>如果結果 &lt;= 0：表示「還有人在等」（因為負值代表等待人數）<br>→ 從 S-&gt;list 取出一個<br>→ wakeup(P) 把它放回 ready queue</li>
+<li>如果結果 &lt;= 0：表示「還有人在等」（因為負值代表等待人數）<br>
+→ 從 S-&gt;list 取出一個<br>
+→ wakeup(P) 把它放回 ready queue</li>
 </ul>
 </li>
-<li><p>Value意義:</p>
+<li>
+<p>Value意義:</p>
 <ul>
 <li>S &gt; 0：還有 S 個資源可用（下一個 wait 不會 block）</li>
 <li>S = 0：資源剛好用完（下一個 wait 會 block）</li>
-<li>S &lt; 0：<ul>
-<li>|S| = 正在等待（被 block）的 process 數量<br>例：S = -3 代表有 3 個 process 被擋在 wait 上</li>
+<li>S &lt; 0：
+<ul>
+<li>|S| = 正在等待（被 block）的 process 數量<br>
+例：S = -3 代表有 3 個 process 被擋在 wait 上</li>
 </ul>
 </li>
 </ul>
 </li>
+<li>
+<p>waiting process : 可以借助link field in each PCB，為了確保bounded waiting 可以用FIFO queue</p>
+</li>
 </ul>
-<h2 id="POSIX-Semaphor"><a href="#POSIX-Semaphor" class="headerlink" title="POSIX Semaphor"></a>POSIX Semaphor</h2><ul>
+<h2 id="Semaphore-4-種實作">Semaphore 4 種實作</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>Atomic 的做法</th>
+<th>等待方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Algorithm 1</td>
+<td>Disable Interrupt</td>
+<td>Non-busy waiting</td>
+</tr>
+<tr>
+<td>Algorithm 2</td>
+<td>Test-and-Set／CAS</td>
+<td>Non-busy waiting</td>
+</tr>
+<tr>
+<td>Algorithm 3</td>
+<td>Disable Interrupt</td>
+<td>Busy waiting</td>
+</tr>
+<tr>
+<td>Algorithm 4</td>
+<td>Test-and-Set／CAS</td>
+<td>Busy waiting</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Algorithm-1">Algorithm 1</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Wait</span>(s)&#123;</span><br><span class="line">    disable interrupt;</span><br><span class="line">    s -&gt; Value--;</span><br><span class="line">    <span class="keyword">if</span>(S-&gt; value &lt;<span class="number">0</span>)&#123;</span><br><span class="line">        add Process P to S -&gt; <span class="function">list</span></span><br><span class="line"><span class="function">        Enable interrupt</span></span><br><span class="line"><span class="function">        <span class="title">sleep</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> enable interrupt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">signal</span>(S) &#123;</span><br><span class="line">    <span class="built_in">disable_interrupt</span>();</span><br><span class="line"></span><br><span class="line">    S.value++;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (S.value &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        從 S.list 取出一個 process P;</span><br><span class="line">        <span class="built_in">wakeup</span>(P);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">enable_interrupt</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="algorithm-2">algorithm 2</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wait</span>(S) &#123;</span><br><span class="line">    <span class="built_in">acquire_internal_lock</span>();   <span class="comment">// Test-and-Set 或 CAS</span></span><br><span class="line"></span><br><span class="line">    S.value--;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (S.value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        將目前 process 加入 S.list;</span><br><span class="line">        <span class="built_in">release_internal_lock</span>();</span><br><span class="line">        <span class="built_in">sleep</span>();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">release_internal_lock</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Entry Section 中仍然有Busy waiting</p>
+<h3 id="algorithm-3">algorithm 3</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wait</span>(S) &#123;</span><br><span class="line">    <span class="built_in">disable_interrupt</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (S &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">enable_interrupt</span>();</span><br><span class="line"></span><br><span class="line">        <span class="built_in">do_no_op</span>();       <span class="comment">// 繼續等待，占用 CPU</span></span><br><span class="line"></span><br><span class="line">        <span class="built_in">disable_interrupt</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    S--;</span><br><span class="line">    <span class="built_in">enable_interrupt</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">signal</span>(S) &#123;</span><br><span class="line">    <span class="built_in">disable_interrupt</span>();</span><br><span class="line">    S++;</span><br><span class="line">    <span class="built_in">enable_interrupt</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Busy-Waiting-無法完全避免">Busy Waiting 無法完全避免</h3>
+<p>semaphore 只是將她從定義層次拉到實作層面</p>
+<h2 id="POSIX-Semaphor">POSIX Semaphor</h2>
+<ul>
 <li>Semaphore 是 <strong>POSIX 標準</strong>的一部分 ， <strong>不是 pthread 的一部分</strong></li>
-<li>Semaphore 可以用在：<ul>
+<li>Semaphore 可以用在：
+<ul>
 <li>process ↔ process（跨行程同步）</li>
 <li>thread ↔ thread（同一行程內多執行緒同步）</li>
 </ul>
 </li>
 </ul>
-<h2 id="Correctness-Properties"><a href="#Correctness-Properties" class="headerlink" title="　Correctness Properties"></a>　Correctness Properties</h2><ul>
+<p>##　Correctness Properties</p>
+<ul>
 <li>Mutual Exclusion：可以</li>
 <li>Progress：通常可以</li>
-<li>Bounded Waiting：不保證<ul>
-<li>會不會餓死starvation取決於等待隊列怎麼選人<ul>
+<li>Bounded Waiting：不保證
+<ul>
+<li>會不會餓死starvation取決於等待隊列怎麼選人
+<ul>
 <li>FIFO：比較有 bounded waiting</li>
 <li>LIFO / priority：可能有人永遠被插隊 → starvation</li>
 </ul>
@@ -1594,62 +1984,79 @@
 </ul>
 </li>
 </ul>
-<h2 id="Advantages-and-Disadvantages"><a href="#Advantages-and-Disadvantages" class="headerlink" title="Advantages and Disadvantages"></a>Advantages and Disadvantages</h2><ul>
-<li>優點:<ul>
+<h2 id="Advantages-and-Disadvantages">Advantages and Disadvantages</h2>
+<ul>
+<li>優點:
+<ul>
 <li>抽象層更高、可移植、不依賴特定硬體、可用 block 避免 busy waiting</li>
 <li>也支援「互斥」+「同步（順序約束）」兩種用途</li>
 </ul>
 </li>
-<li>缺點:<ul>
+<li>缺點:
+<ul>
 <li>容易寫錯</li>
 <li>不具結構性</li>
 <li>沒有 ownership（所有權）</li>
 </ul>
 </li>
 </ul>
-<h2 id="Cooperation-Synchronization（合作式同步：強制順序）"><a href="#Cooperation-Synchronization（合作式同步：強制順序）" class="headerlink" title="Cooperation Synchronization（合作式同步：強制順序）"></a>Cooperation Synchronization（合作式同步：強制順序）</h2><ul>
-<li><p>需求</p>
+<h2 id="Cooperation-Synchronization（合作式同步：強制順序）">Cooperation Synchronization（合作式同步：強制順序）</h2>
+<ul>
+<li>
+<p>需求</p>
 <ul>
 <li>P1 做 S1</li>
 <li>P2 做 S2</li>
 <li>規定：S2 必須等 S1 做完</li>
 </ul>
 </li>
-<li><p>看到 wait(x)：代表「我需要 x 這個事件先完成」</p>
+<li>
+<p>看到 wait(x)：代表「我需要 x 這個事件先完成」</p>
 </li>
-<li>看到 signal(x)：代表「我完成了某個事件，放行後面的人」</li>
+<li>
+<p>看到 signal(x)：代表「我完成了某個事件，放行後面的人」</p>
+</li>
 </ul>
-<h2 id="Deadlocks-and-Starvation"><a href="#Deadlocks-and-Starvation" class="headerlink" title="Deadlocks and Starvation"></a>Deadlocks and Starvation</h2><ul>
-<li><p>Deadlock</p>
+<h2 id="Deadlocks-and-Starvation">Deadlocks and Starvation</h2>
 <ul>
-<li>兩個或更多 process 都在等<ul>
-<li>而「能讓我繼續的事件」只能由「正在等的那些人」造成<br>→ 形成閉環，永遠沒人能先動</li>
+<li>
+<p>Deadlock</p>
+<ul>
+<li>兩個或更多 process 都在等
+<ul>
+<li>而「能讓我繼續的事件」只能由「正在等的那些人」造成<br>
+→ 形成閉環，永遠沒人能先動</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Starvation</p>
+<li>
+<p>Starvation</p>
 <ul>
 <li>某個 process 一直等不到，但系統其實一直在前進</li>
-<li>常見原因：<ul>
-<li>semaphore 等待隊列是 LIFO 或不公平策略<br>→ 新來的永遠插隊，老的永遠輪不到。</li>
+<li>常見原因：
+<ul>
+<li>semaphore 等待隊列是 LIFO 或不公平策略<br>
+→ 新來的永遠插隊，老的永遠輪不到。</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<h1 id="Classical-Synchronization-Problems"><a href="#Classical-Synchronization-Problems" class="headerlink" title="Classical Synchronization Problems"></a>Classical Synchronization Problems</h1><ul>
-<li><p>Purpose</p>
+<h1>Classical Synchronization Problems</h1>
+<ul>
+<li>
+<p>Purpose</p>
 <ul>
 <li><strong>Benchmark problems</strong> : 把同步問題「標準化」</li>
 <li>都要拿來「實戰驗證」</li>
 <li>光說「我這個 lock 很棒」不夠，要拿<strong>經典問題來測</strong></li>
 </ul>
 </li>
-<li><p>三大經典問題</p>
+<li>
+<p>三大經典問題</p>
 </li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1672,11 +2079,9 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
-<li>Producer–Consumer vs Readers–Writers vs Dining Philosophers    </li>
+<li>Producer–Consumer vs Readers–Writers vs Dining Philosophers</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1755,63 +2160,1040 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="Monitors"><a href="#Monitors" class="headerlink" title="Monitors"></a>Monitors</h1><ul>
-<li><p>Motivation of Monitors</p>
+<h1>Monitors</h1>
+<ul>
+<li>
+<p>Motivation of Monitors</p>
 <ul>
 <li>Semaphore 很有效，但「<strong>正確性完全靠程式員</strong>」</li>
 </ul>
 </li>
-<li><p>Monitor 是更高階的同步結構</p>
+<li>
+<p>Monitor 是更高階的同步結構</p>
 </li>
-<li>核心功能：<strong>自動互斥（automatic mutual exclusion）</strong></li>
-<li>Monitor 由兩部分構成：<ul>
+<li>
+<p>核心功能：<strong>自動互斥（automatic mutual exclusion）</strong></p>
+</li>
+<li>
+<p>Monitor 由兩部分構成：</p>
+<ul>
 <li>共享資料（variables / state）</li>
-<li>操作共享資料的方法（procedures/functions）<br>  而且外面只能透過方法存取資料。</li>
+<li>操作共享資料的方法（procedures/functions）<br>
+而且外面只能透過方法存取資料。</li>
 </ul>
 </li>
-<li>同一時間只允許<strong>一個</strong> thread/process 在 monitor 裡執行<br>→ 這就是 monitor <strong>自帶的 mutual exclusion</strong>。</li>
+<li>
+<p>同一時間只允許<strong>一個</strong> thread/process 在 monitor 裡執行<br>
+→ 這就是 monitor <strong>自帶的 mutual exclusion</strong>。優於Semaphore的好處</p>
+</li>
 </ul>
-<h2 id="Similarity-to-Object-Oriented-Classes"><a href="#Similarity-to-Object-Oriented-Classes" class="headerlink" title="Similarity to Object-Oriented Classes"></a>Similarity to Object-Oriented Classes</h2><ul>
-<li><p>Monitor 很像物件導向 class：</p>
+<h2 id="Similarity-to-Object-Oriented-Classes">Similarity to Object-Oriented Classes</h2>
+<ul>
+<li>
+<p>Monitor 很像物件導向 class：</p>
 <ul>
 <li>封裝（Encapsulation）：資料 + 操作放一起</li>
 <li>資訊隱藏（Data hiding）：內部狀態 private，外面不能直接碰</li>
 <li>公開介面（Public interface）：外界只能呼叫方法</li>
 </ul>
 </li>
-<li><p>外部 code <strong>不能直接存取</strong> monitor 內部變數</p>
+<li>
+<p>外部 code <strong>不能直接存取</strong> monitor 內部變數</p>
 </li>
 </ul>
-<h2 id="Condition-Variables-in-Monitor"><a href="#Condition-Variables-in-Monitor" class="headerlink" title="Condition Variables in Monitor"></a>Condition Variables in Monitor</h2><ul>
-<li>Monitor <strong>只保證 mutual exclusion</strong>，不保證你要的「條件同步」。</li>
-<li><p>很多問題需要「等到條件成立」才繼續，例如 bounded buffer：</p>
+<h2 id="Condition-Variables-in-Monitor">Condition Variables in Monitor</h2>
+<ul>
+<li>
+<p>Monitor <strong>只保證 mutual exclusion</strong>，不保證你要的「條件同步」。</p>
+</li>
+<li>
+<p>很多問題需要「等到條件成立」才繼續，例如 bounded buffer：</p>
 <ul>
 <li>buffer 滿：producer 不能做 → 要等 notFull</li>
 <li>buffer 空：consumer 不能拿 → 要等 notEmpty</li>
 </ul>
 </li>
-<li><p>monitor 提供 <strong>condition variables</strong></p>
+<li>
+<p>monitor 提供 <strong>condition variables</strong></p>
 <ul>
-<li>x.wait()<ul>
+<li>x.wait()
+<ul>
 <li>把自己睡著（suspend）</li>
 <li>釋放 monitor lock（不然別人進不來改條件）</li>
 <li>等被喚醒後，再回來繼續</li>
 </ul>
 </li>
-<li>x.signal()<ul>
+<li>x.signal()
+<ul>
 <li>喚醒 一個 等在 x 的人</li>
 <li>若沒人等 → 沒效果（signal lost）</li>
 </ul>
 </li>
 </ul>
 </li>
+<li>
+<p>x的waiting queue可能是 <strong>FIFO or FCFS</strong> queue</p>
+</li>
+</ul>
+<h2 id="Monitor-種類">Monitor 種類</h2>
+<ol>
+<li>P等Q全部做完或是Q blocked again (Hoare)</li>
+<li>Q等P直到P做完或是 P blocked again (BAD)
+<ul>
+<li>P在這段期間可能又會把condition 改掉，變成Q不一定成立</li>
+</ul>
+</li>
+<li>P立即退出Monitor，讓Q先做，P會在下一個進入</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>P 執行 <code>signal()</code> 後</th>
+<th>誰先跑？</th>
+<th>Q 等待的 condition</th>
+<th>特點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① P waits for Q</strong></td>
+<td>P 暫停</td>
+<td><strong>Q</strong></td>
+<td>✅ 可保證仍成立</td>
+<td><strong>Hoare Monitor</strong></td>
+</tr>
+<tr>
+<td><strong>② Q waits for P</strong></td>
+<td>P 繼續</td>
+<td><strong>P</strong></td>
+<td>❌ Q 執行時可能已改變</td>
+<td>看起來自然，但不保證 condition</td>
+</tr>
+<tr>
+<td><strong>③ P exits monitor and Q resumes</strong></td>
+<td>P 直接退出 Monitor</td>
+<td><strong>Q</strong></td>
+<td>✅ 可保證 Q 接著執行</td>
+<td>Concurrent C/Pascal</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>1、3 : Signal and Wait</li>
+<li>2 : Signal and Continue</li>
+</ul>
+<h2 id="Implementing-a-Monitor-Using-Semaphores">Implementing a Monitor Using Semaphores</h2>
+<p>使用 Semaphore 實作 Monitor，需要滿足：</p>
+<ol>
+<li>
+<p><strong>Mutual Exclusion</strong></p>
+<ul>
+<li>同一時間只能有一個 Process 在 Monitor 裡執行。</li>
+</ul>
+</li>
+<li>
+<p><strong>符合 Hoare Monitor</strong></p>
+<ul>
+<li>P 執行 <code>x.signal()</code> 喚醒 Q。</li>
+<li><strong>P 必須等待，讓 Q 馬上執行。</strong></li>
+<li>Q 完成或再次 blocked 後，P 才繼續。</li>
+</ul>
+</li>
+<li>
+<p>實作 Condition Variable：</p>
+<ul>
+<li><code>x.wait()</code></li>
+<li><code>x.signal()</code></li>
+</ul>
+</li>
+</ol>
+<p>Monitor 使用的變數</p>
+<table>
+<thead>
+<tr>
+<th>變數</th>
+<th style="text-align:right">初始值</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mutex</code></td>
+<td style="text-align:right">1</td>
+<td>保證 Monitor 的 Mutual Exclusion</td>
+</tr>
+<tr>
+<td><code>next</code></td>
+<td style="text-align:right">0</td>
+<td>讓執行 <code>signal()</code> 後暫停的 Process 等待</td>
+</tr>
+<tr>
+<td><code>next_count</code></td>
+<td style="text-align:right">0</td>
+<td>記錄有幾個 Process 在 <code>next</code> 等待</td>
+</tr>
+<tr>
+<td><code>x_sem</code></td>
+<td style="text-align:right">0</td>
+<td>Condition <code>x</code> 的等待 Queue</td>
+</tr>
+<tr>
+<td><code>x_count</code></td>
+<td style="text-align:right">0</td>
+<td>記錄有幾個 Process 正在等待 Condition <code>x</code></td>
+</tr>
+</tbody>
+</table>
+<p>簡單記：</p>
+<blockquote>
+<p><code>x_sem</code> = 等 Condition x 的 Queue<br>
+<code>x_count</code> = Queue 裡有幾個 Process</p>
+</blockquote>
+<h2 id="Monitor-和-Semaphore-可以互相製作">Monitor 和 Semaphore 可以互相製作</h2>
+<h2 id="Monitor-Function">Monitor Function</h2>
+<p>每個 external function <code>F</code>：</p>
+<pre><code>wait(mutex);
+
+Body of F
+
+if (next_count &gt; 0)
+    signal(next);
+else
+    signal(mutex);
+</code></pre>
+<h3 id="進入-Monitor">進入 Monitor</h3>
+<pre><code>wait(mutex);
+</code></pre>
+<p>取得 Monitor 的使用權。</p>
+<p>因為 <code>mutex = 1</code>：</p>
+<ul>
+<li>第一個 Process 可以進入</li>
+<li>其他 Process 必須等待</li>
+</ul>
+<h3 id="離開-Monitor">離開 Monitor</h3>
+<p>如果：</p>
+<pre><code>next_count &gt; 0
+</code></pre>
+<p>代表有之前執行 <code>signal()</code> 後，讓出執行權的 Process 在 <code>next</code> 等待。</p>
+<p>所以：</p>
+<pre><code>signal(next);
+</code></pre>
+<p>讓它回來執行。</p>
+<p>否則：</p>
+<pre><code>signal(mutex);
+</code></pre>
+<p>把 Monitor 開放給其他 Process。</p>
+<h2 id="x-wait">x.wait()</h2>
+<p>實作：</p>
+<pre><code>x_count++;
+
+if (next_count &gt; 0)
+    signal(next);
+else
+    signal(mutex);
+
+wait(x_sem);
+
+x_count--;
+</code></pre>
+<h2 id="x-signal">x.signal()</h2>
+<p>實作：</p>
+<pre><code>if (x_count &gt; 0) &#123;
+    next_count++;
+    signal(x_sem);
+    wait(next);
+    next_count--;
+&#125;
+</code></pre>
+<p>這是 <strong>Hoare Monitor 的核心</strong>。</p>
+<p>假設：</p>
+<ul>
+<li>P 正在 Monitor 執行</li>
+<li>Q 正在 <code>x_sem</code> 等待</li>
+</ul>
+<p>P 執行：</p>
+<pre><code>x.signal();
+</code></pre>
+<hr>
+<h1>next 和 x_sem 的差別</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>x_sem</code></th>
+<th><code>next</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>誰在等？</td>
+<td>執行 <code>x.wait()</code> 的 Process</td>
+<td>執行 <code>x.signal()</code> 後讓出 Monitor 的 Process</td>
+</tr>
+<tr>
+<td>等什麼？</td>
+<td>等待 Condition <code>x</code></td>
+<td>等被喚醒的 Process 使用完 Monitor</td>
+</tr>
+<tr>
+<td>例子</td>
+<td>Q</td>
+<td>P</td>
+</tr>
+</tbody>
+</table>
+<h3 id="簡單記">簡單記</h3>
+<blockquote>
+<p><code>x_sem</code> = 等 Condition 的 Q<br>
+<code>next</code> = signal 後讓 Q 先跑，因此暫停的 P</p>
+</blockquote>
+<p>流程：</p>
+<pre><code>Q -- x.wait() --&gt; x_sem 等待
+
+P -- x.signal() --&gt; 喚醒 Q
+                     ↓
+                  P 去 next 等
+                     ↓
+                  Q 先執行
+                     ↓
+                  Q 用完
+                     ↓
+                  喚醒 next
+                     ↓
+                  P 繼續
+</code></pre>
+<hr>
+<h1>Liveness</h1>
+<h2 id="定義">定義</h2>
+<p><strong>Liveness</strong></p>
+<blockquote>
+<p>確保 Processes 在 execution life cycle 中能夠持續 make progress。</p>
+</blockquote>
+<p>如果 Process：</p>
+<blockquote>
+<p><strong>wait indefinitely（無限等待）</strong></p>
+</blockquote>
+<p>就是：</p>
+<p><strong>Liveness Failure</strong></p>
+<p>常見例子：</p>
+<ul>
+<li>Deadlock</li>
+<li>Starvation</li>
+<li>Priority Inversion</li>
+<li>某些 Infinite Loop / Busy Wait Loop</li>
 </ul>
 <hr>
+<h1>Liveness 保證強度</h1>
+<pre><code>Deadlock Freedom
+       ↓
+Starvation Freedom
+       ↓
+Bounded Waiting
+</code></pre>
+<p>越下面保證越強。</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deadlock-free</td>
+<td>至少有某個 Process 最終可以前進</td>
+</tr>
+<tr>
+<td>Starvation-free</td>
+<td>每個 Process 最終都能前進</td>
+</tr>
+<tr>
+<td>Bounded Waiting</td>
+<td>每個 Process 不只會前進，而且等待有上限</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Deadlock-free">Deadlock-free</h2>
+<p>不保證每個 Process 都成功。</p>
+<p>只保證：</p>
 <blockquote>
-<p>作者最後的感想 : 我知道又臭又長，但我真的不知道要怎麼縮減了，可能作業系統就是這樣吧…! &lt;3<br>因為時間緊急，我下次會記得美化的 可能會請求GPT的支援吧</p>
+<p>系統不會全部一起卡死，最終至少有某個 Process 可以前進。</p>
 </blockquote>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/90aa57da.html">https://yowdesert.github.io/posts/90aa57da.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/4f5b5fb4.html" title="(資料庫系統) Basic SQL (Structured Query Language)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">(資料庫系統) Basic SQL (Structured Query Language)</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Basic SQL 本章重點：  SQL 的由來與「關聯模型」差異 SQL 三種語言：DDL / DML / DCL Schema / Catalog / CREATE TABLE 資料型態 &amp; Domain 各種 Constraints（PK / FK / UNIQUE / NOT NULL / CHECK / DEFAULT） 基本查詢：SELECT-FROM-WHERE、DISTINCT、集合運算 INSERT / DELETE / UPDATE 修改資料     Basic SQL &amp; 關聯模型差異 SQL的由來   起源：從 tuple calculus（關聯謂詞演算）發展出語言 SQUARE → SEQUEL → SQL   SQL 原本是 SEQUEL to SQUARE 的縮寫，後來因版權改成 SQL（Structured Query Language） → 目前都習慣叫「Structured Query Language」。   名詞對照（數學 vs 實作） 理論的關聯模型使用比較「數學」的名稱：    關聯模型 SQL 實務...</div></div></div></a><a class="pagination-related" href="/posts/52554cd4.html" title="(線性代數) 矩陣與矩陣運算"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">(線性代數) 矩陣與矩陣運算</div></div><div class="info-2"><div class="info-item-1">矩陣與矩陣運算基礎 在線性代數中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。 矩陣由數字依照**列（row）與行（column）**排列成長方形陣列。  1. 矩陣的表示法 令 $F$ 為一個域（Field），一個 $m \times n$ 的矩陣 $A$ 為： $$ A = \begin{bmatrix} a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\ a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} \end{bmatrix}, \quad a_{ij} \in F $$ 其中：  $A$ 為 $m$ 列 $n$ 行矩陣 $a_{ij}$：第 $i$ 列、第 $j$ 行元素 行（row）：橫向排列 列（column）：縱向排列 $F^{m \times n}$：所有 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a><a class="pagination-related" href="/posts/978b4c60.html" title="OS-CH3"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-CH3</div></div><div class="info-2"><div class="info-item-1">System call 為User Process 與 Kernel 的溝通介面 System call 經常利用 Trap(Software Interrupt) 進入 Kernel System call 通常被 CPU 視為software interrupt  User -&gt; Trap -&gt; Kernel mode -&gt; OS Service -&gt; Return User  現代系統會透過**Application Programming Interface(API)**來呼叫System Call 好處 :  program portability 更方便使用  Run Time Environment (RTE)  程式執行時需要的環境 (Compiler Libraries Loader…) 提供 System call Interface   Program -&gt; API -&gt; RTE -&gt; System call ID -&gt; Kernel -&gt; OS Service -&gt; Return  Flow  U...</div></div></div></a><a class="pagination-related" href="/posts/841a1f01.html" title="OS-CH1-3 題目注意"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-05</div><div class="info-item-2">OS-CH1-3 題目注意</div></div><div class="info-2"><div class="info-item-1">第一章 到 第三章 題目提醒 Bootstrap program 存在 ROM 中  ROM : 唯讀記憶體 : 資料寫入後就不能隨便更改，關機後資料也不會消失。   Flash memory is another form of electronic disk.  不是所有系統都同時有 CLI and GUI  MultiProcessor 優點  產能上升 Economy of scale 增加Reliability 不保證提高 CPU utilization   Major Version of UNIX 支持 Soft Real Time System  Hard Real Time 依賴 RAM、ROM，避免使用Secondary Storage(Disk、Paging、Virtual Memory)  Industrial control 使用 Hard-real-Time  masked interrupt , 如果有正在處理的仍然會先通知 CPU , 但不會先處理  DMA 不適用 character Devices(Keyboard、Mouse)，一次只有幾 B...</div></div></div></a><a class="pagination-related" href="/posts/12e18ab3.html" title="OS-CH4-Process Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-12</div><div class="info-item-2">OS-CH4-Process Management</div></div><div class="info-2"><div class="info-item-1">Process ManagementProcess ConceptProcess : 執行中的程式  Memory Layout的內容 Text Section (Code Section):Program Code Stack : Prameter、Return Address、Local Variable Data Section : Global Variable  Heap : 記憶體在Run time動態分配   執行的一些 Status Data Current activity : PC、PProcrssor registers 。通常在PCB紀錄(OS負責管理在Kernel Memory Area)    123456789101112131415161718由低位址 → 高位址：High Address┌─────────────────────┐│ argc, argv           │├─────────────────────┤│ Stack ↓              │ ← local variable、parameter、return add...</div></div></div></a><a class="pagination-related" href="/posts/374236ea.html" title="OS-CH4-Thread Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-13</div><div class="info-item-2">OS-CH4-Thread Management</div></div><div class="info-2"><div class="info-item-1">Thread 為了讓同一程式可以同時處理不同工作。   是輕量級的Process OS 分配 CPU Time的基本單位 私有的組成包含 :  Thread ID PC  Register Set Stack   同一個Process 共享此Process的 (global)code/data section、OS Resource、…  (考選) 表格    Private（每個 thread 自己有） Shared with other threads of the same process（同一 process 內其他 threads 共用）     Program Counter (PC) Code section (text section)   CPU Register Set Data section（global data / global variables）   Stack Heap(指標)   Local Variables Other OS resources（open files, signals, I/O resources, etc.）   Thre...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B0%A1%E7%9F%AD%E8%AA%AA%E6%98%8E%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">簡短說明：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Background"><span class="toc-number">2.</span> <span class="toc-text">Background</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%95%8F%E9%A1%8C%E8%88%87%E8%A7%A3%E6%B1%BA"><span class="toc-number">2.1.</span> <span class="toc-text">問題與解決</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consumer-and-Producer-Problem"><span class="toc-number">2.2.</span> <span class="toc-text">Consumer and Producer Problem :</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Race-Condition"><span class="toc-number">2.3.</span> <span class="toc-text">Race Condition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DeadLock"><span class="toc-number">2.4.</span> <span class="toc-text">DeadLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%89%87"><span class="toc-number">2.5.</span> <span class="toc-text">原則</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IPC-Process-Communicatioin"><span class="toc-number">3.</span> <span class="toc-text">IPC (Process Communicatioin)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Fundamental-Model"><span class="toc-number">3.1.</span> <span class="toc-text">2 Fundamental Model</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-memory"><span class="toc-number">3.1.1.</span> <span class="toc-text">shared memory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Message-Passing"><span class="toc-number">3.1.2.</span> <span class="toc-text">Message Passing</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Critical-Section"><span class="toc-number">4.</span> <span class="toc-text">Critical-Section</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Critical-Section-Problem"><span class="toc-number">4.1.</span> <span class="toc-text">The Critical-Section Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Requirements-for-a-Valid-Solution"><span class="toc-number">4.2.</span> <span class="toc-text">Requirements for a Valid Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Critical-Section-Solutions-%E2%80%93-Software-Solutions"><span class="toc-number">4.3.</span> <span class="toc-text">Critical Section Solutions – Software Solutions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparison"><span class="toc-number">4.4.</span> <span class="toc-text">Comparison</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Software-Solutions"><span class="toc-number">5.</span> <span class="toc-text">Software Solutions</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Algorithm-for-two-Processes"><span class="toc-number">5.1.</span> <span class="toc-text">Algorithm for two Processes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Peterson%E2%80%99s-Solution"><span class="toc-number">5.2.</span> <span class="toc-text">Peterson’s Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Correctness-Proof-of-Peterson%E2%80%99s-Solution"><span class="toc-number">5.2.1.</span> <span class="toc-text">Correctness Proof of Peterson’s Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Turn-Algorithm-V-S-Peterson%E2%80%99s-Algorithm"><span class="toc-number">5.2.2.</span> <span class="toc-text">Turn Algorithm V.S. Peterson’s Algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dekker%E2%80%99s-Algorithm"><span class="toc-number">5.3.</span> <span class="toc-text">Dekker’s Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dekker-vs-Peterson"><span class="toc-number">5.3.1.</span> <span class="toc-text">Dekker vs Peterson</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations-of-Dekker%E2%80%99s-Algorithm"><span class="toc-number">5.3.2.</span> <span class="toc-text">Limitations of Dekker’s Algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bakery-Algorithm"><span class="toc-number">5.4.</span> <span class="toc-text">Bakery Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E8%A6%8F%E5%89%87%EF%BC%9ALexicographic-Ordering-%E5%AD%97%E5%85%B8%E9%A0%86%E5%BA%8F"><span class="toc-number">5.4.1.</span> <span class="toc-text">排序規則：Lexicographic Ordering (字典順序)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bakery-Entry-Section"><span class="toc-number">5.4.2.</span> <span class="toc-text">Bakery Entry Section</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%B8%80%E5%AE%9A%E8%A6%81-choosing"><span class="toc-number">5.4.3.</span> <span class="toc-text">為什麼一定要 choosing[]?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Correctness-Proof"><span class="toc-number">5.4.4.</span> <span class="toc-text">Correctness Proof</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bekery%E2%80%99s-algorithm%E5%84%AA%E7%BC%BA%E9%BB%9E%E7%B8%BD%E8%A1%A8"><span class="toc-number">5.4.5.</span> <span class="toc-text">Bekery’s algorithm優缺點總表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E9%9D%A2%E7%9A%84%E7%B8%BD%E7%B5%90"><span class="toc-number">5.4.6.</span> <span class="toc-text">前面的總結</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pthread-Lock-Mutex-Routines"><span class="toc-number">5.5.</span> <span class="toc-text">Pthread Lock&#x2F;Mutex Routines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Condition-Variables%EF%BC%88CV%EF%BC%89"><span class="toc-number">5.6.</span> <span class="toc-text">Condition Variables（CV）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hardware-Support-for-Synchronization"><span class="toc-number">6.</span> <span class="toc-text">Hardware Support for Synchronization</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%94%E8%BB%9F%E9%AB%94%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">6.1.</span> <span class="toc-text">純軟體的限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Approach-1-Disable-Interrupts"><span class="toc-number">6.2.</span> <span class="toc-text">Approach 1: Disable Interrupts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Approach-2-Hardware-Atomic-Instructions"><span class="toc-number">6.3.</span> <span class="toc-text">Approach 2: Hardware Atomic Instructions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mutual-Exclusion-3-Common-Atomic-Instruction"><span class="toc-number">6.4.</span> <span class="toc-text">Mutual Exclusion 3 Common Atomic Instruction</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Semaphore"><span class="toc-number">7.</span> <span class="toc-text">Semaphore</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Type-of-Semaphore"><span class="toc-number">7.1.</span> <span class="toc-text">Type of Semaphore</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Two-Atomic-Operation"><span class="toc-number">7.1.1.</span> <span class="toc-text">Two Atomic Operation :</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Issue"><span class="toc-number">7.1.2.</span> <span class="toc-text">Issue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%A9%E5%90%88%E6%99%82%E6%A9%9F"><span class="toc-number">7.1.3.</span> <span class="toc-text">適合時機</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E9%81%A9%E5%90%88%E6%99%82%E6%A9%9F"><span class="toc-number">7.1.4.</span> <span class="toc-text">不適合時機</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Non-busy-waiting%EF%BC%88%E6%9C%89%E7%AD%89%E5%BE%85%E9%9A%8A%E5%88%97%E7%9A%84-semaphore%EF%BC%8C%E7%9C%9F%E6%AD%A3-OS-%E6%9C%83%E7%94%A8%EF%BC%89"><span class="toc-number">7.2.</span> <span class="toc-text">Non-busy waiting（有等待隊列的 semaphore，真正 OS 會用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POSIX-Semaphor"><span class="toc-number">7.3.</span> <span class="toc-text">POSIX Semaphor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Correctness-Properties"><span class="toc-number">7.4.</span> <span class="toc-text">　Correctness Properties</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantages-and-Disadvantages"><span class="toc-number">7.5.</span> <span class="toc-text">Advantages and Disadvantages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cooperation-Synchronization%EF%BC%88%E5%90%88%E4%BD%9C%E5%BC%8F%E5%90%8C%E6%AD%A5%EF%BC%9A%E5%BC%B7%E5%88%B6%E9%A0%86%E5%BA%8F%EF%BC%89"><span class="toc-number">7.6.</span> <span class="toc-text">Cooperation Synchronization（合作式同步：強制順序）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlocks-and-Starvation"><span class="toc-number">7.7.</span> <span class="toc-text">Deadlocks and Starvation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Classical-Synchronization-Problems"><span class="toc-number">8.</span> <span class="toc-text">Classical Synchronization Problems</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Monitors"><span class="toc-number">9.</span> <span class="toc-text">Monitors</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Similarity-to-Object-Oriented-Classes"><span class="toc-number">9.1.</span> <span class="toc-text">Similarity to Object-Oriented Classes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Condition-Variables-in-Monitor"><span class="toc-number">9.2.</span> <span class="toc-text">Condition Variables in Monitor</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/65f4596b.html" title="常見演算法設計策略分類">常見演算法設計策略分類</a><time datetime="2026-09-09T15:42:00.000Z" title="發表於 2026-09-09 23:42:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/49207314.html" title="資工研究所常見演算法時間複雜度整理">資工研究所常見演算法時間複雜度整理</a><time datetime="2026-09-09T15:42:00.000Z" title="發表於 2026-09-09 23:42:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5bbc732a.html" title="OS-CH7-補充加強觀念">OS-CH7-補充加強觀念</a><time datetime="2026-09-02T06:49:00.000Z" title="發表於 2026-09-02 14:49:00">2026-09-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/513a4877.html" title="資料結構 - Search and Sort">資料結構 - Search and Sort</a><time datetime="2026-08-28T02:18:00.000Z" title="發表於 2026-08-28 10:18:00">2026-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/917205a6.html" title="OS-CH5-補充加強觀念">OS-CH5-補充加強觀念</a><time datetime="2026-08-25T06:49:00.000Z" title="發表於 2026-08-25 14:49:00">2026-08-25</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+<h2 id="Starvation-free">Starvation-free</h2>
+<p>比 Deadlock-free 更強：</p>
+<blockquote>
+<p><strong>每一個等待的 Process 最終都能取得執行機會。</strong></p>
+</blockquote>
+<p>因此：</p>
+<pre><code>Starvation-free ⇒ Deadlock-free
+</code></pre>
+<p>反過來不一定成立。</p>
+<h2 id="Bounded-Waiting">Bounded Waiting</h2>
+<p>更強的要求。</p>
+<p>如果有 <code>n</code> 個 Processes 競爭 Critical Section：</p>
+<blockquote>
+<p>每個 Process 最多被其他 Processes 超過 <code>n - 1</code> 次，就必須輪到它。</p>
+</blockquote>
+<hr>
+<h1>Priority Inversion</h1>
+<h2 id="定義-2">定義</h2>
+<blockquote>
+<p><strong>High-priority Process 被 Low-priority Process 所持有的資源擋住。</strong></p>
+</blockquote>
+<p>假設：</p>
+<ul>
+<li>H = High Priority</li>
+<li>M = Medium Priority</li>
+<li>L = Low Priority</li>
+</ul>
+<p>Priority：</p>
+<pre><code>H &gt; M &gt; L
+</code></pre>
+<p>首先：</p>
+<pre><code>L 取得 Lock
+    ↓
+H 想取得 Lock
+    ↓
+H 必須等待 L
+</code></pre>
+<p>問題是 M 出現後：</p>
+<pre><code>H：等待 Lock
+      ↑
+      L：持有 Lock
+
+M 又因 Priority &gt; L
+搶走 L 的 CPU
+</code></pre>
+<p>結果：</p>
+<blockquote>
+<p>H 明明 Priority 最高，卻長時間無法執行。</p>
+</blockquote>
+<p>這就是 <strong>Priority Inversion</strong>。</p>
+<hr>
+<h2 id="Priority-Inheritance-Protocol">Priority Inheritance Protocol</h2>
+<p>解決 Priority Inversion。</p>
+<p>如果 H 正在等待 L 手上的 Lock：</p>
+<blockquote>
+<p>暫時讓 <strong>L 繼承 H 的 Priority</strong>。</p>
+</blockquote>
+<p>原本：</p>
+<pre><code>H &gt; M &gt; L
+</code></pre>
+<p>H 等待 L：</p>
+<pre><code>H
+↓ 等待
+L 持有 Lock
+</code></pre>
+<p>暫時提高 L：</p>
+<pre><code>L Priority = H Priority
+</code></pre>
+<p>因此：</p>
+<pre><code>L 快速取得 CPU
+    ↓
+完成 Critical Section
+    ↓
+Release Lock
+    ↓
+H 取得 Lock
+    ↓
+L 恢復原本 Priority
+</code></pre>
+<h3 id="一句話">一句話</h3>
+<blockquote>
+<p><strong>誰擋住 High-priority Process，就暫時繼承它的高 Priority。</strong></p>
+</blockquote>
+<hr>
+<h1>Message Passing IPC</h1>
+<p>IPC：</p>
+<p><strong>Inter-Process Communication</strong></p>
+<p>Message Passing 提供一種機制，讓 Processes：</p>
+<ul>
+<li>Communicate</li>
+<li>Synchronize</li>
+</ul>
+<p>而且：</p>
+<blockquote>
+<p><strong>不需要共享相同的 Address Space。</strong></p>
+</blockquote>
+<p>基本操作：</p>
+<pre><code>send(message)
+receive(message)
+</code></pre>
+<hr>
+<h1>Message Passing 三大分類</h1>
+<table>
+<thead>
+<tr>
+<th>問題</th>
+<th>類型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Naming</td>
+<td>Direct / Indirect</td>
+</tr>
+<tr>
+<td>Synchronization</td>
+<td>Blocking / Nonblocking</td>
+</tr>
+<tr>
+<td>Buffering</td>
+<td>Zero / Bounded / Unbounded</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>Naming：Direct Communication</h1>
+<p>Process 直接指定對方。</p>
+<p>分成：</p>
+<ol>
+<li>Symmetric</li>
+<li>Asymmetric</li>
+</ol>
+<hr>
+<h2 id="Symmetric-Direct-Communication">Symmetric Direct Communication</h2>
+<p>Sender 和 Receiver：</p>
+<blockquote>
+<p><strong>雙方都必須指定對方。</strong></p>
+</blockquote>
+<p>假設 P 傳給 Q：</p>
+<p>P：</p>
+<pre><code>send(Q, message)
+</code></pre>
+<p>Q：</p>
+<pre><code>receive(P, message)
+</code></pre>
+<p>P 指定 Q。</p>
+<p>Q 也指定 P。</p>
+<p>因此稱為：</p>
+<p><strong>Symmetric Direct Communication</strong></p>
+<h3 id="Properties">Properties</h3>
+<ol>
+<li>Link 自動建立。</li>
+<li>一條 Link 只與 <strong>exactly two processes</strong> 有關。</li>
+<li>每一對 Processes 之間存在 <strong>exactly one link</strong>。</li>
+</ol>
+<hr>
+<h2 id="Asymmetric-Direct-Communication">Asymmetric Direct Communication</h2>
+<p>只有 Sender 必須指定 Receiver。</p>
+<p>P：</p>
+<pre><code>send(Q, message)
+</code></pre>
+<p>Q：</p>
+<pre><code>receive(id, message)
+</code></pre>
+<p>Q 不需要指定：</p>
+<blockquote>
+<p>我要收 P 的 Message。</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p>任何 Process 傳來的 Message 都可以收。</p>
+</blockquote>
+<p>收到後：</p>
+<p><code>id</code></p>
+<p>用來記錄：</p>
+<blockquote>
+<p>Message 是哪個 Process 傳來的。</p>
+</blockquote>
+<hr>
+<h2 id="Symmetric-vs-Asymmetric">Symmetric vs Asymmetric</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Symmetric</th>
+<th>Asymmetric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sender 指定 Receiver</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Receiver 指定 Sender</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Send</td>
+<td><code>send(Q,msg)</code></td>
+<td><code>send(Q,msg)</code></td>
+</tr>
+<tr>
+<td>Receive</td>
+<td><code>receive(P,msg)</code></td>
+<td><code>receive(id,msg)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="簡單記-2">簡單記</h3>
+<blockquote>
+<p>Symmetric = 雙方都知道對方是誰<br>
+Asymmetric = Sender 知道 Receiver，但 Receiver 不必事先知道 Sender</p>
+</blockquote>
+<hr>
+<h1>Naming：Indirect Communication</h1>
+<p>Direct：</p>
+<pre><code>P ─────────→ Q
+</code></pre>
+<p>Indirect：</p>
+<pre><code>P ──→ Mailbox A ──→ Q
+</code></pre>
+<p>雙方透過：</p>
+<p><strong>Mailbox</strong></p>
+<p>進行 Communication。</p>
+<p>P：</p>
+<pre><code>send(A, message)
+</code></pre>
+<p>Q：</p>
+<pre><code>receive(A, message)
+</code></pre>
+<p>所以：</p>
+<blockquote>
+<p>P、Q 只需要知道 Mailbox A，不需要直接指定彼此。</p>
+</blockquote>
+<hr>
+<h1>Direct vs Indirect Communication</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Direct</th>
+<th>Indirect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>溝通對象</td>
+<td>Process</td>
+<td>Mailbox</td>
+</tr>
+<tr>
+<td>Sender</td>
+<td><code>send(Q,msg)</code></td>
+<td><code>send(A,msg)</code></td>
+</tr>
+<tr>
+<td>Receiver</td>
+<td><code>receive(P,msg)</code></td>
+<td><code>receive(A,msg)</code></td>
+</tr>
+<tr>
+<td>Mailbox</td>
+<td>✗</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Link</td>
+<td>通常連接兩個 Process</td>
+<td>可以由多個 Process 共用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>多個 Process 共用 Mailbox</h1>
+<p>假設：</p>
+<pre><code>P1
+ ↓
+Mailbox A
+  ↙  ↘
+ P2  P3
+</code></pre>
+<p>P1：</p>
+<pre><code>send(A, message)
+</code></pre>
+<p>但是 P2、P3 都：</p>
+<pre><code>receive(A, message)
+</code></pre>
+<p>問題：</p>
+<blockquote>
+<p>P2 還是 P3 會收到 Message？</p>
+</blockquote>
+<h2 id="三種可能解法">三種可能解法</h2>
+<ol>
+<li>一條 Link 最多只允許兩個 Processes 使用。</li>
+<li>同一時間最多只允許一個 Process 執行 <code>receive()</code>。</li>
+<li>OS 決定哪個 Process 收到，例如 Round Robin。</li>
+</ol>
+<p>重點：</p>
+<blockquote>
+<p>Message 只會被其中一個 Receiver 收到，不是兩個都收到。</p>
+</blockquote>
+<hr>
+<h1>Mailbox Ownership</h1>
+<p>Mailbox 可以由：</p>
+<ol>
+<li>Process 擁有</li>
+<li>Operating System 擁有</li>
+</ol>
+<h2 id="Process-owned-Mailbox">Process-owned Mailbox</h2>
+<p>可以區分：</p>
+<ul>
+<li>Owner：Receive</li>
+<li>User：Send</li>
+</ul>
+<p>因此有唯一 Owner 時：</p>
+<blockquote>
+<p>很清楚誰負責 Receive。</p>
+</blockquote>
+<h2 id="OS-owned-Mailbox">OS-owned Mailbox</h2>
+<p>Mailbox 由 OS 擁有，不屬於特定 Process。</p>
+<p>OS 必須提供 System Calls：</p>
+<ul>
+<li>Create a new mailbox</li>
+<li>Send messages</li>
+<li>Receive messages</li>
+<li>Delete a mailbox</li>
+</ul>
+<hr>
+<h1>Synchronization：Blocking / Nonblocking</h1>
+<p>Message Passing 可以分成：</p>
+<ul>
+<li>Blocking / Synchronous</li>
+<li>Nonblocking / Asynchronous</li>
+</ul>
+<p>重點：</p>
+<blockquote>
+<p>呼叫 <code>send()</code> 或 <code>receive()</code> 後，Process 要不要停下來等待？</p>
+</blockquote>
+<hr>
+<h2 id="Blocking-Send">Blocking Send</h2>
+<p>Sender：</p>
+<blockquote>
+<p>Block，直到 Message 被 Receiver 或 Mailbox 接收。</p>
+</blockquote>
+<p>流程：</p>
+<pre><code>send(message)
+    ↓
+  等待
+    ↓
+Message 被接收
+    ↓
+繼續執行
+</code></pre>
+<hr>
+<h2 id="Nonblocking-Send">Nonblocking Send</h2>
+<p>Sender：</p>
+<blockquote>
+<p>Message 傳出後馬上繼續執行。</p>
+</blockquote>
+<p>流程：</p>
+<pre><code>send(message)
+    ↓
+直接繼續
+</code></pre>
+<hr>
+<h2 id="Blocking-Receive">Blocking Receive</h2>
+<p>Receiver：</p>
+<blockquote>
+<p>如果 Message 還沒到，就 Block。</p>
+</blockquote>
+<p>直到：</p>
+<blockquote>
+<p>有有效 Message 可以 Receive。</p>
+</blockquote>
+<hr>
+<h2 id="Nonblocking-Receive">Nonblocking Receive</h2>
+<p>Receiver 不等待。</p>
+<p>如果有 Message：</p>
+<blockquote>
+<p>回傳有效 Message。</p>
+</blockquote>
+<p>如果沒有：</p>
+<blockquote>
+<p>回傳 <code>NULL</code>。</p>
+</blockquote>
+<hr>
+<h1>Blocking / Nonblocking 比較</h1>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Blocking</th>
+<th>Nonblocking</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Send</td>
+<td>等 Message 被接收</td>
+<td>傳完馬上繼續</td>
+</tr>
+<tr>
+<td>Receive</td>
+<td>沒 Message 就等待</td>
+<td>沒 Message 就回傳 <code>NULL</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="Rendezvous">Rendezvous</h2>
+<p>如果同時使用：</p>
+<ul>
+<li>Blocking Send</li>
+<li>Blocking Receive</li>
+</ul>
+<p>稱為：</p>
+<p><strong>Rendezvous</strong></p>
+<p>也就是 Sender 和 Receiver 都需要等待彼此完成 Message Transfer。</p>
+<h3 id="記法">記法</h3>
+<blockquote>
+<p>Blocking Send + Blocking Receive = Rendezvous</p>
+</blockquote>
+<hr>
+<h1>Buffering</h1>
+<p>Buffering 是在討論：</p>
+<blockquote>
+<p><strong>Message Queue 可以存多少個 Message？</strong></p>
+</blockquote>
+<p>分成：</p>
+<ol>
+<li>Zero Capacity</li>
+<li>Bounded Capacity</li>
+<li>Unbounded Capacity</li>
+</ol>
+<hr>
+<h2 id="Zero-Capacity">Zero Capacity</h2>
+<p>Queue 大小：</p>
+<pre><code>0
+</code></pre>
+<p>沒有空間暫存 Message。</p>
+<p>因此：</p>
+<blockquote>
+<p>Sender 必須等待 Receiver 收走 Message。</p>
+</blockquote>
+<p>流程：</p>
+<pre><code>Sender
+  ↓
+send()
+  ↓
+沒有 Buffer
+  ↓
+等 Receiver
+</code></pre>
+<p>又稱：</p>
+<p><strong>No Buffering</strong></p>
+<p>Zero Capacity 也常形成：</p>
+<p><strong>Rendezvous</strong></p>
+<hr>
+<h2 id="Bounded-Capacity">Bounded Capacity</h2>
+<p>Queue 有固定大小 <code>n</code>。</p>
+<p>例如：</p>
+<pre><code>Queue Size = 3
+
+[m1]
+[m2]
+[m3]  ← Full
+</code></pre>
+<p>Sender 再送 <code>m4</code>：</p>
+<blockquote>
+<p>Sender 必須 Block。</p>
+</blockquote>
+<p>Receiver 取走 Message：</p>
+<pre><code>Receiver 取走 m1
+
+[  ]
+[m2]
+[m3]
+</code></pre>
+<p>出現空間後，Sender 才能把新的 Message 放進去。</p>
+<h3 id="重點">重點</h3>
+<blockquote>
+<p>Queue 未滿 → Sender 可以繼續<br>
+Queue Full → Sender Block</p>
+</blockquote>
+<hr>
+<h2 id="Unbounded-Capacity">Unbounded Capacity</h2>
+<p>Queue 理論上沒有容量限制。</p>
+<p>因此：</p>
+<blockquote>
+<p>Sender 不會因為 Queue Full 而 Block。</p>
+</blockquote>
+<hr>
+<h1>Buffering 比較</h1>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th style="text-align:right">Queue Size</th>
+<th>Sender 何時 Block？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zero Capacity</td>
+<td style="text-align:right">0</td>
+<td>Receiver 還沒接收時</td>
+</tr>
+<tr>
+<td>Bounded Capacity</td>
+<td style="text-align:right">固定 n</td>
+<td>Queue Full</td>
+</tr>
+<tr>
+<td>Unbounded Capacity</td>
+<td style="text-align:right">無限</td>
+<td>不會因 Queue Full 而 Block</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>考前總整理</h1>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>一句話記憶</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monitor</td>
+<td>同時間只能一個 Process 在 Monitor</td>
+</tr>
+<tr>
+<td>Hoare Monitor</td>
+<td><code>signal()</code> 後 P 等、Q 馬上跑</td>
+</tr>
+<tr>
+<td><code>mutex</code></td>
+<td>保護 Monitor Mutual Exclusion</td>
+</tr>
+<tr>
+<td><code>x_sem</code></td>
+<td>等 Condition x 的 Process</td>
+</tr>
+<tr>
+<td><code>next</code></td>
+<td>Signal 後讓 Q 先跑，因此暫停的 P</td>
+</tr>
+<tr>
+<td><code>x_count</code></td>
+<td>等 Condition x 的人數</td>
+</tr>
+<tr>
+<td><code>next_count</code></td>
+<td>等在 next 的人數</td>
+</tr>
+<tr>
+<td>Liveness</td>
+<td>Process 必須能持續 make progress</td>
+</tr>
+<tr>
+<td>Deadlock</td>
+<td>Processes 互相等待</td>
+</tr>
+<tr>
+<td>Starvation</td>
+<td>某 Process 一直拿不到執行機會</td>
+</tr>
+<tr>
+<td>Bounded Waiting</td>
+<td>等待次數有上限</td>
+</tr>
+<tr>
+<td>Priority Inversion</td>
+<td>High Priority 被 Low Priority 擋住</td>
+</tr>
+<tr>
+<td>Priority Inheritance</td>
+<td>Low 暫時繼承 High 的 Priority</td>
+</tr>
+<tr>
+<td>Message Passing</td>
+<td>不共享 Address Space 也可以 IPC</td>
+</tr>
+<tr>
+<td>Direct</td>
+<td>直接指定 Process</td>
+</tr>
+<tr>
+<td>Indirect</td>
+<td>透過 Mailbox</td>
+</tr>
+<tr>
+<td>Symmetric</td>
+<td>Sender、Receiver 都指定對方</td>
+</tr>
+<tr>
+<td>Asymmetric</td>
+<td>只有 Sender 指定 Receiver</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>呼叫後可能停下來等待</td>
+</tr>
+<tr>
+<td>Nonblocking</td>
+<td>呼叫後不用等待</td>
+</tr>
+<tr>
+<td>Rendezvous</td>
+<td>Blocking Send + Blocking Receive</td>
+</tr>
+<tr>
+<td>Zero Capacity</td>
+<td>Queue = 0</td>
+</tr>
+<tr>
+<td>Bounded Capacity</td>
+<td>Queue 有固定上限</td>
+</tr>
+<tr>
+<td>Unbounded Capacity</td>
+<td>Queue 理論上無上限</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>最後必背</h1>
+<h3 id="Monitor">Monitor</h3>
+<pre><code>x.wait()
+→ Q 等在 x_sem
+
+x.signal()
+→ P 喚醒 Q
+→ P 去 next 等
+→ Q 先執行
+→ Q 結束 / Block
+→ P 回來
+</code></pre>
+<h3 id="Liveness">Liveness</h3>
+<pre><code>Deadlock Freedom
+      ↓ 更強
+Starvation Freedom
+      ↓ 更強
+Bounded Waiting
+</code></pre>
+<h3 id="Message-Passing-2">Message Passing</h3>
+<pre><code>Message Passing
+    │
+    ├── Naming
+    │    ├── Direct
+    │    │    ├── Symmetric
+    │    │    └── Asymmetric
+    │    └── Indirect → Mailbox
+    │
+    ├── Synchronization
+    │    ├── Blocking
+    │    └── Nonblocking
+    │
+    └── Buffering
+         ├── Zero
+         ├── Bounded
+         └── Unbounded
+</code></pre>
+<hr>
+<blockquote>
+<p>作者最後的感想 : 我知道又臭又長，但我真的不知道要怎麼縮減了，可能作業系統就是這樣吧…! &lt;3<br>
+因為時間緊急，我下次會記得美化的 可能會請求GPT的支援吧</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://YowDesert.github.io">YowDesert</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://yowdesert.github.io/posts/90aa57da.html">https://yowdesert.github.io/posts/90aa57da.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://YowDesert.github.io" target="_blank">YD's 學習筆記</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/">作業系統</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="7226702911" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/4f5b5fb4.html" title="(資料庫系統) Basic SQL (Structured Query Language)"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">(資料庫系統) Basic SQL (Structured Query Language)</div></div><div class="info-2"><div class="info-item-1">簡短說明：  主題：Basic SQL 本章重點：  SQL 的由來與「關聯模型」差異 SQL 三種語言：DDL / DML / DCL Schema / Catalog / CREATE TABLE 資料型態 &amp; Domain 各種 Constraints（PK / FK / UNIQUE / NOT NULL / CHECK / DEFAULT） 基本查詢：SELECT-FROM-WHERE、DISTINCT、集合運算 INSERT / DELETE / UPDATE 修改資料     Basic SQL &amp; 關聯模型差異 SQL的由來   起源：從 tuple calculus（關聯謂詞演算）發展出語言 SQUARE → SEQUEL → SQL   SQL 原本是 SEQUEL to SQUARE 的縮寫，後來因版權改成 SQL（Structured Query Language） → 目前都習慣叫「Structured Query Language」。   名詞對照（數學 vs 實作） 理論的關聯模型使用比較「數學」的名稱：    關聯模型 SQL 實務...</div></div></div></a><a class="pagination-related" href="/posts/52554cd4.html" title="(線性代數) 矩陣與矩陣運算"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">(線性代數) 矩陣與矩陣運算</div></div><div class="info-2"><div class="info-item-1">矩陣與矩陣運算基礎 在線性代數中，矩陣（Matrix）是一種用於表示線性變換與解線性方程組的重要工具。 矩陣由數字依照**列（row）與行（column）**排列成長方形陣列。  1. 矩陣的表示法 令 $F$ 為一個域（Field），一個 $m \times n$ 的矩陣 $A$ 為： $$ A = \begin{bmatrix} a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\ a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} \end{bmatrix}, \quad a_{ij} \in F $$ 其中：  $A$ 為 $m$ 列 $n$ 行矩陣 $a_{ij}$：第 $i$ 列、第 $j$ 行元素 行（row）：橫向排列 列（column）：縱向排列 $F^{m \times n}$：所有 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/cf6482ff.html" title="(作業系統) File System"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-21</div><div class="info-item-2">(作業系統) File System</div></div><div class="info-2"><div class="info-item-1">快速摘要   檔案與目錄是什麼抽象？OS 提供哪些操作？   檔案本質上是「一串位元組（bytes）」的邏輯視圖   目錄的工作是把 name → 檔案的 metadata（inode/FCB） 對起來   常見操作：create/open/read/write/seek/close/delete/truncate，以及目錄的 search/rename/traverse 等     檔案系統內部要維護哪些關鍵資料結構？（磁碟上 vs 記憶體中）   磁碟上會有：boot block、volume control（superblock 概念）、每個檔案的 inode/FCB、目錄內容   記憶體中會有：mount table、directory cache、system-wide open-file table、per-process fd table   目的都是讓「路徑解析、開檔、讀寫」變快，同時維持一致性     檔案資料實際要怎麼放到磁碟 blocks？空閒空間怎麼管理？（本章超級考點）   配置方法重點比較：   Contiguous（快但外部碎裂、成長不易）   Li...</div></div></div></a><a class="pagination-related" href="/posts/7fac9819.html" title="OS-Hardware Resource Protection"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-Hardware Resource Protection</div></div><div class="info-2"><div class="info-item-1">基礎建設Dual Mode operation為了安全區分兩種系統運作模式  the execution of OS code user-defined code  User Mode  不允許執行特權指令   Kernel mode  又叫做 supervisor mode、 system mode、priviledged mode、monitor mode(現已removed) 可RUN Priviledged instruction、system call   需要額外HW:Mode bits 去操控 mode  OS要求服務要轉成 Kernel mode系統一開機設為Kernel mode -&gt; OS load and start 使用者應用程式 in user modeTrap 、 interrupt 、 system call 可轉為 Kernel mode Privileged instruction可能引起重大危害的指令 -&gt; 設為特權指令只允許Kernel mode 跑如果在User mode 則視為 illegal and traps it to ...</div></div></div></a><a class="pagination-related" href="/posts/978b4c60.html" title="OS-CH3"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-04</div><div class="info-item-2">OS-CH3</div></div><div class="info-2"><div class="info-item-1">System call 為User Process 與 Kernel 的溝通介面 System call 經常利用 Trap(Software Interrupt) 進入 Kernel System call 通常被 CPU 視為software interrupt  User -&gt; Trap -&gt; Kernel mode -&gt; OS Service -&gt; Return User  現代系統會透過**Application Programming Interface(API)**來呼叫System Call 好處 :  program portability 更方便使用  Run Time Environment (RTE)  程式執行時需要的環境 (Compiler Libraries Loader…) 提供 System call Interface   Program -&gt; API -&gt; RTE -&gt; System call ID -&gt; Kernel -&gt; OS Service -&gt; Return  Flow  U...</div></div></div></a><a class="pagination-related" href="/posts/841a1f01.html" title="OS-CH1-3 題目注意"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-05</div><div class="info-item-2">OS-CH1-3 題目注意</div></div><div class="info-2"><div class="info-item-1">第一章 到 第三章 題目提醒 Bootstrap program 存在 ROM 中  ROM : 唯讀記憶體 : 資料寫入後就不能隨便更改，關機後資料也不會消失。   Flash memory is another form of electronic disk.  不是所有系統都同時有 CLI and GUI  MultiProcessor 優點  產能上升 Economy of scale 增加Reliability 不保證提高 CPU utilization   Major Version of UNIX 支持 Soft Real Time System  Hard Real Time 依賴 RAM、ROM，避免使用Secondary Storage(Disk、Paging、Virtual Memory)  Industrial control 使用 Hard-real-Time  masked interrupt , 如果有正在處理的仍然會先通知 CPU , 但不會先處理  DMA 不適用 character Devices(Keyboard、Mouse)，一次只有幾 B...</div></div></div></a><a class="pagination-related" href="/posts/12e18ab3.html" title="OS-CH4-Process Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-12</div><div class="info-item-2">OS-CH4-Process Management</div></div><div class="info-2"><div class="info-item-1">Process ManagementProcess ConceptProcess : 執行中的程式  Memory Layout的內容 Text Section (Code Section):Program Code Stack : Prameter、Return Address、Local Variable Data Section : Global Variable  Heap : 記憶體在Run time動態分配   執行的一些 Status Data Current activity : PC、PProcrssor registers 。通常在PCB紀錄(OS負責管理在Kernel Memory Area)    123456789101112131415161718由低位址 → 高位址：High Address┌─────────────────────┐│ argc, argv           │├─────────────────────┤│ Stack ↓              │ ← local variable、parameter、return add...</div></div></div></a><a class="pagination-related" href="/posts/374236ea.html" title="OS-CH4-Thread Management"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-13</div><div class="info-item-2">OS-CH4-Thread Management</div></div><div class="info-2"><div class="info-item-1">Thread 為了讓同一程式可以同時處理不同工作。   是輕量級的Process OS 分配 CPU Time的基本單位 私有的組成包含 :  Thread ID PC  Register Set Stack   同一個Process 共享此Process的 (global)code/data section、OS Resource、…  (考選) 表格    Private（每個 thread 自己有） Shared with other threads of the same process（同一 process 內其他 threads 共用）     Program Counter (PC) Code section (text section)   CPU Register Set Data section（global data / global variables）   Stack Heap(指標)   Local Variables Other OS resources（open files, signals, I/O resources, etc.）   Thre...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">YowDesert</div><div class="author-info-description">這是YowDesert的部落格，記錄學習資訊工程領域的過程和心得，並以簡單白話的方式呈現，一起和我踏入資訊世界吧，有興趣的話歡迎Follow我歐。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yowdesert"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/yowdesert" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:csaidesert@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">簡短說明：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Background</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%95%8F%E9%A1%8C%E8%88%87%E8%A7%A3%E6%B1%BA"><span class="toc-number">2.1.</span> <span class="toc-text">問題與解決</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consumer-and-Producer-Problem"><span class="toc-number">2.2.</span> <span class="toc-text">Consumer and Producer Problem :</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Race-Condition"><span class="toc-number">2.3.</span> <span class="toc-text">Race Condition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DeadLock"><span class="toc-number">2.4.</span> <span class="toc-text">DeadLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%89%87"><span class="toc-number">2.5.</span> <span class="toc-text">原則</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">IPC (Process Communicatioin)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Fundamental-Model"><span class="toc-number">3.1.</span> <span class="toc-text">2 Fundamental Model</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shared-memory"><span class="toc-number">3.1.1.</span> <span class="toc-text">shared memory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Message-Passing"><span class="toc-number">3.1.2.</span> <span class="toc-text">Message Passing</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">Critical-Section</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Critical-Section-Problem"><span class="toc-number">4.1.</span> <span class="toc-text">The Critical-Section Problem</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Requirements-for-a-Valid-Solution"><span class="toc-number">4.2.</span> <span class="toc-text">Requirements for a Valid Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Busy-waiting"><span class="toc-number">4.3.</span> <span class="toc-text">Busy waiting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Non-Busy-Waiting"><span class="toc-number">4.4.</span> <span class="toc-text">Non-Busy Waiting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Critical-Section-Solutions-%E2%80%93-Software-Solutions"><span class="toc-number">4.5.</span> <span class="toc-text">Critical Section Solutions – Software Solutions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparison"><span class="toc-number">4.6.</span> <span class="toc-text">Comparison</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">Software Solutions</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Algorithm-for-two-Processes"><span class="toc-number">5.1.</span> <span class="toc-text">Algorithm for two Processes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Peterson%E2%80%99s-Solution"><span class="toc-number">5.2.</span> <span class="toc-text">Peterson’s Solution</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Correctness-Proof-of-Peterson%E2%80%99s-Solution"><span class="toc-number">5.2.1.</span> <span class="toc-text">Correctness Proof of Peterson’s Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Peterson%E2%80%99s-%E7%BC%BA%E9%BB%9E"><span class="toc-number">5.2.2.</span> <span class="toc-text">Peterson’s 缺點</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Turn-Algorithm-V-S-Peterson%E2%80%99s-Algorithm"><span class="toc-number">5.2.3.</span> <span class="toc-text">Turn Algorithm V.S. Peterson’s Algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dekker%E2%80%99s-Algorithm"><span class="toc-number">5.3.</span> <span class="toc-text">Dekker’s Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dekker-vs-Peterson"><span class="toc-number">5.3.1.</span> <span class="toc-text">Dekker vs Peterson</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Limitations-of-Dekker%E2%80%99s-Algorithm"><span class="toc-number">5.3.2.</span> <span class="toc-text">Limitations of Dekker’s Algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bakery-Algorithm"><span class="toc-number">5.4.</span> <span class="toc-text">Bakery Algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E8%A6%8F%E5%89%87%EF%BC%9ALexicographic-Ordering-%E5%AD%97%E5%85%B8%E9%A0%86%E5%BA%8F"><span class="toc-number">5.4.1.</span> <span class="toc-text">排序規則：Lexicographic Ordering (字典順序)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bakery-Entry-Section"><span class="toc-number">5.4.2.</span> <span class="toc-text">Bakery Entry Section</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%B8%80%E5%AE%9A%E8%A6%81-choosing"><span class="toc-number">5.4.3.</span> <span class="toc-text">為什麼一定要 choosing[]?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Correctness-Proof"><span class="toc-number">5.4.4.</span> <span class="toc-text">Correctness Proof</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bekery%E2%80%99s-algorithm%E5%84%AA%E7%BC%BA%E9%BB%9E%E7%B8%BD%E8%A1%A8"><span class="toc-number">5.4.5.</span> <span class="toc-text">Bekery’s algorithm優缺點總表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E9%9D%A2%E7%9A%84%E7%B8%BD%E7%B5%90"><span class="toc-number">5.4.6.</span> <span class="toc-text">前面的總結</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pthread-Lock-Mutex-Routines"><span class="toc-number">5.5.</span> <span class="toc-text">Pthread Lock&#x2F;Mutex Routines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Condition-Variables%EF%BC%88CV%EF%BC%89"><span class="toc-number">5.6.</span> <span class="toc-text">Condition Variables（CV）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Hardware Support for Synchronization</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%94%E8%BB%9F%E9%AB%94%E7%9A%84%E9%99%90%E5%88%B6"><span class="toc-number">6.1.</span> <span class="toc-text">純軟體的限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-barriers"><span class="toc-number">6.2.</span> <span class="toc-text">Memory barriers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hardware-Instruction"><span class="toc-number">6.3.</span> <span class="toc-text">Hardware Instruction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Approach-1-Disable-Interrupts"><span class="toc-number">6.4.</span> <span class="toc-text">Approach 1: Disable Interrupts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Approach-2-Hardware-Atomic-Instructions"><span class="toc-number">6.5.</span> <span class="toc-text">Approach 2: Hardware Atomic Instructions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Test-and-set-param"><span class="toc-number">6.5.1.</span> <span class="toc-text">Test and set(param)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Test-and-set-algo2-%E6%AD%A3%E7%A2%BA-%E8%83%8C"><span class="toc-number">6.5.2.</span> <span class="toc-text">Test_and_set (algo2) (正確) (背)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS-Compare-and-set"><span class="toc-number">6.5.3.</span> <span class="toc-text">CAS (Compare and set)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mutual-Exclusion-3-Common-Atomic-Instruction"><span class="toc-number">6.6.</span> <span class="toc-text">Mutual Exclusion 3 Common Atomic Instruction</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">Mutex Lock</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lock-Contention-%E4%B8%8D%E9%87%8D%E8%A6%81"><span class="toc-number">7.1.</span> <span class="toc-text">Lock Contention (不重要)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">Semaphore</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Type-of-Semaphore"><span class="toc-number">8.1.</span> <span class="toc-text">Type of Semaphore</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Two-Atomic-Operation"><span class="toc-number">8.1.1.</span> <span class="toc-text">Two Atomic Operation :</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Issue"><span class="toc-number">8.1.2.</span> <span class="toc-text">Issue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%A9%E5%90%88%E6%99%82%E6%A9%9F"><span class="toc-number">8.1.3.</span> <span class="toc-text">適合時機</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E9%81%A9%E5%90%88%E6%99%82%E6%A9%9F"><span class="toc-number">8.1.4.</span> <span class="toc-text">不適合時機</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Semaphore%E8%80%83%E9%A1%8C-%E5%B0%B1%E8%80%83%E9%80%99%E4%B8%80%E7%A8%AE"><span class="toc-number">8.2.</span> <span class="toc-text">Semaphore考題 (就考這一種)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Non-busy-waiting%EF%BC%88%E6%9C%89%E7%AD%89%E5%BE%85%E9%9A%8A%E5%88%97%E7%9A%84-semaphore%EF%BC%8C%E7%9C%9F%E6%AD%A3-OS-%E6%9C%83%E7%94%A8%EF%BC%89"><span class="toc-number">8.3.</span> <span class="toc-text">Non-busy waiting（有等待隊列的 semaphore，真正 OS 會用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Semaphore-4-%E7%A8%AE%E5%AF%A6%E4%BD%9C"><span class="toc-number">8.4.</span> <span class="toc-text">Semaphore 4 種實作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Algorithm-1"><span class="toc-number">8.4.1.</span> <span class="toc-text">Algorithm 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-2"><span class="toc-number">8.4.2.</span> <span class="toc-text">algorithm 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#algorithm-3"><span class="toc-number">8.4.3.</span> <span class="toc-text">algorithm 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Busy-Waiting-%E7%84%A1%E6%B3%95%E5%AE%8C%E5%85%A8%E9%81%BF%E5%85%8D"><span class="toc-number">8.4.4.</span> <span class="toc-text">Busy Waiting 無法完全避免</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POSIX-Semaphor"><span class="toc-number">8.5.</span> <span class="toc-text">POSIX Semaphor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advantages-and-Disadvantages"><span class="toc-number">8.6.</span> <span class="toc-text">Advantages and Disadvantages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cooperation-Synchronization%EF%BC%88%E5%90%88%E4%BD%9C%E5%BC%8F%E5%90%8C%E6%AD%A5%EF%BC%9A%E5%BC%B7%E5%88%B6%E9%A0%86%E5%BA%8F%EF%BC%89"><span class="toc-number">8.7.</span> <span class="toc-text">Cooperation Synchronization（合作式同步：強制順序）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlocks-and-Starvation"><span class="toc-number">8.8.</span> <span class="toc-text">Deadlocks and Starvation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">Classical Synchronization Problems</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">Monitors</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Similarity-to-Object-Oriented-Classes"><span class="toc-number">10.1.</span> <span class="toc-text">Similarity to Object-Oriented Classes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Condition-Variables-in-Monitor"><span class="toc-number">10.2.</span> <span class="toc-text">Condition Variables in Monitor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monitor-%E7%A8%AE%E9%A1%9E"><span class="toc-number">10.3.</span> <span class="toc-text">Monitor 種類</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementing-a-Monitor-Using-Semaphores"><span class="toc-number">10.4.</span> <span class="toc-text">Implementing a Monitor Using Semaphores</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monitor-%E5%92%8C-Semaphore-%E5%8F%AF%E4%BB%A5%E4%BA%92%E7%9B%B8%E8%A3%BD%E4%BD%9C"><span class="toc-number">10.5.</span> <span class="toc-text">Monitor 和 Semaphore 可以互相製作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monitor-Function"><span class="toc-number">10.6.</span> <span class="toc-text">Monitor Function</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%B2%E5%85%A5-Monitor"><span class="toc-number">10.6.1.</span> <span class="toc-text">進入 Monitor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%A2%E9%96%8B-Monitor"><span class="toc-number">10.6.2.</span> <span class="toc-text">離開 Monitor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x-wait"><span class="toc-number">10.7.</span> <span class="toc-text">x.wait()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x-signal"><span class="toc-number">10.8.</span> <span class="toc-text">x.signal()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">next 和 x_sem 的差別</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B0%A1%E5%96%AE%E8%A8%98"><span class="toc-number">11.0.1.</span> <span class="toc-text">簡單記</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">Liveness</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9"><span class="toc-number">12.1.</span> <span class="toc-text">定義</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">Liveness 保證強度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Deadlock-free"><span class="toc-number">13.1.</span> <span class="toc-text">Deadlock-free</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Starvation-free"><span class="toc-number">13.2.</span> <span class="toc-text">Starvation-free</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bounded-Waiting"><span class="toc-number">13.3.</span> <span class="toc-text">Bounded Waiting</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text">Priority Inversion</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E7%BE%A9-2"><span class="toc-number">14.1.</span> <span class="toc-text">定義</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Priority-Inheritance-Protocol"><span class="toc-number">14.2.</span> <span class="toc-text">Priority Inheritance Protocol</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%A9%B1"><span class="toc-number">14.2.1.</span> <span class="toc-text">一句話</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">Message Passing IPC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">16.</span> <span class="toc-text">Message Passing 三大分類</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">17.</span> <span class="toc-text">Naming：Direct Communication</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Symmetric-Direct-Communication"><span class="toc-number">17.1.</span> <span class="toc-text">Symmetric Direct Communication</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Properties"><span class="toc-number">17.1.1.</span> <span class="toc-text">Properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Asymmetric-Direct-Communication"><span class="toc-number">17.2.</span> <span class="toc-text">Asymmetric Direct Communication</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symmetric-vs-Asymmetric"><span class="toc-number">17.3.</span> <span class="toc-text">Symmetric vs Asymmetric</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B0%A1%E5%96%AE%E8%A8%98-2"><span class="toc-number">17.3.1.</span> <span class="toc-text">簡單記</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">18.</span> <span class="toc-text">Naming：Indirect Communication</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">19.</span> <span class="toc-text">Direct vs Indirect Communication</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">20.</span> <span class="toc-text">多個 Process 共用 Mailbox</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A8%AE%E5%8F%AF%E8%83%BD%E8%A7%A3%E6%B3%95"><span class="toc-number">20.1.</span> <span class="toc-text">三種可能解法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">21.</span> <span class="toc-text">Mailbox Ownership</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-owned-Mailbox"><span class="toc-number">21.1.</span> <span class="toc-text">Process-owned Mailbox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OS-owned-Mailbox"><span class="toc-number">21.2.</span> <span class="toc-text">OS-owned Mailbox</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">22.</span> <span class="toc-text">Synchronization：Blocking &#x2F; Nonblocking</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Blocking-Send"><span class="toc-number">22.1.</span> <span class="toc-text">Blocking Send</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nonblocking-Send"><span class="toc-number">22.2.</span> <span class="toc-text">Nonblocking Send</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blocking-Receive"><span class="toc-number">22.3.</span> <span class="toc-text">Blocking Receive</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nonblocking-Receive"><span class="toc-number">22.4.</span> <span class="toc-text">Nonblocking Receive</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">23.</span> <span class="toc-text">Blocking &#x2F; Nonblocking 比較</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rendezvous"><span class="toc-number">23.1.</span> <span class="toc-text">Rendezvous</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A8%98%E6%B3%95"><span class="toc-number">23.1.1.</span> <span class="toc-text">記法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">24.</span> <span class="toc-text">Buffering</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Zero-Capacity"><span class="toc-number">24.1.</span> <span class="toc-text">Zero Capacity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bounded-Capacity"><span class="toc-number">24.2.</span> <span class="toc-text">Bounded Capacity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E9%BB%9E"><span class="toc-number">24.2.1.</span> <span class="toc-text">重點</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unbounded-Capacity"><span class="toc-number">24.3.</span> <span class="toc-text">Unbounded Capacity</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">25.</span> <span class="toc-text">Buffering 比較</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">26.</span> <span class="toc-text">考前總整理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">27.</span> <span class="toc-text">最後必背</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Monitor"><span class="toc-number">27.0.1.</span> <span class="toc-text">Monitor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Liveness"><span class="toc-number">27.0.2.</span> <span class="toc-text">Liveness</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Message-Passing-2"><span class="toc-number">27.0.3.</span> <span class="toc-text">Message Passing</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/65f4596b.html" title="常見演算法設計策略分類">常見演算法設計策略分類</a><time datetime="2026-09-09T15:42:00.000Z" title="發表於 2026-09-09 23:42:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/49207314.html" title="資工研究所常見演算法時間複雜度整理">資工研究所常見演算法時間複雜度整理</a><time datetime="2026-09-09T15:42:00.000Z" title="發表於 2026-09-09 23:42:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/5bbc732a.html" title="OS-CH7-補充加強觀念">OS-CH7-補充加強觀念</a><time datetime="2026-09-02T06:49:00.000Z" title="發表於 2026-09-02 14:49:00">2026-09-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/513a4877.html" title="資料結構 - Search and Sort">資料結構 - Search and Sort</a><time datetime="2026-08-28T02:18:00.000Z" title="發表於 2026-08-28 10:18:00">2026-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/917205a6.html" title="OS-CH5-補充加強觀念">OS-CH5-補充加強觀念</a><time datetime="2026-08-25T06:49:00.000Z" title="發表於 2026-08-25 14:49:00">2026-08-25</time></div></div></div></div><div class="card-widget ads-wrap"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975504062599634" crossorigin="anonymous"></script> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975504062599634" data-ad-slot="9206833147" data-ad-format="auto" data-full-width-responsive="true"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div></div></div></main><footer id="footer" style="background-image: url(/img/nav_Picture.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By YowDesert</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.4/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {
